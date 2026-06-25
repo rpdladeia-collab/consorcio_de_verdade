@@ -3,6 +3,7 @@ import { Link } from "wouter";
 import { ArrowLeft, AlertTriangle, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { generatePdfSimulePlano } from "@/lib/pdfSimulePlano";
 import {
   AuditSeal,
   KpiCard,
@@ -11,6 +12,7 @@ import {
   PdfButton,
   MeaningBlock,
   MethodologyBlock,
+  TransparencyBlock,
   formatBRLCents,
   formatBRL,
 } from "@/components/cdv/SimuladorUI";
@@ -595,11 +597,40 @@ export default function SimuladorSimulePlano() {
                   </p>
                 </MethodologyBlock>
 
+                {/* Transparência */}
+                <TransparencyBlock />
+
                 {/* PDF */}
                 <PdfButton
-                  onClick={() =>
-                    toast.info("Relatório de auditoria em PDF — em implementação.")
-                  }
+                  onClick={() => {
+                    if (!result) return;
+                    try {
+                      generatePdfSimulePlano({
+                        credit: num(form.credit),
+                        term: Math.round(num(form.term)),
+                        adminRate: num(form.adminRate),
+                        reserveRate: num(form.reserveRate),
+                        insuranceRate: num(form.insuranceRate),
+                        adjRate: num(form.adjRate),
+                        adjEvery: form.adjEvery,
+                        mode: form.mode,
+                        ranges: form.ranges,
+                        rows: result.rows,
+                        paidTotal: result.paidTotal,
+                        residual: result.residual,
+                        finalCredit: result.finalCredit,
+                        initialObligation: result.initialObligation,
+                        insuranceTotal: result.insuranceTotal,
+                        correctionNominal: result.correctionNominal,
+                        warnings: result.warnings,
+                        simulationId: result.simulationId,
+                        generatedAt: result.generatedAt,
+                      });
+                    } catch (e) {
+                      toast.error("Erro ao gerar PDF. Tente novamente.");
+                      console.error(e);
+                    }
+                  }}
                 />
 
                 {/* CTA */}

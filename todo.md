@@ -57,6 +57,9 @@
 ## Pendências adicionais (gaps)
 - [ ] Logomarca visível nas páginas de simuladores
 - [ ] Logomarca integrada ao layout do PDF de Auditoria
+- [x] Bloco de Transpariência e Metodologia (TransparencyBlock, texto exato aprovado)
+- [x] PDF Módulo 1 com rodapé obrigatório (domínio, data/hora, Motor v1.0, ID hash SHA-256)
+- [x] Diretriz de linguagem neutra registrada (sem opinião, sem recomendação)
 
 ## Fase 8 — Testes e Entrega
 - [ ] Vitest backend simuladores

@@ -425,6 +425,30 @@ export function ConsultCTA({
 }
 
 /* ----------------------------------------------------------------------------
+   Bloco de Transparência e Metodologia (obrigatório em todos os simuladores)
+---------------------------------------------------------------------------- */
+export function TransparencyBlock() {
+  return (
+    <div className="rounded-2xl border border-border bg-secondary/40 p-5 md:p-6">
+      <div className="flex items-start gap-3">
+        <ShieldCheck className="w-4 h-4 text-foreground/40 shrink-0 mt-0.5" />
+        <div>
+          <p className="eyebrow text-foreground/40 mb-2">Transparência e Metodologia</p>
+          <p className="text-sm text-foreground/65 leading-relaxed">
+            Este simulador projeta cenários matemáticos com base nos parâmetros
+            informados pelo usuário e nas regras padrão do Banco Central. O resultado
+            é uma projeção independente para apoio à decisão e não substitui a
+            leitura do seu contrato, que pode conter regras específicas da
+            administradora. Não vendemos consórcio, não garantimos contemplação e
+            não fazemos recomendação financeira.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ----------------------------------------------------------------------------
    PDF de Auditoria (botão)
 ---------------------------------------------------------------------------- */
 export function PdfButton({

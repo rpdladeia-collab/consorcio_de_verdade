@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { createHash } from 'crypto';
 import { publicProcedure, router } from '../_core/trpc';
 import { buildSchedule } from '../lib/raiox';
 
@@ -23,7 +24,7 @@ export const raioxRouter = router({
       })
     )
     .mutation(({ input }) => {
-      return buildSchedule({
+      const schedule = buildSchedule({
         credit: input.credit,
         term: input.term,
         adminRate: input.adminRate,
@@ -34,5 +35,12 @@ export const raioxRouter = router({
         mode: input.mode,
         ranges: input.ranges,
       });
+
+      // Hash único da simulação: SHA-256 dos inputs + total pago (6 hex chars)
+      const raw = JSON.stringify({ ...input, paidTotal: schedule.paidTotal });
+      const simulationId = createHash('sha256').update(raw).digest('hex').slice(0, 12).toUpperCase();
+      const generatedAt = new Date().toISOString();
+
+      return { ...schedule, simulationId, generatedAt };
     }),
 });
