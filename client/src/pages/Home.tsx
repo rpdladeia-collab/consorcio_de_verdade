@@ -1,148 +1,229 @@
-import { Link } from 'wouter';
-import { ArrowRight, CheckCircle2 } from 'lucide-react';
+import { Link } from "wouter";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Scale,
+  Activity,
+  FileSearch,
+  Calculator,
+  Lock,
+  Eye,
+  MessageCircle,
+} from "lucide-react";
+import { CATEGORIES, CategoryKey, SIMULADORES } from "@/lib/simuladores";
+import { BRAND } from "@/lib/brand";
+
+const CATEGORY_ICONS: Record<CategoryKey, React.ReactNode> = {
+  lances: <Calculator className="w-6 h-6" />,
+  decisao: <Scale className="w-6 h-6" />,
+  saude: <Activity className="w-6 h-6" />,
+  proposta: <FileSearch className="w-6 h-6" />,
+};
 
 export default function Home() {
+  const featured = SIMULADORES.filter((s) =>
+    ["lance-embutido", "consorcio-financiamento", "diagnostico-proposta"].includes(
+      s.slug
+    )
+  );
+
   return (
-    <div className="min-h-screen">
-      {/* Hero Section */}
-      <section className="bg-gradient-to-b from-card to-background py-20 md:py-32">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold mb-6 text-foreground">
-              Antes de contratar um consórcio, faça a conta.
+    <div>
+      {/* ============================ HERO ============================ */}
+      <section className="relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[var(--orange-soft)]/40 to-transparent pointer-events-none" />
+        <div className="container-wide px-5 lg:px-8 relative">
+          <div className="max-w-3xl mx-auto text-center pt-20 pb-24 md:pt-28 md:pb-32">
+            <span className="seal mb-6 reveal">
+              <ShieldCheck className="w-3.5 h-3.5" />
+              Independente · sem venda de consórcio
+            </span>
+            <h1 className="text-5xl md:text-7xl font-extrabold leading-[1.02] reveal">
+              Antes de contratar um consórcio,{" "}
+              <span className="text-[var(--orange)]">faça a conta.</span>
             </h1>
-            <p className="text-lg md:text-xl text-muted-foreground mb-8">
-              Uma plataforma independente com simuladores, dados e análises para ajudar você a entender consórcios sem promessa, pressão comercial ou conflito de interesse.
+            <p className="text-lg md:text-xl text-foreground/65 mt-6 max-w-2xl mx-auto reveal">
+              Uma plataforma independente com simuladores, dados e análises para
+              você entender consórcios sem promessa, pressão comercial ou conflito
+              de interesse.
             </p>
-            <Link href="/simuladores" className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-              Acessar Simuladores
-              <ArrowRight size={20} />
-            </Link>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-9 reveal">
+              <Link
+                href="/simuladores"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-base font-semibold transition-transform hover:scale-[1.02]"
+              >
+                Acessar simuladores
+                <ArrowRight className="w-5 h-5" />
+              </Link>
+              <a
+                href={BRAND.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-base font-semibold hover:border-[var(--orange)] hover:text-[var(--orange)] transition-colors"
+              >
+                <MessageCircle className="w-5 h-5" />
+                Falar com especialista
+              </a>
+            </div>
+            <p className="text-xs text-foreground/45 mt-5 reveal">
+              Use gratuitamente. Sem cadastro obrigatório. Cálculos auditáveis.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* O que você quer descobrir */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-foreground">
+      {/* ==================== JORNADA POR DOR ==================== */}
+      <section className="container-wide px-5 lg:px-8 pb-8">
+        <div className="text-center mb-12">
+          <p className="eyebrow text-[var(--orange)] mb-2">Comece pela sua dúvida</p>
+          <h2 className="text-3xl md:text-4xl font-extrabold">
             O que você quer descobrir?
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <Link href="/simuladores" className="group p-6 bg-card border border-border rounded-lg hover:border-accent transition-colors cursor-pointer">
-              <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
-                Entender meu lance
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Saiba exatamente quanto você ganha ou perde com diferentes tipos de lance.
-              </p>
-              <div className="text-accent font-semibold flex items-center gap-2">
-                Explorar <ArrowRight size={16} />
-              </div>
-            </Link>
+        </div>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+          {(Object.keys(CATEGORIES) as CategoryKey[]).map((key) => {
+            const c = CATEGORIES[key];
+            return (
+              <Link
+                key={key}
+                href={`/simuladores#${key}`}
+                className="group rounded-2xl border border-border bg-card p-6 transition-all hover:border-[var(--orange)] hover:-translate-y-1"
+                style={{ transitionTimingFunction: "var(--ease-out)" }}
+              >
+                <div className="w-12 h-12 rounded-xl bg-[var(--orange-soft)] text-[var(--orange)] flex items-center justify-center mb-4">
+                  {CATEGORY_ICONS[key]}
+                </div>
+                <h3 className="font-bold text-lg mb-2">{c.label}</h3>
+                <p className="text-sm text-foreground/60 leading-relaxed">{c.pain}</p>
+                <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--orange)] mt-4 group-hover:gap-2 transition-all">
+                  Explorar <ArrowRight className="w-4 h-4" />
+                </span>
+              </Link>
+            );
+          })}
+        </div>
+      </section>
 
-            <Link href="/simuladores" className="group p-6 bg-card border border-border rounded-lg hover:border-accent transition-colors cursor-pointer">
-              <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
-                Saber se vale a pena
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Compare consórcio com financiamento, investimentos e outras alternativas.
+      {/* ==================== AUTORIDADE / INDEPENDÊNCIA ==================== */}
+      <section className="dark bg-[var(--ink)] text-[var(--paper)] mt-20 py-20">
+        <div className="container-wide px-5 lg:px-8">
+          <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div>
+              <p className="eyebrow text-[var(--orange)] mb-3">Por que existimos</p>
+              <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
+                O mercado de consórcio explica o produto.{" "}
+                <span className="text-[var(--orange)]">
+                  Nós explicamos a conta.
+                </span>
+              </h2>
+              <p className="text-white/65 mt-5 leading-relaxed">
+                O Consórcio de Verdade não vende consórcio, não recebe comissão de
+                administradora e não tem meta de venda. Nosso compromisso é com a
+                matemática e com a sua decisão — não com o fechamento de um
+                contrato.
               </p>
-              <div className="text-accent font-semibold flex items-center gap-2">
-                Comparar <ArrowRight size={16} />
+              <div className="mt-8 grid sm:grid-cols-3 gap-5">
+                {[
+                  { icon: <Lock className="w-5 h-5" />, t: "Cálculo protegido", d: "A lógica roda no servidor, não no seu navegador." },
+                  { icon: <Eye className="w-5 h-5" />, t: "Transparente", d: "Memória de cálculo e metodologia abertas." },
+                  { icon: <ShieldCheck className="w-5 h-5" />, t: "Sem conflito", d: "Nenhuma comissão de administradora." },
+                ].map((f, i) => (
+                  <div key={i}>
+                    <div className="text-[var(--orange)] mb-2">{f.icon}</div>
+                    <p className="font-semibold text-sm">{f.t}</p>
+                    <p className="text-white/50 text-xs mt-1 leading-relaxed">{f.d}</p>
+                  </div>
+                ))}
               </div>
-            </Link>
+            </div>
 
-            <Link href="/simuladores" className="group p-6 bg-card border border-border rounded-lg hover:border-accent transition-colors cursor-pointer">
-              <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
-                Analisar uma proposta
-              </h3>
-              <p className="text-muted-foreground mb-4">
-                Faça um raio-x completo de qualquer proposta de consórcio que receber.
-              </p>
-              <div className="text-accent font-semibold flex items-center gap-2">
-                Analisar <ArrowRight size={16} />
+            {/* Números com fonte */}
+            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8">
+              <p className="eyebrow text-white/40 mb-6">O setor em números</p>
+              <div className="space-y-6">
+                {[
+                  { n: "10,5 mi", d: "consorciados ativos no Brasil", src: "ABAC, 2024" },
+                  { n: "R$ 95 bi", d: "em créditos comercializados no ano", src: "ABAC, 2024" },
+                  { n: "+11%", d: "de crescimento de adesões no período", src: "ABAC, 2024" },
+                ].map((s, i) => (
+                  <div key={i} className="flex items-baseline justify-between gap-4 border-b border-white/8 pb-5 last:border-0 last:pb-0">
+                    <div>
+                      <p className="data-num text-3xl font-bold text-[var(--orange)]">{s.n}</p>
+                      <p className="text-sm text-white/65 mt-1">{s.d}</p>
+                    </div>
+                    <span className="mono text-[11px] text-white/35 whitespace-nowrap">{s.src}</span>
+                  </div>
+                ))}
               </div>
-            </Link>
+              <p className="text-[11px] text-white/35 mt-6 leading-relaxed">
+                Dados ilustrativos do setor, com fonte indicada. Os simuladores
+                usam os parâmetros que você informar.
+              </p>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Por que o Consórcio de Verdade existe */}
-      <section className="py-16 md:py-24 bg-card">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold mb-8 text-foreground">
-              Por que o Consórcio de Verdade existe
+      {/* ==================== SIMULADORES EM DESTAQUE ==================== */}
+      <section className="container-wide px-5 lg:px-8 py-20">
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
+          <div>
+            <p className="eyebrow text-[var(--orange)] mb-2">Mais usados</p>
+            <h2 className="text-3xl md:text-4xl font-extrabold">
+              Simuladores em destaque
             </h2>
-            <div className="space-y-4 text-muted-foreground">
-              <p>
-                Consórcios são instrumentos financeiros complexos. A maioria das pessoas não tem acesso a análises independentes e confiáveis sobre como funcionam, quanto custam e se fazem sentido para seu caso específico.
-              </p>
-              <p>
-                O Consórcio de Verdade é uma plataforma de inteligência e transparência. Não vendemos consórcios. Não temos conflito de interesse. Oferecemos dados, matemática e análises fundamentadas para que você tome decisões informadas.
-              </p>
-              <p>
-                Nosso compromisso é com a educação financeira e a transparência radical.
-              </p>
-            </div>
           </div>
-        </div>
-      </section>
-
-      {/* Metodologia */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold mb-12 text-center text-foreground">
-            Nossa metodologia
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold mb-4">
-                1
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-foreground">Dados Públicos</h3>
-              <p className="text-muted-foreground text-sm">
-                Utilizamos informações públicas e regulatórias de órgãos oficiais.
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold mb-4">
-                2
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-foreground">Matemática Rigorosa</h3>
-              <p className="text-muted-foreground text-sm">
-                Todos os cálculos são transparentes e podem ser auditados.
-              </p>
-            </div>
-
-            <div className="flex flex-col items-center text-center">
-              <div className="w-12 h-12 rounded-full bg-accent text-accent-foreground flex items-center justify-center font-bold mb-4">
-                3
-              </div>
-              <h3 className="text-lg font-bold mb-2 text-foreground">Independência</h3>
-              <p className="text-muted-foreground text-sm">
-                Sem conflito de interesse. Sem pressão comercial.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Final */}
-      <section className="py-16 md:py-24 bg-card">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 text-foreground">
-            Pronto para entender melhor?
-          </h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Acesse nossa Central de Simuladores e comece a explorar dados e análises independentes sobre consórcios.
-          </p>
-          <Link href="/simuladores" className="inline-flex items-center gap-2 bg-accent text-accent-foreground px-8 py-4 rounded-lg font-semibold hover:opacity-90 transition-opacity">
-            Acessar Simuladores
-            <ArrowRight size={20} />
+          <Link
+            href="/simuladores"
+            className="inline-flex items-center gap-1.5 text-sm font-semibold text-[var(--orange)] hover:gap-2.5 transition-all"
+          >
+            Ver todos os {SIMULADORES.length} simuladores
+            <ArrowRight className="w-4 h-4" />
           </Link>
+        </div>
+        <div className="grid md:grid-cols-3 gap-5">
+          {featured.map((s) => (
+            <Link
+              key={s.slug}
+              href={`/simulador/${s.slug}`}
+              className="group rounded-2xl border border-border bg-card p-6 flex flex-col transition-all hover:border-[var(--orange)] hover:-translate-y-1"
+              style={{ transitionTimingFunction: "var(--ease-out)" }}
+            >
+              <span className="seal self-start mb-4">{s.complexity}</span>
+              <h3 className="font-bold text-xl leading-snug">{s.question}</h3>
+              <p className="text-sm text-foreground/60 mt-3 leading-relaxed flex-1">
+                {s.shortDesc}
+              </p>
+              <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--orange)] mt-5 group-hover:gap-2 transition-all">
+                Simular agora <ArrowRight className="w-4 h-4" />
+              </span>
+            </Link>
+          ))}
+        </div>
+      </section>
+
+      {/* ==================== COMERCIAL SUTIL ==================== */}
+      <section className="container-wide px-5 lg:px-8 pb-24">
+        <div className="rounded-3xl bg-[var(--orange)] text-white p-10 md:p-14 text-center relative overflow-hidden">
+          <div className="relative">
+            <h2 className="text-3xl md:text-4xl font-extrabold max-w-2xl mx-auto leading-tight">
+              Use os simuladores à vontade. Se quiser, traga sua proposta para uma
+              segunda opinião.
+            </h2>
+            <p className="text-white/85 mt-4 max-w-xl mx-auto">
+              Sem venda de consórcio, sem comissão. Apenas uma leitura honesta e
+              técnica do seu caso, feita por quem conhece o setor por dentro.
+            </p>
+            <a
+              href={BRAND.whatsapp}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ink)] text-white px-8 py-4 text-base font-semibold mt-8 transition-transform hover:scale-[1.02]"
+            >
+              <MessageCircle className="w-5 h-5" />
+              Falar com o especialista
+            </a>
+          </div>
         </div>
       </section>
     </div>

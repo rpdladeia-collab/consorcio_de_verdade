@@ -1,55 +1,66 @@
-# Consórcio de Verdade - MVP 1.0 TODO
+# Consórcio de Verdade — RECONSTRUÇÃO PREMIUM (Briefing Definitivo)
 
-## Estrutura Base e Design System
-- [x] Configurar Design System (cores, tipografia, componentes base)
-- [x] Implementar Header padrão com logomarca, navegação e redes sociais
-- [x] Implementar Footer institucional com logomarca, domínio, links e aviso educativo
-- [x] Criar componentes reutilizáveis (Card de Simulador, Card de Resultado, etc.)
-- [x] Configurar Tailwind CSS com paleta de cores (preto, branco/off-white, laranja)
-- [x] Implementar responsividade para mobile e desktop
+## Fase 1 — Design System Premium
+- [ ] Nova paleta: off-white quente, grafite, preto profundo, branco, laranja, cinza quente, verde sinalização
+- [ ] Alternância de seções claras/escuras (não 100% preto)
+- [ ] Tipografia: Inter (textos) + JetBrains Mono (dados/cálculos)
+- [ ] Tokens de cor no index.css (light base + utilitários dark)
+- [ ] Logomarca com presença real (header maior, footer, simuladores, PDF)
+- [ ] Componentes editoriais reutilizáveis: SectionLight, SectionDark, BigNumber, OrangeBadge
 
-## Páginas Institucionais
-- [x] Home Page com hero, CTA e snapshot institucional
-- [x] Central de Simuladores organizada por dor
-- [x] Página Sobre com missão, fundador, foto, LinkedIn, Instagram
-- [x] Página Contato com formulário e WhatsApp
-- [x] Página Termos de Uso
-- [x] Página Política de Privacidade
+## Fase 2 — Home com storytelling
+- [ ] Header limpo (Simuladores, Dados, Materiais, Sobre, Consultoria, redes discretas)
+- [ ] Hero: "Antes de contratar um consórcio, faça a conta." + 2 CTAs + microtexto
+- [ ] Bloco "O que você quer descobrir?" como jornada (6 perguntas)
+- [ ] Bloco de autoridade ("Consórcio não é sorte...")
+- [ ] Bloco de números grandes com fonte e data
+- [ ] Bloco de 4 simuladores em destaque
+- [ ] Bloco comercial sutil ("Fazer sozinho ou validar estratégia?")
+- [ ] Bloco Sobre resumido (fundador, foto, redes)
+- [ ] Footer completo
 
-## Simuladores - Estrutura e Backend
-- [x] Implementar Route Handler para Lance Embutido
-- [x] Implementar Route Handler para Zona de Contemplação
-- [ ] Implementar Route Handler para Lance Livre
-- [ ] Implementar Route Handler para Lance Fixo
-- [ ] Implementar Route Handler para Saúde do Grupo
-- [ ] Implementar Route Handler para Exclusão
-- [ ] Implementar Route Handler para Consórcio x Financiamento
-- [ ] Implementar Route Handler para Consórcio x Investimentos
-- [ ] Implementar Route Handler para Eficiência Econômica
-- [ ] Implementar Route Handler para Diagnóstico de Propostas
+## Fase 3 — Central de Simuladores (centro de investigação)
+- [ ] Título "Escolha a pergunta que você quer responder."
+- [ ] 4 grupos por dor (Analisar proposta / Entender lance / Vale a pena / Cancelar)
+- [ ] Cards ricos: pergunta, descrição, complexidade, tempo, selo gratuito, indica relatório, botão
 
-## Simuladores - Frontend (Padrão Aplicado a Todos)
-- [x] Lance Embutido - Página completa com estrutura padrão
-- [ ] Zona de Contemplação - Página completa com estrutura padrão
-- [ ] Lance Livre - Página completa com estrutura padrão
-- [ ] Lance Fixo - Página completa com estrutura padrão
-- [ ] Saúde do Grupo - Página completa com estrutura padrão
-- [ ] Exclusão - Página completa com estrutura padrão
-- [ ] Consórcio x Financiamento - Página completa com estrutura padrão
-- [ ] Consórcio x Investimentos - Página completa com estrutura padrão
-- [ ] Eficiência Econômica - Página completa com estrutura padrão
-- [ ] Diagnóstico de Propostas - Página completa com estrutura padrão
+## Fase 4 — Lance Embutido (modelo)
+- [ ] Hero "Lance embutido: parece ajuda, mas reduz seu crédito."
+- [ ] Entrada simples (carta, % embutido, lance próprio opc., taxa adm, parcelas pagas opc.)
+- [ ] Resultado: carta, crédito líquido, valor embutido, dinheiro novo efetivo, taxa s/ capital novo, diagnóstico
+- [ ] Visual: barra carta x crédito líquido, termômetro eficiência, comparação sem/com embutido, gráfico crédito consumido
+- [ ] Diagnóstico narrativo + pontos positivos/atenção
+- [ ] Modo avançado (prazo, taxa, fundo, parcelas, lance próprio, FGTS, correção)
+- [ ] Memória de cálculo preservada
+- [ ] CTA comercial sutil pós-resultado
 
-## Funcionalidades Transversais
-- [ ] Implementar Sessão de Análise para reutilização de dados entre simuladores
-- [ ] Implementar botão "Usar dados da análise anterior" em simuladores relacionados
-- [ ] Implementar geração de PDF como Relatório de Auditoria Independente
-- [ ] Implementar estrutura preparada para vídeos explicativos
-- [ ] Implementar testes Jest para lógica de backend
+## Fase 5 — Páginas Institucionais
+- [ ] Sobre (por que existe, o que entrega, quem está por trás, princípio, CTAs)
+- [ ] Contato (título acolhedor, canais WhatsApp/Insta/LinkedIn/email, formulário com tipos de dúvida)
+- [ ] Consultoria (página/CTA dedicada)
 
-## Finalização e Deploy
-- [ ] Realizar testes integrados de todos os simuladores
-- [ ] Validar responsividade em mobile e desktop
-- [ ] Validar navegação e fluxos de usuário
-- [ ] Fazer commit e push para GitHub
-- [ ] Publicar site e gerar link de acesso
+## Fase 6 — PDF de Auditoria + Vídeo
+- [ ] PDF "Relatório de Auditoria Independente" (capa, resumo, dados, resultado, memória, metodologia, fontes, aviso, rodapé)
+- [ ] Área de vídeo preparada nos simuladores
+
+## Fase 7 — Demais Simuladores (backend + frontend)
+- [ ] Zona de Contemplação
+- [ ] Lance Livre
+- [ ] Lance Fixo
+- [ ] Saúde do Grupo
+- [ ] Exclusão
+- [ ] Consórcio x Financiamento
+- [ ] Consórcio x Investimentos
+- [ ] Eficiência Econômica
+- [ ] Raio-X da Proposta / Diagnóstico de Propostas
+
+## Fase 8 — Testes e Entrega
+- [ ] Vitest backend simuladores
+- [ ] Validação responsiva mobile/desktop
+- [ ] Checkpoint e entrega
+
+## Preservar (não destruir)
+- [x] Backend / lógica matemática extraída (raio-x-logic.ts, zona-logic.ts)
+- [x] tRPC router de simuladores
+- [x] Testes Jest existentes
+- [x] Repositório Git

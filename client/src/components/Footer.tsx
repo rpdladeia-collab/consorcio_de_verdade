@@ -1,105 +1,75 @@
-import { Link } from 'wouter';
-import { Instagram, Linkedin } from 'lucide-react';
+import { Link } from "wouter";
+import { Instagram, Linkedin, ArrowUpRight } from "lucide-react";
+import { LOGO, BRAND } from "@/lib/brand";
 
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-card border-t border-border mt-16">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+    <footer className="dark bg-[var(--ink)] text-[var(--paper)] mt-24">
+      <div className="container-wide px-5 lg:px-8 py-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-10">
           {/* Brand */}
-          <div className="col-span-1">
-            <img 
-              src="/manus-storage/logo_consorcio_de_verdade_transparente_4cb863bb.png" 
-              alt="Consórcio de Verdade" 
-              className="h-8 w-auto mb-4"
-            />
-            <p className="text-sm text-muted-foreground">
-              consorciodeverdade.com.br
+          <div className="md:col-span-5">
+            <img src={LOGO.horizontalLight} alt={BRAND.name} className="h-10 w-auto mb-5" />
+            <p className="text-sm text-white/60 max-w-sm leading-relaxed">
+              Plataforma independente de inteligência sobre consórcios. Dados,
+              matemática e análise sem conflito de interesse.
+            </p>
+            <p className="mono text-xs text-[var(--orange)] mt-5 tracking-wide">
+              {BRAND.domain}
             </p>
           </div>
 
-          {/* Navigation */}
-          <div>
-            <h4 className="font-semibold mb-4 text-foreground">Navegação</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/" className="text-muted-foreground hover:text-accent transition-colors">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/simuladores" className="text-muted-foreground hover:text-accent transition-colors">
-                  Simuladores
-                </Link>
-              </li>
-              <li>
-                <Link href="/sobre" className="text-muted-foreground hover:text-accent transition-colors">
-                  Sobre
-                </Link>
-              </li>
-              <li>
-                <Link href="/contato" className="text-muted-foreground hover:text-accent transition-colors">
-                  Contato
-                </Link>
-              </li>
+          {/* Navegação */}
+          <div className="md:col-span-2">
+            <h4 className="eyebrow text-white/40 mb-4">Plataforma</h4>
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/" className="text-white/75 hover:text-[var(--orange)] transition-colors">Home</Link></li>
+              <li><Link href="/simuladores" className="text-white/75 hover:text-[var(--orange)] transition-colors">Simuladores</Link></li>
+              <li><Link href="/sobre" className="text-white/75 hover:text-[var(--orange)] transition-colors">Sobre</Link></li>
+              <li><Link href="/contato" className="text-white/75 hover:text-[var(--orange)] transition-colors">Contato</Link></li>
             </ul>
           </div>
 
           {/* Legal */}
-          <div>
-            <h4 className="font-semibold mb-4 text-foreground">Legal</h4>
-            <ul className="space-y-2 text-sm">
-              <li>
-                <Link href="/termos" className="text-muted-foreground hover:text-accent transition-colors">
-                  Termos de Uso
-                </Link>
-              </li>
-              <li>
-                <Link href="/privacidade" className="text-muted-foreground hover:text-accent transition-colors">
-                  Política de Privacidade
-                </Link>
-              </li>
+          <div className="md:col-span-2">
+            <h4 className="eyebrow text-white/40 mb-4">Legal</h4>
+            <ul className="space-y-3 text-sm">
+              <li><Link href="/termos" className="text-white/75 hover:text-[var(--orange)] transition-colors">Termos de Uso</Link></li>
+              <li><Link href="/privacidade" className="text-white/75 hover:text-[var(--orange)] transition-colors">Privacidade</Link></li>
             </ul>
           </div>
 
-          {/* Social */}
-          <div>
-            <h4 className="font-semibold mb-4 text-foreground">Redes Sociais</h4>
-            <div className="flex gap-4">
-              <a 
-                href="https://instagram.com/consorcio.deverdade" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors"
-                aria-label="Instagram"
-              >
-                <Instagram size={20} />
+          {/* Social / contato */}
+          <div className="md:col-span-3">
+            <h4 className="eyebrow text-white/40 mb-4">Acompanhe</h4>
+            <div className="flex gap-3 mb-5">
+              <a href={BRAND.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"
+                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
+                <Instagram className="w-4 h-4" />
               </a>
-              <a 
-                href="https://linkedin.com/company/consorcio-de-verdade" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="text-muted-foreground hover:text-accent transition-colors"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} />
+              <a href={BRAND.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"
+                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
+                <Linkedin className="w-4 h-4" />
               </a>
             </div>
+            <a href={BRAND.whatsapp} target="_blank" rel="noreferrer"
+              className="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-[var(--orange)] transition-colors">
+              Falar com o especialista
+              <ArrowUpRight className="w-4 h-4" />
+            </a>
           </div>
         </div>
 
-        <div className="border-t border-border pt-8">
-          <div className="bg-muted/50 rounded-lg p-4 mb-6 text-sm text-muted-foreground">
-            <p>
-              <strong>Aviso Educativo:</strong> O Consórcio de Verdade é uma plataforma independente de informação e análise. Os conteúdos e simuladores têm caráter educativo e não constituem recomendação financeira, jurídica ou comercial.
-            </p>
-          </div>
-
-          <div className="flex flex-col md:flex-row justify-between items-center text-sm text-muted-foreground">
-            <p>&copy; {currentYear} Consórcio de Verdade. Todos os direitos reservados.</p>
-            <p>Desenvolvido com transparência e dados</p>
+        {/* Aviso educativo */}
+        <div className="mt-14 pt-8 border-t border-white/10">
+          <p className="text-xs text-white/45 leading-relaxed max-w-3xl">
+            {BRAND.disclaimer}
+          </p>
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-2 mt-6 text-xs text-white/40">
+            <p>© {year} {BRAND.name}. Todos os direitos reservados.</p>
+            <p className="mono">Independência · Dados · Transparência</p>
           </div>
         </div>
       </div>

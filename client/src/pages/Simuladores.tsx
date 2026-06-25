@@ -1,99 +1,179 @@
-import { Link } from 'wouter';
-import { ArrowRight } from 'lucide-react';
+import { Link } from "wouter";
+import {
+  ArrowRight,
+  Clock,
+  Calculator,
+  Scale,
+  Activity,
+  FileSearch,
+  Lock,
+  MessageCircle,
+  Gauge,
+} from "lucide-react";
+import {
+  CATEGORIES,
+  CategoryKey,
+  SIMULADORES,
+  simuladoresByCategory,
+  Complexity,
+} from "@/lib/simuladores";
+import { BRAND } from "@/lib/brand";
 
-const simuladores = [
-  {
-    categoria: "Quero entender meu lance",
-    items: [
-      { nome: "Lance Embutido", descricao: "Calcula o impacto do lance embutido no crédito líquido e eficiência econômica.", slug: "lance-embutido", path: "/simulador/lance-embutido" },
-      { nome: "Lance Livre", descricao: "Analisa cenários de lance livre e seus efeitos na contemplação.", slug: "lance-livre" },
-      { nome: "Lance Fixo", descricao: "Avalia a estratégia de lance fixo e seus riscos.", slug: "lance-fixo" },
-      { nome: "Zona de Contemplação", descricao: "Diagnostica a saúde do grupo e probabilidade de contemplação.", slug: "zona-contemplacao" },
-    ]
-  },
-  {
-    categoria: "Quero saber se vale a pena",
-    items: [
-      { nome: "Eficiência Econômica", descricao: "Avalia a eficiência econômica de um consórcio.", slug: "eficiencia-economica" },
-      { nome: "Consórcio x Financiamento", descricao: "Compara a viabilidade econômica entre consórcio e financiamento.", slug: "consorcio-financiamento" },
-      { nome: "Consórcio x Investimentos", descricao: "Compara o consórcio com outras opções de investimento.", slug: "consorcio-investimentos" },
-    ]
-  },
-  {
-    categoria: "Quero analisar uma proposta",
-    items: [
-      { nome: "Raio-X da Proposta", descricao: "Análise completa de qualquer proposta de consórcio.", slug: "raio-x-proposta" },
-      { nome: "Diagnóstico de Propostas", descricao: "Diagnostica a viabilidade e riscos de uma proposta.", slug: "diagnostico-propostas" },
-      { nome: "Saúde do Grupo", descricao: "Avalia a saúde financeira e operacional de um grupo.", slug: "saude-grupo" },
-    ]
-  },
-  {
-    categoria: "Quero cancelar ou sair",
-    items: [
-      { nome: "Exclusão", descricao: "Calcula o valor a ser restituído em caso de exclusão.", slug: "exclusao" },
-    ]
-  }
-];
+const CATEGORY_ICONS: Record<CategoryKey, React.ReactNode> = {
+  lances: <Calculator className="w-5 h-5" />,
+  decisao: <Scale className="w-5 h-5" />,
+  saude: <Activity className="w-5 h-5" />,
+  proposta: <FileSearch className="w-5 h-5" />,
+};
+
+const COMPLEXITY_DOTS: Record<Complexity, number> = {
+  Simples: 1,
+  Intermediário: 2,
+  Avançado: 3,
+};
+
+function ComplexityMeter({ level }: { level: Complexity }) {
+  const filled = COMPLEXITY_DOTS[level];
+  return (
+    <span className="inline-flex items-center gap-1.5" title={`Complexidade: ${level}`}>
+      <Gauge className="w-3.5 h-3.5 text-foreground/40" />
+      <span className="flex items-center gap-0.5">
+        {[1, 2, 3].map((i) => (
+          <span
+            key={i}
+            className={`w-1.5 h-1.5 rounded-full ${
+              i <= filled ? "bg-[var(--orange)]" : "bg-foreground/15"
+            }`}
+          />
+        ))}
+      </span>
+      <span className="text-[11px] text-foreground/50">{level}</span>
+    </span>
+  );
+}
 
 export default function Simuladores() {
+  const categories = Object.keys(CATEGORIES) as CategoryKey[];
+
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <section className="bg-gradient-to-b from-card to-background py-16 md:py-24">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
+    <div>
+      {/* ===================== HERO ===================== */}
+      <section className="dark bg-[var(--ink)] text-[var(--paper)] py-16 md:py-20">
+        <div className="container-wide px-5 lg:px-8">
+          <div className="max-w-3xl">
+            <p className="eyebrow text-[var(--orange)] mb-3">Centro de investigação</p>
+            <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.05]">
               Central de Simuladores
             </h1>
-            <p className="text-lg text-muted-foreground">
-              Escolha o simulador que responde sua dúvida e comece a explorar dados independentes sobre consórcios.
+            <p className="text-lg text-white/65 mt-5 max-w-2xl">
+              {SIMULADORES.length} ferramentas independentes para investigar cada
+              decisão de consórcio. Escolha pela sua dúvida, preencha poucos dados e
+              receba um diagnóstico claro — com a conta feita por inteiro.
             </p>
+            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-7 text-sm text-white/55">
+              <span className="inline-flex items-center gap-2">
+                <Lock className="w-4 h-4 text-[var(--orange)]" />
+                Cálculo protegido no servidor
+              </span>
+              <span className="inline-flex items-center gap-2">
+                <FileSearch className="w-4 h-4 text-[var(--orange)]" />
+                Relatório de auditoria em PDF
+              </span>
+            </div>
           </div>
         </div>
       </section>
 
-      {/* Simuladores por categoria */}
-      <section className="py-16 md:py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="space-y-16">
-            {simuladores.map((grupo, idx) => (
-              <div key={idx}>
-                <h2 className="text-2xl md:text-3xl font-bold mb-8 text-foreground">
-                  {grupo.categoria}
-                </h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {grupo.items.map((sim, sidx) => (
-                    <Link
-                      key={sidx}
-                      href={(sim as any).path || `/simulador/${sim.slug}`}
-                      className="group p-6 bg-card border border-border rounded-lg hover:border-accent transition-all hover:shadow-lg cursor-pointer"
-                    >
-                      <h3 className="text-xl font-bold mb-3 text-foreground group-hover:text-accent transition-colors">
-                        {sim.nome}
-                      </h3>
-                      <p className="text-muted-foreground mb-4 text-sm">
-                        {sim.descricao}
-                      </p>
-                      <div className="text-accent font-semibold flex items-center gap-2 text-sm">
-                        Analisar agora <ArrowRight size={16} />
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
+      {/* ===================== NAV POR DOR ===================== */}
+      <section className="border-b border-border sticky top-[64px] md:top-[72px] z-30 bg-background/85 backdrop-blur-md">
+        <div className="container-wide px-5 lg:px-8">
+          <div className="flex gap-1 overflow-x-auto py-3 -mx-1 px-1 no-scrollbar">
+            {categories.map((key) => (
+              <a
+                key={key}
+                href={`#${key}`}
+                className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:border-[var(--orange)] hover:text-[var(--orange)] transition-colors"
+              >
+                {CATEGORY_ICONS[key]}
+                {CATEGORIES[key].label}
+              </a>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Aviso */}
-      <section className="py-12 bg-card">
-        <div className="container mx-auto px-4">
-          <div className="bg-muted/50 rounded-lg p-6 text-center text-muted-foreground">
-            <p>
-              <strong>Nota:</strong> Todos os simuladores funcionam de forma independente e offline. Seus dados não são armazenados ou compartilhados.
+      {/* ===================== GRUPOS POR DOR ===================== */}
+      <section className="container-wide px-5 lg:px-8 py-14 space-y-16">
+        {categories.map((key) => {
+          const cat = CATEGORIES[key];
+          const items = simuladoresByCategory(key);
+          return (
+            <div key={key} id={key} className="scroll-mt-32">
+              <div className="flex items-start gap-4 mb-7">
+                <div className="w-11 h-11 rounded-xl bg-[var(--orange-soft)] text-[var(--orange)] flex items-center justify-center shrink-0">
+                  {CATEGORY_ICONS[key]}
+                </div>
+                <div>
+                  <h2 className="text-2xl md:text-3xl font-extrabold">{cat.label}</h2>
+                  <p className="text-foreground/55 mt-1 max-w-2xl">{cat.desc}</p>
+                </div>
+              </div>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {items.map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/simulador/${s.slug}`}
+                    className="group rounded-2xl border border-border bg-card p-6 flex flex-col transition-all hover:border-[var(--orange)] hover:-translate-y-1"
+                    style={{ transitionTimingFunction: "var(--ease-out)" }}
+                  >
+                    <div className="flex items-center justify-between mb-4">
+                      <span className="mono text-[11px] uppercase tracking-wider text-foreground/40">
+                        {s.title}
+                      </span>
+                      <span className="inline-flex items-center gap-1 text-[11px] text-foreground/45">
+                        <Clock className="w-3 h-3" />~{s.timeMin} min
+                      </span>
+                    </div>
+                    <h3 className="font-bold text-lg leading-snug">{s.question}</h3>
+                    <p className="text-sm text-foreground/60 mt-3 leading-relaxed flex-1">
+                      {s.shortDesc}
+                    </p>
+                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-border">
+                      <ComplexityMeter level={s.complexity} />
+                      <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--orange)] group-hover:gap-2 transition-all">
+                        Investigar <ArrowRight className="w-4 h-4" />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+
+      {/* ===================== COMERCIAL SUTIL ===================== */}
+      <section className="container-wide px-5 lg:px-8 pb-24">
+        <div className="rounded-3xl border border-border bg-card p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
+          <div className="flex-1 text-center md:text-left">
+            <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
+              Já simulou e quer uma leitura humana do resultado?
+            </h2>
+            <p className="text-foreground/60 mt-3 max-w-xl">
+              Traga sua simulação ou proposta. Damos uma segunda opinião técnica,
+              sem vender consórcio e sem comissão de administradora.
             </p>
           </div>
+          <a
+            href={BRAND.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-base font-semibold whitespace-nowrap transition-transform hover:scale-[1.02]"
+          >
+            <MessageCircle className="w-5 h-5" />
+            Falar com especialista
+          </a>
         </div>
       </section>
     </div>
