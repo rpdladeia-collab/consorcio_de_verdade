@@ -1,12 +1,12 @@
 # Consórcio de Verdade — RECONSTRUÇÃO PREMIUM (Briefing Definitivo)
 
 ## Fase 1 — Design System Premium
-- [ ] Nova paleta: off-white quente, grafite, preto profundo, branco, laranja, cinza quente, verde sinalização
-- [ ] Alternância de seções claras/escuras (não 100% preto)
-- [ ] Tipografia: Inter (textos) + JetBrains Mono (dados/cálculos)
-- [ ] Tokens de cor no index.css (light base + utilitários dark)
-- [ ] Logomarca com presença real (header maior, footer, simuladores, PDF)
-- [ ] Componentes editoriais reutilizáveis: SectionLight, SectionDark, BigNumber, OrangeBadge
+- [x] Nova paleta: off-white quente, grafite, preto profundo, branco, laranja, cinza quente, verde sinalização
+- [x] Alternância de seções claras/escuras (não 100% preto)
+- [x] Tipografia: Inter (textos) + JetBrains Mono (dados/cálculos)
+- [x] Tokens de cor no index.css (light base + utilitários dark)
+- [x] Logomarca no Header e Footer (brand.ts centralizado); pendente nos simuladores e PDF
+- [x] Componentes editoriais reutilizáveis (SimuladorUI.tsx)
 
 ## Fase 2 — Home com storytelling
 - [ ] Header limpo (Simuladores, Dados, Materiais, Sobre, Consultoria, redes discretas)
@@ -44,7 +44,7 @@
 - [ ] Área de vídeo preparada nos simuladores
 
 ## Fase 7 — Demais Simuladores (backend + frontend)
-- [ ] Zona de Contemplação
+- [x] Zona de Contemplação
 - [ ] Lance Livre
 - [ ] Lance Fixo
 - [ ] Saúde do Grupo
@@ -53,6 +53,10 @@
 - [ ] Consórcio x Investimentos
 - [ ] Eficiência Econômica
 - [ ] Raio-X da Proposta / Diagnóstico de Propostas
+
+## Pendências adicionais (gaps)
+- [ ] Logomarca visível nas páginas de simuladores
+- [ ] Logomarca integrada ao layout do PDF de Auditoria
 
 ## Fase 8 — Testes e Entrega
 - [ ] Vitest backend simuladores

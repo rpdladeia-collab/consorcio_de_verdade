@@ -9,22 +9,24 @@ import {
   Lock,
   Eye,
   MessageCircle,
+  Gauge,
 } from "lucide-react";
 import { CATEGORIES, CategoryKey, SIMULADORES } from "@/lib/simuladores";
 import { BRAND } from "@/lib/brand";
 
 const CATEGORY_ICONS: Record<CategoryKey, React.ReactNode> = {
-  lances: <Calculator className="w-6 h-6" />,
-  decisao: <Scale className="w-6 h-6" />,
-  saude: <Activity className="w-6 h-6" />,
-  proposta: <FileSearch className="w-6 h-6" />,
+  plano: <Calculator className="w-6 h-6" />,
+  contemplacao: <Scale className="w-6 h-6" />,
+  custo: <FileSearch className="w-6 h-6" />,
+  eficiencia: <Gauge className="w-6 h-6" />,
+  correcoes: <Activity className="w-6 h-6" />,
+  autopagavel: <ArrowRight className="w-6 h-6" />,
 };
 
 export default function Home() {
+  // Destaque: Módulos 1, 2 e 3 do HTML original
   const featured = SIMULADORES.filter((s) =>
-    ["lance-embutido", "consorcio-financiamento", "diagnostico-proposta"].includes(
-      s.slug
-    )
+    ["simule-seu-plano", "contemplacao", "custo-da-operacao"].includes(s.slug)
   );
 
   return (

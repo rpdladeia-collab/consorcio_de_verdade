@@ -1,4 +1,5 @@
-import { buildSchedule } from '../../lib/consorcio/raio-x-logic';
+import { describe, test, expect } from 'vitest';
+import { buildSchedule } from './lib/raiox';
 
 // ---------------------------------------------------------------------------
 // Golden Test — caso padrão do HTML original
@@ -88,6 +89,10 @@ describe('buildSchedule — seguro com decimais (fidelidade ao HTML)', () => {
     ranges: '',
   });
 
+  test('Saldo inicial = R$ 354.000,00 (fc + ta + fr antes da parcela)', () => {
+    expect(s.initialObligation).toBeCloseTo(354000.0, 1);
+  });
+
   test('Seguro no mês 1 = R$ 122,87 (sobre saldo pós-parcela, fiel ao HTML)', () => {
     // 351.050 × 0,00035 = 122,8675
     expect(s.rows[0].insurance).toBeCloseTo(122.87, 1);
@@ -96,9 +101,5 @@ describe('buildSchedule — seguro com decimais (fidelidade ao HTML)', () => {
   test('Parcela total mês 1 = componentPay + insurance ≈ R$ 3.072,87', () => {
     // 2.950 + 122,87 = 3.072,87
     expect(s.rows[0].installment).toBeCloseTo(3072.87, 1);
-  });
-
-  test('Saldo inicial = R$ 354.000,00 (fc + ta + fr antes da parcela)', () => {
-    expect(s.initialObligation).toBeCloseTo(354000.0, 1);
   });
 });

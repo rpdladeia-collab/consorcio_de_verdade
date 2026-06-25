@@ -20,10 +20,12 @@ import {
 import { BRAND } from "@/lib/brand";
 
 const CATEGORY_ICONS: Record<CategoryKey, React.ReactNode> = {
-  lances: <Calculator className="w-5 h-5" />,
-  decisao: <Scale className="w-5 h-5" />,
-  saude: <Activity className="w-5 h-5" />,
-  proposta: <FileSearch className="w-5 h-5" />,
+  plano: <Calculator className="w-5 h-5" />,
+  contemplacao: <Scale className="w-5 h-5" />,
+  custo: <FileSearch className="w-5 h-5" />,
+  eficiencia: <Gauge className="w-5 h-5" />,
+  correcoes: <Activity className="w-5 h-5" />,
+  autopagavel: <ArrowRight className="w-5 h-5" />,
 };
 
 const COMPLEXITY_DOTS: Record<Complexity, number> = {
