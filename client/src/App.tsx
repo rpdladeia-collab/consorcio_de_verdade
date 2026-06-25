@@ -16,6 +16,7 @@ import SimuladorLanceEmbutido from "./pages/SimuladorLanceEmbutido";
 import SimuladorZonaContemplacao from "./pages/SimuladorZonaContemplacao";
 import SimuladorLanceLivre from "./pages/SimuladorLanceLivre";
 import SimuladorSimulePlano from "./pages/SimuladorSimulePlano";
+import SimuladorContemplacao from "./pages/SimuladorContemplacao";
 
 function Router() {
   return (
@@ -26,6 +27,7 @@ function Router() {
       <Route path={"/simulador/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
       <Route path={"/simulador/simule-seu-plano"} component={SimuladorSimulePlano} />
+      <Route path={"/simulador/contemplacao"} component={SimuladorContemplacao} />
       <Route path={"/sobre"} component={Sobre} />
       <Route path={"/contato"} component={Contato} />
       <Route path={"/termos"} component={Termos} />

@@ -8,15 +8,16 @@ export const LOGO = {
   horizontalDark: "/manus-storage/logo_cdv_dark_7c96134f.png",
   // Símbolo (ícone) sobre fundo escuro — favicon / selos
   iconDark: "/manus-storage/logo_cdv_icon_dark_608a8b06.png",
+  // Logomarca oficial (quadrada, fundo preto) — usada no PDF
+  official: "/manus-storage/logo-cdv_8f636d00.png",
 } as const;
 
 export const BRAND = {
   name: "Consórcio de Verdade",
   domain: "consorciodeverdade.com.br",
   instagram: "https://instagram.com/consorcio.deverdade",
-  linkedin: "https://www.linkedin.com/",
-  // WhatsApp (placeholder — ajustar número oficial)
-  whatsapp: "https://wa.me/5500000000000",
+  linkedin: "https://www.linkedin.com/in/renatoladeia/",
+  whatsapp: "https://wa.me/5531996952204",
   email: "contato@consorciodeverdade.com.br",
   founder: "Renato",
   disclaimer:

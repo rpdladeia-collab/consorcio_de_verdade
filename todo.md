@@ -71,3 +71,14 @@
 - [x] tRPC router de simuladores
 - [x] Testes Jest existentes
 - [x] Repositório Git
+
+## Sprint 2 — Ajustes globais + Módulo 2
+- [x] Prazo máximo: alterar 360 → 240 em Zod, inputs, validações, funções, mensagens, testes
+- [x] Marca: WhatsApp +5531996952204, LinkedIn https://www.linkedin.com/in/renatoladeia/
+- [x] Navegação: menu "Raio-X do Consórcio" com item "Módulo 1: Simule seu plano"
+- [x] PDF: logomarca oficial no canto superior direito do cabeçalho
+- [x] Mapeamento técnico módulos 2–6 (HTML original)
+- [ ] Módulo 2: Contemplação — backend (runContemplation + buildContemplationProjection)
+- [ ] Módulo 2: Contemplação — procedure tRPC raiox.contemplacao
+- [ ] Módulo 2: Contemplação — testes Vitest
+- [ ] Módulo 2: Contemplação — página com inputs, KPIs, tabelas, TransparencyBlock, PDF

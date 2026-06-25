@@ -1,7 +1,7 @@
 /**
- * Gerador de PDF — Módulo 1: Simule seu plano
- * Rodapé obrigatório: consorciodeverdade.com.br | Gerado em: [DATA/HORA] | Motor Matemático v1.0 | ID: [HASH]
- * Bloco de transparência: texto exato aprovado pelo usuário.
+ * Gerador de PDF — Módulo 2: Contemplação
+ * Padrão aprovado: logo no canto superior direito, rodapé obrigatório, bloco de transparência.
+ * Rodapé: consorciodeverdade.com.br | Gerado em: [DATA/HORA] | Motor Matemático v1.0 | ID: [HASH]
  */
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
@@ -24,42 +24,58 @@ const LIGHT: [number, number, number] = [245, 240, 232];
 const WHITE: [number, number, number] = [255, 255, 255];
 
 /* ─── Tipos ─── */
-export interface ScheduleRow {
+interface ProjectionRow {
   month: number;
   credit: number;
-  opening: number;
-  fc: number;
-  ta: number;
-  fr: number;
-  insurance: number;
+  event: string;
+  lance: number;
   installment: number;
-  paidTotal: number;
   balance: number;
+  projected: number;
   tags: string[];
 }
 
-export interface PdfInput {
-  // Parâmetros do formulário
-  credit: number;
-  term: number;
-  adminRate: number;
-  reserveRate: number;
-  insuranceRate: number;
-  adjRate: number;
-  adjEvery: string;
-  mode: string;
-  ranges: string;
+interface SummaryRow {
+  item: string;
+  value: string;
+  read: string;
+}
+
+export interface PdfContemplacao {
   // Resultado da procedure
-  rows: ScheduleRow[];
+  forcePct: number;
+  totalLance: number;
+  creditLiquid: number;
+  postLanceInstallment: number;
+  newInstallment: number;
+  baseLabel: string;
+  own: number;
+  fgts: number;
+  embedded: number;
+  credit: number;
+  applied: number;
+  amortizable: number;
   paidTotal: number;
-  residual: number;
-  finalCredit: number;
-  initialObligation: number;
-  insuranceTotal: number;
-  correctionNominal: number;
+  summaryRows: SummaryRow[];
+  projection: { rows: ProjectionRow[]; paidProjected: number; finalBalance: number };
   warnings: string[];
   simulationId: string;
   generatedAt: string;
+  // Formulário (para exibir parâmetros no PDF)
+  form: {
+    credit: string;
+    term: string;
+    adminRate: string;
+    reserveRate: string;
+    adjRate: string;
+    adjEvery: string;
+    mode: string;
+    paidMonths: string;
+    base: string;
+    own: string;
+    fgts: string;
+    embedded: string;
+  };
 }
 
 /* ─── Helpers ─── */
@@ -80,6 +96,10 @@ function brl0(v: number): string {
   }).format(isFinite(v) ? v : 0);
 }
 
+function pct(v: number): string {
+  return `${(isFinite(v) ? v : 0).toFixed(1).replace(".", ",")}%`;
+}
+
 function formatDate(iso: string): string {
   return new Date(iso).toLocaleString("pt-BR", {
     day: "2-digit",
@@ -92,7 +112,6 @@ function formatDate(iso: string): string {
   });
 }
 
-/* ─── Pré-carregamento de imagem como base64 ─── */
 function loadImageAsBase64(url: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const img = new Image();
@@ -111,8 +130,7 @@ function loadImageAsBase64(url: string): Promise<string> {
   });
 }
 
-/* ─── Rodapé obrigatório ─── */
-function drawFooter(doc: jsPDF, data: PdfInput) {
+function drawFooter(doc: jsPDF, data: PdfContemplacao) {
   const pageCount = (doc as unknown as { internal: { getNumberOfPages(): number } }).internal.getNumberOfPages();
   const footerText = `${DOMAIN}  |  Gerado em: ${formatDate(data.generatedAt)}  |  Motor Matemático ${MOTOR_VERSION}  |  ID: ${data.simulationId}`;
 
@@ -121,34 +139,29 @@ function drawFooter(doc: jsPDF, data: PdfInput) {
     const pw = doc.internal.pageSize.getWidth();
     const ph = doc.internal.pageSize.getHeight();
 
-    // Linha separadora
     doc.setDrawColor(...ORANGE);
     doc.setLineWidth(0.4);
     doc.line(14, ph - 16, pw - 14, ph - 16);
 
-    // Texto do rodapé
     doc.setFontSize(7);
     doc.setTextColor(...GRAY);
     doc.setFont("helvetica", "normal");
     doc.text(footerText, pw / 2, ph - 10, { align: "center" });
-
-    // Número de página
     doc.text(`${i} / ${pageCount}`, pw - 14, ph - 10, { align: "right" });
   }
 }
 
 /* ─── Gerador principal ─── */
-export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
+export async function generatePdfContemplacao(data: PdfContemplacao): Promise<void> {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const pw = doc.internal.pageSize.getWidth();
   let y = 0;
 
-  /* ── CAPA / CABEÇALHO ── */
-  // Fundo escuro
+  /* ── CABEÇALHO ── */
   doc.setFillColor(...INK);
   doc.rect(0, 0, pw, 52, "F");
 
-  // Logomarca oficial no canto superior direito (pré-carregada como base64)
+  // Logomarca oficial no canto superior direito
   try {
     const logoUrl = window.location.origin + "/manus-storage/logo-cdv_8f636d00.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
@@ -157,29 +170,25 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
     // Logo não disponível — continua sem ela
   }
 
-  // Logomarca textual
   doc.setFontSize(18);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...ORANGE);
   doc.text("Consórcio de Verdade", 14, 18);
 
-  // Subtítulo
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(180, 180, 180);
   doc.text("Análise independente · Sem conflito de interesse", 14, 25);
 
-  // Título do relatório
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...WHITE);
-  doc.text("Simule seu plano", 14, 40);
+  doc.text("Contemplação", 14, 40);
 
-  // Módulo
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...ORANGE);
-  doc.text("MÓDULO 1 · RAIO-X DO CONSÓRCIO", 14, 47);
+  doc.text("MÓDULO 2 · RAIO-X DO CONSÓRCIO", 14, 47);
 
   y = 62;
 
@@ -191,28 +200,29 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   y += 5;
 
   const adjLabel =
-    data.adjEvery === "0"
-      ? "Sem reajuste"
-      : data.adjEvery === "6"
-      ? "Semestral"
-      : "Anual";
+    data.form.adjEvery === "0" ? "Sem correção" :
+    data.form.adjEvery === "6" ? "Semestral" : "Anual";
 
   autoTable(doc, {
     startY: y,
     head: [["Parâmetro", "Valor"]],
     body: [
-      ["Carta de crédito", brl0(data.credit)],
-      ["Prazo total", `${data.term} meses`],
-      ["Taxa de administração", `${data.adminRate.toFixed(2)}%`],
-      ["Fundo de reserva", `${data.reserveRate.toFixed(2)}%`],
-      ["Seguro mensal", data.insuranceRate > 0 ? `${data.insuranceRate.toFixed(4)}%` : "Não informado"],
-      ["Correção estimada", `${data.adjRate.toFixed(2)}% (${adjLabel})`],
-      ["Modelo de parcela", data.mode === "linear" ? "Linear" : "Não linear"],
+      ["Carta de crédito", brl0(parseFloat(data.form.credit) || 0)],
+      ["Prazo total", `${data.form.term} meses`],
+      ["Taxa de administração", `${parseFloat(data.form.adminRate).toFixed(2)}%`],
+      ["Fundo de reserva", `${parseFloat(data.form.reserveRate).toFixed(2)}%`],
+      ["Parcelas pagas até a contemplação", data.form.paidMonths],
+      ["Base do lance", data.baseLabel === "categoria" ? "Categoria (carta + taxa adm)" : "Carta de crédito"],
+      ["Lance próprio", brl0(parseFloat(data.form.own) || 0)],
+      ["FGTS", brl0(parseFloat(data.form.fgts) || 0)],
+      ["Lance embutido", brl0(parseFloat(data.form.embedded) || 0)],
+      ["Correção estimada", `${parseFloat(data.form.adjRate).toFixed(2)}% (${adjLabel})`],
+      ["Modelo de parcela", data.form.mode === "linear" ? "Linear" : "Não linear"],
     ],
     styles: { fontSize: 9, cellPadding: 3 },
     headStyles: { fillColor: INK, textColor: WHITE, fontStyle: "bold" },
     alternateRowStyles: { fillColor: LIGHT },
-    columnStyles: { 0: { fontStyle: "bold", cellWidth: 70 } },
+    columnStyles: { 0: { fontStyle: "bold", cellWidth: 80 } },
     margin: { left: 14, right: 14 },
   });
 
@@ -225,24 +235,20 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   doc.text("Resultados principais", 14, y);
   y += 5;
 
-  const first = data.rows[0]?.installment ?? 0;
-  const maxInstallment = Math.max(...data.rows.map((r) => r.installment));
-
   autoTable(doc, {
     startY: y,
     head: [["Indicador", "Valor", "Observação"]],
     body: [
-      ["1ª parcela", brl(first), "Parcela estimada no mês 1"],
-      ["Maior parcela", brl(maxInstallment), "Pressão máxima de caixa"],
-      ["Total pago projetado", brl0(data.paidTotal), "Inclui seguro, se informado"],
-      ["Carta final corrigida", brl0(data.finalCredit), `Após reajustes de ${data.adjRate.toFixed(1)}%`],
-      ["Saldo final (residual)", brl(data.residual), data.residual > 1 ? "⚠ Revisar faixas não lineares" : "Plano fecha no prazo ✓"],
-      ...(data.insuranceTotal > 0 ? [["Seguro total projetado", brl0(data.insuranceTotal), "Calculado sobre saldo residual mensal"]] : []),
+      ["Força de lance", pct(data.forcePct), `Base: ${data.baseLabel}`],
+      ["Lance total", brl0(data.totalLance), "Próprio + FGTS + embutido"],
+      ["Carta líquida", brl0(data.creditLiquid), "Carta menos lance embutido"],
+      ["Parcela pós-lance", brl(data.postLanceInstallment), "1ª parcela projetada após o lance"],
+      ["Amortização aplicada", brl0(data.applied), "min(lance total, capacidade amortizável)"],
     ],
     styles: { fontSize: 9, cellPadding: 3 },
     headStyles: { fillColor: INK, textColor: WHITE, fontStyle: "bold" },
     alternateRowStyles: { fillColor: LIGHT },
-    columnStyles: { 0: { fontStyle: "bold", cellWidth: 70 }, 1: { cellWidth: 50 } },
+    columnStyles: { 0: { fontStyle: "bold", cellWidth: 65 }, 1: { cellWidth: 45 } },
     margin: { left: 14, right: 14 },
   });
 
@@ -267,29 +273,45 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
     y += 4;
   }
 
-  /* ── FLUXO MENSAL ── */
+  /* ── TABELA DE RESUMO ── */
   doc.addPage();
   y = 20;
 
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...INK);
-  doc.text("Fluxo mensal completo", 14, y);
+  doc.text("Resumo da operação", 14, y);
   y += 5;
 
   autoTable(doc, {
     startY: y,
-    head: [["Mês", "Carta", "Saldo inicial", "F. Comum", "T. Adm.", "F. Reserva", "Seguro", "Parcela", "Pago acum.", "Saldo final"]],
-    body: data.rows.map((r) => [
+    head: [["Item", "Valor", "Leitura"]],
+    body: data.summaryRows.map((r) => [r.item, r.value, r.read]),
+    styles: { fontSize: 9, cellPadding: 3 },
+    headStyles: { fillColor: INK, textColor: WHITE, fontStyle: "bold" },
+    alternateRowStyles: { fillColor: LIGHT },
+    columnStyles: { 0: { fontStyle: "bold", cellWidth: 70 } },
+    margin: { left: 14, right: 14 },
+  });
+
+  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
+
+  /* ── PROJEÇÃO MENSAL ── */
+  doc.setFontSize(10);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...INK);
+  doc.text("Projeção mensal completa", 14, y);
+  y += 5;
+
+  autoTable(doc, {
+    startY: y,
+    head: [["Mês", "Carta corrigida", "Evento", "Lance aplicado", "Parcela / projeção", "Saldo estimado"]],
+    body: data.projection.rows.map((r) => [
       r.month.toString(),
       brl0(r.credit),
-      brl0(r.opening),
-      brl(r.fc),
-      brl(r.ta),
-      brl(r.fr),
-      r.insurance > 0.005 ? brl(r.insurance) : "—",
-      brl(r.installment),
-      brl0(r.paidTotal),
+      r.event,
+      r.lance > 0 ? brl(r.lance) : "—",
+      r.projected > 0 ? brl(r.projected) : "—",
       brl0(r.balance),
     ]),
     styles: { fontSize: 7, cellPadding: 2 },
@@ -297,11 +319,13 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
     alternateRowStyles: { fillColor: LIGHT },
     didParseCell: (hookData) => {
       if (hookData.section === "body") {
-        const rowIndex = hookData.row.index;
-        const row = data.rows[rowIndex];
-        if (row?.tags.includes("Reajuste")) {
-          hookData.cell.styles.fillColor = [255, 237, 213]; // laranja claro
+        const row = data.projection.rows[hookData.row.index];
+        if (row?.event === "Lance aplicado") {
+          hookData.cell.styles.fillColor = [255, 237, 213];
           hookData.cell.styles.textColor = [180, 60, 0];
+        } else if (row?.tags?.includes("Reajuste")) {
+          hookData.cell.styles.fillColor = [255, 247, 237];
+          hookData.cell.styles.textColor = [180, 80, 0];
         }
       }
     },
@@ -312,7 +336,6 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   doc.addPage();
   y = 20;
 
-  // Fundo cinza claro
   doc.setFillColor(...LIGHT);
   doc.roundedRect(14, y - 4, pw - 28, 42, 3, 3, "F");
 
@@ -329,40 +352,7 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
 
   y += 50;
 
-  /* ── MEMÓRIA DE CÁLCULO ── */
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...INK);
-  doc.text("Memória de cálculo", 14, y);
-  y += 5;
-
-  const adjCount = data.rows.filter((r) => r.tags.includes("Reajuste")).length;
-
-  autoTable(doc, {
-    startY: y,
-    head: [["Etapa", "Valor", "Fórmula / Nota"]],
-    body: [
-      ["Carta de crédito", brl0(data.credit), "Valor nominal contratado"],
-      ["Obrigação inicial total", brl0(data.initialObligation), `Carta + ${data.adminRate.toFixed(1)}% adm + ${data.reserveRate.toFixed(1)}% reserva`],
-      ["Parcela linear base (mês 1)", brl(data.initialObligation / data.term), `${brl0(data.initialObligation)} ÷ ${data.term} meses`],
-      ["Carta final corrigida", brl0(data.finalCredit), `Após ${adjCount} reajuste(s) de ${data.adjRate.toFixed(1)}%`],
-      ["Correção nominal acumulada", brl0(data.correctionNominal), "Δ fundo comum + Δ taxa adm + Δ fundo reserva"],
-      ...(data.insuranceTotal > 0
-        ? [["Seguro total projetado", brl0(data.insuranceTotal), `${data.insuranceRate.toFixed(4)}% × saldo residual mensal`]]
-        : []),
-      ["Total pago projetado", brl0(data.paidTotal), "Σ parcelas mensais (componentes + seguro)"],
-      ["Saldo final (residual)", brl(data.residual), data.residual < 1 ? "Plano fecha no prazo ✓" : "Revisar faixas não lineares"],
-    ],
-    styles: { fontSize: 9, cellPadding: 3 },
-    headStyles: { fillColor: INK, textColor: WHITE, fontStyle: "bold" },
-    alternateRowStyles: { fillColor: LIGHT },
-    columnStyles: { 0: { fontStyle: "bold", cellWidth: 65 }, 1: { cellWidth: 45 } },
-    margin: { left: 14, right: 14 },
-  });
-
   /* ── METODOLOGIA ── */
-  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
-
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...INK);
@@ -370,10 +360,9 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   y += 6;
 
   const sources = [
-    "Lógica extraída do HTML original Raio-X do Consórcio (buildSchedule).",
-    "Parcela linear: obrigação total ÷ meses restantes, recalculada a cada reajuste.",
-    "Parcela não linear: valor da faixa × fator de correção acumulado.",
-    "Seguro: calculado sobre o saldo residual após o pagamento da parcela.",
+    "Lógica extraída do HTML original Raio-X do Consórcio (runContemplation + buildContemplationProjection).",
+    "Lance: amortização prioritária no fundo comum; excedente distribuído proporcionalmente em taxa adm e fundo reserva.",
+    "Parcela pós-lance: saldo residual ÷ meses restantes, recalculada a cada reajuste.",
     "Reajuste: aplicado sobre fundo comum, taxa adm e fundo reserva simultaneamente.",
     "Motor Matemático " + MOTOR_VERSION + " · Cálculo executado no servidor (tRPC), não acessível ao navegador.",
   ];
@@ -390,6 +379,6 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   drawFooter(doc, data);
 
   /* ── SALVAR ── */
-  const filename = `raio-x-simule-seu-plano-${data.simulationId}.pdf`;
+  const filename = `raio-x-contemplacao-${data.simulationId}.pdf`;
   doc.save(filename);
 }

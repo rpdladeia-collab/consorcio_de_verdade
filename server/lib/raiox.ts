@@ -121,7 +121,7 @@ function moneyStr(v: number): string {
 
 export function buildSchedule(opts: ScheduleOptions): ScheduleResult {
   const credit = Math.max(0, opts.credit);
-  const term = clamp(Math.round(opts.term || 1), 1, 360);
+  const term = clamp(Math.round(opts.term || 1), 1, 240);
   const adminRate = clamp(opts.adminRate, 0, 1000) / 100;
   const reserveRate = clamp(opts.reserveRate, 0, 1000) / 100;
   const insuranceRate = Math.max(0, opts.insuranceRate || 0) / 100;

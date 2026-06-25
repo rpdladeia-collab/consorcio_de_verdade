@@ -13,7 +13,7 @@ export interface SimuladorMeta {
   category: CategoryKey;
   complexity: Complexity;
   timeMin: number;           // tempo estimado em minutos
-  status: "ativo" | "em_breve";
+  status: "ativo" | "disponivel" | "em_breve";
   tags: string[];
 }
 
@@ -85,7 +85,7 @@ export const SIMULADORES: SimuladorMeta[] = [
     category: "contemplacao",
     complexity: "Intermediário",
     timeMin: 3,
-    status: "em_breve",
+    status: "disponivel",
     tags: ["lance", "carta líquida", "pós-contemplação"],
   },
   {

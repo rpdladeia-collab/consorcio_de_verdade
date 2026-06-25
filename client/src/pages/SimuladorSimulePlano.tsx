@@ -239,7 +239,7 @@ export default function SimuladorSimulePlano() {
     const adjRate = num(form.adjRate);
 
     if (credit <= 0) return toast.error("Informe um valor de carta maior que zero.");
-    if (term < 1 || term > 360) return toast.error("Prazo deve estar entre 1 e 360 meses.");
+    if (term < 1 || term > 240) return toast.error("Prazo deve estar entre 1 e 240 meses.");
     if (adminRate < 0) return toast.error("Taxa de administração não pode ser negativa.");
     if (reserveRate < 0) return toast.error("Fundo de reserva não pode ser negativo.");
 
@@ -314,7 +314,7 @@ export default function SimuladorSimulePlano() {
                 />
               </Field>
 
-              <Field label="Prazo total (meses)" hint="Entre 1 e 360 meses.">
+              <Field label="Prazo total (meses)" hint="Entre 1 e 240 meses.">
                 <Input
                   value={form.term}
                   onChange={set("term")}
@@ -604,32 +604,30 @@ export default function SimuladorSimulePlano() {
                 <PdfButton
                   onClick={() => {
                     if (!result) return;
-                    try {
-                      generatePdfSimulePlano({
-                        credit: num(form.credit),
-                        term: Math.round(num(form.term)),
-                        adminRate: num(form.adminRate),
-                        reserveRate: num(form.reserveRate),
-                        insuranceRate: num(form.insuranceRate),
-                        adjRate: num(form.adjRate),
-                        adjEvery: form.adjEvery,
-                        mode: form.mode,
-                        ranges: form.ranges,
-                        rows: result.rows,
-                        paidTotal: result.paidTotal,
-                        residual: result.residual,
-                        finalCredit: result.finalCredit,
-                        initialObligation: result.initialObligation,
-                        insuranceTotal: result.insuranceTotal,
-                        correctionNominal: result.correctionNominal,
-                        warnings: result.warnings,
-                        simulationId: result.simulationId,
-                        generatedAt: result.generatedAt,
-                      });
-                    } catch (e) {
+                    generatePdfSimulePlano({
+                      credit: num(form.credit),
+                      term: Math.round(num(form.term)),
+                      adminRate: num(form.adminRate),
+                      reserveRate: num(form.reserveRate),
+                      insuranceRate: num(form.insuranceRate),
+                      adjRate: num(form.adjRate),
+                      adjEvery: form.adjEvery,
+                      mode: form.mode,
+                      ranges: form.ranges,
+                      rows: result.rows,
+                      paidTotal: result.paidTotal,
+                      residual: result.residual,
+                      finalCredit: result.finalCredit,
+                      initialObligation: result.initialObligation,
+                      insuranceTotal: result.insuranceTotal,
+                      correctionNominal: result.correctionNominal,
+                      warnings: result.warnings,
+                      simulationId: result.simulationId,
+                      generatedAt: result.generatedAt,
+                    }).catch((e) => {
                       toast.error("Erro ao gerar PDF. Tente novamente.");
                       console.error(e);
-                    }
+                    });
                   }}
                 />
 
