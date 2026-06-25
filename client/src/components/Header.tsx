@@ -20,6 +20,7 @@ export default function Header() {
   }, [location]);
 
   const raioxActive = location.startsWith("/simulador") || location === "/simuladores";
+  const panoramaActive = location === "/panorama";
 
   return (
     <header
@@ -58,6 +59,15 @@ export default function Header() {
               }`}
             >
               Raio-X do Consórcio
+            </Link>
+
+            <Link
+              href="/panorama"
+              className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                panoramaActive ? "text-[var(--orange)]" : "text-foreground/80"
+              }`}
+            >
+              Panorama: Dados Oficiais
             </Link>
 
             <Link
@@ -128,6 +138,13 @@ export default function Header() {
               className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
             >
               Raio-X do Consórcio
+            </Link>
+
+            <Link
+              href="/panorama"
+              className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
+            >
+              Panorama: Dados Oficiais
             </Link>
 
             <Link

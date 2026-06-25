@@ -21,6 +21,7 @@ import SimuladorCustoOperacao from "./pages/SimuladorCustoOperacao";
 import SimuladorProporcaoTaxa from "./pages/SimuladorProporcaoTaxa";
 import SimuladorHistoricoCorrecoes from "./pages/SimuladorHistoricoCorrecoes";
 import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
+import Panorama from "./pages/Panorama";
 
 function Router() {
   return (
@@ -36,6 +37,7 @@ function Router() {
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simulador/historico-correcoes"} component={SimuladorHistoricoCorrecoes} />
       <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
+      <Route path={"/panorama"} component={Panorama} />
       <Route path={"/sobre"} component={Sobre} />
       <Route path={"/contato"} component={Contato} />
       <Route path={"/termos"} component={Termos} />
