@@ -20,6 +20,7 @@ export default function Header() {
   }, [location]);
 
   const raioxActive = location.startsWith("/simulador") || location === "/simuladores";
+  const zonaActive = location === "/zona-contemplacao";
   const panoramaActive = location === "/panorama";
 
   return (
@@ -59,6 +60,15 @@ export default function Header() {
               }`}
             >
               Raio-X do Consórcio
+            </Link>
+
+            <Link
+              href="/zona-contemplacao"
+              className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                zonaActive ? "text-[var(--orange)]" : "text-foreground/80"
+              }`}
+            >
+              Zona de Contemplação
             </Link>
 
             <Link
@@ -138,6 +148,13 @@ export default function Header() {
               className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
             >
               Raio-X do Consórcio
+            </Link>
+
+            <Link
+              href="/zona-contemplacao"
+              className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
+            >
+              Zona de Contemplação
             </Link>
 
             <Link
