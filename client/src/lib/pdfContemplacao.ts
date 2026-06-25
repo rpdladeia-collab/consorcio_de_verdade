@@ -165,7 +165,7 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
   try {
     const logoUrl = window.location.origin + "/manus-storage/logo-cdv_8f636d00.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 46, 6, 32, 32);
+    doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch {
     // Logo não disponível — continua sem ela
   }

@@ -1,18 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Linkedin, ArrowRight, ChevronDown } from "lucide-react";
+import { Menu, X, Instagram, Linkedin, ArrowRight } from "lucide-react";
 import { LOGO, BRAND } from "@/lib/brand";
-
-const RAIOX_ITEMS = [
-  { label: "Módulo 1: Simule seu plano", href: "/simulador/simule-seu-plano" },
-];
 
 export default function Header() {
   const [open, setOpen] = useState(false);
-  const [raioxOpen, setRaioxOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
-  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -23,21 +17,9 @@ export default function Header() {
 
   useEffect(() => {
     setOpen(false);
-    setRaioxOpen(false);
   }, [location]);
 
-  // Fechar dropdown ao clicar fora
-  useEffect(() => {
-    const handler = (e: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
-        setRaioxOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handler);
-    return () => document.removeEventListener("mousedown", handler);
-  }, []);
-
-  const raioxActive = location.startsWith("/simulador/");
+  const raioxActive = location.startsWith("/simulador") || location === "/simuladores";
 
   return (
     <header
@@ -69,52 +51,14 @@ export default function Header() {
               Home
             </Link>
 
-            {/* Dropdown: Raio-X do Consórcio */}
-            <div className="relative" ref={dropdownRef}>
-              <button
-                onClick={() => setRaioxOpen((v) => !v)}
-                className={`flex items-center gap-1 text-sm font-medium transition-colors hover:text-[var(--orange)] ${
-                  raioxActive ? "text-[var(--orange)]" : "text-foreground/80"
-                }`}
-              >
-                Raio-X do Consórcio
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${raioxOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-
-              {raioxOpen && (
-                <div className="absolute top-full left-0 mt-2 w-64 rounded-xl border border-border bg-[var(--paper)] shadow-lg py-1 z-50">
-                  <div className="px-3 py-2 border-b border-border/60">
-                    <p className="text-[10px] font-semibold tracking-widest text-foreground/40 uppercase">
-                      Módulos
-                    </p>
-                  </div>
-                  {RAIOX_ITEMS.map((item) => {
-                    const active = location === item.href;
-                    return (
-                      <Link
-                        key={item.href}
-                        href={item.href}
-                        className={`block px-4 py-2.5 text-sm transition-colors hover:bg-secondary hover:text-[var(--orange)] ${
-                          active ? "text-[var(--orange)] font-medium" : "text-foreground/80"
-                        }`}
-                      >
-                        {item.label}
-                      </Link>
-                    );
-                  })}
-                  <div className="px-3 py-2 border-t border-border/60 mt-1">
-                    <Link
-                      href="/simuladores"
-                      className="text-xs text-foreground/50 hover:text-[var(--orange)] transition-colors"
-                    >
-                      Ver todos os simuladores →
-                    </Link>
-                  </div>
-                </div>
-              )}
-            </div>
+            <Link
+              href="/simuladores"
+              className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                raioxActive ? "text-[var(--orange)]" : "text-foreground/80"
+              }`}
+            >
+              Raio-X do Consórcio
+            </Link>
 
             <Link
               href="/sobre"
@@ -179,37 +123,12 @@ export default function Header() {
               Home
             </Link>
 
-            {/* Raio-X do Consórcio (expandível no mobile) */}
-            <div>
-              <button
-                onClick={() => setRaioxOpen((v) => !v)}
-                className="w-full flex items-center justify-between py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
-              >
-                Raio-X do Consórcio
-                <ChevronDown
-                  className={`w-4 h-4 transition-transform duration-200 ${raioxOpen ? "rotate-180" : ""}`}
-                />
-              </button>
-              {raioxOpen && (
-                <div className="pl-4 pb-2 flex flex-col gap-1">
-                  {RAIOX_ITEMS.map((item) => (
-                    <Link
-                      key={item.href}
-                      href={item.href}
-                      className="py-2 text-sm text-foreground/70 hover:text-[var(--orange)]"
-                    >
-                      {item.label}
-                    </Link>
-                  ))}
-                  <Link
-                    href="/simuladores"
-                    className="py-2 text-xs text-foreground/50 hover:text-[var(--orange)]"
-                  >
-                    Ver todos os simuladores →
-                  </Link>
-                </div>
-              )}
-            </div>
+            <Link
+              href="/simuladores"
+              className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
+            >
+              Raio-X do Consórcio
+            </Link>
 
             <Link
               href="/sobre"
