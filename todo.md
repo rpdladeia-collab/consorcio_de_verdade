@@ -78,7 +78,32 @@
 - [x] Navegação: menu "Raio-X do Consórcio" com item "Módulo 1: Simule seu plano"
 - [x] PDF: logomarca oficial no canto superior direito do cabeçalho
 - [x] Mapeamento técnico módulos 2–6 (HTML original)
-- [ ] Módulo 2: Contemplação — backend (runContemplation + buildContemplationProjection)
-- [ ] Módulo 2: Contemplação — procedure tRPC raiox.contemplacao
-- [ ] Módulo 2: Contemplação — testes Vitest
-- [ ] Módulo 2: Contemplação — página com inputs, KPIs, tabelas, TransparencyBlock, PDF
+- [x] Módulo 2: Contemplação — backend (runContemplation + buildContemplationProjection)
+- [x] Módulo 2: Contemplação — procedure tRPC raiox.contemplacao
+- [x] Módulo 2: Contemplação — testes Vitest
+- [x] Módulo 2: Contemplação — página com inputs, KPIs, tabelas, TransparencyBlock, PDF
+
+## Sprint Final — Módulos 3 a 6
+- [ ] Módulo 3: backend server/lib/custoOperacao.ts (runOperationCost fiel ao HTML)
+- [ ] Módulo 3: procedure tRPC raiox.custoOperacao
+- [ ] Módulo 3: testes Vitest (cenário padrão)
+- [ ] Módulo 3: página SimuladorCustoOperacao.tsx (RaioXLayout, tabela classificação, tabela fluxo)
+- [ ] Módulo 3: PDF pdfCustoOperacao.ts (logo + rodapé jurídico)
+- [ ] Módulo 4: backend server/lib/proporcaoTaxa.ts (runEfficiency fiel ao HTML)
+- [ ] Módulo 4: procedure tRPC raiox.proporcaoTaxa
+- [ ] Módulo 4: testes Vitest (cenário padrão)
+- [ ] Módulo 4: página SimuladorProporcaoTaxa.tsx (RaioXLayout, barra de cores, tabela indicadores)
+- [ ] Módulo 4: PDF pdfProporcaoTaxa.ts (logo + rodapé jurídico)
+- [ ] Módulo 5: backend server/lib/historicoCorrecoes.ts (runCorrections fiel ao HTML)
+- [ ] Módulo 5: procedure tRPC raiox.historicoCorrecoes
+- [ ] Módulo 5: testes Vitest (cenário padrão)
+- [ ] Módulo 5: página SimuladorHistoricoCorrecoes.tsx (RaioXLayout, tabela anual)
+- [ ] Módulo 5: PDF pdfHistoricoCorrecoes.ts (logo + rodapé jurídico)
+- [ ] Módulo 6: backend server/lib/autoPagavel.ts (runAutoPayable fiel ao HTML)
+- [ ] Módulo 6: procedure tRPC raiox.autoPagavel
+- [ ] Módulo 6: testes Vitest (cenário padrão)
+- [ ] Módulo 6: página SimuladorAutoPagavel.tsx (RaioXLayout, tabela comparação patrimônio)
+- [ ] Módulo 6: PDF pdfAutoPagavel.ts (logo + rodapé jurídico)
+- [ ] Catálogo simuladores.ts: atualizar status módulos 3-6 para disponivel
+- [ ] App.tsx: registrar rotas módulos 3-6
+- [ ] Header: atualizar navegação com links para todos os 6 módulos

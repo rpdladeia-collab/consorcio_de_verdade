@@ -17,6 +17,10 @@ import SimuladorZonaContemplacao from "./pages/SimuladorZonaContemplacao";
 import SimuladorLanceLivre from "./pages/SimuladorLanceLivre";
 import SimuladorSimulePlano from "./pages/SimuladorSimulePlano";
 import SimuladorContemplacao from "./pages/SimuladorContemplacao";
+import SimuladorCustoOperacao from "./pages/SimuladorCustoOperacao";
+import SimuladorProporcaoTaxa from "./pages/SimuladorProporcaoTaxa";
+import SimuladorHistoricoCorrecoes from "./pages/SimuladorHistoricoCorrecoes";
+import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
 
 function Router() {
   return (
@@ -28,6 +32,10 @@ function Router() {
       <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
       <Route path={"/simulador/simule-seu-plano"} component={SimuladorSimulePlano} />
       <Route path={"/simulador/contemplacao"} component={SimuladorContemplacao} />
+      <Route path={"/simulador/custo-operacao"} component={SimuladorCustoOperacao} />
+      <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
+      <Route path={"/simulador/historico-correcoes"} component={SimuladorHistoricoCorrecoes} />
+      <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
       <Route path={"/sobre"} component={Sobre} />
       <Route path={"/contato"} component={Contato} />
       <Route path={"/termos"} component={Termos} />
