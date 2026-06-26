@@ -4,7 +4,7 @@
  * Matemática: fiel ao HTML original (runEfficiency)
  */
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import {
   KpiCard, TransparencyBlock, ConsultCTA, PdfButton,
@@ -27,11 +27,13 @@ type Basis = "newMoney" | "liquidCredit";
 interface FormState {
   credit: string; adminPct: string; paid: string;
   own: string; fgts: string; embedded: string; basis: Basis;
+  totalParcelas: string;
 }
 
 const DEFAULT: FormState = {
   credit: "300000", adminPct: "16", paid: "12",
   own: "60000", fgts: "0", embedded: "60000", basis: "newMoney",
+  totalParcelas: "120",
 };
 
 const METER_COLOR: Record<string, string> = {
@@ -51,15 +53,129 @@ export default function SimuladorProporcaoTaxa() {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
   function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    const tp = parseInt(form.totalParcelas) || 0;
     mutation.mutate({
       credit: num(form.credit), adminPct: num(form.adminPct),
       paid: num(form.paid), own: num(form.own),
       fgts: num(form.fgts), embedded: num(form.embedded),
       basis: form.basis,
+      totalParcelas: tp > 0 ? tp : undefined,
     });
   }
+
+  // Desenhar gráfico Canvas de degradação
+  useEffect(() => {
+    const deg = result?.degradacao;
+    const canvas = canvasRef.current;
+    if (!deg || !canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    const W = canvas.width;
+    const H = canvas.height;
+    const PAD = { top: 24, right: 20, bottom: 36, left: 52 };
+    const chartW = W - PAD.left - PAD.right;
+    const chartH = H - PAD.top - PAD.bottom;
+
+    ctx.clearRect(0, 0, W, H);
+
+    // Fundo
+    ctx.fillStyle = "#1a1a1a";
+    ctx.fillRect(0, 0, W, H);
+
+    const rows = deg.rows.filter((r) => isFinite(r.eficiencia));
+    if (rows.length < 2) return;
+
+    const maxParcela = rows[rows.length - 1].parcela;
+    const minEf = Math.min(...rows.map((r) => r.eficiencia));
+    const maxEf = Math.max(...rows.map((r) => r.eficiencia));
+    const efRange = maxEf - minEf || 1;
+    const efMin = Math.max(0, minEf - 5);
+    const efMax = maxEf + 5;
+
+    function xOf(parcela: number) {
+      return PAD.left + (parcela / maxParcela) * chartW;
+    }
+    function yOf(ef: number) {
+      return PAD.top + chartH - ((ef - efMin) / (efMax - efMin)) * chartH;
+    }
+
+    // Linhas de grade horizontais
+    ctx.strokeStyle = "#333";
+    ctx.lineWidth = 1;
+    for (let ef = Math.ceil(efMin / 10) * 10; ef <= efMax; ef += 10) {
+      const y = yOf(ef);
+      ctx.beginPath();
+      ctx.moveTo(PAD.left, y);
+      ctx.lineTo(PAD.left + chartW, y);
+      ctx.stroke();
+      ctx.fillStyle = "#888";
+      ctx.font = "10px sans-serif";
+      ctx.textAlign = "right";
+      ctx.fillText(ef.toFixed(0) + "%", PAD.left - 6, y + 4);
+    }
+
+    // Eixo X — rótulos de parcelas
+    ctx.fillStyle = "#888";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "center";
+    rows.forEach((r) => {
+      const x = xOf(r.parcela);
+      ctx.fillText(String(r.parcela), x, H - 8);
+    });
+
+    // Gradiente de preenchimento
+    const grad = ctx.createLinearGradient(0, PAD.top, 0, PAD.top + chartH);
+    grad.addColorStop(0, "rgba(242,106,33,0.35)");
+    grad.addColorStop(1, "rgba(242,106,33,0.02)");
+    ctx.beginPath();
+    ctx.moveTo(xOf(rows[0].parcela), yOf(rows[0].eficiencia));
+    rows.forEach((r) => ctx.lineTo(xOf(r.parcela), yOf(r.eficiencia)));
+    ctx.lineTo(xOf(rows[rows.length - 1].parcela), PAD.top + chartH);
+    ctx.lineTo(xOf(rows[0].parcela), PAD.top + chartH);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Linha principal
+    ctx.beginPath();
+    ctx.strokeStyle = "#F26A21";
+    ctx.lineWidth = 2.5;
+    ctx.lineJoin = "round";
+    rows.forEach((r, i) => {
+      const x = xOf(r.parcela);
+      const y = yOf(r.eficiencia);
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    });
+    ctx.stroke();
+
+    // Pontos
+    rows.forEach((r) => {
+      const x = xOf(r.parcela);
+      const y = yOf(r.eficiencia);
+      ctx.beginPath();
+      ctx.arc(x, y, 4, 0, Math.PI * 2);
+      ctx.fillStyle = "#F26A21";
+      ctx.fill();
+      ctx.strokeStyle = "#fff";
+      ctx.lineWidth = 1.5;
+      ctx.stroke();
+    });
+
+    // Rótulo do eixo Y
+    ctx.save();
+    ctx.translate(14, PAD.top + chartH / 2);
+    ctx.rotate(-Math.PI / 2);
+    ctx.fillStyle = "#888";
+    ctx.font = "10px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("Eficiência (%)", 0, 0);
+    ctx.restore();
+  }, [result]);
 
   async function handlePdf() {
     if (!result) return;
@@ -115,6 +231,13 @@ export default function SimuladorProporcaoTaxa() {
             <option value="newMoney">Dinheiro novo (padrão)</option>
             <option value="liquidCredit">Carta líquida</option>
           </select>
+        </label>
+        <label className="block col-span-2">
+          <span className="text-xs font-medium text-foreground/60">Total de parcelas do grupo</span>
+          <input type="number" min="1" max="360" step="1" className="input mt-1 w-full"
+            placeholder="Ex: 120"
+            value={form.totalParcelas} onChange={(e) => set("totalParcelas", e.target.value)} />
+          <span className="text-xs text-foreground/40 mt-0.5 block">Necessário para análise de degradação progressiva</span>
         </label>
       </div>
 
@@ -214,10 +337,128 @@ export default function SimuladorProporcaoTaxa() {
           formula: "taxa sobre dinheiro novo − taxa nominal" },
       ]} />
 
+      {/* ── DEGRADAÇÃO PROGRESSIVA ─────────────────────────────────────── */}
+      {result.degradacao && (() => {
+        const deg = result.degradacao!;
+        const alertColors: Record<string, string> = {
+          ok: "border-green-500 bg-green-500/10 text-green-400",
+          atencao: "border-amber-400 bg-amber-400/10 text-amber-300",
+          alerta: "border-orange-500 bg-orange-500/10 text-orange-300",
+          critico: "border-red-500 bg-red-500/10 text-red-400",
+        };
+        const alertCls = alertColors[deg.alerta.nivel] ?? alertColors.ok;
+        return (
+          <div className="space-y-5">
+            {/* Título da seção */}
+            <div className="border-t border-border pt-5">
+              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-1">Análise de Degradação Progressiva</p>
+              <p className="text-xs text-foreground/50">Impacto real da taxa sobre o dinheiro novo a cada parcela paga sem contemplação.</p>
+            </div>
+
+            {/* Alerta */}
+            <div className={`rounded-xl border-2 p-4 ${alertCls}`}>
+              <p className="font-bold text-sm mb-1">{deg.alerta.titulo}</p>
+              <p className="text-sm opacity-90">{deg.alerta.mensagem}</p>
+            </div>
+
+            {/* Gráfico Canvas */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Gráfico de Degradação Progressiva</p>
+              <canvas
+                ref={canvasRef}
+                width={560}
+                height={220}
+                className="w-full rounded-xl"
+                style={{ display: "block" }}
+              />
+            </div>
+
+            {/* Tabela progressiva */}
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Progressão por Parcela</p>
+              <div className="rounded-xl border border-border overflow-hidden">
+                <div className="max-h-[400px] overflow-y-auto">
+                  <table className="w-full text-xs">
+                    <thead className="sticky top-0 bg-[var(--ink)] text-white">
+                      <tr>
+                        <th className="px-3 py-2.5 text-center font-semibold">Parcela</th>
+                        <th className="px-3 py-2.5 text-right font-semibold">Desembolso acum.</th>
+                        <th className="px-3 py-2.5 text-right font-semibold">Dinheiro novo</th>
+                        <th className="px-3 py-2.5 text-right font-semibold">Taxa efetiva</th>
+                        <th className="px-3 py-2.5 text-right font-semibold">Eficiência</th>
+                        <th className="px-3 py-2.5 text-right font-semibold">Degradação</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {deg.rows.map((row, i) => {
+                        const isLast = i === deg.rows.length - 1;
+                        const degCls = row.degradacao > 35 ? "text-red-400 font-bold" :
+                          row.degradacao > 20 ? "text-orange-400 font-semibold" :
+                          row.degradacao > 10 ? "text-amber-400" : "text-foreground/70";
+                        return (
+                          <tr key={i} className={`${i % 2 === 0 ? "bg-card" : "bg-secondary/30"} ${isLast ? "border-t-2 border-[var(--orange)]" : ""}`}>
+                            <td className="px-3 py-2 text-center font-mono font-semibold">{row.parcela}</td>
+                            <td className="px-3 py-2 text-right font-mono">
+                              {row.desembolsoAcumulado.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono">
+                              {row.dinheiroNovo > 0
+                                ? row.dinheiroNovo.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })
+                                : <span className="text-red-400">Sem base</span>}
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono">
+                              {isFinite(row.taxaEfetiva) ? pct2(row.taxaEfetiva) : <span className="text-red-400">∞</span>}
+                            </td>
+                            <td className="px-3 py-2 text-right font-mono">
+                              {isFinite(row.eficiencia) ? pct2(row.eficiencia) : "—"}
+                            </td>
+                            <td className={`px-3 py-2 text-right font-mono ${degCls}`}>
+                              {pct2(row.degradacao)}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+            {/* Relatório final — Cenário Sem Contemplação */}
+            <div className="bg-[#F5F0E8] rounded-xl border border-[#DDD6C8] p-4 space-y-2">
+              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Relatório Final — Cenário Sem Contemplação</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="bg-white/70 rounded-lg p-3">
+                  <p className="text-xs text-foreground/50 mb-0.5">Eficiência inicial</p>
+                  <p className="font-bold text-lg text-green-600">{pct2(deg.eficienciaInicial)}</p>
+                </div>
+                <div className="bg-white/70 rounded-lg p-3">
+                  <p className="text-xs text-foreground/50 mb-0.5">Eficiência na parcela {deg.rows[deg.rows.length-1]?.parcela}</p>
+                  <p className={`font-bold text-lg ${deg.eficienciaFinal < 50 ? "text-red-500" : deg.eficienciaFinal < 70 ? "text-amber-500" : "text-green-600"}`}>{pct2(deg.eficienciaFinal)}</p>
+                </div>
+                <div className="bg-white/70 rounded-lg p-3">
+                  <p className="text-xs text-foreground/50 mb-0.5">Perda total de eficiência</p>
+                  <p className="font-bold text-lg text-red-500">{pct2(deg.perdaTotal)}</p>
+                </div>
+                <div className="bg-white/70 rounded-lg p-3">
+                  <p className="text-xs text-foreground/50 mb-0.5">Impacto em R$</p>
+                  <p className="font-bold text-lg text-foreground">
+                    {deg.impactoReais.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
+                  </p>
+                  <p className="text-xs text-foreground/40 mt-0.5">a mais em taxa sobre dinheiro novo</p>
+                </div>
+              </div>
+              <p className="text-xs text-foreground/40 mt-2">⚠️ Este simulador assume parcelas regulares e taxa de administração distribuída linearmente.</p>
+            </div>
+          </div>
+        );
+      })()}
+
       <MethodologyBlock sources={[
         "Lógica extraída do HTML original Raio-X do Consórcio (runEfficiency).",
         "Dinheiro novo = carta líquida − parcelas pagas − lances próprios.",
         "Termômetro: verde ≤ 20%, amarelo ≤ 35%, vermelho > 35% sobre dinheiro novo.",
+        "Degradação progressiva: calculada por parcela conforme especificação técnica aprovada.",
         "Motor Matemático v1.0 · Cálculo executado no servidor (tRPC).",
       ]} />
 

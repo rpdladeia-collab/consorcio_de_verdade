@@ -131,6 +131,7 @@ export const raioxRouter = router({
         fgts: z.number().min(0).default(0),
         embedded: z.number().min(0).default(0),
         basis: z.enum(['newMoney', 'liquidCredit']).default('newMoney'),
+        totalParcelas: z.number().int().min(1).max(360).optional(),
       })
     )
     .mutation(({ input }) => {
@@ -142,6 +143,7 @@ export const raioxRouter = router({
         fgts: input.fgts,
         embedded: input.embedded,
         basis: input.basis,
+        totalParcelas: input.totalParcelas,
       });
     }),
 

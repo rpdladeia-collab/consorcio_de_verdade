@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from 'vitest';
 import { runOperationCost } from './lib/custoOperacao';
-import { runEfficiency } from './lib/proporcaoTaxa';
+import { runEfficiency, calcDegradacaoProgressiva } from './lib/proporcaoTaxa';
 import { runCorrections } from './lib/historicoCorrecoes';
 import { runAutoPayable } from './lib/autoPagavel';
 
@@ -102,6 +102,111 @@ describe('Módulo 4 — Proporção da Taxa', () => {
   it('meter tem widthPct entre 0 e 100', () => {
     expect(result.meter.widthPct).toBeGreaterThanOrEqual(0);
     expect(result.meter.widthPct).toBeLessThanOrEqual(100);
+  });
+});
+
+// ─── Módulo 4 — Degradação Progressiva ────────────────────────────────────────
+describe('Módulo 4 — Degradação Progressiva de Eficiência', () => {
+  /**
+   * Cenário golden (conforme especificação exata do anexo):
+   *   Carta = 300.000 | Taxa adm. = 16% | Lance próprio = 60.000
+   *   FGTS = 0 | Embutido = 60.000 | Total parcelas = 120
+   *   Admin total = 48.000 | Valor parcela = 48.000 / 120 = 400
+   *
+   * Parcela 0 (tabela obrigatória do anexo):
+   *   Desembolso = R$ 0,00
+   *   Dinheiro novo = 300.000 (carta cheia)
+   *   Taxa efetiva = (16 * 300.000) / 300.000 = 16,00%
+   *   Eficiência = (16 / 16) * 100 = 100,00%
+   *   Degradação = 0,00%
+   *
+   * Parcela 120:
+   *   Desembolso = 60.000 + 0 + (400 * 120) = 108.000
+   *   Dinheiro novo = 300.000 - 60.000 - (400*120) - 60.000 - 0 = 132.000
+   *   Taxa efetiva = (16 * 300.000) / 132.000 = 36,364%
+   *   Eficiência = (16 / 36,364) * 100 = 44,00%
+   *   Degradação = 100,00 - 44,00 = 56,00%
+   */
+  const deg = calcDegradacaoProgressiva(300_000, 16, 60_000, 0, 60_000, 120);
+
+  it('retorna resultado sem erros', () => {
+    expect(deg).toBeDefined();
+    expect(deg.rows.length).toBeGreaterThan(0);
+  });
+
+  it('primeira linha é a parcela 0', () => {
+    expect(deg.rows[0].parcela).toBe(0);
+  });
+
+  it('última linha é a parcela 120', () => {
+    expect(deg.rows[deg.rows.length - 1].parcela).toBe(120);
+  });
+
+  it('eficiência inicial = 100,00% (parcela 0 — tabela obrigatória do anexo)', () => {
+    expect(deg.eficienciaInicial).toBeCloseTo(100.0, 1);
+  });
+
+  it('eficiência final ≈ 44,00% (parcela 120)', () => {
+    expect(deg.eficienciaFinal).toBeCloseTo(44.0, 1);
+  });
+
+  it('perda total ≈ 56,00% (100 - 44)', () => {
+    expect(deg.perdaTotal).toBeCloseTo(56.0, 1);
+  });
+
+  it('dinheiro novo na parcela 0 = 300.000 (carta cheia, desembolso R$0)', () => {
+    expect(deg.rows[0].dinheiroNovo).toBeCloseTo(300_000, 0);
+  });
+
+  it('dinheiro novo na parcela 120 ≈ 132.000', () => {
+    expect(deg.rows[deg.rows.length - 1].dinheiroNovo).toBeCloseTo(132_000, 0);
+  });
+
+  it('taxa efetiva na parcela 0 = 16,00% (igual à nominal — eficiência 100%)', () => {
+    expect(deg.rows[0].taxaEfetiva).toBeCloseTo(16.0, 2);
+  });
+
+  it('taxa efetiva na parcela 120 ≈ 36,36%', () => {
+    expect(deg.rows[deg.rows.length - 1].taxaEfetiva).toBeCloseTo(36.364, 2);
+  });
+
+  it('degradação na parcela 0 = 0', () => {
+    expect(deg.rows[0].degradacao).toBeCloseTo(0, 2);
+  });
+
+  it('desembolso na parcela 0 = R$ 0,00 (conforme tabela obrigatória do anexo)', () => {
+    expect(deg.rows[0].desembolsoAcumulado).toBeCloseTo(0, 0);
+  });
+
+  it('alerta nivel é critico (perda > 35%)', () => {
+    expect(deg.alerta.nivel).toBe('critico');
+  });
+
+  it('valor da parcela ≈ 400 (48.000 / 120)', () => {
+    expect(deg.valorParcela).toBeCloseTo(400, 0);
+  });
+
+  it('impactoReais é número positivo', () => {
+    expect(deg.impactoReais).toBeGreaterThan(0);
+  });
+
+  it('runEfficiency com totalParcelas retorna campo degradacao', () => {
+    const r = runEfficiency({
+      credit: 300_000, adminPct: 16, paid: 30_000,
+      own: 60_000, fgts: 0, embedded: 60_000,
+      basis: 'newMoney' as const, totalParcelas: 120,
+    });
+    expect(r.degradacao).toBeDefined();
+    expect(r.degradacao!.rows.length).toBeGreaterThan(0);
+  });
+
+  it('runEfficiency sem totalParcelas não retorna degradacao', () => {
+    const r = runEfficiency({
+      credit: 300_000, adminPct: 16, paid: 30_000,
+      own: 60_000, fgts: 0, embedded: 60_000,
+      basis: 'newMoney' as const,
+    });
+    expect(r.degradacao).toBeUndefined();
   });
 });
 

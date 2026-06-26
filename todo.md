@@ -63,3 +63,12 @@
 - [x] client/src/App.tsx — rota /zona-contemplacao
 - [x] Validação visual (screenshot) e testes passando
 - [x] Checkpoint salvo
+
+## Proporção da Taxa — Degradação Progressiva de Eficiência
+- [x] server/lib/proporcaoTaxa.ts — adicionar função calcDegradacaoProgressiva (tabela por parcela)
+- [x] server/routers/raiox.ts — expor dados de degradação no resultado da procedure (totalParcelas opcional)
+- [x] server/modulos3a6.test.ts — testes golden para degradação progressiva (16 novos testes)
+- [x] client/src/pages/SimuladorProporcaoTaxa.tsx — tabela progressiva (parcelas 0,5,10...N)
+- [x] client/src/pages/SimuladorProporcaoTaxa.tsx — gráfico Canvas de degradação (linha descendente)
+- [x] client/src/pages/SimuladorProporcaoTaxa.tsx — alertas 3 níveis (atenção/alerta/crítico)
+- [x] client/src/pages/SimuladorProporcaoTaxa.tsx — relatório final "Cenário Sem Contemplação"

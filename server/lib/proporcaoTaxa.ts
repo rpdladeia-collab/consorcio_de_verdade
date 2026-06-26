@@ -31,6 +31,7 @@ export interface ProporcaoTaxaInput {
   fgts: number;
   embedded: number;
   basis: 'newMoney' | 'liquidCredit';
+  totalParcelas?: number;  // Para cálculo de degradação progressiva
 }
 
 export interface ProporcaoTaxaKpis {
@@ -53,6 +54,33 @@ export interface ProporcaoTaxaTableRow {
   reading: string;
 }
 
+export interface DegradacaoRow {
+  parcela: number;          // Número da parcela (0, 5, 10, ...)
+  desembolsoAcumulado: number; // Lance próprio + FGTS + (parcela × valor parcela)
+  dinheiroNovo: number;     // Carta - desembolso - embutido
+  taxaEfetiva: number;      // (taxaNominal × carta) / dinheiroNovo
+  eficiencia: number;       // (taxaNominal / taxaEfetiva) × 100
+  degradacao: number;       // eficienciaInicial - eficienciaAtual
+}
+
+export type AlertaNivel = 'ok' | 'atencao' | 'alerta' | 'critico';
+
+export interface DegradacaoAlerta {
+  nivel: AlertaNivel;
+  titulo: string;
+  mensagem: string;
+}
+
+export interface DegradacaoResult {
+  rows: DegradacaoRow[];
+  alerta: DegradacaoAlerta;
+  eficienciaInicial: number;
+  eficienciaFinal: number;
+  perdaTotal: number;
+  impactoReais: number;     // Quanto a mais em taxa pelo dinheiro novo vs. nominal
+  valorParcela: number;     // Parcela calculada = (carta × adminPct/100) / totalParcelas
+}
+
 export interface ProporcaoTaxaResult {
   kpis: ProporcaoTaxaKpis;
   // Valores derivados para exibição
@@ -66,6 +94,120 @@ export interface ProporcaoTaxaResult {
   table: ProporcaoTaxaTableRow[];
   simulationId: string;
   generatedAt: string;
+  degradacao?: DegradacaoResult;
+}
+
+/**
+ * Calcula a degradação progressiva de eficiência por parcela.
+ * Fórmulas exatas conforme especificação:
+ *   Dinheiro novo (i) = Carta - Lance próprio - (Parcela × i) - Embutido - FGTS
+ *   Taxa efetiva (i)  = (Taxa nominal × Carta) / Dinheiro novo (i)
+ *   Eficiência (i)    = (Taxa nominal / Taxa efetiva (i)) × 100
+ *   Degradação (i)   = Eficiência inicial - Eficiência (i)
+ */
+export function calcDegradacaoProgressiva(
+  credit: number,
+  adminPct: number,
+  own: number,
+  fgts: number,
+  embedded: number,
+  totalParcelas: number,
+): DegradacaoResult {
+  /**
+   * Especificação exata do anexo:
+   *   Parcela 0: desembolso = R$ 0,00, dinheiro novo = carta cheia, eficiência = 100%
+   *   Parcela i: desembolso = lance próprio + FGTS + (valor_parcela × i)
+   *              dinheiro novo = carta - lance próprio - (valor_parcela × i) - embutido - FGTS
+   *   Taxa efetiva (i) = (taxa_nominal × carta) / dinheiro_novo(i)
+   *   Eficiência (i)   = (taxa_nominal / taxa_efetiva(i)) × 100
+   *   Degradação (i)  = eficiência_inicial - eficiência(i)
+   *
+   * Nota: na parcela 0, o desembolso é R$0 (nenhuma parcela paga ainda, lance/FGTS
+   * ainda não foram desembolsados no contexto da degradação progressiva).
+   * Isso produz eficiência inicial = 100% conforme tabela obrigatória do anexo.
+   */
+  const taxaNominal = adminPct; // já em %
+  const adminValue = credit * adminPct / 100;
+  // Valor de cada parcela = taxa total / número de parcelas
+  const valorParcela = totalParcelas > 0 ? adminValue / totalParcelas : 0;
+
+  // Pontos de análise: 0, 5, 10, 15, 20, 25, 30, e o último (totalParcelas)
+  const checkpoints = new Set<number>([0]);
+  for (let i = 5; i < totalParcelas; i += 5) checkpoints.add(i);
+  checkpoints.add(totalParcelas);
+  const pontos = Array.from(checkpoints).sort((a, b) => a - b);
+
+  const rows: DegradacaoRow[] = [];
+  const eficienciaInicial = 100; // Parcela 0: desembolso R$0, dinheiro novo = carta, eficiência = 100%
+
+  for (const i of pontos) {
+    let desembolsoAcumulado: number;
+    let dinheiroNovo: number;
+
+    if (i === 0) {
+      // Parcela 0: conforme tabela obrigatória do anexo — desembolso R$0, dinheiro novo = carta
+      desembolsoAcumulado = 0;
+      dinheiroNovo = credit;
+    } else {
+      // Parcela i: desembolso = lance próprio + FGTS + (valor_parcela × i)
+      desembolsoAcumulado = own + fgts + (valorParcela * i);
+      dinheiroNovo = Math.max(0, credit - own - (valorParcela * i) - embedded - fgts);
+    }
+
+    let taxaEfetiva: number;
+    let eficiencia: number;
+    if (dinheiroNovo <= 0) {
+      taxaEfetiva = Infinity;
+      eficiencia = 0;
+    } else {
+      taxaEfetiva = (taxaNominal * credit) / dinheiroNovo;
+      eficiencia = taxaEfetiva > 0 ? (taxaNominal / taxaEfetiva) * 100 : 100;
+    }
+
+    const degradacao = eficienciaInicial - eficiencia;
+    rows.push({ parcela: i, desembolsoAcumulado, dinheiroNovo, taxaEfetiva, eficiencia, degradacao });
+  }
+
+  const eficienciaFinal = rows[rows.length - 1]?.eficiencia ?? 0;
+  const perdaTotal = eficienciaInicial - eficienciaFinal;
+
+  // Impacto em R$: diferenca entre taxa efetiva final e nominal sobre dinheiro novo final
+  const ultimaRow = rows[rows.length - 1];
+  const dinheiroNovoFinal = ultimaRow?.dinheiroNovo ?? 0;
+  const taxaEfetivaFinal = ultimaRow?.taxaEfetiva ?? taxaNominal;
+  const impactoReais = dinheiroNovoFinal > 0 && isFinite(taxaEfetivaFinal)
+    ? (taxaEfetivaFinal - taxaNominal) / 100 * dinheiroNovoFinal
+    : 0;
+
+  // Alerta baseado na degradação final
+  let alerta: DegradacaoAlerta;
+  if (perdaTotal > 35) {
+    alerta = {
+      nivel: 'critico',
+      titulo: `🔴 CRÍTICO: Sua eficiência caiu ${perdaTotal.toFixed(1)}%`,
+      mensagem: `VOCÊ ESTÁ PAGANDO UMA TAXA MUITO ALTA SOBRE DINHEIRO NOVO. A operação perdeu eficiência. Considere negociar sua contemplação.`,
+    };
+  } else if (perdaTotal > 20) {
+    alerta = {
+      nivel: 'alerta',
+      titulo: `⚠️⚠️ ALERTA: Sua eficiência caiu ${perdaTotal.toFixed(1)}%`,
+      mensagem: `Você está pagando taxa de ${isFinite(taxaEfetivaFinal) ? taxaEfetivaFinal.toFixed(1) : '?'}% sobre dinheiro novo. Reavalie sua posição no consórcio.`,
+    };
+  } else if (perdaTotal > 10) {
+    alerta = {
+      nivel: 'atencao',
+      titulo: `⚠️ ATENÇÃO: Sua eficiência caiu ${perdaTotal.toFixed(1)}%`,
+      mensagem: `A cada parcela paga SEM contemplação, a taxa efetiva aumenta.`,
+    };
+  } else {
+    alerta = {
+      nivel: 'ok',
+      titulo: 'Eficiência preservada',
+      mensagem: `A degradação acumulada até a parcela ${totalParcelas} é de ${perdaTotal.toFixed(1)}%. Operação dentro do esperado.`,
+    };
+  }
+
+  return { rows, alerta, eficienciaInicial, eficienciaFinal, perdaTotal, impactoReais, valorParcela };
 }
 
 function generateSimulationId(input: ProporcaoTaxaInput, penalty: number): string {
@@ -156,6 +298,14 @@ export function runEfficiency(input: ProporcaoTaxaInput): ProporcaoTaxaResult {
   const simulationId = generateSimulationId(input, Number.isFinite(penalty) ? penalty : 999);
   const generatedAt = new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' });
 
+  // Degradação progressiva (opcional — só quando totalParcelas é informado)
+  let degradacao: DegradacaoResult | undefined;
+  if (input.totalParcelas && input.totalParcelas > 0) {
+    degradacao = calcDegradacaoProgressiva(
+      credit, adminPct, own, fgts, embedded, input.totalParcelas,
+    );
+  }
+
   return {
     kpis,
     adminValue,
@@ -166,5 +316,6 @@ export function runEfficiency(input: ProporcaoTaxaInput): ProporcaoTaxaResult {
     table,
     simulationId,
     generatedAt,
+    degradacao,
   };
 }
