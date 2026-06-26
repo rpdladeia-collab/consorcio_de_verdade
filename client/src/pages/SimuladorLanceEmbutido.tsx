@@ -245,7 +245,7 @@ export default function SimuladorLanceEmbutido() {
                 )}
 
                 {/* KPIs principais */}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <KpiCard label="Crédito líquido disponível" value={formatBRL(result.liquidCredit)} hint="O que você realmente recebe" highlight />
                   <KpiCard label="Lance embutido efetivo" value={formatBRL(result.embeddedValue)} hint={`${formatPct(result.inputs.embeddedPct)} da base`} tone="orange" />
                   <KpiCard label="Crédito preservado" value={formatPct(result.creditPreserved)} hint={result.credLabel} tone={result.creditPreserved >= 80 ? "positive" : "negative"} />

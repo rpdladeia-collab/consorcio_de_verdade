@@ -163,7 +163,7 @@ export default function SimuladorSimulePlano() {
         Parâmetros do plano
       </p>
 
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <FieldRow label="Carta de crédito (R$)" hint="Valor nominal contratado">
           <TextInput value={form.credit} onChange={set("credit")} placeholder="300000" suffix="R$" />
         </FieldRow>
@@ -238,7 +238,7 @@ export default function SimuladorSimulePlano() {
       )}
 
       {/* KPIs — grid 2×2 */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="1ª parcela" value={formatBRLCents(first)}
           hint="Parcela estimada no mês 1" tone="positive" />
         <KpiCard label="Maior parcela" value={formatBRLCents(maxInstallment)}

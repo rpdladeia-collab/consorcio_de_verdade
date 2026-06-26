@@ -67,7 +67,7 @@ export default function SimuladorHistoricoCorrecoes() {
       <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
         Dados do plano
       </p>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
           <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -97,7 +97,7 @@ export default function SimuladorHistoricoCorrecoes() {
 
       <Collapsible title="Parâmetros de correção" subtitle="Índice e periodicidade"
         open={advancedOpen} onToggle={() => setAdvancedOpen(!advancedOpen)}>
-        <div className="grid grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <label className="block">
             <span className="text-xs font-medium text-foreground/60">Correção (% a.a.)</span>
             <input type="number" min="0" step="0.1" className="input mt-1 w-full"
@@ -142,7 +142,7 @@ export default function SimuladorHistoricoCorrecoes() {
   const resultsPanel = result ? (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Carta inicial" value={brl(result.kpis.creditInicial)}
           hint="Carta de crédito no início do plano" tone="default" />
         <KpiCard label="Carta final projetada" value={brl(result.kpis.creditFinal)}
@@ -171,7 +171,7 @@ export default function SimuladorHistoricoCorrecoes() {
           Tabela anual de correções
         </p>
         <div className="rounded-xl border border-border overflow-hidden">
-          <div className="max-h-[480px] overflow-y-auto">
+          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
             <table className="w-full text-xs min-w-[700px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>

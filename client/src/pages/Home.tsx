@@ -32,10 +32,10 @@ export default function Home() {
   return (
     <div>
       {/* ============================ HERO ============================ */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden w-full max-w-[100vw]">
         <div className="absolute inset-0 bg-gradient-to-b from-[var(--orange-soft)]/40 to-transparent pointer-events-none" />
-        <div className="container-wide px-5 lg:px-8 relative">
-          <div className="max-w-3xl mx-auto text-center pt-20 pb-24 md:pt-28 md:pb-32">
+        <div className="w-full px-4 md:px-5 lg:px-8 relative">
+          <div className="max-w-3xl mx-auto text-center pt-16 pb-20 md:pt-28 md:pb-32">
             <span className="seal mb-6 reveal">
               <ShieldCheck className="w-3.5 h-3.5" />
               Independente · sem venda de consórcio
@@ -49,10 +49,10 @@ export default function Home() {
               você entender consórcios sem promessa, pressão comercial ou conflito
               de interesse.
             </p>
-            <div className="flex flex-col sm:flex-row gap-3 justify-center mt-9 reveal">
+            <div className="flex flex-col gap-3 sm:flex-row justify-center mt-9 reveal w-full px-2 sm:px-0">
               <Link
                 href="/simuladores"
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-base font-semibold transition-transform hover:scale-[1.02]"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-base font-semibold transition-transform hover:scale-[1.02] w-full sm:w-auto min-h-[48px]"
               >
                 Acessar simuladores
                 <ArrowRight className="w-5 h-5" />
@@ -61,7 +61,7 @@ export default function Home() {
                 href={BRAND.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-base font-semibold hover:border-[var(--orange)] hover:text-[var(--orange)] transition-colors"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-border bg-card px-7 py-3.5 text-base font-semibold hover:border-[var(--orange)] hover:text-[var(--orange)] transition-colors w-full sm:w-auto min-h-[48px]"
               >
                 <MessageCircle className="w-5 h-5" />
                 Falar com especialista
@@ -75,14 +75,14 @@ export default function Home() {
       </section>
 
       {/* ==================== JORNADA POR DOR ==================== */}
-      <section className="container-wide px-5 lg:px-8 pb-8">
+      <section className="w-full px-4 md:px-5 lg:px-8 pb-8">
         <div className="text-center mb-12">
           <p className="eyebrow text-[var(--orange)] mb-2">Comece pela sua dúvida</p>
           <h2 className="text-3xl md:text-4xl font-extrabold">
             O que você quer descobrir?
           </h2>
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {(Object.keys(CATEGORIES) as CategoryKey[]).map((key) => {
             const c = CATEGORIES[key];
             return (
@@ -107,9 +107,9 @@ export default function Home() {
       </section>
 
       {/* ==================== AUTORIDADE / INDEPENDÊNCIA ==================== */}
-      <section className="dark bg-[var(--ink)] text-[var(--paper)] mt-20 py-20">
-        <div className="container-wide px-5 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="dark bg-[var(--ink)] text-[var(--paper)] mt-20 py-20 w-full max-w-[100vw]">
+        <div className="w-full px-4 md:px-5 lg:px-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <p className="eyebrow text-[var(--orange)] mb-3">Por que existimos</p>
               <h2 className="text-3xl md:text-4xl font-extrabold leading-tight">
@@ -124,7 +124,7 @@ export default function Home() {
                 matemática e com a sua decisão — não com o fechamento de um
                 contrato.
               </p>
-              <div className="mt-8 grid sm:grid-cols-3 gap-5">
+              <div className="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-5">
                 {[
                   { icon: <Lock className="w-5 h-5" />, t: "Cálculo protegido", d: "A lógica roda no servidor, não no seu navegador." },
                   { icon: <Eye className="w-5 h-5" />, t: "Transparente", d: "Memória de cálculo e metodologia abertas." },
@@ -167,7 +167,7 @@ export default function Home() {
       </section>
 
       {/* ==================== SIMULADORES EM DESTAQUE ==================== */}
-      <section className="container-wide px-5 lg:px-8 py-20">
+      <section className="w-full px-4 md:px-5 lg:px-8 py-20">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-10">
           <div>
             <p className="eyebrow text-[var(--orange)] mb-2">Mais usados</p>
@@ -183,7 +183,7 @@ export default function Home() {
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
-        <div className="grid md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
           {featured.map((s) => (
             <Link
               key={s.slug}
@@ -205,7 +205,7 @@ export default function Home() {
       </section>
 
       {/* ==================== COMERCIAL SUTIL ==================== */}
-      <section className="container-wide px-5 lg:px-8 pb-24">
+      <section className="w-full px-4 md:px-5 lg:px-8 pb-24">
         <div className="rounded-3xl bg-[var(--orange)] text-white p-10 md:p-14 text-center relative overflow-hidden">
           <div className="relative">
             <h2 className="text-3xl md:text-4xl font-extrabold max-w-2xl mx-auto leading-tight">

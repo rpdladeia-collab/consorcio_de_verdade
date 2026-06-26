@@ -72,3 +72,16 @@
 - [x] client/src/pages/SimuladorProporcaoTaxa.tsx — gráfico Canvas de degradação (linha descendente)
 - [x] client/src/pages/SimuladorProporcaoTaxa.tsx — alertas 3 níveis (atenção/alerta/crítico)
 - [x] client/src/pages/SimuladorProporcaoTaxa.tsx — relatório final "Cenário Sem Contemplação"
+
+## Sprint Responsividade Mobile
+- [ ] Layout global: overflow-x-hidden no body, viewport meta correto, html/body sem scroll horizontal
+- [ ] Containers: w-full, max-w-full, px-4/px-6 no mobile em todas as páginas
+- [ ] Tabelas: todas dentro de `<div className="w-full overflow-x-auto pb-4">` (Raio-X, Zona, Panorama)
+- [ ] Gráficos Canvas: 100% largura disponível, overflow-x-auto quando necessário
+- [ ] Grids 4 colunas → grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
+- [ ] Grids 2 colunas → grid-cols-1 lg:grid-cols-2
+- [ ] Inputs: empilhar no mobile (grid-cols-1 md:grid-cols-2), largura total, min-h-[44px]
+- [ ] Header mobile: logo esquerda, hambúrguer direita, 100vw, sem deslocamento
+- [ ] Hero: 100% largura, texto centralizado, botões empilhados, sem overflow
+- [ ] Validação visual 390px, 430px e 768px (Home, Panorama, Raio-X, Zona de Contemplação)
+- [ ] Checkpoint final responsividade

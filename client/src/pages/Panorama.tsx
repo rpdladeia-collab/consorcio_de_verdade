@@ -259,7 +259,7 @@ export default function Panorama() {
             marginTop: 30,
             display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
             gap: 1, background: "rgba(255,255,255,.12)", borderRadius: 10, overflow: "hidden",
-          }}>
+          }} className="!grid-cols-2 lg:!grid-cols-4">
             {[
               { num: "4,53 milhões", label: "cotas comercializadas em 2024" },
               { num: "11,4 milhões", label: "cotas ativas em dez/2024" },
@@ -294,13 +294,13 @@ export default function Panorama() {
             segmento que mais acelerou foi <strong>Imóveis</strong>, com crescimento de 333% nas
             vendas no período — bem acima da média do mercado.
           </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
             <MiniCard num="2,28 milhões" label="2016" note="cotas comercializadas" />
             <MiniCard num="4,53 milhões" label="2024" note="cotas comercializadas" variant="terra" />
             <MiniCard num="2,25 milhões" label="Diferença absoluta" note="2024 menos 2016" />
             <MiniCard num="Auto 1,76 mi" label="Maior produto em 2024" note="vendidas" variant="olive" />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }} className="!grid-cols-1 lg:!grid-cols-2">
             <ChartBox title="Cotas comercializadas — total" subtitle="escala inicia em zero">
               <BarChart data={totalVendidasData} />
             </ChartBox>
@@ -329,7 +329,7 @@ export default function Panorama() {
             de 63,0% para 56,9%, o índice continua o mais alto entre os quatro produtos: mais de
             metade de quem entra nesse segmento sai sem ser contemplado.
           </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
             <MiniCard num="50,2%" label="IE geral 2016" note="base BCB" />
             <MiniCard num="48,6%" label="IE geral 2024" note="base BCB" variant="terra" />
             <MiniCard num="-1,6 p.p." label="Variação" note="2024 menos 2016" />
@@ -421,13 +421,13 @@ export default function Panorama() {
             Em 2022, o maior índice por milhão de clientes foi 31 vezes maior que a média do mercado
             naquele ano (352,38 por milhão), evidenciando forte dispersão entre administradoras.
           </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
             <MiniCard num="6.400" label="Total 2025" note="reclamações BCB" variant="terra" />
             <MiniCard num="2.955" label="Procedentes 2025" note="reguladas procedentes" variant="terra" />
             <MiniCard num="5.618" label="Total 2024" note="reclamações BCB" />
             <MiniCard num="270,21" label="Índice 2025" note="procedentes por milhão de clientes" />
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 20 }} className="!grid-cols-1 lg:!grid-cols-2">
             <ChartBox title="Reclamações BCB — total" subtitle="procedentes + outras + não reguladas">
               <BarChart data={bcbTotalData} yMax={8000} />
             </ChartBox>
@@ -454,7 +454,7 @@ export default function Panorama() {
             saíram de 636 para 6.986. Isso representa crescimento de <strong>998%</strong> no
             período — quase 10 vezes mais reclamações.
           </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
             <MiniCard num="636" label="2016" note="reclamações registradas" />
             <MiniCard num="6.986" label="2025" note="reclamações registradas" variant="terra" />
             <MiniCard num="998%" label="Crescimento 2016–2025" note="quase 10 vezes mais reclamações" variant="terra" />
@@ -469,7 +469,7 @@ export default function Panorama() {
             <h4 style={{ margin: "0 0 12px", fontSize: 15, fontWeight: 700, fontFamily: "'Source Serif 4', serif" }}>
               Principais motivos — 2025
             </h4>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }} className="!grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3">
               {consumerGovTopReasons2025.map((r) => (
                 <div key={r.rank} style={{
                   background: "#15140f", color: "#f3efe6", borderRadius: 10,
@@ -514,7 +514,7 @@ export default function Panorama() {
             qualquer cenário, o que reforça a leitura de que o produto se sustenta por
             características próprias — incluindo o índice de exclusão estrutural visto na seção 2.
           </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }} className="!grid-cols-1 lg:!grid-cols-2">
             <ChartBox title="Selic e financiamento imobiliário" subtitle="pontos marcados por ano">
               <LineChart series={macroSelicSeries} percent yMin={0} yMax={0.2} legend />
             </ChartBox>
@@ -522,7 +522,7 @@ export default function Panorama() {
               <LineChart series={macroVendIESeries} percent yMin={0} yMax={1} legend />
             </ChartBox>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 10 }}>
+          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 10 }} className="!grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3">
             {macroMarkers.map((m) => (
               <div key={m.ano} style={{
                 background: "#15140f", color: "#f3efe6",

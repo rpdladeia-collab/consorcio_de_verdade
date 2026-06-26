@@ -60,8 +60,8 @@ export default function Simuladores() {
   return (
     <div>
       {/* ===================== HERO ===================== */}
-      <section className="dark bg-[var(--ink)] text-[var(--paper)] py-16 md:py-20">
-        <div className="container-wide px-5 lg:px-8">
+      <section className="dark bg-[var(--ink)] text-[var(--paper)] py-16 md:py-20 w-full max-w-[100vw]">
+        <div className="w-full px-4 md:px-5 lg:px-8">
           <div className="max-w-3xl">
             <p className="eyebrow text-[var(--orange)] mb-3">Centro de investigação</p>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.05]">
@@ -87,8 +87,8 @@ export default function Simuladores() {
       </section>
 
       {/* ===================== NAV POR DOR ===================== */}
-      <section className="border-b border-border sticky top-[64px] md:top-[72px] z-30 bg-background/85 backdrop-blur-md">
-        <div className="container-wide px-5 lg:px-8">
+      <section className="border-b border-border sticky top-[64px] md:top-[72px] z-30 bg-background/85 backdrop-blur-md w-full max-w-[100vw]">
+        <div className="w-full px-4 md:px-5 lg:px-8">
           <div className="flex gap-1 overflow-x-auto py-3 -mx-1 px-1 no-scrollbar">
             {categories.map((key) => (
               <a
@@ -105,7 +105,7 @@ export default function Simuladores() {
       </section>
 
       {/* ===================== GRUPOS POR DOR ===================== */}
-      <section className="container-wide px-5 lg:px-8 py-14 space-y-16">
+      <section className="w-full px-4 md:px-5 lg:px-8 py-14 space-y-16">
         {categories.map((key) => {
           const cat = CATEGORIES[key];
           const items = simuladoresByCategory(key);
@@ -121,7 +121,7 @@ export default function Simuladores() {
                 </div>
               </div>
 
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {items.map((s) => (
                   <Link
                     key={s.slug}
@@ -156,8 +156,8 @@ export default function Simuladores() {
       </section>
 
       {/* ===================== COMERCIAL SUTIL ===================== */}
-      <section className="container-wide px-5 lg:px-8 pb-24">
-        <div className="rounded-3xl border border-border bg-card p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
+      <section className="w-full px-4 md:px-5 lg:px-8 pb-24">
+        <div className="rounded-3xl border border-border bg-card p-6 md:p-12 flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
             <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
               Já simulou e quer uma leitura humana do resultado?

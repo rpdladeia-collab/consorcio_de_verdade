@@ -193,7 +193,7 @@ export default function SimuladorProporcaoTaxa() {
       <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
         Dados do plano
       </p>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
           <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -252,7 +252,7 @@ export default function SimuladorProporcaoTaxa() {
   const resultsPanel = result ? (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Taxa nominal (contratual)" value={pct2(result.kpis.nominal)}
           hint="Taxa de administração contratual" tone="default" />
         <KpiCard label="Taxa sobre carta líquida" value={pct2(result.kpis.onLiquid)}
@@ -300,7 +300,7 @@ export default function SimuladorProporcaoTaxa() {
           Tabela de indicadores
         </p>
         <div className="rounded-xl border border-border overflow-hidden">
-          <div className="max-h-[480px] overflow-y-auto">
+          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
             <table className="w-full text-sm">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
@@ -377,7 +377,7 @@ export default function SimuladorProporcaoTaxa() {
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Progressão por Parcela</p>
               <div className="rounded-xl border border-border overflow-hidden">
-                <div className="max-h-[400px] overflow-y-auto">
+                <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
                   <table className="w-full text-xs">
                     <thead className="sticky top-0 bg-[var(--ink)] text-white">
                       <tr>
@@ -427,7 +427,7 @@ export default function SimuladorProporcaoTaxa() {
             {/* Relatório final — Cenário Sem Contemplação */}
             <div className="bg-[#F5F0E8] rounded-xl border border-[#DDD6C8] p-4 space-y-2">
               <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Relatório Final — Cenário Sem Contemplação</p>
-              <div className="grid grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div className="bg-white/70 rounded-lg p-3">
                   <p className="text-xs text-foreground/50 mb-0.5">Eficiência inicial</p>
                   <p className="font-bold text-lg text-green-600">{pct2(deg.eficienciaInicial)}</p>

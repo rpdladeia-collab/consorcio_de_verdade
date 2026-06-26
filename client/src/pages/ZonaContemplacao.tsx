@@ -936,8 +936,8 @@ export default function ZonaContemplacao() {
               </button>
             </div>
 
-            {/* Grid 2 colunas */}
-            <div style={{ display: "grid", gridTemplateColumns: "360px 1fr", gap: 12, alignItems: "start" }}>
+            {/* Grid 2 colunas — responsivo: empilha no mobile */}
+            <div style={{ display: "grid", gridTemplateColumns: "min(360px, 100%) 1fr", gap: 12, alignItems: "start" }} className="!grid-cols-1 lg:!grid-cols-[360px_1fr]">
               {/* Coluna esquerda: Parâmetros */}
               <div style={{ ...card, padding: 13 }}>
                 <div style={sectionTitle}>
@@ -1076,7 +1076,7 @@ export default function ZonaContemplacao() {
               </div>
 
               {/* Resumo da zona + Zona de entrada */}
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12, marginTop: 10 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginBottom: 12, marginTop: 10 }} className="!grid-cols-1 md:!grid-cols-2">
                 {/* Resumo da zona */}
                 <div style={{ ...card, padding: 13 }}>
                   <div style={sectionTitle}>
@@ -1159,7 +1159,7 @@ export default function ZonaContemplacao() {
               </div>
 
               {/* Gráfico + Lance pretendido */}
-              <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 250px", gap: 12, alignItems: "stretch" }}>
+              <div style={{ display: "grid", gridTemplateColumns: "minmax(0,1fr) 250px", gap: 12, alignItems: "stretch" }} className="!grid-cols-1 md:!grid-cols-[1fr_250px]">
                 <div style={{ ...card, padding: 13 }}>
                   <div style={{ background: "#0c1210", border: `1px solid ${S.line}`, borderRadius: 16, padding: 10 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
@@ -1299,14 +1299,14 @@ export default function ZonaContemplacao() {
             </div>
 
             {/* Diagnóstico + Lance fixo */}
-            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }}>
+            <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 12, marginTop: 12 }} className="!grid-cols-1 md:!grid-cols-2">
               {/* Diagnóstico */}
               <div style={{ ...card, padding: 13 }}>
                 <div style={sectionTitle}>
                   <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Diagnóstico</h2>
                   <span style={pill(true)}>seleção</span>
                 </div>
-                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }} className="!grid-cols-1 sm:!grid-cols-2">
                   <div>
                     <label style={label}>Prazo total do grupo <HelpBtn tip="Prazo original do plano. A média necessária usa: prazo restante = prazo total - última assembleia selecionada." /></label>
                     <input style={inputStyle} type="number" min="1" value={hPrazo} onChange={(e) => setHPrazo(e.target.value)} onBlur={handleCalcQuantitativo} />
@@ -1333,7 +1333,7 @@ export default function ZonaContemplacao() {
                 </div>
 
                 {/* 5 KPIs */}
-                <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8, marginTop: 10 }}>
+                <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8, marginTop: 10 }} className="!grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-5">
                   <div style={kpi("green")}>
                     <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Total selecionado</div>
                     <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{quantResult?.totalCont ?? "—"}</div>

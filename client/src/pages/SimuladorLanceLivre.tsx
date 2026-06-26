@@ -150,7 +150,7 @@ export default function SimuladorLanceLivre() {
                     {result.warnings.map((w, i) => (<p key={i} className="text-sm text-foreground/75">{w}</p>))}
                   </div>
                 )}
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <KpiCard label="Desembolso do lance" value={formatBRL(result.bidValue)} hint={`${formatPct(result.inputs.bidPct)} da carta`} highlight />
                   <KpiCard label="Competitividade" value={formatPct(result.competitiveness)} hint={result.competLabel} tone={result.competTone === "good" ? "positive" : result.competTone === "danger" ? "negative" : "orange"} />
                   {result.inputs.lanceUse === "abater_parcela" ? (

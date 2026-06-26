@@ -25,14 +25,14 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 ${
+      className={`sticky top-0 z-50 transition-all duration-300 w-full max-w-[100vw] ${
         scrolled
           ? "bg-[var(--paper)]/90 backdrop-blur-md border-b border-border"
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="container-wide px-5 lg:px-8">
-        <div className="flex items-center justify-between h-20">
+      <div className="w-full px-4 md:px-5 lg:px-8 max-w-[100vw]">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <img
@@ -123,7 +123,7 @@ export default function Header() {
 
           {/* Mobile toggle */}
           <button
-            className="lg:hidden text-foreground p-2"
+            className="lg:hidden text-foreground p-2 min-h-[44px] min-w-[44px] flex items-center justify-center"
             onClick={() => setOpen((v) => !v)}
             aria-label="Menu"
           >
@@ -134,8 +134,8 @@ export default function Header() {
 
       {/* Mobile menu */}
       {open && (
-        <div className="lg:hidden bg-[var(--paper)] border-b border-border">
-          <nav className="container-wide px-5 py-4 flex flex-col gap-1">
+        <div className="lg:hidden bg-[var(--paper)] border-b border-border w-full max-w-[100vw]">
+          <nav className="w-full px-4 py-4 flex flex-col gap-1">
             <Link
               href="/"
               className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"

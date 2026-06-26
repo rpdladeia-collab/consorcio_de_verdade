@@ -102,7 +102,7 @@ export default function SimuladorContemplacao() {
       </p>
 
       {/* Grid 2 colunas dentro do card */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
           <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -142,7 +142,7 @@ export default function SimuladorContemplacao() {
         <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
           Composição do lance
         </p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label className="block">
             <span className="text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
             <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -165,7 +165,7 @@ export default function SimuladorContemplacao() {
       {/* Avançado colapsável */}
       <Collapsible title="Parâmetros avançados" subtitle="Correção e modelo de parcela"
         open={advancedOpen} onToggle={() => setAdvancedOpen(!advancedOpen)}>
-        <div className="grid grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <label className="block">
             <span className="text-xs font-medium text-foreground/60">Correção (% a.a.)</span>
             <input type="number" min="0" step="0.1" className="input mt-1 w-full"
@@ -222,7 +222,7 @@ export default function SimuladorContemplacao() {
       )}
 
       {/* KPIs — grid 2×2 */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Força de lance" value={formatPct(result.forcePct)}
           hint={`Base: ${result.baseLabel}`} tone={forceTone(result.forcePct)} />
         <KpiCard label="Lance total" value={brl(result.totalLance)}
@@ -280,7 +280,7 @@ export default function SimuladorContemplacao() {
           <ChevronDown className={`w-4 h-4 transition-transform ${projOpen ? "rotate-180" : ""}`} />
         </button>
         {projOpen && (
-          <div className="max-h-[480px] overflow-y-auto">
+          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
             <table className="w-full text-xs min-w-[600px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>

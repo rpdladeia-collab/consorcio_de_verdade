@@ -86,7 +86,7 @@ export default function SimuladorAutoPagavel() {
       <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
         Dados do plano
       </p>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
           <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -118,7 +118,7 @@ export default function SimuladorAutoPagavel() {
         <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
           Lance e renda do bem
         </p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label className="block">
             <span className="text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
             <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -142,7 +142,7 @@ export default function SimuladorAutoPagavel() {
         <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
           Cenário de investimento
         </p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <label className="block">
             <span className="text-xs font-medium text-foreground/60">Capital inicial (R$)</span>
             <input type="number" min="0" step="1000" className="input mt-1 w-full"
@@ -168,7 +168,7 @@ export default function SimuladorAutoPagavel() {
 
       <Collapsible title="Parâmetros avançados" subtitle="Modelo de parcela"
         open={advancedOpen} onToggle={() => setAdvancedOpen(!advancedOpen)}>
-        <div className="grid grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <label className="block col-span-2">
             <span className="text-xs font-medium text-foreground/60">Modelo de parcela</span>
             <select className="input mt-1 w-full" value={form.mode}
@@ -199,7 +199,7 @@ export default function SimuladorAutoPagavel() {
   const resultsPanel = result ? (
     <div className="space-y-6">
       {/* KPIs */}
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Cobertura da parcela" value={pct2(result.kpis.coverage)}
           hint="Renda do bem / parcela média pós-contemplação"
           tone={result.kpis.coverageCls === "green" ? "positive" : result.kpis.coverageCls === "yellow" ? "orange" : "negative"} />
@@ -248,7 +248,7 @@ export default function SimuladorAutoPagavel() {
           <span className={`transition-transform duration-200 ${tableOpen ? "rotate-180" : ""}`}>▼</span>
         </button>
         {tableOpen && (
-          <div className="max-h-[480px] overflow-y-auto">
+          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
             <table className="w-full text-xs min-w-[900px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>

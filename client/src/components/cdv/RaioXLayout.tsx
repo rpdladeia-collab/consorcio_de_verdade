@@ -44,7 +44,7 @@ export default function RaioXLayout({
   return (
     <div className="min-h-screen">
       {/* ── Hero ── */}
-      <section className="bg-[var(--ink)] text-white py-10 px-5 lg:px-8">
+      <section className="bg-[var(--ink)] text-white py-10 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
         <div className="max-w-6xl mx-auto">
           <div className="flex items-center gap-3 mb-3">
             <span className="inline-flex items-center gap-1.5 bg-[var(--orange)]/20 text-[var(--orange)] text-xs font-semibold px-3 py-1 rounded-full border border-[var(--orange)]/30">
@@ -63,11 +63,11 @@ export default function RaioXLayout({
       </section>
 
       {/* ── Grid principal ── */}
-      <section className="max-w-6xl mx-auto px-4 lg:px-8 py-8">
+      <section className="w-full max-w-6xl mx-auto px-4 lg:px-8 py-8">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Coluna esquerda — Formulário */}
-          <div className="w-full lg:w-[380px] shrink-0">
-            <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-2xl p-5 shadow-sm">
+          <div className="w-full lg:w-[380px] lg:shrink-0">
+            <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-2xl p-4 md:p-5 shadow-sm">
               {formPanel}
             </div>
           </div>
