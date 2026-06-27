@@ -144,17 +144,17 @@
 - [ ] PDF: melhoria de qualidade do gráfico (canvas já usa toDataURL direto, sem html2canvas)
 
 ## Sprint Crítica — Erro 404 + UX/UI + Página Sobre
-- [ ] Corrigir erro 404: Custo da Operação, Proporção da Taxa, Histórico de Correções
-- [ ] Verificar e corrigir links (href) no grid da página central Raio-X
-- [ ] Remover bloco "Fontes e Metodologia" de TODOS os simuladores
-- [ ] Remover frase "Não vendemos consórcio..." do bloco Transparência em TODOS os simuladores
-- [ ] Substituir badge "Análise independente" por "Raio-X do Consórcio" em todos os simuladores
-- [ ] Adicionar marca-texto amarelo no label "Módulo N" em todos os simuladores
-- [ ] Adicionar botão "← Voltar para o Raio-X" no topo esquerdo de todos os simuladores
-- [ ] Colocar "O que isso significa" em Accordion fechado por padrão em todos os simuladores
-- [ ] Colocar "Memória de Cálculo" em Accordion fechado por padrão em todos os simuladores
-- [ ] Módulo 1: ícone de link 🔗 ao lado de "Correção anual (%)" → https://www.melhorcambio.com/incc
-- [ ] Módulo 2: tooltip (?) em "Base do Lance" explicando cálculo sobre carta vs categoria
-- [ ] Módulo 2: tooltip (?) em "FGTS" com alerta sobre regras variáveis por administradora
-- [ ] Upload do vídeo WhatsApp para storage e criar página /sobre minimalista
-- [ ] Página /sobre: fundo preto, vídeo sem logomarca, nome Renato Ladeia, cargo, ícone LinkedIn
+- [x] Corrigir erro 404: Custo da Operação, Proporção da Taxa, Histórico de Correções
+- [x] Verificar e corrigir links (href) no grid da página central Raio-X
+- [x] Remover bloco "Fontes e Metodologia" de TODOS os simuladores
+- [x] Remover frase "Não vendemos consórcio..." do bloco Transparência em TODOS os simuladores
+- [x] Substituir badge "Análise independente" por "Raio-X do Consórcio" em todos os simuladores
+- [x] Adicionar marca-texto amarelo no label "Módulo N" em todos os simuladores
+- [x] Adicionar botão "← Voltar para o Raio-X" no topo esquerdo de todos os simuladores
+- [x] Colocar "O que isso significa" em Accordion fechado por padrão em todos os simuladores
+- [x] Colocar "Memória de Cálculo" em Accordion fechado por padrão em todos os simuladores
+- [x] Módulo 1: ícone de link ao lado de "Correção anual (%)" → https://www.melhorcambio.com/incc
+- [x] Módulo 2: tooltip (?) em "Base do Lance" explicando cálculo sobre carta vs categoria
+- [x] Módulo 2: tooltip (?) em "FGTS" com alerta sobre regras variáveis por administradora
+- [x] Upload do vídeo WhatsApp para storage e criar página /sobre minimalista
+- [x] Página /sobre: fundo preto, vídeo sem logomarca, nome Renato Ladeia, cargo, ícone LinkedIn

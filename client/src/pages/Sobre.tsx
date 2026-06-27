@@ -13,7 +13,7 @@ export default function Sobre() {
           {/* Vídeo */}
           <div className="w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10">
             <video
-              src="/manus-storage/WhatsAppVideo2026-06-27at00.11.16_1f5dc526.mp4"
+              src="/manus-storage/video_sem_logo_38c4444a.mp4"
               controls
               playsInline
               className="w-full aspect-video object-cover bg-black"
