@@ -6,6 +6,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
+import { useSimuladorStore } from "@/stores/simuladorStore";
+import { ImportToggle } from "@/components/cdv/ImportToggle";
 import {
   KpiCard, TransparencyBlock, ConsultCTA, PdfButton,
   CalcMemory, MethodologyBlock, MeaningBlock,
@@ -45,6 +47,23 @@ const METER_COLOR: Record<string, string> = {
 export default function SimuladorProporcaoTaxa() {
   const [form, setForm] = useState<FormState>(DEFAULT);
   const [pdfLoading, setPdfLoading] = useState(false);
+
+  const { baseParams, hasData } = useSimuladorStore();
+  const [importEnabled, setImportEnabled] = useState(hasData);
+
+  useEffect(() => {
+    if (importEnabled && baseParams) {
+      setForm((prev) => ({
+        ...prev,
+        credit: String(baseParams.credit),
+        adminPct: String(baseParams.adminRate),
+        totalParcelas: String(baseParams.term),
+      }));
+    } else if (!importEnabled) {
+      setForm(DEFAULT);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [importEnabled]);
 
   const mutation = trpc.raiox.proporcaoTaxa.useMutation();
   const result = mutation.data;
@@ -190,6 +209,7 @@ export default function SimuladorProporcaoTaxa() {
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
       <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
         Dados do plano
       </p>

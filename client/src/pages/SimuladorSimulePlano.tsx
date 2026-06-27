@@ -5,6 +5,7 @@
  */
 
 import { useState } from "react";
+import { useSimuladorStore } from "@/stores/simuladorStore";
 import { AlertTriangle, ChevronDown } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
@@ -137,7 +138,21 @@ export default function SimuladorSimulePlano() {
 
   const set = (k: keyof FormState) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
 
+  const saveBaseParams = useSimuladorStore((s) => s.saveBaseParams);
+
   const mutation = trpc.raiox.simulePlano.useMutation({
+    onSuccess: () => {
+      saveBaseParams({
+        credit: num(form.credit),
+        term: Math.round(num(form.term)),
+        adminRate: num(form.adminRate),
+        reserveRate: num(form.reserveRate),
+        insuranceRate: num(form.insuranceRate),
+        adjRate: num(form.adjRate),
+        adjEvery: Number(form.adjEvery),
+        mode: form.mode,
+      });
+    },
     onError: (err) => toast.error(err.message || "Erro ao calcular. Tente novamente."),
   });
 

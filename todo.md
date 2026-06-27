@@ -158,3 +158,16 @@
 - [x] Módulo 2: tooltip (?) em "FGTS" com alerta sobre regras variáveis por administradora
 - [x] Upload do vídeo WhatsApp para storage e criar página /sobre minimalista
 - [x] Página /sobre: fundo preto, vídeo sem logomarca, nome Renato Ladeia, cargo, ícone LinkedIn
+
+## Estado Global — Integração de Módulos (Zustand)
+
+- [ ] Instalar zustand com middleware persist
+- [ ] Criar store global client/src/stores/simuladorStore.ts (campos: credit, term, adminRate, reserveRate, insuranceRate, adjRate, adjEvery, mode, ranges, hasData)
+- [ ] Módulo 1: salvar parâmetros no store ao clicar em Calcular
+- [ ] Módulo 2: toggle "Importar dados do Módulo 1", preenchimento automático de credit, term, adminRate, fgts
+- [ ] Módulo 3: toggle + preenchimento automático de credit, term, adminRate
+- [ ] Módulo 4: toggle + preenchimento automático de credit, term, adminRate
+- [ ] Módulo 5: toggle + preenchimento automático de credit, term, adminRate
+- [ ] Módulo 6: toggle + preenchimento automático de credit, term
+- [ ] Validação visual: toggle ligado por padrão quando há dados, desligar limpa campos
+- [ ] Checkpoint final estado global

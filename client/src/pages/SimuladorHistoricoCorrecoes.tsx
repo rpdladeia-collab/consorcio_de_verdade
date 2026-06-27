@@ -4,8 +4,10 @@
  * Matemática: fiel ao HTML original (runCorrections)
  */
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
+import { useSimuladorStore } from "@/stores/simuladorStore";
+import { ImportToggle } from "@/components/cdv/ImportToggle";
 import {
   KpiCard, TransparencyBlock, ConsultCTA, PdfButton,
   CalcMemory, MethodologyBlock, Collapsible,
@@ -33,6 +35,28 @@ export default function SimuladorHistoricoCorrecoes() {
   const [form, setForm] = useState<FormState>(DEFAULT);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+
+  const { baseParams, hasData } = useSimuladorStore();
+  const [importEnabled, setImportEnabled] = useState(hasData);
+
+  useEffect(() => {
+    if (importEnabled && baseParams) {
+      setForm((prev) => ({
+        ...prev,
+        credit: String(baseParams.credit),
+        term: String(baseParams.term),
+        adminRate: String(baseParams.adminRate),
+        reserveRate: String(baseParams.reserveRate),
+        insuranceRate: String(baseParams.insuranceRate),
+        adjRate: String(baseParams.adjRate),
+        adjEvery: (String(baseParams.adjEvery) as "0" | "6" | "12"),
+        mode: baseParams.mode as "linear" | "nonlinear",
+      }));
+    } else if (!importEnabled) {
+      setForm(DEFAULT);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [importEnabled]);
 
   const mutation = trpc.raiox.historicoCorrecoes.useMutation();
   const result = mutation.data;
@@ -64,6 +88,7 @@ export default function SimuladorHistoricoCorrecoes() {
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
     <form onSubmit={handleSubmit} className="space-y-4">
+      <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
       <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
         Dados do plano
       </p>
