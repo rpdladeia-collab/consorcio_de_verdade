@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Linkedin, ArrowRight } from "lucide-react";
+import { Menu, X, Instagram } from "lucide-react";
 import { LOGO, BRAND } from "@/lib/brand";
 
 export default function Header() {
@@ -90,7 +90,7 @@ export default function Header() {
             </Link>
           </nav>
 
-          {/* Ações desktop */}
+          {/* Ações desktop — apenas Instagram */}
           <div className="hidden lg:flex items-center gap-4">
             <a
               href={BRAND.instagram}
@@ -100,24 +100,6 @@ export default function Header() {
               className="text-foreground/60 hover:text-[var(--orange)] transition-colors"
             >
               <Instagram className="w-5 h-5" />
-            </a>
-            <a
-              href={BRAND.linkedin}
-              target="_blank"
-              rel="noreferrer"
-              aria-label="LinkedIn"
-              className="text-foreground/60 hover:text-[var(--orange)] transition-colors"
-            >
-              <Linkedin className="w-5 h-5" />
-            </a>
-            <a
-              href={BRAND.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] text-[var(--paper)] px-5 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02]"
-            >
-              Falar com especialista
-              <ArrowRight className="w-4 h-4" />
             </a>
           </div>
 
@@ -171,21 +153,9 @@ export default function Header() {
               Sobre
             </Link>
 
-            <a
-              href={BRAND.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="mt-4 inline-flex items-center justify-center gap-2 rounded-full bg-[var(--ink)] text-[var(--paper)] px-5 py-3 text-sm font-semibold"
-            >
-              Falar com especialista
-              <ArrowRight className="w-4 h-4" />
-            </a>
             <div className="flex items-center gap-5 mt-4 pb-2">
-              <a href={BRAND.instagram} target="_blank" rel="noreferrer" className="text-foreground/60">
+              <a href={BRAND.instagram} target="_blank" rel="noreferrer" className="text-foreground/60 hover:text-[var(--orange)] transition-colors">
                 <Instagram className="w-5 h-5" />
-              </a>
-              <a href={BRAND.linkedin} target="_blank" rel="noreferrer" className="text-foreground/60">
-                <Linkedin className="w-5 h-5" />
               </a>
             </div>
           </nav>

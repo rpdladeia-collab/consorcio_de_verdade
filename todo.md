@@ -49,8 +49,8 @@
 - [ ] Privacidade — conteúdo real
 
 ## Pendências abertas
-- [ ] Validação responsiva mobile (testar em viewport 375px)
-- [ ] Checkpoint final antes de publicar
+- [x] Validação responsiva mobile (testar em viewport 375px)
+- [x] Checkpoint final antes de publicar
 
 ## Zona de Contemplação 2026 (novo simulador)
 - [x] server/lib/zonaContemplacao2026.ts — runZonaHistorico + runZonaQuantitativo (fiel ao HTML)
@@ -74,14 +74,46 @@
 - [x] client/src/pages/SimuladorProporcaoTaxa.tsx — relatório final "Cenário Sem Contemplação"
 
 ## Sprint Responsividade Mobile
-- [ ] Layout global: overflow-x-hidden no body, viewport meta correto, html/body sem scroll horizontal
-- [ ] Containers: w-full, max-w-full, px-4/px-6 no mobile em todas as páginas
-- [ ] Tabelas: todas dentro de `<div className="w-full overflow-x-auto pb-4">` (Raio-X, Zona, Panorama)
-- [ ] Gráficos Canvas: 100% largura disponível, overflow-x-auto quando necessário
-- [ ] Grids 4 colunas → grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
-- [ ] Grids 2 colunas → grid-cols-1 lg:grid-cols-2
-- [ ] Inputs: empilhar no mobile (grid-cols-1 md:grid-cols-2), largura total, min-h-[44px]
-- [ ] Header mobile: logo esquerda, hambúrguer direita, 100vw, sem deslocamento
-- [ ] Hero: 100% largura, texto centralizado, botões empilhados, sem overflow
-- [ ] Validação visual 390px, 430px e 768px (Home, Panorama, Raio-X, Zona de Contemplação)
-- [ ] Checkpoint final responsividade
+- [x] Layout global: overflow-x-hidden no body, viewport meta correto, html/body sem scroll horizontal
+- [x] Containers: w-full, max-w-full, px-4/px-6 no mobile em todas as páginas
+- [x] Tabelas: todas dentro de overflow-x-auto (Raio-X, Zona, Panorama)
+- [x] Gráficos Canvas: 100% largura disponível, overflow-x-auto quando necessário
+- [x] Grids 4 colunas → grid-cols-1 sm:grid-cols-2 lg:grid-cols-4
+- [x] Grids 2 colunas → grid-cols-1 lg:grid-cols-2
+- [x] Inputs: empilhar no mobile (grid-cols-1 md:grid-cols-2), largura total, min-h-[44px]
+- [x] Header mobile: logo esquerda, hambúrguer direita, 100vw, sem deslocamento
+- [x] Hero: 100% largura, texto centralizado, botões empilhados, sem overflow
+- [x] Validação visual 390px, 430px e 768px (Home, Panorama, Raio-X, Zona de Contemplação)
+- [x] Checkpoint final responsividade
+
+## Sprint Correção de Posicionamento de Marca + Reestruturação da Home
+
+### Header
+- [x] Remover botão "Falar com especialista" do Header (canto superior direito)
+- [x] Remover ícone LinkedIn do Header
+- [x] Manter apenas Instagram em destaque no canto direito
+
+### Hero Section
+- [x] Trocar badge "Independente · sem venda de consórcio" → "Entenda antes de decidir"
+- [x] Substituir subtítulo exatamente pelo texto aprovado (mercado bate recordes / 50% não atingem objetivo / plataforma para decisão consciente)
+- [x] Corrigir contraste do disclaimer abaixo dos botões (text-gray-600 ou equivalente)
+
+### Copywriting — Bloco Preto e Bloco Laranja
+- [x] Bloco Preto: remover frase "não vendemos consórcio", substituir por posicionamento de venda consultiva
+- [x] Bloco Laranja (CTA final): remover "Sem venda, sem comissão", substituir por convite à segunda opinião
+
+### Formulário de Contato (nova seção acima do Footer)
+- [x] Criar seção de contato com campos: Nome, WhatsApp/E-mail, Assunto (Select), Mensagem
+- [x] Botão "Enviar mensagem"
+- [x] Estilo editorial, sem alterar design system
+
+### Reestruturação da Home (Anexo)
+- [x] Remover blocos: "O setor em números", dados ABAC, bloco recordes, blocos genéricos não vinculados ao menu
+- [x] Trocar título da seção de simuladores: "O que você quer descobrir?" → "Se você não entende estes pontos, não contrate ainda."
+- [x] Adicionar subtítulo da seção de simuladores (texto aprovado no anexo)
+- [x] Garantir que clique nos cards dos simuladores abre o módulo no topo da página
+- [x] Criar bloco Raio-X do Consórcio (resumo + botão "Abrir Raio-X do Consórcio")
+- [x] Criar bloco Zona de Contemplação (resumo + botão "Abrir Zona de Contemplação")
+- [x] Criar bloco Panorama: Dados Oficiais (resumo + botão "Ver dados oficiais")
+- [x] Criar bloco Sobre (resumo + botão "Conhecer o projeto")
+- [x] Remover qualquer frase "sem venda de consórcio" e substituir por posicionamento correto
