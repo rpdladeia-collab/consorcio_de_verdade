@@ -119,26 +119,42 @@
 - [x] Remover qualquer frase "sem venda de consórcio" e substituir por posicionamento correto
 
 ## Bug Crítico Mobile — Overflow/Scroll Tabelas e Gráficos
-- [ ] Remover overflow-hidden de containers intermediários (cards, seções) — manter apenas no body/html global
-- [ ] Tabelas Raio-X: wrapper w-full overflow-x-auto + min-w-[700px] na tag table + whitespace-nowrap nas células
-- [ ] Tabelas Zona de Contemplação: wrapper w-full overflow-x-auto + min-w-[700px]
-- [ ] Tabelas Panorama: wrapper w-full overflow-x-auto + min-w-[700px]
-- [ ] Gráficos Canvas Raio-X: wrapper w-full overflow-x-auto + min-w-[600px] no container do canvas
-- [ ] Gráficos Canvas Zona de Contemplação: wrapper w-full overflow-x-auto + min-w-[700px]
-- [ ] Gráficos SVG Panorama: wrapper w-full overflow-x-auto + min-w-[600px]
+- [x] Remover overflow-hidden de containers intermediários (cards, seções) — manter apenas no body/html global
+- [x] Tabelas Raio-X: wrapper w-full overflow-x-auto + min-w-[700px] na tag table + whitespace-nowrap nas células
+- [x] Tabelas Zona de Contemplação: wrapper w-full overflow-x-auto + min-w-[480px] histórico, min-w-[900px] quantitativo
+- [x] Tabelas Panorama: wrapper w-full overflow-x-auto + min-w-[700px]
+- [x] Gráficos Canvas Raio-X: wrapper w-full overflow-x-auto + min-w-[600px] no container do canvas
+- [x] Gráficos Canvas Zona de Contemplação: wrapper w-full overflow-x-auto + min-w-[700px]
+- [x] Gráficos SVG Panorama: wrapper w-full overflow-x-auto + min-w-[600px]
 
 ## Sprint UI/UX — Página Central Raio-X (/raio-x)
-- [ ] Fundo escuro bg-[#111] na página inteira
-- [ ] Título branco bold grande: "Se você não entende estes pontos, não contrate ainda."
-- [ ] Subtítulo cinza/muted com texto aprovado
-- [ ] Grid 3 colunas desktop / 1 coluna mobile: grid grid-cols-1 lg:grid-cols-3 gap-6
-- [ ] Cards com bg-[#1c1b15], border border-white/10, rounded-xl, hover:border-orange-500
-- [ ] 6 cards com label MÓDULO N (laranja, uppercase, mono), título branco, texto cinza
-- [ ] Links diretos para cada simulador (/simulador/slug)
+- [x] Fundo escuro bg-[#111] na página inteira
+- [x] Título branco bold grande: "Se você não entende estes pontos, não contrate ainda."
+- [x] Subtítulo cinza/muted com texto aprovado
+- [x] Grid 3 colunas desktop / 1 coluna mobile: grid grid-cols-1 lg:grid-cols-3 gap-6
+- [x] Cards com bg-[#1c1b15], border border-white/10, rounded-xl, hover:border-orange-500
+- [x] 6 cards com label MÓDULO N (laranja, uppercase, mono), título branco, texto cinza
+- [x] Links diretos para cada simulador (/simulador/slug)
 
 ## Sprint Refinamento — Zona de Contemplação
-- [ ] Hierarquia invertida: percentual do lance pretendido em destaque absoluto primeiro, termômetro/zona abaixo
-- [ ] Gráfico mobile: wrapper w-full overflow-x-auto + min-w-[700px] no canvas
-- [ ] Ícones ?: remover fundo laranja sólido, manter apenas text-orange-500 sem background
-- [ ] Placeholder: "Consórcio XYZ" ou "Grupo XYZ" (não "Consórcio xyz")
-- [ ] PDF: adicionar scale: 3 no html2canvas para alta resolução
+- [ ] Hierarquia invertida: percentual do lance pretendido em destaque absoluto primeiro, termômetro/zona abaixo (pendente)
+- [x] Gráfico mobile: wrapper w-full overflow-x-auto + min-w-[700px] no canvas
+- [x] Ícones ?: remover fundo laranja sólido, manter apenas text-orange-500 sem background
+- [x] Placeholder: "Grupo XYZ" (corrigido)
+- [ ] PDF: melhoria de qualidade do gráfico (canvas já usa toDataURL direto, sem html2canvas)
+
+## Sprint Crítica — Erro 404 + UX/UI + Página Sobre
+- [ ] Corrigir erro 404: Custo da Operação, Proporção da Taxa, Histórico de Correções
+- [ ] Verificar e corrigir links (href) no grid da página central Raio-X
+- [ ] Remover bloco "Fontes e Metodologia" de TODOS os simuladores
+- [ ] Remover frase "Não vendemos consórcio..." do bloco Transparência em TODOS os simuladores
+- [ ] Substituir badge "Análise independente" por "Raio-X do Consórcio" em todos os simuladores
+- [ ] Adicionar marca-texto amarelo no label "Módulo N" em todos os simuladores
+- [ ] Adicionar botão "← Voltar para o Raio-X" no topo esquerdo de todos os simuladores
+- [ ] Colocar "O que isso significa" em Accordion fechado por padrão em todos os simuladores
+- [ ] Colocar "Memória de Cálculo" em Accordion fechado por padrão em todos os simuladores
+- [ ] Módulo 1: ícone de link 🔗 ao lado de "Correção anual (%)" → https://www.melhorcambio.com/incc
+- [ ] Módulo 2: tooltip (?) em "Base do Lance" explicando cálculo sobre carta vs categoria
+- [ ] Módulo 2: tooltip (?) em "FGTS" com alerta sobre regras variáveis por administradora
+- [ ] Upload do vídeo WhatsApp para storage e criar página /sobre minimalista
+- [ ] Página /sobre: fundo preto, vídeo sem logomarca, nome Renato Ladeia, cargo, ícone LinkedIn

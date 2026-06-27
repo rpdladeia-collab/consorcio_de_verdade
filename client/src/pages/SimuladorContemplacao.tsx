@@ -129,7 +129,16 @@ export default function SimuladorContemplacao() {
             value={form.reserveRate} onChange={(e) => set("reserveRate", e.target.value)} />
         </label>
         <label className="block col-span-2">
-          <span className="text-xs font-medium text-foreground/60">Base do lance</span>
+          <span className="text-xs font-medium text-foreground/60 flex items-center gap-1.5">
+            Base do lance
+            <span className="relative group">
+              <span className="cursor-help text-[var(--orange)] text-[11px] font-bold">?</span>
+              <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-lg bg-[var(--ink)] text-white text-[11px] leading-relaxed p-3 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                <strong>Sobre a carta:</strong> o % é calculado apenas sobre o crédito.<br/>
+                <strong>Sobre a categoria:</strong> o % é calculado sobre crédito + taxa de administração.
+              </span>
+            </span>
+          </span>
           <select className="input mt-1 w-full" value={form.base}
             onChange={(e) => set("base", e.target.value as Base)}>
             <option value="credit">Carta de crédito</option>
@@ -149,7 +158,15 @@ export default function SimuladorContemplacao() {
               value={form.own} onChange={(e) => set("own", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">FGTS (R$)</span>
+            <span className="text-xs font-medium text-foreground/60 flex items-center gap-1.5">
+              FGTS (R$)
+              <span className="relative group">
+                <span className="cursor-help text-[var(--orange)] text-[11px] font-bold">?</span>
+                <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-lg bg-[var(--ink)] text-white text-[11px] leading-relaxed p-3 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
+                  As regras para uso do FGTS variam. Consulte sua administradora para confirmar se o seu grupo permite essa modalidade.
+                </span>
+              </span>
+            </span>
             <input type="number" min="0" step="1000" className="input mt-1 w-full"
               value={form.fgts} onChange={(e) => set("fgts", e.target.value)} />
           </label>

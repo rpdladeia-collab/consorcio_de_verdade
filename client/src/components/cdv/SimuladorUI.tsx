@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React, { ReactNode } from "react";
 import {
   ShieldCheck,
   Check,
@@ -72,7 +72,7 @@ export function AuditSeal({ className = "" }: { className?: string }) {
   return (
     <span className={`seal ${className}`}>
       <ShieldCheck className="w-3.5 h-3.5" />
-      Análise independente
+      Raio-X do Consórcio
     </span>
   );
 }
@@ -222,15 +222,26 @@ export function BeforeAfterBar({
    "O que isso significa"
 ---------------------------------------------------------------------------- */
 export function MeaningBlock({ children }: { children: ReactNode }) {
+  const [open, setOpen] = React.useState(false);
   return (
-    <div className="rounded-2xl border border-border bg-card p-6">
-      <div className="flex items-center gap-2 mb-3">
-        <Info className="w-4 h-4 text-[var(--orange)]" />
-        <span className="eyebrow text-foreground/50">O que isso significa</span>
-      </div>
-      <div className="text-foreground/75 leading-relaxed text-[15px] space-y-2">
-        {children}
-      </div>
+    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between px-6 py-4 text-left"
+      >
+        <div className="flex items-center gap-2">
+          <Info className="w-4 h-4 text-[var(--orange)]" />
+          <span className="eyebrow text-foreground/50">O que isso significa</span>
+        </div>
+        <ChevronDown
+          className={`w-4 h-4 text-foreground/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div className="px-6 pb-5 pt-0 text-foreground/75 leading-relaxed text-[15px] space-y-2">
+          {children}
+        </div>
+      )}
     </div>
   );
 }
@@ -285,27 +296,38 @@ export function CalcMemory({
 }: {
   rows: { label: string; value: string; formula?: string }[];
 }) {
+  const [open, setOpen] = React.useState(false);
   return (
     <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] overflow-hidden">
-      <div className="px-5 py-3 border-b border-white/10 flex items-center gap-2">
-        <FileText className="w-4 h-4 text-[var(--orange)]" />
-        <span className="eyebrow text-white/50">Memória de cálculo</span>
-      </div>
-      <div className="divide-y divide-white/8">
-        {rows.map((r, i) => (
-          <div key={i} className="px-5 py-3 flex items-start justify-between gap-4">
-            <div className="min-w-0">
-              <p className="text-sm text-white/80">{r.label}</p>
-              {r.formula && (
-                <p className="mono text-xs text-white/40 mt-0.5">{r.formula}</p>
-              )}
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between px-5 py-3 text-left"
+      >
+        <div className="flex items-center gap-2">
+          <FileText className="w-4 h-4 text-[var(--orange)]" />
+          <span className="eyebrow text-white/50">Memória de cálculo</span>
+        </div>
+        <ChevronDown
+          className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div className="divide-y divide-white/8">
+          {rows.map((r, i) => (
+            <div key={i} className="px-5 py-3 flex items-start justify-between gap-4">
+              <div className="min-w-0">
+                <p className="text-sm text-white/80">{r.label}</p>
+                {r.formula && (
+                  <p className="mono text-xs text-white/40 mt-0.5">{r.formula}</p>
+                )}
+              </div>
+              <span className="data-num text-sm font-semibold text-[var(--orange)] shrink-0">
+                {r.value}
+              </span>
             </div>
-            <span className="data-num text-sm font-semibold text-[var(--orange)] shrink-0">
-              {r.value}
-            </span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
@@ -366,29 +388,16 @@ export function VideoBlock({ title }: { title: string }) {
 /* ----------------------------------------------------------------------------
    Metodologia / fontes
 ---------------------------------------------------------------------------- */
+/** @deprecated Bloco removido — não exibir jargão técnico ao usuário */
 export function MethodologyBlock({
-  sources,
-  children,
+  sources: _sources,
+  children: _children,
 }: {
   sources: string[];
   children?: ReactNode;
 }) {
-  return (
-    <div className="rounded-2xl border border-border bg-secondary/50 p-6">
-      <p className="eyebrow text-foreground/50 mb-3">Fontes e metodologia</p>
-      <div className="text-sm text-foreground/70 leading-relaxed space-y-2">
-        {children}
-      </div>
-      <ul className="mt-4 space-y-1.5">
-        {sources.map((s, i) => (
-          <li key={i} className="text-xs text-foreground/55 flex gap-2">
-            <span className="text-[var(--orange)]">·</span>
-            {s}
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
+  // Bloco suprimido conforme decisão de copywriting (sprint jun/2026)
+  return null;
 }
 
 /* ----------------------------------------------------------------------------
@@ -408,7 +417,7 @@ export function ConsultCTA({
         <p className="text-sm text-foreground/60 mt-1 max-w-xl">
           Você pode usar todos os simuladores gratuitamente. Se preferir uma
           leitura humana e personalizada da sua proposta, fale diretamente com o
-          especialista — sem compromisso e sem venda de consórcio.
+          especialista — sem compromisso.
         </p>
       </div>
       <a
@@ -438,9 +447,8 @@ export function TransparencyBlock() {
             Este simulador projeta cenários matemáticos com base nos parâmetros
             informados pelo usuário e nas regras padrão do Banco Central. O resultado
             é uma projeção independente para apoio à decisão e não substitui a
-            leitura do seu contrato, que pode conter regras específicas da
-            administradora. Não vendemos consórcio, não garantimos contemplação e
-            não fazemos recomendação financeira.
+            leitura do seu contrato, que pode conter regras específicas da sua
+            administradora.
           </p>
         </div>
       </div>

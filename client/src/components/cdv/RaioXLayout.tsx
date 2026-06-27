@@ -11,18 +11,11 @@
  *   │                  │  Warnings                        │
  *   │                  │  Transparência + PDF + CTA       │
  *   └──────────────────┴──────────────────────────────────┘
- *
- * Props:
- *   - moduleNumber: número do módulo (1–6)
- *   - title: título do módulo
- *   - description: subtítulo/descrição
- *   - formPanel: conteúdo do painel esquerdo (inputs)
- *   - resultsPanel: conteúdo do painel direito (KPIs + tabela + etc)
- *   - hasResult: se true, mostra o painel direito; se false, mostra placeholder
  */
 
 import React from "react";
-import { Shield } from "lucide-react";
+import { Link } from "wouter";
+import { ArrowLeft } from "lucide-react";
 
 interface RaioXLayoutProps {
   moduleNumber: number;
@@ -46,15 +39,30 @@ export default function RaioXLayout({
       {/* ── Hero ── */}
       <section className="bg-[var(--ink)] text-white py-10 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
         <div className="max-w-6xl mx-auto">
+          {/* Botão Voltar */}
+          <Link
+            href="/simuladores"
+            className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-5 transition-colors"
+          >
+            <ArrowLeft className="w-3.5 h-3.5" />
+            Voltar para o Raio-X
+          </Link>
+
+          {/* Badge + Módulo */}
           <div className="flex items-center gap-3 mb-3">
             <span className="inline-flex items-center gap-1.5 bg-[var(--orange)]/20 text-[var(--orange)] text-xs font-semibold px-3 py-1 rounded-full border border-[var(--orange)]/30">
-              <Shield className="w-3 h-3" />
-              Análise independente
+              Raio-X do Consórcio
             </span>
           </div>
-          <p className="mono text-xs uppercase tracking-widest text-white/40 mb-1">
-            Módulo {moduleNumber} · Raio-X do Consórcio
+
+          {/* Número do módulo com marca-texto amarelo */}
+          <p className="mono text-xs uppercase tracking-widest text-white/40 mb-1 flex items-center gap-2">
+            <span className="bg-yellow-400 text-black px-2 py-0.5 rounded font-bold text-[11px]">
+              Módulo {moduleNumber}
+            </span>
+            <span>· Raio-X do Consórcio</span>
           </p>
+
           <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>
           <p className="text-white/60 max-w-xl leading-relaxed text-sm md:text-base">
             {description}
