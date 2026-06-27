@@ -170,8 +170,9 @@ export default function SimuladorHistoricoCorrecoes() {
         <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
           Tabela anual de correções
         </p>
-        <div className="rounded-xl border border-border overflow-hidden">
-          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
+        <div className="rounded-xl border border-border">
+          <div className="w-full overflow-x-auto">
+            <div className="max-h-[480px] overflow-y-auto">
             <table className="w-full text-xs min-w-[700px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
@@ -202,6 +203,7 @@ export default function SimuladorHistoricoCorrecoes() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>

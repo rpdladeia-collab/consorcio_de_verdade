@@ -1,179 +1,153 @@
+/**
+ * Página Central do Raio-X do Consórcio
+ * Grid escuro 3×2 — fundo #111, cards #1c1b15, borda laranja no hover
+ * Conforme especificação aprovada (Sprint UI/UX — Página Central do Raio-X)
+ */
+
 import { Link } from "wouter";
 import {
-  ArrowRight,
-  Clock,
   Calculator,
   Scale,
-  Activity,
   FileSearch,
-  Lock,
-  MessageCircle,
   Gauge,
+  Activity,
+  Zap,
+  ArrowRight,
+  Lock,
 } from "lucide-react";
-import {
-  CATEGORIES,
-  CategoryKey,
-  SIMULADORES,
-  simuladoresByCategory,
-  Complexity,
-} from "@/lib/simuladores";
 import { BRAND } from "@/lib/brand";
 
-const CATEGORY_ICONS: Record<CategoryKey, React.ReactNode> = {
-  plano: <Calculator className="w-5 h-5" />,
-  contemplacao: <Scale className="w-5 h-5" />,
-  custo: <FileSearch className="w-5 h-5" />,
-  eficiencia: <Gauge className="w-5 h-5" />,
-  correcoes: <Activity className="w-5 h-5" />,
-  autopagavel: <ArrowRight className="w-5 h-5" />,
-};
-
-const COMPLEXITY_DOTS: Record<Complexity, number> = {
-  Simples: 1,
-  Intermediário: 2,
-  Avançado: 3,
-};
-
-function ComplexityMeter({ level }: { level: Complexity }) {
-  const filled = COMPLEXITY_DOTS[level];
-  return (
-    <span className="inline-flex items-center gap-1.5" title={`Complexidade: ${level}`}>
-      <Gauge className="w-3.5 h-3.5 text-foreground/40" />
-      <span className="flex items-center gap-0.5">
-        {[1, 2, 3].map((i) => (
-          <span
-            key={i}
-            className={`w-1.5 h-1.5 rounded-full ${
-              i <= filled ? "bg-[var(--orange)]" : "bg-foreground/15"
-            }`}
-          />
-        ))}
-      </span>
-      <span className="text-[11px] text-foreground/50">{level}</span>
-    </span>
-  );
-}
+const MODULOS = [
+  {
+    num: 1,
+    icon: <Calculator className="w-5 h-5" />,
+    title: "Simule seu plano",
+    desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
+    slug: "simule-seu-plano",
+  },
+  {
+    num: 2,
+    icon: <Scale className="w-5 h-5" />,
+    title: "Contemplação",
+    desc: "Projeta o impacto financeiro da contemplação em diferentes momentos do plano.",
+    slug: "contemplacao",
+  },
+  {
+    num: 3,
+    icon: <FileSearch className="w-5 h-5" />,
+    title: "Custo da operação",
+    desc: "Calcula o custo real do consórcio: taxa de administração, seguro e fundo de reserva.",
+    slug: "custo-da-operacao",
+  },
+  {
+    num: 4,
+    icon: <Gauge className="w-5 h-5" />,
+    title: "Proporção da taxa",
+    desc: "Mostra quanto da parcela é taxa e como isso degrada a eficiência ao longo do tempo.",
+    slug: "proporcao-da-taxa",
+  },
+  {
+    num: 5,
+    icon: <Activity className="w-5 h-5" />,
+    title: "Histórico de correções",
+    desc: "Analisa o impacto dos reajustes históricos sobre o saldo devedor e a carta de crédito.",
+    slug: "historico-de-correcoes",
+  },
+  {
+    num: 6,
+    icon: <Zap className="w-5 h-5" />,
+    title: "Auto pagável?",
+    desc: "Verifica se a carta de crédito é capaz de se pagar com rendimento após a contemplação.",
+    slug: "auto-pagavel",
+  },
+];
 
 export default function Simuladores() {
-  const categories = Object.keys(CATEGORIES) as CategoryKey[];
-
   return (
-    <div>
-      {/* ===================== HERO ===================== */}
-      <section className="dark bg-[var(--ink)] text-[var(--paper)] py-16 md:py-20 w-full max-w-[100vw]">
-        <div className="w-full px-4 md:px-5 lg:px-8">
-          <div className="max-w-3xl">
-            <p className="eyebrow text-[var(--orange)] mb-3">Centro de investigação</p>
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-[1.05]">
-              Central de Simuladores
-            </h1>
-            <p className="text-lg text-white/65 mt-5 max-w-2xl">
-              {SIMULADORES.length} ferramentas independentes para investigar cada
-              decisão de consórcio. Escolha pela sua dúvida, preencha poucos dados e
-              receba um diagnóstico claro — com a conta feita por inteiro.
-            </p>
-            <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-7 text-sm text-white/55">
-              <span className="inline-flex items-center gap-2">
-                <Lock className="w-4 h-4 text-[var(--orange)]" />
-                Cálculo protegido no servidor
-              </span>
-              <span className="inline-flex items-center gap-2">
-                <FileSearch className="w-4 h-4 text-[var(--orange)]" />
-                Relatório de auditoria em PDF
-              </span>
-            </div>
+    <div className="min-h-screen bg-[#111] text-white">
+      {/* ── HERO ─────────────────────────────────────────────────────── */}
+      <section className="w-full px-4 md:px-8 lg:px-16 pt-16 pb-12">
+        <div className="max-w-3xl">
+          <p className="text-[var(--orange)] text-xs font-mono uppercase tracking-widest mb-4">
+            Raio-X do Consórcio
+          </p>
+          <h1 className="text-3xl md:text-5xl font-extrabold leading-[1.1] text-white">
+            Se você não entende estes pontos,{" "}
+            <span className="text-[var(--orange)]">não contrate ainda.</span>
+          </h1>
+          <p className="text-white/55 text-base md:text-lg mt-5 max-w-2xl leading-relaxed">
+            Cada módulo abaixo mostra uma parte essencial da decisão. Antes de
+            contratar, entenda fluxo de parcelas, contemplação, custo da
+            operação, proporção da taxa, correções e viabilidade.
+          </p>
+          <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-6 text-sm text-white/40">
+            <span className="inline-flex items-center gap-2">
+              <Lock className="w-4 h-4 text-[var(--orange)]" />
+              Cálculo protegido no servidor
+            </span>
+            <span className="inline-flex items-center gap-2">
+              <FileSearch className="w-4 h-4 text-[var(--orange)]" />
+              Relatório de auditoria em PDF
+            </span>
           </div>
         </div>
       </section>
 
-      {/* ===================== NAV POR DOR ===================== */}
-      <section className="border-b border-border sticky top-[64px] md:top-[72px] z-30 bg-background/85 backdrop-blur-md w-full max-w-[100vw]">
-        <div className="w-full px-4 md:px-5 lg:px-8">
-          <div className="flex gap-1 overflow-x-auto py-3 -mx-1 px-1 no-scrollbar">
-            {categories.map((key) => (
-              <a
-                key={key}
-                href={`#${key}`}
-                className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border border-border bg-card px-4 py-2 text-sm font-medium hover:border-[var(--orange)] hover:text-[var(--orange)] transition-colors"
-              >
-                {CATEGORY_ICONS[key]}
-                {CATEGORIES[key].label}
-              </a>
-            ))}
-          </div>
+      {/* ── GRID 3×2 ─────────────────────────────────────────────────── */}
+      <section className="w-full px-4 md:px-8 lg:px-16 pb-20">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          {MODULOS.map((m) => (
+            <Link
+              key={m.slug}
+              href={`/simulador/${m.slug}`}
+              className="group flex flex-col rounded-xl border border-white/10 bg-[#1c1b15] p-6 transition-colors duration-200 hover:border-orange-500"
+            >
+              {/* Label */}
+              <div className="flex items-center gap-2 mb-4">
+                <span className="text-[var(--orange)]">{m.icon}</span>
+                <span className="font-mono text-[11px] uppercase tracking-widest text-[var(--orange)]">
+                  Módulo {m.num}
+                </span>
+              </div>
+
+              {/* Título */}
+              <h2 className="text-white font-bold text-xl leading-snug mb-3">
+                {m.title}
+              </h2>
+
+              {/* Descrição */}
+              <p className="text-white/50 text-sm leading-relaxed flex-1">
+                {m.desc}
+              </p>
+
+              {/* CTA */}
+              <div className="mt-6 flex items-center gap-2 text-sm font-semibold text-[var(--orange)] group-hover:gap-3 transition-all duration-200">
+                Abrir simulador
+                <ArrowRight className="w-4 h-4" />
+              </div>
+            </Link>
+          ))}
         </div>
       </section>
 
-      {/* ===================== GRUPOS POR DOR ===================== */}
-      <section className="w-full px-4 md:px-5 lg:px-8 py-14 space-y-16">
-        {categories.map((key) => {
-          const cat = CATEGORIES[key];
-          const items = simuladoresByCategory(key);
-          return (
-            <div key={key} id={key} className="scroll-mt-32">
-              <div className="flex items-start gap-4 mb-7">
-                <div className="w-11 h-11 rounded-xl bg-[var(--orange-soft)] text-[var(--orange)] flex items-center justify-center shrink-0">
-                  {CATEGORY_ICONS[key]}
-                </div>
-                <div>
-                  <h2 className="text-2xl md:text-3xl font-extrabold">{cat.label}</h2>
-                  <p className="text-foreground/55 mt-1 max-w-2xl">{cat.desc}</p>
-                </div>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {items.map((s) => (
-                  <Link
-                    key={s.slug}
-                    href={`/simulador/${s.slug}`}
-                    className="group rounded-2xl border border-border bg-card p-6 flex flex-col transition-all hover:border-[var(--orange)] hover:-translate-y-1"
-                    style={{ transitionTimingFunction: "var(--ease-out)" }}
-                  >
-                    <div className="flex items-center justify-between mb-4">
-                      <span className="mono text-[11px] uppercase tracking-wider text-foreground/40">
-                        {s.title}
-                      </span>
-                      <span className="inline-flex items-center gap-1 text-[11px] text-foreground/45">
-                        <Clock className="w-3 h-3" />~{s.timeMin} min
-                      </span>
-                    </div>
-                    <h3 className="font-bold text-lg leading-snug">{s.question}</h3>
-                    <p className="text-sm text-foreground/60 mt-3 leading-relaxed flex-1">
-                      {s.shortDesc}
-                    </p>
-                    <div className="flex items-center justify-between mt-5 pt-4 border-t border-border">
-                      <ComplexityMeter level={s.complexity} />
-                      <span className="inline-flex items-center gap-1 text-sm font-semibold text-[var(--orange)] group-hover:gap-2 transition-all">
-                        Investigar <ArrowRight className="w-4 h-4" />
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          );
-        })}
-      </section>
-
-      {/* ===================== COMERCIAL SUTIL ===================== */}
-      <section className="w-full px-4 md:px-5 lg:px-8 pb-24">
-        <div className="rounded-3xl border border-border bg-card p-6 md:p-12 flex flex-col md:flex-row items-center gap-8">
+      {/* ── CTA FINAL ────────────────────────────────────────────────── */}
+      <section className="w-full px-4 md:px-8 lg:px-16 pb-24">
+        <div className="rounded-2xl border border-white/10 bg-[#1c1b15] p-8 md:p-12 flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-2xl md:text-3xl font-extrabold leading-tight">
+            <h2 className="text-white text-2xl md:text-3xl font-extrabold leading-tight">
               Já simulou e quer uma leitura humana do resultado?
             </h2>
-            <p className="text-foreground/60 mt-3 max-w-xl">
-              Traga sua simulação ou proposta. Damos uma segunda opinião técnica,
-              sem vender consórcio e sem comissão de administradora.
+            <p className="text-white/50 mt-3 max-w-xl text-sm md:text-base">
+              Traga sua simulação ou proposta. Damos uma segunda opinião
+              técnica, com quem joga limpo.
             </p>
           </div>
           <a
             href={BRAND.whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-base font-semibold whitespace-nowrap transition-transform hover:scale-[1.02]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-base font-semibold whitespace-nowrap transition-transform hover:scale-[1.02] active:scale-[0.98]"
           >
-            <MessageCircle className="w-5 h-5" />
             Falar com especialista
           </a>
         </div>

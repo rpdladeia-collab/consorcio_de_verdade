@@ -299,12 +299,13 @@ export default function SimuladorProporcaoTaxa() {
         <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
           Tabela de indicadores
         </p>
-        <div className="rounded-xl border border-border overflow-hidden">
-          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
-            <table className="w-full text-sm">
+        <div className="rounded-xl border border-border">
+          <div className="w-full overflow-x-auto">
+            <div className="max-h-[480px] overflow-y-auto">
+            <table className="w-full text-sm min-w-[480px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
-                  <th className="px-3 py-2.5 text-left font-semibold">Indicador</th>
+                  <th className="px-3 py-2.5 text-left font-semibold whitespace-nowrap">Indicador</th>
                   <th className="px-3 py-2.5 text-right font-semibold">Valor</th>
                   <th className="px-3 py-2.5 text-left font-semibold">Leitura</th>
                 </tr>
@@ -319,6 +320,7 @@ export default function SimuladorProporcaoTaxa() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         </div>
       </div>
@@ -376,9 +378,10 @@ export default function SimuladorProporcaoTaxa() {
             {/* Tabela progressiva */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Progressão por Parcela</p>
-              <div className="rounded-xl border border-border overflow-hidden">
-                <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
-                  <table className="w-full text-xs">
+              <div className="rounded-xl border border-border">
+                <div className="w-full overflow-x-auto">
+                  <div className="max-h-[400px] overflow-y-auto">
+                  <table className="w-full text-xs min-w-[560px]">
                     <thead className="sticky top-0 bg-[var(--ink)] text-white">
                       <tr>
                         <th className="px-3 py-2.5 text-center font-semibold">Parcela</th>
@@ -420,6 +423,7 @@ export default function SimuladorProporcaoTaxa() {
                       })}
                     </tbody>
                   </table>
+                  </div>
                 </div>
               </div>
             </div>

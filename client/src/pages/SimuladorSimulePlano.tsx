@@ -75,8 +75,9 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
   const visible = expanded ? rows : rows.slice(0, 24);
 
   return (
-    <div className="rounded-xl border border-border overflow-hidden">
-      <div className="max-h-[480px] overflow-auto">
+    <div className="rounded-xl border border-border">
+      <div className="w-full overflow-x-auto">
+        <div className="max-h-[480px] overflow-y-auto">
         <table className="w-full text-xs min-w-[760px]">
           <thead className="sticky top-0 bg-[var(--ink)] text-white">
             <tr>
@@ -114,6 +115,7 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
             })}
           </tbody>
         </table>
+        </div>
       </div>
       {rows.length > 24 && (
         <button onClick={() => setExpanded(!expanded)}

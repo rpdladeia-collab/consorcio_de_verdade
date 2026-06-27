@@ -238,7 +238,7 @@ export default function SimuladorAutoPagavel() {
       </div>
 
       {/* Tabela de comparação de patrimônio */}
-      <div className="rounded-xl border border-border overflow-hidden">
+      <div className="rounded-xl border border-border">
         <button
           type="button"
           onClick={() => setTableOpen(!tableOpen)}
@@ -248,7 +248,8 @@ export default function SimuladorAutoPagavel() {
           <span className={`transition-transform duration-200 ${tableOpen ? "rotate-180" : ""}`}>▼</span>
         </button>
         {tableOpen && (
-          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
+          <div className="w-full overflow-x-auto">
+            <div className="max-h-[480px] overflow-y-auto">
             <table className="w-full text-xs min-w-[900px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
@@ -279,6 +280,7 @@ export default function SimuladorAutoPagavel() {
                 ))}
               </tbody>
             </table>
+            </div>
           </div>
         )}
       </div>

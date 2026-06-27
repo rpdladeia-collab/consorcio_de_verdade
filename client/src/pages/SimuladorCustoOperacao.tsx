@@ -190,11 +190,12 @@ export default function SimuladorCustoOperacao() {
         <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
           Classificação econômica dos componentes
         </p>
-        <div className="rounded-xl border border-border overflow-hidden">
-          <table className="w-full text-sm">
+        <div className="rounded-xl border border-border">
+          <div className="w-full overflow-x-auto">
+          <table className="w-full text-sm min-w-[480px]">
             <thead>
               <tr className="bg-[var(--ink)] text-white">
-                <th className="px-3 py-2.5 text-left font-semibold">Componente</th>
+                <th className="px-3 py-2.5 text-left font-semibold whitespace-nowrap">Componente</th>
                 <th className="px-3 py-2.5 text-right font-semibold">Valor</th>
                 <th className="px-3 py-2.5 text-left font-semibold hidden lg:table-cell">Classificação</th>
                 <th className="px-3 py-2.5 text-left font-semibold hidden xl:table-cell">Leitura</th>
@@ -211,11 +212,12 @@ export default function SimuladorCustoOperacao() {
               ))}
             </tbody>
           </table>
+          </div>
         </div>
       </div>
 
       {/* Tabela de fluxo mensal — accordion com scroll interno */}
-      <div className="rounded-xl border border-border overflow-hidden">
+      <div className="rounded-xl border border-border">
         <button
           type="button"
           onClick={() => setTableOpen(!tableOpen)}

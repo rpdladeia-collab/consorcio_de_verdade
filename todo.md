@@ -117,3 +117,28 @@
 - [x] Criar bloco Panorama: Dados Oficiais (resumo + botão "Ver dados oficiais")
 - [x] Criar bloco Sobre (resumo + botão "Conhecer o projeto")
 - [x] Remover qualquer frase "sem venda de consórcio" e substituir por posicionamento correto
+
+## Bug Crítico Mobile — Overflow/Scroll Tabelas e Gráficos
+- [ ] Remover overflow-hidden de containers intermediários (cards, seções) — manter apenas no body/html global
+- [ ] Tabelas Raio-X: wrapper w-full overflow-x-auto + min-w-[700px] na tag table + whitespace-nowrap nas células
+- [ ] Tabelas Zona de Contemplação: wrapper w-full overflow-x-auto + min-w-[700px]
+- [ ] Tabelas Panorama: wrapper w-full overflow-x-auto + min-w-[700px]
+- [ ] Gráficos Canvas Raio-X: wrapper w-full overflow-x-auto + min-w-[600px] no container do canvas
+- [ ] Gráficos Canvas Zona de Contemplação: wrapper w-full overflow-x-auto + min-w-[700px]
+- [ ] Gráficos SVG Panorama: wrapper w-full overflow-x-auto + min-w-[600px]
+
+## Sprint UI/UX — Página Central Raio-X (/raio-x)
+- [ ] Fundo escuro bg-[#111] na página inteira
+- [ ] Título branco bold grande: "Se você não entende estes pontos, não contrate ainda."
+- [ ] Subtítulo cinza/muted com texto aprovado
+- [ ] Grid 3 colunas desktop / 1 coluna mobile: grid grid-cols-1 lg:grid-cols-3 gap-6
+- [ ] Cards com bg-[#1c1b15], border border-white/10, rounded-xl, hover:border-orange-500
+- [ ] 6 cards com label MÓDULO N (laranja, uppercase, mono), título branco, texto cinza
+- [ ] Links diretos para cada simulador (/simulador/slug)
+
+## Sprint Refinamento — Zona de Contemplação
+- [ ] Hierarquia invertida: percentual do lance pretendido em destaque absoluto primeiro, termômetro/zona abaixo
+- [ ] Gráfico mobile: wrapper w-full overflow-x-auto + min-w-[700px] no canvas
+- [ ] Ícones ?: remover fundo laranja sólido, manter apenas text-orange-500 sem background
+- [ ] Placeholder: "Consórcio XYZ" ou "Grupo XYZ" (não "Consórcio xyz")
+- [ ] PDF: adicionar scale: 3 no html2canvas para alta resolução

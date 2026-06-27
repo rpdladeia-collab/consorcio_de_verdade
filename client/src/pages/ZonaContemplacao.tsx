@@ -390,9 +390,9 @@ function HelpBtn({ tip }: { tip: string }) {
           height: 16,
           border: 0,
           borderRadius: "50%",
-          background: "#f26a21",
-          color: "#080808",
-          fontSize: 11,
+          background: "transparent",
+          color: "#f26a21",
+          fontSize: 12,
           fontWeight: 950,
           lineHeight: 1,
           cursor: "help",
@@ -400,6 +400,7 @@ function HelpBtn({ tip }: { tip: string }) {
           alignItems: "center",
           justifyContent: "center",
           flexShrink: 0,
+          padding: 0,
         }}
       >
         ?
@@ -416,7 +417,7 @@ export default function ZonaContemplacao() {
   const [activeTab, setActiveTab] = useState<"dados" | "quant" | "leitura">("quant");
 
   // ── Parâmetros do histórico
-  const [grupoNome, setGrupoNome] = useState("Consórcio Ibituruna · Grupo 0001 · Imóvel");
+  const [grupoNome, setGrupoNome] = useState("Grupo XYZ");
   const [segmento, setSegmento] = useState("Imóvel");
   const [modalidade, setModalidade] = useState("Livre");
   const [periodo, setPeriodo] = useState("6");
@@ -1019,8 +1020,8 @@ export default function ZonaContemplacao() {
                   <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Histórico mensal</h2>
                   <span style={pill()}>última assembleia → anteriores</span>
                 </div>
-                <div style={tableWrap}>
-                  <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 10.5, tableLayout: "fixed", minWidth: 0 }}>
+                <div style={{ ...tableWrap, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+                  <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 10.5, tableLayout: "fixed", minWidth: 480 }}>
                     <thead>
                       <tr>
                         <th style={{ ...thStyle, width: "20%" }}>Assembleia <HelpBtn tip="Comece pela última assembleia realizada e siga para as anteriores. O campo é editável." /></th>
@@ -1171,8 +1172,10 @@ export default function ZonaContemplacao() {
                         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><i style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", background: "#e54848" }} /> lance pretendido</span>
                       </div>
                     </div>
-                    <div style={{ background: S.off, border: "1px solid #ded9cc", borderRadius: 14, padding: 10 }}>
-                      <canvas ref={canvasRef} width={980} height={480} style={{ display: "block", width: "100%", height: 480 }} />
+                    <div style={{ overflowX: "auto", WebkitOverflowScrolling: "touch", borderRadius: 14 }}>
+                      <div style={{ background: S.off, border: "1px solid #ded9cc", borderRadius: 14, padding: 10, minWidth: 700 }}>
+                        <canvas ref={canvasRef} width={980} height={480} style={{ display: "block", width: "100%", height: 480 }} />
+                      </div>
                     </div>
                     <div style={{ fontSize: 10.5, color: "#aab4b0", marginTop: 6 }}>
                       A faixa vermelha e a etiqueta destacam o lance pretendido do usuário sobre o histórico informado.
@@ -1232,8 +1235,8 @@ export default function ZonaContemplacao() {
                 <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Quantitativo das contemplações</h2>
                 <span style={pill()}>base mensal</span>
               </div>
-              <div style={tableWrap}>
-                <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 8.8, tableLayout: "fixed", minWidth: 0 }}>
+              <div style={{ ...tableWrap, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 8.8, tableLayout: "fixed", minWidth: 900 }}>
                   <thead>
                     <tr>
                       <th style={{ ...healthThStyle, background: "#07100e" }}>Assembleia <HelpBtn tip="Comece pela última assembleia realizada. Este campo é editável." /></th>
