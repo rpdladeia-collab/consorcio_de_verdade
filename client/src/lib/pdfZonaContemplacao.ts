@@ -13,8 +13,8 @@ const TRANSPARENCY_TEXT =
   "Transparência e Metodologia: Este simulador apresenta uma leitura histórica de lances e " +
   "quantitativo de contemplações com base nos dados informados pelo usuário. O resultado é " +
   "educativo e não garante contemplação futura. Consulte sempre o contrato, regulamento, " +
-  "regras da administradora, caixa do grupo e critérios de desempate. Não vendemos consórcio, " +
-  "não garantimos contemplação e não fazemos recomendação financeira.";
+  "regras da administradora, caixa do grupo e critérios de desempate. " +
+  "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
 
 /* ─── Cores (RGB) ─── */
 const INK: [number, number, number] = [17, 17, 17];
@@ -42,7 +42,25 @@ function generateHash(): string {
   return id;
 }
 
-function addHeader(doc: jsPDF, grupoNome: string, titulo: string) {
+function loadImageAsBase64(url: string): Promise<string> {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      canvas.width = img.naturalWidth;
+      canvas.height = img.naturalHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return reject(new Error("canvas ctx null"));
+      ctx.drawImage(img, 0, 0);
+      resolve(canvas.toDataURL("image/png"));
+    };
+    img.onerror = reject;
+    img.src = url;
+  });
+}
+
+function addHeader(doc: jsPDF, grupoNome: string, titulo: string, logoBase64?: string) {
   const W = doc.internal.pageSize.getWidth();
   // Faixa laranja no topo
   doc.setFillColor(...ORANGE);
@@ -54,11 +72,18 @@ function addHeader(doc: jsPDF, grupoNome: string, titulo: string) {
   doc.setTextColor(...WHITE);
   doc.text("ZONA DE CONTEMPLAÇÃO.2026", 12, 12);
 
-  // Subtítulo à direita
-  doc.setFontSize(7.5);
-  doc.setTextColor(...WHITE);
-  doc.text("consorciodeverdade.com.br", W - 12, 7, { align: "right" });
-  doc.text("renatto", W - 12, 13, { align: "right" });
+  // Logo no canto superior direito (se disponível)
+  if (logoBase64) {
+    try { doc.addImage(logoBase64, "PNG", W - 22, 2, 14, 14); } catch { /* sem logo */ }
+  }
+
+  // Subtítulo à direita (apenas se sem logo)
+  if (!logoBase64) {
+    doc.setFontSize(7.5);
+    doc.setTextColor(...WHITE);
+    doc.text("consorciodeverdade.com.br", W - 12, 7, { align: "right" });
+    doc.text("renatto", W - 12, 13, { align: "right" });
+  }
 
   // Nome do grupo
   doc.setFillColor(...INK);
@@ -168,15 +193,22 @@ export interface PdfZonaContemplacaoParams {
 
 /* ─── Gerador principal ─── */
 
-export function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams): void {
+export async function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams): Promise<void> {
   const { tab, grupoNome, zonaResult, historicoRows, canvasRef, quantResult, quantRows } = params;
   const hash = generateHash();
   const doc = new jsPDF({ orientation: "landscape", unit: "mm", format: "a4" });
   const W = doc.internal.pageSize.getWidth();
 
+  // Pré-carregar logo
+  let logoBase64: string | undefined;
+  try {
+    const logoUrl = window.location.origin + "/manus-storage/logo-dark_83281245.jpeg";
+    logoBase64 = await loadImageAsBase64(logoUrl);
+  } catch { /* sem logo */ }
+
   // ── ABA 1: Histórico de Contemplações ──
   if (tab === "dados" && zonaResult) {
-    addHeader(doc, grupoNome, "Histórico de Contemplações");
+    addHeader(doc, grupoNome, "Histórico de Contemplações", logoBase64);
 
     let y = 32;
 
@@ -293,7 +325,7 @@ export function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams): voi
 
   // ── ABA 2: Quantitativo das Contemplações ──
   if (tab === "quant" && quantResult) {
-    addHeader(doc, grupoNome, "Quantitativo das Contemplações");
+    addHeader(doc, grupoNome, "Quantitativo das Contemplações", logoBase64);
 
     let y = 32;
 
@@ -424,7 +456,7 @@ export function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams): voi
   }
 
   // ── ABA 3: Leitura Técnica ──
-  addHeader(doc, grupoNome, "Leitura Técnica");
+  addHeader(doc, grupoNome, "Leitura Técnica", logoBase64);
   let y = 32;
 
   doc.setFillColor(250, 246, 238);
@@ -441,8 +473,8 @@ export function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams): voi
     "O simulador Zona de Contemplação 2026 é uma ferramenta educativa. " +
     "Histórico de lance, quantidade de contemplações e taxa histórica observada não garantem contemplação futura. " +
     "Consulte sempre contrato, regulamento, regras da administradora, caixa do grupo e critérios de desempate. " +
-    "A leitura depende dos dados informados pelo usuário. Não vendemos consórcio, não garantimos contemplação " +
-    "e não fazemos recomendação financeira.";
+    "A leitura depende dos dados informados pelo usuário. " +
+    "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
   const leituraLines = doc.splitTextToSize(leituraText, W - 32);
   doc.text(leituraLines, 16, y + 16);
   y += 56;

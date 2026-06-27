@@ -2,14 +2,14 @@
 // Logos hospedadas no storage do projeto (lifecycle do webdev)
 
 export const LOGO = {
-  // Logo horizontal off-white — para fundos escuros (header escuro, footer, hero preto)
-  horizontalLight: "/manus-storage/logo_cdv_light_19c11621.png",
-  // Logo horizontal preta — para fundos off-white / claros
-  horizontalDark: "/manus-storage/logo_cdv_dark_7c96134f.png",
+  // Logo quadrada fundo preto — header escuro, footer, hero preto, PDF
+  horizontalLight: "/manus-storage/logo-dark_83281245.jpeg",
+  // Logo quadrada fundo branco — header claro, fundos off-white
+  horizontalDark: "/manus-storage/logo-light_57fdf874.jpeg",
   // Símbolo (ícone) sobre fundo escuro — favicon / selos
-  iconDark: "/manus-storage/logo_cdv_icon_dark_608a8b06.png",
+  iconDark: "/manus-storage/logo-dark_83281245.jpeg",
   // Logomarca oficial (quadrada, fundo preto) — usada no PDF
-  official: "/manus-storage/logo-cdv_8f636d00.png",
+  official: "/manus-storage/logo-dark_83281245.jpeg",
 } as const;
 
 export const BRAND = {

@@ -11,8 +11,8 @@ const TRANSPARENCY_TEXT =
   "Transparência e Metodologia: Este simulador projeta cenários matemáticos com base nos " +
   "parâmetros informados pelo usuário e nas regras padrão do Banco Central. O resultado é uma " +
   "projeção independente para apoio à decisão e não substitui a leitura do seu contrato, que pode " +
-  "conter regras específicas da administradora. Não vendemos consórcio, não garantimos contemplação " +
-  "e não fazemos recomendação financeira.";
+  "conter regras específicas da administradora. " +
+  "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
 
 const INK: [number, number, number] = [17, 17, 17];
 const ORANGE: [number, number, number] = [249, 115, 22];
@@ -79,7 +79,7 @@ export async function generatePdfHistoricoCorrecoes(data: PdfHistoricoCorrecoesD
   doc.setFillColor(...INK);
   doc.rect(0, 0, pw, 52, "F");
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-cdv_8f636d00.png";
+    const logoUrl = window.location.origin + "/manus-storage/logo-dark_83281245.jpeg";
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch { /* sem logo */ }

@@ -161,13 +161,22 @@
 
 ## Estado Global — Integração de Módulos (Zustand)
 
-- [ ] Instalar zustand com middleware persist
-- [ ] Criar store global client/src/stores/simuladorStore.ts (campos: credit, term, adminRate, reserveRate, insuranceRate, adjRate, adjEvery, mode, ranges, hasData)
-- [ ] Módulo 1: salvar parâmetros no store ao clicar em Calcular
-- [ ] Módulo 2: toggle "Importar dados do Módulo 1", preenchimento automático de credit, term, adminRate, fgts
-- [ ] Módulo 3: toggle + preenchimento automático de credit, term, adminRate
-- [ ] Módulo 4: toggle + preenchimento automático de credit, term, adminRate
-- [ ] Módulo 5: toggle + preenchimento automático de credit, term, adminRate
-- [ ] Módulo 6: toggle + preenchimento automático de credit, term
-- [ ] Validação visual: toggle ligado por padrão quando há dados, desligar limpa campos
-- [ ] Checkpoint final estado global
+- [x] Instalar zustand com middleware persist
+- [x] Criar store global client/src/stores/simuladorStore.ts (campos: credit, term, adminRate, reserveRate, insuranceRate, adjRate, adjEvery, mode, ranges, hasData)
+- [x] Módulo 1: salvar parâmetros no store ao clicar em Calcular
+- [x] Módulo 2: toggle "Importar dados do Módulo 1", preenchimento automático de credit, term, adminRate
+- [x] Módulo 3: toggle + preenchimento automático de credit, term, adminRate
+- [x] Módulo 4: toggle + preenchimento automático de credit, term, adminRate
+- [x] Módulo 5: toggle + preenchimento automático de credit, term, adminRate
+- [x] Módulo 6: toggle + preenchimento automático de credit, term
+- [x] Validação visual: toggle ligado por padrão quando há dados, desligar limpa campos
+- [x] Checkpoint final estado global
+
+## Sprint Logomarca + PDF
+
+- [x] Upload das duas logos (fundo preto e fundo branco) para storage webdev
+- [x] Header: logo escura (fundo preto) na versão dark, logo clara (fundo branco) na versão light
+- [x] Hero de todos os simuladores: logo no canto superior direito (versão fundo transparente/escuro)
+- [x] PDFs: atualizar logo do cabeçalho para nova versão
+- [x] PDF: remover bloco "Fontes e metodologia" e corrigir texto de transparência (sem "Não vendemos consórcio")
+- [x] Checkpoint final logomarca

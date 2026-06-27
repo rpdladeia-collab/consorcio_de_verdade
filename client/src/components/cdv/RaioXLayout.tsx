@@ -16,6 +16,7 @@
 import React from "react";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
+import { LOGO, BRAND } from "@/lib/brand";
 
 interface RaioXLayoutProps {
   moduleNumber: number;
@@ -38,7 +39,13 @@ export default function RaioXLayout({
     <div className="min-h-screen">
       {/* ── Hero ── */}
       <section className="bg-[var(--ink)] text-white py-10 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
-        <div className="max-w-6xl mx-auto">
+        <div className="max-w-6xl mx-auto relative">
+          {/* Logo canto superior direito */}
+          <img
+            src={LOGO.horizontalLight}
+            alt={BRAND.name}
+            className="absolute top-0 right-0 h-10 md:h-12 w-auto object-contain"
+          />
           {/* Botão Voltar */}
           <Link
             href="/simuladores"

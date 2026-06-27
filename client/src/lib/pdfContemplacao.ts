@@ -13,8 +13,8 @@ const TRANSPARENCY_TEXT =
   "Transparência e Metodologia: Este simulador projeta cenários matemáticos com base nos " +
   "parâmetros informados pelo usuário e nas regras padrão do Banco Central. O resultado é uma " +
   "projeção independente para apoio à decisão e não substitui a leitura do seu contrato, que pode " +
-  "conter regras específicas da administradora. Não vendemos consórcio, não garantimos contemplação " +
-  "e não fazemos recomendação financeira.";
+  "conter regras específicas da administradora. " +
+  "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
 
 /* ─── Cores (RGB) ─── */
 const INK: [number, number, number] = [17, 17, 17];
@@ -163,7 +163,7 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
 
   // Logomarca oficial no canto superior direito
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-cdv_8f636d00.png";
+    const logoUrl = window.location.origin + "/manus-storage/logo-dark_83281245.jpeg";
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch {
@@ -351,29 +351,6 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
   doc.text(transparencyLines, 20, y + 12);
 
   y += 50;
-
-  /* ── METODOLOGIA ── */
-  doc.setFontSize(10);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...INK);
-  doc.text("Fontes e metodologia", 14, y);
-  y += 6;
-
-  const sources = [
-    "Lógica extraída do HTML original Raio-X do Consórcio (runContemplation + buildContemplationProjection).",
-    "Lance: amortização prioritária no fundo comum; excedente distribuído proporcionalmente em taxa adm e fundo reserva.",
-    "Parcela pós-lance: saldo residual ÷ meses restantes, recalculada a cada reajuste.",
-    "Reajuste: aplicado sobre fundo comum, taxa adm e fundo reserva simultaneamente.",
-    "Motor Matemático " + MOTOR_VERSION + " · Cálculo executado no servidor (tRPC), não acessível ao navegador.",
-  ];
-
-  sources.forEach((s) => {
-    doc.setFontSize(8.5);
-    doc.setFont("helvetica", "normal");
-    doc.setTextColor(...GRAY);
-    doc.text(`· ${s}`, 16, y);
-    y += 5.5;
-  });
 
   /* ── RODAPÉ OBRIGATÓRIO (todas as páginas) ── */
   drawFooter(doc, data);

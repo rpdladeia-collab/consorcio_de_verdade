@@ -931,7 +931,7 @@ export default function ZonaContemplacao() {
             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
               <button
                 style={btn("primary")}
-                onClick={() => zonaResult && gerarPdfZonaContemplacao({ tab: "dados", grupoNome, zonaResult, historicoRows: historicoRows.map(r => ({ ass: num(r.ass), low: num(r.low), mid: num(r.mid), high: num(r.high) })), canvasRef })}
+                onClick={async () => zonaResult && await gerarPdfZonaContemplacao({ tab: "dados", grupoNome, zonaResult, historicoRows: historicoRows.map(r => ({ ass: num(r.ass), low: num(r.low), mid: num(r.mid), high: num(r.high) })), canvasRef })}
               >
                 Gerar PDF
               </button>
@@ -1223,7 +1223,7 @@ export default function ZonaContemplacao() {
             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
               <button
                 style={btn("primary")}
-                onClick={() => quantResult && gerarPdfZonaContemplacao({ tab: "quant", grupoNome, quantResult, quantRows: quantRows.map(r => ({ ass: num(r.ass), sg: num(r.sg), p30: num(r.p30), p50: num(r.p50), clivre: num(r.clivre), clim: num(r.clim), c30: num(r.c30), c50: num(r.c50), csort: num(r.csort), outras: num(r.outras) })) })}
+                onClick={async () => quantResult && await gerarPdfZonaContemplacao({ tab: "quant", grupoNome, quantResult, quantRows: quantRows.map(r => ({ ass: num(r.ass), sg: num(r.sg), p30: num(r.p30), p50: num(r.p50), clivre: num(r.clivre), clim: num(r.clim), c30: num(r.c30), c50: num(r.c50), csort: num(r.csort), outras: num(r.outras) })) })}
               >
                 Gerar PDF
               </button>
@@ -1457,7 +1457,7 @@ export default function ZonaContemplacao() {
         {activeTab === "leitura" && (
           <section>
             <div style={{ display: "flex", justifyContent: "flex-end", marginBottom: 10 }}>
-              <button style={btn("primary")} onClick={() => gerarPdfZonaContemplacao({ tab: "leitura", grupoNome })}>
+              <button style={btn("primary")} onClick={async () => await gerarPdfZonaContemplacao({ tab: "leitura", grupoNome })}>
                 Gerar PDF
               </button>
             </div>
