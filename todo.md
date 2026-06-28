@@ -217,3 +217,16 @@
 - [x] Zona de Contemplação: fundo padrão Raio-X (bg-[var(--paper)])
 - [x] Zona de Contemplação: remover campos "Tendência" e "Pressão Competitiva"
 - [x] Seção Sobre: vídeo em loop 4:5 lado esquerdo, texto lado direito, autoplay sem controles de download
+
+## Sprint Zona de Contemplação — Refatoração Nativa
+
+- [x] Destruir versão anterior com iframe/dangerouslySetInnerHTML
+- [x] Reescrever SimuladorZonaContemplacao.tsx do zero em React nativo + tRPC
+- [x] 3 abas nativas: Histórico de Contemplações, Quantitativo, Leitura Técnica
+- [x] Gráfico Recharts nativo (LineChart) com scroll horizontal no mobile
+- [x] Termômetro do lance (pin animado) nativo em React
+- [x] Tabela de histórico editável com add/remove de linhas
+- [x] Tabela quantitativa com seleção de linhas (clique para incluir/excluir)
+- [x] Dados de exemplo pré-carregados (grupo XYZ)
+- [x] PDF com logo + bloco de transparência (gerarPdfZonaContemplacao)
+- [x] 105/105 testes passando · 0 erros TypeScript
