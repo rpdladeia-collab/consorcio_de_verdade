@@ -233,8 +233,18 @@
 
 ## Sprint Panorama Dados Oficiais — Refatoração Nativa
 
-- [ ] Panorama: criar client/src/lib/panoramaData.ts com todos os dados tipados
-- [ ] Panorama: reescrever página nativa com 4 submenus em scroll infinito (sticky nav)
-- [ ] Panorama: Recharts responsivo em todos os gráficos (ResponsiveContainer + overflow-x-auto)
-- [ ] Panorama: 4 submenus — Vendas · Índice de Exclusão · Reclamações · Sorte
-- [ ] Panorama: design system (--paper, --ink, --orange) sem cores hardcoded do HTML original
+- [x] Panorama: criar client/src/lib/panoramaData.ts com todos os dados tipados
+- [x] Panorama: reescrever página nativa com 4 submenus em scroll infinito (sticky nav)
+- [x] Panorama: Recharts responsivo em todos os gráficos (ResponsiveContainer + overflow-x-auto)
+- [x] Panorama: 4 submenus — Vendas · Índice de Exclusão · Reclamações · Sorte
+- [x] Panorama: design system (--paper, --ink, --orange) sem cores hardcoded do HTML original
+
+## Sprint Home + Sobre — Texto e Identidade
+
+- [x] Home Hero: trocar texto abaixo do título pelo novo copy aprovado (Eu construí esta plataforma...)
+- [x] Home: trocar botão "Acessar simuladores" → "Usar simuladores gratuitamente"
+- [x] Home: trocar botão "Falar com especialista" → "Pedir análise individual"
+- [x] Sobre: trocar item de menu "Sobre" → "r.enatto" (grafia da logomarca)
+- [x] Sobre: substituir todo o conteúdo pelo novo (Renato Ladeia, cargo, texto, botão "Pedir análise individual")
+- [x] Sobre: ícone LinkedIn na cor laranja (bg-[var(--orange)])
+- [x] Sobre: corrigir espaço vazio (removido min-h-screen, fundo bg-[var(--ink)] sem padding extra)

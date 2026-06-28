@@ -1,11 +1,13 @@
 /**
- * Página Sobre — Renato Ladeia
+ * Página r.enatto — Renato Ladeia
  * Layout: vídeo 4:5 lado esquerdo (autoplay, loop, sem download) + texto lado direito
+ * Fundo: bg-[var(--ink)] (preto) — sem min-h-screen para evitar espaço vazio
  */
+import { BRAND } from "@/lib/brand";
 
 export default function Sobre() {
   return (
-    <div className="min-h-screen bg-[var(--ink)] text-white">
+    <div className="bg-[var(--ink)] text-white min-h-full">
       <main className="w-full max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
 
         {/* ── Grid: vídeo (esq) + apresentação (dir) ── */}
@@ -28,7 +30,7 @@ export default function Sobre() {
                 className="absolute inset-0 w-full h-full object-cover bg-black select-none pointer-events-none"
                 style={{ userSelect: "none" }}
               />
-              {/* Overlay transparente para bloquear clique-direito e arrastar */}
+              {/* Overlay para bloquear clique-direito e arrastar */}
               <div
                 className="absolute inset-0 z-10"
                 onContextMenu={(e) => e.preventDefault()}
@@ -47,11 +49,11 @@ export default function Sobre() {
                 Renato Ladeia
               </h1>
               <a
-                href="https://www.linkedin.com/in/renatoladeia"
+                href={BRAND.linkedin}
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn de Renato Ladeia"
-                className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#0A66C2] hover:bg-[#0077b5] transition-colors shrink-0"
+                className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--orange)] hover:bg-[var(--orange)]/80 transition-colors shrink-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -68,11 +70,11 @@ export default function Sobre() {
 
             {/* Credenciais */}
             <div className="space-y-1">
-              <p className="text-white/75 text-base md:text-lg leading-relaxed">
-                Mais de 15 anos de experiência no mercado financeiro
+              <p className="text-white/55 text-sm tracking-wide">
+                Consultor de Investimentos Independente · CVM · Certificação CEA
               </p>
-              <p className="text-white/45 text-sm tracking-wide">
-                Consultor de Investimentos Independente · CVM · Certificado CEA
+              <p className="text-white/70 text-base leading-relaxed">
+                Mais de 15 anos de experiência no mercado financeiro
               </p>
             </div>
 
@@ -82,14 +84,33 @@ export default function Sobre() {
             {/* Texto de apresentação */}
             <div className="space-y-4 text-white/70 text-base leading-relaxed max-w-xl">
               <p>
-                O <strong className="text-white">Consórcio de Verdade</strong> foi construído para dar clareza a uma decisão que costuma ser apresentada de forma simples demais.
+                O <strong className="text-white">Consórcio de Verdade</strong> nasceu para dar clareza a uma decisão que costuma ser apresentada de forma simples demais.
               </p>
               <p>
-                O consórcio pode fazer sentido em muitos cenários, mas não deve ser tratado como solução universal. Por isso, este espaço reúne simulações, análises e explicações para que cada pessoa consiga enxergar o produto por inteiro: o que ele entrega, o que ele não promete, onde pode funcionar e onde pode gerar frustração.
+                Consórcio pode fazer sentido em muitos cenários, mas não deve ser contratado apenas porque a parcela parece caber no bolso ou porque alguém prometeu contemplação rápida.
               </p>
               <p>
-                A ideia é simples: menos discurso pronto, mais entendimento real.
+                Por isso, criei uma plataforma aberta, com simuladores, análises e explicações para que qualquer pessoa consiga entender o custo, o lance, as correções, a contemplação e o impacto real do consórcio no próprio orçamento.
               </p>
+              <p>
+                Se mesmo depois de usar os simuladores você quiser uma leitura individual do seu caso, posso analisar sua proposta com critério, independência e responsabilidade.
+              </p>
+              <p>
+                A ideia é simples: menos promessa pronta, mais conta aberta.
+              </p>
+            </div>
+
+            {/* Botão CTA */}
+            <div className="pt-2">
+              <a
+                href={BRAND.whatsapp}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
+              >
+                Pedir análise individual
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </a>
             </div>
 
           </div>

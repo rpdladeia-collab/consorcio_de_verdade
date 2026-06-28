@@ -86,7 +86,7 @@ export default function Header() {
                 location === "/sobre" ? "text-[var(--orange)]" : "text-foreground/80"
               }`}
             >
-              Sobre
+              r.enatto
             </Link>
           </nav>
 
@@ -150,7 +150,7 @@ export default function Header() {
               href="/sobre"
               className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
             >
-              Sobre
+              r.enatto
             </Link>
 
             <div className="flex items-center gap-5 mt-4 pb-2">

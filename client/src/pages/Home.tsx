@@ -98,9 +98,10 @@ export default function Home() {
           </h1>
 
           {/* Subtítulo — texto exato aprovado */}
-          <p className="text-base sm:text-lg text-foreground/75 leading-relaxed max-w-2xl mb-10">
-            O mercado de consórcios bate recordes de vendas todos os anos. As análises históricas do Banco Central mostram o outro lado: quase 50% das cotas <strong>NÃO consegue adquirir o bem desejado</strong>. Esta plataforma foi criada para que você compreenda cada cálculo, simule diferentes cenários e tome uma decisão consciente antes de contratar.
-          </p>
+          <div className="text-base sm:text-lg text-foreground/75 leading-relaxed max-w-2xl mb-10 space-y-4">
+            <p>Eu construí esta plataforma para que você consiga analisar uma proposta de consórcio com mais clareza: parcela, lance, custo total, correções, contemplação e capacidade real de pagamento.</p>
+            <p>Os simuladores são gratuitos e foram criados para ajudar você a decidir com menos pressão e mais consciência. E, se mesmo assim quiser uma leitura individual do seu caso, eu posso te ajudar a entender se o consórcio faz sentido para você.</p>
+          </div>
 
           {/* Botões */}
           <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
@@ -108,7 +109,7 @@ export default function Home() {
               href="/simuladores"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
             >
-              Acessar simuladores
+              Usar simuladores gratuitamente
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
@@ -117,7 +118,7 @@ export default function Home() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border border-[var(--ink)]/20 bg-white text-[var(--ink)] px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
             >
-              Falar com especialista
+              Pedir análise individual
             </a>
           </div>
 
@@ -269,7 +270,7 @@ export default function Home() {
               href="/simuladores"
               className="inline-flex items-center gap-2 rounded-full bg-white text-[var(--orange)] px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
             >
-              Acessar simuladores
+              Usar simuladores gratuitamente
               <ArrowRight className="w-4 h-4" />
             </Link>
             <a
@@ -278,7 +279,7 @@ export default function Home() {
               rel="noreferrer"
               className="inline-flex items-center gap-2 rounded-full border-2 border-white/60 text-white px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
             >
-              Falar com especialista
+              Pedir análise individual
             </a>
           </div>
         </div>
