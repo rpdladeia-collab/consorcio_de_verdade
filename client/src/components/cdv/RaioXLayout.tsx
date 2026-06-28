@@ -42,7 +42,7 @@ export default function RaioXLayout({
         <div className="max-w-6xl mx-auto relative">
           {/* Logo canto superior direito */}
           <img
-            src={LOGO.horizontalLight}
+            src={LOGO.light}
             alt={BRAND.name}
             className="absolute top-0 right-0 h-10 md:h-12 w-auto object-contain"
           />

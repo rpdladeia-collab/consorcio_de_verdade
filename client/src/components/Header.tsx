@@ -36,9 +36,9 @@ export default function Header() {
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <img
-              src={LOGO.horizontalDark}
+              src={LOGO.dark}
               alt={BRAND.name}
-              className="h-9 md:h-11 w-auto"
+              className="h-9 md:h-10 w-auto"
             />
           </Link>
 

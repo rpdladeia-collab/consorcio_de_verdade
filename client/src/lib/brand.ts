@@ -2,14 +2,15 @@
 // Logos hospedadas no storage do projeto (lifecycle do webdev)
 
 export const LOGO = {
-  // Logo quadrada fundo preto — header escuro, footer, hero preto, PDF
-  horizontalLight: "/manus-storage/logo-dark_83281245.jpeg",
-  // Logo quadrada fundo branco — header claro, fundos off-white
-  horizontalDark: "/manus-storage/logo-light_57fdf874.jpeg",
-  // Símbolo (ícone) sobre fundo escuro — favicon / selos
-  iconDark: "/manus-storage/logo-dark_83281245.jpeg",
-  // Logomarca oficial (quadrada, fundo preto) — usada no PDF
-  official: "/manus-storage/logo-dark_83281245.jpeg",
+  // Logo com letras BRANCAS + fundo transparente — header escuro, footer, hero escuro, seções pretas
+  light: "/manus-storage/logo-light-transparent_27451430.png",
+  // Logo com letras ESCURAS + fundo transparente — header claro/branco, fundos off-white, PDFs
+  dark: "/manus-storage/logo-dark-transparent_4ce4b84a.png",
+  // Aliases para compatibilidade com código existente
+  horizontalLight: "/manus-storage/logo-light-transparent_27451430.png",
+  horizontalDark: "/manus-storage/logo-dark-transparent_4ce4b84a.png",
+  // PDF usa versão escura (cabeçalho branco/claro nos PDFs)
+  official: "/manus-storage/logo-dark-transparent_4ce4b84a.png",
 } as const;
 
 export const BRAND = {

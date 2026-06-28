@@ -180,3 +180,17 @@
 - [x] PDFs: atualizar logo do cabeçalho para nova versão
 - [x] PDF: remover bloco "Fontes e metodologia" e corrigir texto de transparência (sem "Não vendemos consórcio")
 - [x] Checkpoint final logomarca
+
+## Sprint Home + Logo Transparente
+
+- [x] Logo: processar para fundo transparente (versão light — letras brancas; versão dark — letras escuras)
+- [x] Logo: integrar versão dark-transparent no Header (fundo claro)
+- [x] Logo: integrar versão light-transparent no RaioXLayout hero (fundo escuro)
+- [x] Logo: atualizar todos os 7 PDFs com versão dark-transparent
+- [x] Home Hero: badge "Consórcio não é para todo mundo" alinhado à esquerda
+- [x] Home Hero: texto "NÃO consegue adquirir o bem desejado"
+- [x] Home Hero: botões e disclaimer alinhados à esquerda (sem centralização)
+- [x] Home seção escura: eyebrow "RAIO X DO CONSÓRCIO"
+- [x] Home seção escura: novo parágrafo com ALGUNS módulos ESSENCIAIS e E MUITO MAIS
+- [x] Home: remover seção branca (BLOCO RAIO-X DO CONSÓRCIO com título "Seis módulos...")
+- [x] Checkpoint final sprint Home + Logo

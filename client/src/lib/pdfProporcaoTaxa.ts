@@ -86,7 +86,7 @@ export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Prom
   doc.setFillColor(...INK);
   doc.rect(0, 0, pw, 52, "F");
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-dark_83281245.jpeg";
+    const logoUrl = window.location.origin + "/manus-storage/logo-dark-transparent_4ce4b84a.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch { /* sem logo */ }

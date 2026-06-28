@@ -84,11 +84,11 @@ export default function Home() {
     <main className="w-full overflow-x-hidden">
 
       {/* ─── HERO ─────────────────────────────────────────────────── */}
-      <section className="w-full bg-[var(--paper)] pt-16 pb-20 px-4 md:px-8 text-center">
+      <section className="w-full bg-[var(--paper)] pt-12 pb-16 px-4 md:px-8">
         <div className="max-w-3xl mx-auto">
-          {/* Badge */}
+          {/* Badge — alinhado à esquerda */}
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--orange)]/30 bg-[var(--orange)]/8 px-4 py-1.5 text-xs font-semibold text-[var(--orange)] mb-8 tracking-wide">
-            Entenda antes de decidir
+            Consórcio não é para todo mundo
           </span>
 
           {/* Título */}
@@ -98,12 +98,12 @@ export default function Home() {
           </h1>
 
           {/* Subtítulo — texto exato aprovado */}
-          <p className="text-base sm:text-lg text-foreground/75 leading-relaxed max-w-2xl mx-auto mb-10">
-            O mercado de consórcios bate recordes de vendas todos os anos. As análises históricas do Banco Central mostram o outro lado: quase 50% das cotas <strong>NÃO atingem o objetivo</strong> para o qual foram contratadas. Esta plataforma foi criada para que você compreenda cada cálculo, simule diferentes cenários e tome uma decisão consciente antes de contratar.
+          <p className="text-base sm:text-lg text-foreground/75 leading-relaxed max-w-2xl mb-10">
+            O mercado de consórcios bate recordes de vendas todos os anos. As análises históricas do Banco Central mostram o outro lado: quase 50% das cotas <strong>NÃO consegue adquirir o bem desejado</strong>. Esta plataforma foi criada para que você compreenda cada cálculo, simule diferentes cenários e tome uma decisão consciente antes de contratar.
           </p>
 
           {/* Botões */}
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-6">
+          <div className="flex flex-col sm:flex-row items-start gap-4 mb-6">
             <Link
               href="/simuladores"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
@@ -128,15 +128,15 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── SEÇÃO SIMULADORES (Raio-X) ───────────────────────────── */}
-      <section className="w-full bg-[var(--ink)] py-20 px-4 md:px-8">
+      {/* ─── SEÇÃO SIMULADORES (Raio-X) ─────────────────────────── */}
+      <section className="w-full bg-[var(--ink)] py-14 px-4 md:px-8">
         <div className="max-w-5xl mx-auto">
-          <p className="eyebrow text-[var(--orange)] mb-4">COMECE PELA SUA DÚVIDA</p>
+          <p className="eyebrow text-[var(--orange)] mb-4">RAIO X DO CONSÓRCIO</p>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-4 max-w-3xl">
             Se você não entende estes pontos, não contrate ainda.
           </h2>
           <p className="text-white/60 text-base leading-relaxed max-w-2xl mb-12">
-            Cada módulo abaixo mostra uma parte essencial da decisão. Antes de contratar, entenda fluxo de parcelas, contemplação, custo da operação, proporção da taxa, correções e viabilidade.
+            O Raio-X do Consórcio reúne <strong className="text-white">ALGUNS módulos ESSENCIAIS</strong> para analisar uma proposta antes da contratação. Ele mostra fluxo de parcelas, contemplação, custo real, proporção da taxa, correções e viabilidade <strong className="text-[var(--orange)]">E MUITO MAIS ...</strong>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -163,30 +163,6 @@ export default function Home() {
                 </span>
               </Link>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── BLOCO RAIO-X DO CONSÓRCIO ────────────────────────────── */}
-      <section className="w-full bg-[var(--paper)] py-20 px-4 md:px-8 border-b border-border">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-10">
-          <div className="flex-1">
-            <p className="eyebrow text-[var(--orange)] mb-3">RAIO-X DO CONSÓRCIO</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-[var(--ink)] leading-tight mb-4">
-              Seis módulos para analisar uma proposta antes de contratar.
-            </h2>
-            <p className="text-foreground/65 text-base leading-relaxed max-w-xl">
-              O Raio-X do Consórcio reúne seis módulos para analisar uma proposta antes da contratação. Ele mostra fluxo de parcelas, contemplação, custo real, proporção da taxa, correções e viabilidade.
-            </p>
-          </div>
-          <div className="shrink-0">
-            <Link
-              href="/simuladores"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] text-[var(--paper)] px-7 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
-            >
-              Abrir Raio-X do Consórcio
-              <ArrowRight className="w-4 h-4" />
-            </Link>
           </div>
         </div>
       </section>

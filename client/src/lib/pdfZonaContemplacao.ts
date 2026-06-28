@@ -202,7 +202,7 @@ export async function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams
   // Pré-carregar logo
   let logoBase64: string | undefined;
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-dark_83281245.jpeg";
+    const logoUrl = window.location.origin + "/manus-storage/logo-dark-transparent_4ce4b84a.png";
     logoBase64 = await loadImageAsBase64(logoUrl);
   } catch { /* sem logo */ }
 
