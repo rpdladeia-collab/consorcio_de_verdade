@@ -1,5 +1,5 @@
 /**
- * Gerador de PDF — Módulo 1: Simule seu plano
+ * Gerador de PDF — Módulo 1: Raio-X da Parcela
  * Rodapé obrigatório: consorciodeverdade.com.br | Gerado em: [DATA/HORA] | Motor Matemático v1.0 | ID: [HASH]
  * Bloco de transparência: texto exato aprovado pelo usuário.
  */
@@ -173,13 +173,13 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...WHITE);
-  doc.text("Simule seu plano", 14, 40);
+  doc.text("Raio-X da Parcela", 14, 40);
 
   // Módulo
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...ORANGE);
-  doc.text("MÓDULO 1 · RAIO-X DO CONSÓRCIO", 14, 47);
+  doc.text("MÓDULO 1", 14, 47);
 
   y = 62;
 

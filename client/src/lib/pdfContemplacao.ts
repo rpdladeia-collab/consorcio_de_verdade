@@ -188,7 +188,7 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
   doc.setFontSize(8);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(...ORANGE);
-  doc.text("MÓDULO 2 · RAIO-X DO CONSÓRCIO", 14, 47);
+  doc.text("MÓDULO 2", 14, 47);
 
   y = 62;
 

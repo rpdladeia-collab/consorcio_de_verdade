@@ -8,7 +8,7 @@ const MODULOS = [
   {
     id: 1,
     icon: <Calculator className="w-5 h-5" />,
-    title: "Simule seu plano",
+    title: "Raio-X da Parcela",
     desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
     href: "/simulador/simule-seu-plano",
   },
@@ -136,7 +136,7 @@ export default function Home() {
             Se você não entende estes pontos, não contrate ainda.
           </h2>
           <p className="text-white/60 text-base leading-relaxed max-w-2xl mb-12">
-            O Raio-X do Consórcio reúne <strong className="text-white">ALGUNS módulos ESSENCIAIS</strong> para analisar uma proposta antes da contratação. Ele mostra fluxo de parcelas, contemplação, custo real, proporção da taxa, correções e viabilidade <strong className="text-[var(--orange)]">E MUITO MAIS ...</strong>
+            O Raio-X do Consórcio reúne <strong className="text-white">todos os módulos essenciais</strong> para analisar uma proposta antes da contratação. Ele mostra fluxo de parcelas, contemplação, custo real, proporção da taxa, correções e viabilidade <strong className="text-[var(--orange)]">E MUITO MAIS ...</strong>
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -168,14 +168,14 @@ export default function Home() {
       </section>
 
       {/* ─── BLOCO ZONA DE CONTEMPLAÇÃO ───────────────────────────── */}
-      <section className="w-full bg-[var(--graphite)] py-20 px-4 md:px-8 border-b border-white/10">
+      <section className="w-full bg-white py-20 px-4 md:px-8 border-b border-border">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-10">
           <div className="flex-1">
             <p className="eyebrow text-[var(--orange)] mb-3">ZONA DE CONTEMPLAÇÃO</p>
-            <h2 className="text-2xl sm:text-3xl font-black text-white leading-tight mb-4">
+            <h2 className="text-2xl sm:text-3xl font-black text-[var(--ink)] leading-tight mb-4">
               Entenda a dinâmica do grupo antes de definir sua estratégia de lance.
             </h2>
-            <p className="text-white/60 text-base leading-relaxed max-w-xl">
+            <p className="text-foreground/65 text-base leading-relaxed max-w-xl">
               A Zona de Contemplação permite analisar histórico de lances, pressão competitiva e quantitativo de contemplações de um grupo. O objetivo é entender a dinâmica do grupo antes de definir uma estratégia de lance.
             </p>
           </div>

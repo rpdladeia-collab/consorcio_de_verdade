@@ -1,5 +1,5 @@
 /**
- * Módulo 1 — Simule seu plano
+ * Módulo 1 — Raio-X da Parcela
  * Layout: RaioXLayout (grid 2 colunas — inputs esquerda / KPIs+resultados direita)
  * Matemática: fiel ao HTML original (buildSchedule)
  */
@@ -356,8 +356,8 @@ export default function SimuladorSimulePlano() {
   return (
     <RaioXLayout
       moduleNumber={1}
-      title="Simule seu plano"
-      description="Gera o fluxo mensal completo do consórcio com parcela linear ou não linear, reajustes periódicos e seguro. Cada centavo calculado no servidor com a lógica original do Raio-X."
+      title="Raio-X da Parcela"
+      description="Parcela baixa vende fácil. Conta mal feita cobra caro. Antes de olhar só o valor do boleto, veja como essa parcela se comporta mês a mês: taxa, correção, seguro, reajustes e custo acumulado. A pergunta não é só se cabe hoje. É se continua fazendo sentido até o fim."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

@@ -194,3 +194,13 @@
 - [x] Home seção escura: novo parágrafo com ALGUNS módulos ESSENCIAIS e E MUITO MAIS
 - [x] Home: remover seção branca (BLOCO RAIO-X DO CONSÓRCIO com título "Seis módulos...")
 - [x] Checkpoint final sprint Home + Logo
+
+## Sprint Melhorias UI — Logos + Home + Raio-X
+
+- [x] Logo: reprocessar ambas as versões PNG com texto "Consórcio de verdade." 30% maior
+- [x] Logo: fazer upload das novas versões e atualizar brand.ts
+- [x] Home: fundo branco na seção Zona de Contemplação (bg-white em vez de bg-[var(--graphite)])
+- [x] Home seção escura: trocar "ALGUNS módulos ESSENCIAIS" por "todos os módulos essenciais"
+- [x] Módulo 1: renomear "Simule seu plano" → "Raio-X da Parcela" (card Home, card /raio-x, hero do simulador)
+- [x] Todos os simuladores: remover "· RAIO-X DO CONSÓRCIO" ao lado de "MÓDULO N" no hero
+- [x] Módulo 1: atualizar texto do hero para o novo copy aprovado

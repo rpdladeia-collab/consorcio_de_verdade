@@ -30,7 +30,7 @@ export const CATEGORIES: Record<
   { label: string; pain: string; desc: string }
 > = {
   plano: {
-    label: "Simule seu plano",
+    label: "Raio-X da Parcela",
     pain: "Como será o fluxo real de parcelas do meu consórcio?",
     desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
   },
@@ -65,7 +65,7 @@ export const SIMULADORES: SimuladorMeta[] = [
   {
     slug: "simule-seu-plano",
     moduleNumber: 1,
-    title: "Simule seu plano",
+    title: "Raio-X da Parcela",
     question: "Como será o fluxo real de parcelas do meu consórcio?",
     shortDesc:
       "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",

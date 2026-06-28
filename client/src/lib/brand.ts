@@ -3,14 +3,14 @@
 
 export const LOGO = {
   // Logo com letras BRANCAS + fundo transparente — header escuro, footer, hero escuro, seções pretas
-  light: "/manus-storage/logo-light-transparent_27451430.png",
+  light: "/manus-storage/logo-light-transparent-v2_0f1b93a2.png",
   // Logo com letras ESCURAS + fundo transparente — header claro/branco, fundos off-white, PDFs
-  dark: "/manus-storage/logo-dark-transparent_4ce4b84a.png",
+  dark: "/manus-storage/logo-dark-transparent-v2_8d69bcea.png",
   // Aliases para compatibilidade com código existente
-  horizontalLight: "/manus-storage/logo-light-transparent_27451430.png",
-  horizontalDark: "/manus-storage/logo-dark-transparent_4ce4b84a.png",
+  horizontalLight: "/manus-storage/logo-light-transparent-v2_0f1b93a2.png",
+  horizontalDark: "/manus-storage/logo-dark-transparent-v2_8d69bcea.png",
   // PDF usa versão escura (cabeçalho branco/claro nos PDFs)
-  official: "/manus-storage/logo-dark-transparent_4ce4b84a.png",
+  official: "/manus-storage/logo-dark-transparent-v2_8d69bcea.png",
 } as const;
 
 export const BRAND = {

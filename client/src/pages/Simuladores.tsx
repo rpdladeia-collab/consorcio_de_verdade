@@ -21,7 +21,7 @@ const MODULOS = [
   {
     num: 1,
     icon: <Calculator className="w-5 h-5" />,
-    title: "Simule seu plano",
+    title: "Raio-X da Parcela",
     desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
     slug: "simule-seu-plano",
   },
