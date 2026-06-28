@@ -264,8 +264,8 @@ export default function SimuladorHistoricoCorrecoes() {
   return (
     <RaioXLayout
       moduleNumber={5}
-      title="Histórico de Correções"
-      description="A projeção matemática demonstra como a carta de crédito e as parcelas evoluem ao longo do prazo com os reajustes contratuais."
+      title="Raio-X das Correções"
+      description="A parcela do consórcio não fica parada no tempo. Este raio-x mostra como a correção da carta, das parcelas e do saldo devedor pode mudar completamente a leitura do contrato. Em vez de olhar apenas para a taxa de administração, o simulador revela o impacto dos reajustes ao longo do plano — antes e depois da contemplação — para você entender o impacto real da operação."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

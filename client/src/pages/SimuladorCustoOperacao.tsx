@@ -203,7 +203,7 @@ export default function SimuladorCustoOperacao() {
       {/* Leitura técnica — readboxes do HTML */}
       <div className="space-y-3">
         {result.readboxes.map((rb, i) => (
-          <MeaningBlock key={i}>
+          <MeaningBlock key={i} label="Custo da Operação">
             <p className="font-semibold text-sm mb-1">{rb.title}</p>
             <p className="whitespace-pre-line">{rb.body}</p>
           </MeaningBlock>
@@ -320,7 +320,7 @@ export default function SimuladorCustoOperacao() {
   return (
     <RaioXLayout
       moduleNumber={3}
-      title="Custo da Operação"
+      title="Raio-X do Custo Total"
       description="Identifique o custo explícito da operação: taxa de administração projetada e seguro. Entenda o que é custo real e o que é atualização monetária."
       formPanel={formPanel}
       resultsPanel={resultsPanel}

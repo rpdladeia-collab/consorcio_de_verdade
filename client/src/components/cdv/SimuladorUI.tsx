@@ -219,26 +219,34 @@ export function BeforeAfterBar({
 }
 
 /* ----------------------------------------------------------------------------
-   "O que isso significa"
+   "O que isso significa" — novo padrão: fundo preto, título temático amarelo
 ---------------------------------------------------------------------------- */
-export function MeaningBlock({ children }: { children: ReactNode }) {
+export function MeaningBlock({
+  children,
+  label = "O que isso significa",
+}: {
+  children: ReactNode;
+  label?: string;
+}) {
   const [open, setOpen] = React.useState(false);
   return (
-    <div className="rounded-2xl border border-border bg-card overflow-hidden">
+    <div className="rounded-xl overflow-hidden border border-white/10">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-6 py-4 text-left"
+        className="w-full flex items-center justify-between bg-[var(--ink)] px-5 py-3.5 text-left"
       >
         <div className="flex items-center gap-2">
-          <Info className="w-4 h-4 text-[var(--orange)]" />
-          <span className="eyebrow text-foreground/50">O que isso significa</span>
+          <Info className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
+          <span className="text-[11px] font-bold uppercase tracking-widest text-yellow-400">
+            {label}
+          </span>
         </div>
         <ChevronDown
-          className={`w-4 h-4 text-foreground/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
         />
       </button>
       {open && (
-        <div className="px-6 pb-5 pt-0 text-foreground/75 leading-relaxed text-[15px] space-y-2">
+        <div className="bg-[var(--ink)] px-5 pb-5 pt-1 text-white/70 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
           {children}
         </div>
       )}

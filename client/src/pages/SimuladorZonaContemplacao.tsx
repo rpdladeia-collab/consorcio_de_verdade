@@ -10,9 +10,6 @@ import {
   Plus,
   Trash2,
   ShieldCheck,
-  TrendingUp,
-  TrendingDown,
-  Minus,
 } from "lucide-react";
 import {
   LineChart,
@@ -110,9 +107,6 @@ export default function SimuladorZonaContemplacao() {
     }, 250);
   }
 
-  const TrendIcon =
-    result?.trendDir === "up" ? TrendingUp : result?.trendDir === "down" ? TrendingDown : Minus;
-
   return (
     <div className="min-h-screen">
       {/* HERO */}
@@ -141,7 +135,8 @@ export default function SimuladorZonaContemplacao() {
       </section>
 
       {/* SIMULADOR */}
-      <section className="container py-12 md:py-16 space-y-8">
+      <section className="w-full bg-[var(--paper)] py-8 md:py-12 px-4 md:px-8">
+        <div className="max-w-6xl mx-auto space-y-8">
         <div>
           <SectionTitle
             eyebrow="Diagnóstico rápido"
@@ -308,23 +303,6 @@ export default function SimuladorZonaContemplacao() {
                 </div>
               </div>
 
-              {/* Tendência + Pressão */}
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="rounded-2xl border border-border bg-card p-5">
-                  <div className="flex items-center gap-2 mb-1.5">
-                    <TrendIcon className="w-4 h-4 text-[var(--orange)]" />
-                    <span className="eyebrow text-foreground/50">Tendência dos lances</span>
-                  </div>
-                  <p className="text-lg font-bold">{result.trendLabel}</p>
-                  <p className="text-sm text-foreground/55 mt-0.5">{result.trendDetail}</p>
-                </div>
-                <div className="rounded-2xl border border-border bg-card p-5">
-                  <span className="eyebrow text-foreground/50">Pressão / dispersão</span>
-                  <p className="text-lg font-bold mt-1.5">{result.pressureLabel}</p>
-                  <p className="text-sm text-foreground/55 mt-0.5">{result.pressureDetail}</p>
-                </div>
-              </div>
-
               {/* Diagnóstico */}
               <DiagnosticCard
                 verdict={mapVerdict(result.verdict)}
@@ -333,7 +311,7 @@ export default function SimuladorZonaContemplacao() {
               />
 
               {/* O que significa */}
-              <MeaningBlock>
+              <MeaningBlock label="Zona de Contemplação">
                 <p>
                   Com base no histórico, os lances vencedores variam de{" "}
                   <strong>{formatPct(result.low)}</strong> (piso) a{" "}
@@ -389,6 +367,7 @@ export default function SimuladorZonaContemplacao() {
               </Collapsible>
             </div>
           )}
+        </div>
         </div>
       </section>
 

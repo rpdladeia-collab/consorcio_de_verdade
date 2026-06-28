@@ -302,7 +302,7 @@ export default function SimuladorProporcaoTaxa() {
       {/* Readboxes */}
       <div className="space-y-3">
         {result.readboxes.map((rb, i) => (
-          <MeaningBlock key={i}>
+          <MeaningBlock key={i} label="Eficiência da Taxa">
             <p className="font-semibold text-sm mb-1">{rb.title}</p>
             <p className="whitespace-pre-line">{rb.body}</p>
             {rb.formula && (
@@ -498,8 +498,8 @@ export default function SimuladorProporcaoTaxa() {
   return (
     <RaioXLayout
       moduleNumber={4}
-      title="Proporção da Taxa"
-      description="Os cálculos demonstram a proporção real da taxa de administração sobre o dinheiro efetivamente novo — não sobre a carta bruta."
+      title="Raio-X da Eficiência da Taxa de Administração"
+      description="A taxa de administração não deve ser analisada apenas pelo percentual contratado. Este raio-x mostra quanto ela pesa, de fato, sobre o dinheiro novo que chega até você depois de parcelas pagas, lance próprio, FGTS e lance embutido. O objetivo é revelar se a operação continua eficiente ou se a taxa, quando medida sobre o crédito líquido recebido, ficou cara demais."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

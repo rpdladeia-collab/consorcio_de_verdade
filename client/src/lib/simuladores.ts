@@ -35,22 +35,22 @@ export const CATEGORIES: Record<
     desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
   },
   contemplacao: {
-    label: "Contemplação",
+    label: "Raio-X do Lance",
     pain: "Quanto de lance eu preciso e o que acontece depois que sou contemplado?",
     desc: "Analisa a força do lance, a carta líquida e projeta o fluxo pós-contemplação.",
   },
   custo: {
-    label: "Custo da operação",
+    label: "Raio-X do Custo Total",
     pain: "Qual é o custo real do meu consórcio?",
     desc: "Separa taxa de administração, seguro, fundo reserva e correção monetária.",
   },
   eficiencia: {
-    label: "Proporção da taxa",
+    label: "Raio-X da Eficiência da Taxa",
     pain: "A taxa de administração está pesando quanto sobre o dinheiro que realmente recebi?",
     desc: "Mede a eficiência da taxa sobre o crédito líquido e o dinheiro novo efetivo.",
   },
   correcoes: {
-    label: "Histórico de correções",
+    label: "Raio-X das Correções",
     pain: "Como as correções anuais afetam meu saldo e minhas parcelas ao longo do tempo?",
     desc: "Projeta a evolução anual da carta, do saldo e das parcelas com o índice de reajuste.",
   },
@@ -78,7 +78,7 @@ export const SIMULADORES: SimuladorMeta[] = [
   {
     slug: "contemplacao",
     moduleNumber: 2,
-    title: "Contemplação",
+    title: "Raio-X do Lance",
     question: "Quanto de lance eu preciso e o que acontece depois que sou contemplado?",
     shortDesc:
       "Analisa a força do lance (próprio, FGTS e embutido), a carta líquida e projeta o fluxo pós-contemplação.",
@@ -91,7 +91,7 @@ export const SIMULADORES: SimuladorMeta[] = [
   {
     slug: "custo-operacao",
     moduleNumber: 3,
-    title: "Custo da operação",
+    title: "Raio-X do Custo Total",
     question: "Qual é o custo real do meu consórcio?",
     shortDesc:
       "Separa taxa de administração, seguro, fundo reserva e correção monetária para uma leitura honesta do custo.",
@@ -104,7 +104,7 @@ export const SIMULADORES: SimuladorMeta[] = [
   {
     slug: "proporcao-taxa",
     moduleNumber: 4,
-    title: "Proporção da taxa",
+    title: "Raio-X da Eficiência da Taxa",
     question: "A taxa de administração está pesando quanto sobre o dinheiro que realmente recebi?",
     shortDesc:
       "Mede a eficiência da taxa sobre o crédito líquido e o dinheiro novo efetivo.",
@@ -117,7 +117,7 @@ export const SIMULADORES: SimuladorMeta[] = [
   {
     slug: "historico-correcoes",
     moduleNumber: 5,
-    title: "Histórico de correções",
+    title: "Raio-X das Correções",
     question: "Como as correções anuais afetam meu saldo e minhas parcelas ao longo do tempo?",
     shortDesc:
       "Projeta a evolução anual da carta, do saldo e das parcelas com o índice de reajuste.",

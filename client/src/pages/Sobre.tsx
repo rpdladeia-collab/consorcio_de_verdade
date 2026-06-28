@@ -1,30 +1,50 @@
 /**
  * Página Sobre — Renato Ladeia
- * Design: minimalista, fundo preto, vídeo sem logomarca, nome + cargo + LinkedIn
+ * Layout: vídeo 4:5 lado esquerdo (autoplay, loop, sem download) + texto lado direito
  */
 
 export default function Sobre() {
   return (
-    <div className="min-h-screen bg-black text-white flex flex-col">
-      {/* ── Conteúdo central ── */}
-      <main className="flex-1 flex flex-col items-center justify-center px-4 py-16 md:py-24">
-        <div className="w-full max-w-2xl mx-auto flex flex-col items-center gap-10">
+    <div className="min-h-screen bg-[var(--ink)] text-white">
+      <main className="w-full max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
 
-          {/* Vídeo */}
-          <div className="w-full rounded-2xl overflow-hidden shadow-2xl border border-white/10">
-            <video
-              src="/manus-storage/video_sem_logo_38c4444a.mp4"
-              controls
-              playsInline
-              className="w-full aspect-video object-cover bg-black"
-            />
+        {/* ── Grid: vídeo (esq) + apresentação (dir) ── */}
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">
+
+          {/* Vídeo 4:5 — lado esquerdo */}
+          <div
+            className="w-full lg:w-auto lg:shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10"
+            style={{ maxWidth: "340px", width: "100%" }}
+            onContextMenu={(e) => e.preventDefault()}
+          >
+            <div className="relative" style={{ aspectRatio: "4/5" }}>
+              <video
+                src="/manus-storage/video_sem_logo_38c4444a.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                disablePictureInPicture
+                controlsList="nodownload noremoteplayback"
+                className="absolute inset-0 w-full h-full object-cover bg-black select-none pointer-events-none"
+                style={{ userSelect: "none" }}
+              />
+              {/* Overlay transparente para bloquear clique-direito e arrastar */}
+              <div
+                className="absolute inset-0 z-10"
+                onContextMenu={(e) => e.preventDefault()}
+                onDragStart={(e) => e.preventDefault()}
+                style={{ cursor: "default" }}
+              />
+            </div>
           </div>
 
-          {/* Identidade */}
-          <div className="flex flex-col items-center gap-3 text-center">
+          {/* Texto de apresentação — lado direito */}
+          <div className="flex-1 flex flex-col justify-center gap-6 lg:pt-4">
+
             {/* Nome + LinkedIn */}
             <div className="flex items-center gap-3">
-              <h1 className="text-2xl md:text-3xl font-bold tracking-tight">
+              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
                 Renato Ladeia
               </h1>
               <a
@@ -32,12 +52,12 @@ export default function Sobre() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn de Renato Ladeia"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[#0A66C2] hover:bg-[#0077b5] transition-colors"
+                className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[#0A66C2] hover:bg-[#0077b5] transition-colors shrink-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
+                  width="18"
+                  height="18"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   className="text-white"
@@ -47,17 +67,37 @@ export default function Sobre() {
               </a>
             </div>
 
-            {/* Cargo e certificações */}
+            {/* Credenciais */}
             <div className="space-y-1">
-              <p className="text-white/70 text-base md:text-lg">
+              <p className="text-white/75 text-base md:text-lg leading-relaxed">
                 Mais de 15 anos de experiência no mercado financeiro
               </p>
-              <p className="text-white/50 text-sm tracking-wide">
+              <p className="text-white/45 text-sm tracking-wide">
                 Consultor de Investimentos Independente · CVM · Certificado CEA
               </p>
             </div>
-          </div>
 
+            {/* Separador */}
+            <div className="w-12 h-0.5 bg-[var(--orange)] rounded-full" />
+
+            {/* Texto de apresentação */}
+            <div className="space-y-4 text-white/70 text-base leading-relaxed max-w-xl">
+              <p>
+                O <strong className="text-white">Consórcio de Verdade</strong> nasceu de uma
+                constatação simples: o mercado bate recordes de vendas enquanto quase metade das
+                cotas não chega ao bem desejado.
+              </p>
+              <p>
+                Esta plataforma foi criada para que qualquer pessoa possa entender os cálculos
+                reais de uma proposta — parcela, lance, custo, correção e viabilidade — antes de
+                assinar qualquer contrato.
+              </p>
+              <p>
+                Aqui não se vende consórcio. Aqui se faz a conta.
+              </p>
+            </div>
+
+          </div>
         </div>
       </main>
     </div>

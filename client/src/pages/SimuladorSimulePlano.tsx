@@ -284,7 +284,7 @@ export default function SimuladorSimulePlano() {
       </div>
 
       {/* Leitura interpretativa */}
-      <MeaningBlock>
+      <MeaningBlock label="Fluxo de Parcelas">
         <p>
           A <strong>1ª parcela</strong> é calculada dividindo a obrigação contratual total
           (fundo comum + taxa de administração + fundo de reserva) pelo prazo. Nos meses

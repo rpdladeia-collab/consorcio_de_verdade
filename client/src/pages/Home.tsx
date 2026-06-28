@@ -15,28 +15,28 @@ const MODULOS = [
   {
     id: 2,
     icon: <TrendingUp className="w-5 h-5" />,
-    title: "Contemplação",
+    title: "Raio-X do Lance",
     desc: "Projeta o impacto financeiro da contemplação em diferentes momentos do plano.",
     href: "/simulador/contemplacao",
   },
   {
     id: 3,
     icon: <BarChart2 className="w-5 h-5" />,
-    title: "Custo da operação",
+    title: "Raio-X do Custo Total",
     desc: "Calcula o custo real do consórcio: taxa de administração, seguro e fundo de reserva.",
     href: "/simulador/custo-da-operacao",
   },
   {
     id: 4,
     icon: <Search className="w-5 h-5" />,
-    title: "Proporção da taxa",
+    title: "Raio-X da Eficiência da Taxa",
     desc: "Mostra quanto da parcela é taxa e como isso degrada a eficiência ao longo do tempo.",
     href: "/simulador/proporcao-da-taxa",
   },
   {
     id: 5,
     icon: <Clock className="w-5 h-5" />,
-    title: "Histórico de correções",
+    title: "Raio-X das Correções",
     desc: "Analisa o impacto dos reajustes históricos sobre o saldo devedor e a carta de crédito.",
     href: "/simulador/historico-de-correcoes",
   },
@@ -176,7 +176,7 @@ export default function Home() {
               Entenda a dinâmica do grupo antes de definir sua estratégia de lance.
             </h2>
             <p className="text-foreground/65 text-base leading-relaxed max-w-xl">
-              A Zona de Contemplação permite analisar histórico de lances, pressão competitiva e quantitativo de contemplações de um grupo. O objetivo é entender a dinâmica do grupo antes de definir uma estratégia de lance.
+              A Zona de Raio-X do Lance permite analisar histórico de lances, pressão competitiva e quantitativo de contemplações de um grupo. O objetivo é entender a dinâmica do grupo antes de definir uma estratégia de lance.
             </p>
           </div>
           <div className="shrink-0">
@@ -184,7 +184,7 @@ export default function Home() {
               href="/zona-contemplacao"
               className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
             >
-              Abrir Zona de Contemplação
+              Abrir Zona de Raio-X do Lance
               <ArrowRight className="w-4 h-4" />
             </Link>
           </div>

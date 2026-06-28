@@ -172,7 +172,7 @@ export default function SimuladorLanceLivre() {
                   narrative={<p>{result.decisionText}</p>}
                 />
 
-                <MeaningBlock>
+                <MeaningBlock label="Lance Livre">
                   <p>
                     Para uma carta de <strong>{formatBRL(result.inputs.credit)}</strong>, um lance livre de{" "}
                     <strong>{formatPct(result.inputs.bidPct)}</strong> exige{" "}

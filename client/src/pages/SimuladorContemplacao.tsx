@@ -276,7 +276,7 @@ export default function SimuladorContemplacao() {
       </div>
 
       {/* Leitura técnica */}
-      <MeaningBlock>
+      <MeaningBlock label="Contemplação e Lance">
         <p>
           O lance embutido aumenta a força para contemplar, mas reduz o crédito
           disponível para compra em <strong>{brl(result.embedded)}</strong>.
@@ -397,8 +397,8 @@ export default function SimuladorContemplacao() {
   return (
     <RaioXLayout
       moduleNumber={2}
-      title="Contemplação"
-      description="Calcule a força do seu lance, o impacto do embutido na carta líquida e projete as parcelas restantes após a contemplação."
+      title="Raio-X do Lance"
+      description="Lance não é mágica. É dinheiro seu na mesa. Calcule a força do lance, o impacto na carta líquida e a parcela depois da contemplação antes de assumir que essa estratégia faz sentido."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

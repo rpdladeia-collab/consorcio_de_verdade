@@ -276,22 +276,18 @@ export default function SimuladorLanceEmbutido() {
                 />
 
                 {/* O que isso significa */}
-                <MeaningBlock>
+                <MeaningBlock label="Lance Embutido">
                   <p>
-                    Você contratou uma carta de{" "}
-                    <strong>{formatBRL(result.credit)}</strong>, mas com{" "}
-                    <strong>{formatPct(result.inputs.embeddedPct)}</strong> de
-                    lance embutido, apenas{" "}
-                    <strong>{formatBRL(result.liquidCredit)}</strong> ficam
-                    realmente disponíveis para comprar o bem. O restante (
-                    {formatBRL(result.embeddedValue)}) é a própria carta usada
-                    como lance — não é dinheiro novo no seu bolso.
+                    O lance embutido aumenta sua força para contemplar, mas sai da sua própria carta.
                   </p>
                   <p>
-                    Sua força total de ranking é de{" "}
-                    <strong>{formatPct(result.rankingPctCredit)}</strong> da
-                    carta, sendo {formatPct(result.noCashPart)} via embutido e{" "}
-                    {formatPct(result.ownCashRatio)} via capital próprio.
+                    Aqui, ele reduz em{" "}
+                    <strong>{formatBRL(result.embeddedValue)}</strong> o crédito disponível para compra.
+                    Ou seja: você melhora o lance, mas fica com menos dinheiro líquido para usar —
+                    e isso pode deixar a operação menos eficiente em custo.
+                  </p>
+                  <p>
+                    A tabela mostra as parcelas restantes após o lance, considerando as correções futuras do índice.
                   </p>
                 </MeaningBlock>
 

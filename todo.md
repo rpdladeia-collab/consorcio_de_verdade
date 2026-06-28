@@ -204,3 +204,16 @@
 - [x] Módulo 1: renomear "Simule seu plano" → "Raio-X da Parcela" (card Home, card /raio-x, hero do simulador)
 - [x] Todos os simuladores: remover "· RAIO-X DO CONSÓRCIO" ao lado de "MÓDULO N" no hero
 - [x] Módulo 1: atualizar texto do hero para o novo copy aprovado
+
+## Sprint Simuladores — Renomeação + Acordeões + Zona + Sobre
+
+- [x] Módulo 2: renomear "Contemplação" → "Raio-X do Lance" + novo texto hero
+- [x] Módulo 3: renomear para "Raio-X do Custo Total"
+- [x] Módulo 4: renomear para "Raio-X da Eficiência da Taxa de Administração" + novo texto hero
+- [x] Módulo 5: renomear para "Raio-X das Correções" + novo texto hero
+- [x] Acordeões "O que significa": reformatar em todos os simuladores (fundo preto, título temático em amarelo, fonte menor)
+- [x] Módulo 2 acordeão: título "Lance Embutido" + novo texto explicativo
+- [x] PDFs: logo presente em todos os PDFs (brand.ts centralizado)
+- [x] Zona de Contemplação: fundo padrão Raio-X (bg-[var(--paper)])
+- [x] Zona de Contemplação: remover campos "Tendência" e "Pressão Competitiva"
+- [x] Seção Sobre: vídeo em loop 4:5 lado esquerdo, texto lado direito, autoplay sem controles de download
