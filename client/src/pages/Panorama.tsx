@@ -1,4 +1,22 @@
-import { useState } from "react";
+/**
+ * Panorama: Dados Oficiais — Reescrita nativa React + Tailwind + Recharts
+ * 4 submenus em scroll infinito com sticky nav
+ */
+import { useState, useEffect } from "react";
+import {
+  ResponsiveContainer,
+  BarChart as RBarChart,
+  Bar,
+  LineChart as RLineChart,
+  Line,
+  ComposedChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ReferenceLine,
+} from "recharts";
 import {
   annualData,
   segmentData,
@@ -6,656 +24,536 @@ import {
   consumerGovComplaints,
   consumerGovTopReasons2025,
   macroData,
-  COLORS,
-  SEGMENT_COLORS,
 } from "@/lib/panoramaData";
-import {
-  BarChart,
-  LineChart,
-  GroupedBarChart,
-  type BarRow,
-  type LineSeries,
-  type GroupedSeries,
-} from "@/components/panorama/PanoramaCharts";
+import { LOGO } from "@/lib/brand";
 
-// ── helpers ──────────────────────────────────────────────────
-function pct(v: number) {
-  return (v * 100).toFixed(1) + "%";
-}
-function mi(v: number) {
-  if (v >= 1) return v.toFixed(2) + " mi";
-  return (v * 1000).toFixed(0) + " mil";
-}
+// ─── Paleta alinhada ao design system ────────────────────────────────────────
+const C = {
+  orange: "#f97316",
+  ink: "#15140f",
+  terra: "#c2410c",
+  olive: "#2f5233",
+  muted: "#9e9890",
+  grid: "#e5e0d8",
+};
+const SEG_COLORS: Record<string, string> = {
+  "Imóveis": "#c2410c",
+  "Automóveis": "#2f5233",
+  "Motocicletas": "#15140f",
+  "Outros bens e serviços": "#9e9890",
+};
 
-// ── Verdict ──────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────────────────────
+function pct(v: number) { return (v * 100).toFixed(1) + "%"; }
+function mi(v: number) { return v >= 1 ? v.toFixed(2) + " mi" : (v * 1000).toFixed(0) + " mil"; }
+function fmtN(v: number) { return v.toLocaleString("pt-BR"); }
+
+// ─── Componentes base ─────────────────────────────────────────────────────────
 function Verdict({ tag, children }: { tag: string; children: React.ReactNode }) {
   return (
-    <div style={{
-      background: "#fffdf8", border: "1px solid #ddd5c5",
-      borderLeft: "4px solid #c2410c", borderRadius: 4,
-      padding: "16px 20px", marginBottom: 22,
-      boxShadow: "0 14px 38px rgba(26,26,23,.08)",
-    }}>
-      <span style={{
-        fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
-        textTransform: "uppercase", letterSpacing: ".08em",
-        color: "#8a2f0a", fontWeight: 700, display: "block", marginBottom: 6,
-      }}>
-        {tag}
-      </span>
-      <p style={{ margin: 0, fontSize: 16, lineHeight: 1.5, fontWeight: 500 }}>{children}</p>
+    <div className="rounded-lg border-l-4 border-[#c2410c] bg-white border border-[#e5e0d8] p-5 mb-6 shadow-sm">
+      <span className="block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] mb-2 font-mono">{tag}</span>
+      <p className="m-0 text-base leading-relaxed font-medium text-[#15140f]">{children}</p>
     </div>
   );
 }
 
-// ── MiniCard ─────────────────────────────────────────────────
-function MiniCard({ num, label, note, variant }: {
-  num: string; label: string; note?: string;
-  variant?: "terra" | "olive" | "default";
-}) {
-  const v = variant ?? "default";
-  const bg = v === "terra" ? "#fbe6da" : v === "olive" ? "#e3ebe1" : "#fffdf8";
-  const bc = v === "terra" ? "rgba(194,65,12,.35)" : v === "olive" ? "rgba(47,82,51,.3)" : "#ddd5c5";
-  const nc = v === "terra" ? "#8a2f0a" : v === "olive" ? "#1f3922" : "#15140f";
+function KpiCard({ num, label, note, accent = false }: { num: string; label: string; note?: string; accent?: boolean }) {
   return (
-    <div style={{ border: `1px solid ${bc}`, borderRadius: 8, padding: 15, background: bg }}>
-      <span style={{
-        fontSize: 11.5, textTransform: "uppercase", letterSpacing: ".06em",
-        color: "#716b60", fontWeight: 700, marginBottom: 6, display: "block",
-        fontFamily: "'Inter', sans-serif",
-      }}>{label}</span>
-      <div style={{
-        fontFamily: "'IBM Plex Mono', monospace", fontSize: 24,
-        fontWeight: 600, letterSpacing: "-.01em", color: nc,
-      }}>{num}</div>
-      {note && <p style={{ margin: "6px 0 0", fontSize: 13, color: "#716b60", lineHeight: 1.45 }}>{note}</p>}
+    <div className={`rounded-xl p-5 border shadow-sm ${accent ? "bg-orange-50 border-orange-200" : "bg-white border-[#e5e0d8]"}`}>
+      <span className="block text-[11px] uppercase tracking-wider font-bold text-[#9e9890] mb-2">{label}</span>
+      <div className={`font-mono text-3xl font-semibold tracking-tight ${accent ? "text-[#c2410c]" : "text-[#15140f]"}`}>{num}</div>
+      {note && <p className="mt-2 text-sm text-[#9e9890] leading-snug">{note}</p>}
     </div>
   );
 }
 
-// ── ChartBox ─────────────────────────────────────────────────
-function ChartBox({ title, subtitle, children }: {
-  title: string; subtitle?: string; children: React.ReactNode;
-}) {
+function SectionHead({ kicker, title, desc }: { kicker: string; title: string; desc?: string }) {
   return (
-    <div style={{
-      background: "#fffdf8", border: "1px solid #ddd5c5", borderRadius: 10,
-      padding: "18px 16px 8px", boxShadow: "0 14px 38px rgba(26,26,23,.08)",
-    }}>
-      <div style={{ display: "flex", justifyContent: "space-between", gap: 12, alignItems: "flex-start", paddingBottom: 6 }}>
-        <h3 style={{ margin: 0, fontSize: 16.5, fontWeight: 700, fontFamily: "'Source Serif 4', serif" }}>{title}</h3>
-        {subtitle && (
-          <span style={{
-            fontSize: 11.5, color: "#716b60", fontWeight: 600, textAlign: "right",
-            fontFamily: "'IBM Plex Mono', monospace", whiteSpace: "nowrap", paddingTop: 2,
-          }}>{subtitle}</span>
-        )}
-      </div>
+    <div className="mb-8">
+      <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">{kicker}</span>
+      <h2 className="text-3xl md:text-4xl font-bold text-[#15140f] leading-tight mb-3">{title}</h2>
+      {desc && <p className="text-[#716b60] text-base leading-relaxed max-w-2xl">{desc}</p>}
+    </div>
+  );
+}
+
+function ChartBox({ title, subtitle, children }: { title: string; subtitle?: string; children: React.ReactNode }) {
+  return (
+    <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm mb-6">
+      <h3 className="text-base font-bold text-[#15140f] mb-1">{title}</h3>
+      {subtitle && <p className="text-sm text-[#9e9890] mb-4">{subtitle}</p>}
       {children}
     </div>
   );
 }
 
-// ── SectionHead ──────────────────────────────────────────────
-function SectionHead({ kicker, title, desc }: { kicker: string; title: string; desc: string }) {
+function ScrollChart({ children }: { children: React.ReactNode }) {
   return (
-    <div style={{ marginBottom: 24 }}>
-      <span style={{
-        fontFamily: "'IBM Plex Mono', monospace", fontSize: 12, color: "#c2410c",
-        fontWeight: 600, letterSpacing: ".04em", display: "block", marginBottom: 6,
-      }}>{kicker}</span>
-      <h2 style={{
-        fontSize: "clamp(26px, 3.2vw, 38px)", letterSpacing: "-.02em", lineHeight: 1.08,
-        margin: "0 0 8px", fontWeight: 700, fontFamily: "'Source Serif 4', serif",
-      }}>{title}</h2>
-      <p style={{ color: "#716b60", fontWeight: 500, margin: 0, maxWidth: 680, fontSize: 15 }}>{desc}</p>
+    <div className="w-full overflow-x-auto">
+      <div className="min-w-[560px]">{children}</div>
     </div>
   );
 }
 
-function Divider() {
-  return <div style={{ height: 1, background: "#ddd5c5", margin: "26px 0" }} />;
+function SegButtons({ segs, active, onChange }: { segs: string[]; active: string; onChange: (s: string) => void }) {
+  return (
+    <div className="flex flex-wrap gap-2 mb-4">
+      {segs.map((s) => (
+        <button key={s} onClick={() => onChange(s)}
+          className={`px-3 py-1.5 text-xs font-semibold rounded-full border transition-colors ${
+            active === s ? "bg-[#15140f] text-white border-[#15140f]" : "bg-transparent text-[#9e9890] border-[#e5e0d8] hover:border-[#15140f]"
+          }`}
+        >{s}</button>
+      ))}
+    </div>
+  );
 }
 
-// ── Panorama ─────────────────────────────────────────────────
-export default function Panorama() {
-  const [selectedSegment, setSelectedSegment] = useState("Imóveis");
+// ─── Seção 1: Vendas ──────────────────────────────────────────────────────────
+function SecaoVendas() {
+  const SEGS = ["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"];
+  const [seg, setSeg] = useState(SEGS[0]);
 
-  const years = annualData.map((r) => r.ano);
-
-  // Gráfico 1: cotas vendidas total (BarChart)
-  const totalVendidasData: BarRow[] = annualData.map((r) => ({
-    x: r.ano, y: r.vendidas, color: COLORS.terra,
-  }));
-
-  // Gráfico 2: cotas vendidas por produto (GroupedBarChart)
-  const segmentos = ["Imóveis", "Automóveis", "Motocicletas"];
-  const vendBySegSeries: GroupedSeries[] = segmentos.map((seg) => ({
-    name: seg,
-    color: SEGMENT_COLORS[seg],
-    values: years.map((y) => {
-      const row = segmentData.find((r) => r.ano === y && r.segmento === seg);
-      return { x: y, y: row ? row.vendidas : 0 };
-    }),
-  }));
-
-  // Gráfico IE geral (LineChart)
-  const ieGeralSeries: LineSeries[] = [{
-    name: "IE geral",
-    color: COLORS.terra,
-    values: annualData.map((r) => ({ x: r.ano, y: r.ie })),
-  }];
-
-  // Gráfico IE por segmento selecionado (LineChart)
-  const selSegIESeries: LineSeries[] = [{
-    name: `IE — ${selectedSegment}`,
-    color: SEGMENT_COLORS[selectedSegment] ?? COLORS.terra,
-    values: years.map((y) => {
-      const row = segmentData.find((r) => r.ano === y && r.segmento === selectedSegment);
-      return { x: y, y: row ? row.ie : 0 };
-    }),
-  }];
-
-  // Gráfico vendas segmento selecionado (BarChart)
-  const selSegVendData: BarRow[] = years.map((y) => {
-    const row = segmentData.find((r) => r.ano === y && r.segmento === selectedSegment);
-    return { x: y, y: row ? row.vendidas : 0, color: SEGMENT_COLORS[selectedSegment] ?? COLORS.terra };
+  const totalData = annualData.map((d) => ({ ano: String(d.ano), vendidas: d.vendidas }));
+  const segData = annualData.map((d) => {
+    const r = segmentData.find((s) => s.ano === d.ano && s.segmento === seg);
+    return { ano: String(d.ano), vendidas: r?.vendidas ?? 0 };
   });
 
-  // IE 2016 e 2024 por segmento
-  const ie2024 = (seg: string) => segmentData.find((r) => r.ano === 2024 && r.segmento === seg)?.ie ?? 0;
-  const ie2016 = (seg: string) => segmentData.find((r) => r.ano === 2016 && r.segmento === seg)?.ie ?? 0;
+  return (
+    <div id="vendas" className="scroll-mt-24">
+      <SectionHead kicker="01 — Vendas · Recordes Históricos"
+        title="O mercado bate recordes. Mas o que isso significa?"
+        desc="Cota comercializada é adesão vendida no ano. Não é contemplação, não é aquisição do bem — é apenas o início do contrato." />
+      <Verdict tag="Leitura direta">
+        Em 2024, foram comercializadas <strong>4,53 milhões de cotas</strong> — o maior volume da série histórica.
+        O estoque ativo chegou a <strong>11,35 milhões</strong>. O crescimento é real, mas o índice de exclusão permanece acima de 48% há quase uma década.
+      </Verdict>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <KpiCard num="4,53 mi" label="Cotas vendidas em 2024" accent />
+        <KpiCard num="11,35 mi" label="Cotas ativas em dez/2024" />
+        <KpiCard num="+98%" label="Crescimento 2016→2024" note="de 2,28 mi para 4,53 mi" />
+        <KpiCard num="9 anos" label="de crescimento ininterrupto" />
+      </div>
+      <ChartBox title="Cotas comercializadas — total" subtitle="Milhões de cotas vendidas por ano (2016–2024)">
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={280}>
+            <RBarChart data={totalData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <Tooltip formatter={(v: number) => [`${v.toFixed(2)} mi`, "Vendidas"]} />
+              <Bar dataKey="vendidas" name="Vendidas" fill={C.terra} radius={[3, 3, 0, 0]} />
+            </RBarChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+      <ChartBox title="Cotas comercializadas — por produto" subtitle="Selecione o segmento">
+        <SegButtons segs={SEGS} active={seg} onChange={setSeg} />
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={260}>
+            <RBarChart data={segData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <Tooltip formatter={(v: number) => [`${v.toFixed(3)} mi`, "Vendidas"]} />
+              <Bar dataKey="vendidas" name="Vendidas" fill={SEG_COLORS[seg] ?? C.terra} radius={[3, 3, 0, 0]} />
+            </RBarChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+    </div>
+  );
+}
 
-  // BCB complaints
-  const bcbTotalData: BarRow[] = complaintsBCB.map((r) => ({ x: r.ano, y: r.total, color: COLORS.terra }));
-  const bcbProcData: BarRow[] = complaintsBCB.map((r) => ({ x: r.ano, y: r.procedentes, color: COLORS.terraDark }));
+// ─── Seção 2: Exclusão ────────────────────────────────────────────────────────
+function SecaoExclusao() {
+  const SEGS = ["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"];
+  const [seg, setSeg] = useState(SEGS[0]);
 
-  // Consumer.gov
-  const cgData: BarRow[] = consumerGovComplaints.map((r) => ({ x: r.ano, y: r.reclamacoes, color: COLORS.olive }));
-
-  // Macro: Selic + financiamento
-  const macroSelicSeries: LineSeries[] = [
-    {
-      name: "Selic",
-      color: COLORS.terra,
-      values: macroData.map((r) => ({ x: r.ano, y: r.selic })),
-    },
-    {
-      name: "Financiamento imob. PF",
-      color: COLORS.olive,
-      values: macroData.map((r) => ({ x: r.ano, y: r.financiamento_imob })),
-    },
-  ];
-
-  // Macro: vendas (normalizado) + IE
-  const maxVend = Math.max(...macroData.map((r) => r.vendidas));
-  const macroVendIESeries: LineSeries[] = [
-    {
-      name: "Cotas vendidas (escala relativa)",
-      color: COLORS.terra,
-      values: macroData.map((r) => ({ x: r.ano, y: r.vendidas / maxVend })),
-    },
-    {
-      name: "IE geral",
-      color: COLORS.olive,
-      values: macroData.map((r) => ({ x: r.ano, y: r.ie })),
-    },
-  ];
-
-  const macroMarkers = [
-    { ano: 2016, label: "Recessão Brasil", selic: "13,8%", financ: "15,4%", ie: "50,2%" },
-    { ano: 2020, label: "Pandemia Covid-19", selic: "2,0%", financ: "7,8%", ie: "49,1%" },
-    { ano: 2022, label: "Choque Selic", selic: "13,8%", financ: "10,9%", ie: "48,9%" },
-  ];
+  const ieGeral = annualData.map((d) => ({
+    ano: String(d.ano),
+    ie: parseFloat((d.ie * 100).toFixed(1)),
+    excluidas: d.excluidas,
+  }));
+  const ieSeg = annualData.map((d) => {
+    const r = segmentData.find((s) => s.ano === d.ano && s.segmento === seg);
+    return { ano: String(d.ano), ie: r ? parseFloat((r.ie * 100).toFixed(1)) : 0, excluidas: r?.excluidas ?? 0 };
+  });
 
   return (
-    <div style={{ background: "#f6f3ec", minHeight: "100vh", color: "#1a1a17" }}>
+    <div id="exclusao" className="scroll-mt-24">
+      <SectionHead kicker="02 — Índice de Exclusão · Isso é Grave"
+        title="Quase metade não chega ao fim."
+        desc="O índice de exclusão mede a proporção de cotas excluídas em relação às ativas. Acima de 40% é alto. O consórcio brasileiro opera nessa faixa há quase uma década." />
+      <Verdict tag="Leitura direta">
+        Em 2024, o índice de exclusão geral foi de <strong>48,6%</strong>. Isso significa que, para cada 100 cotas ativas,
+        quase 49 foram canceladas naquele ano. O dado não é novo: a série histórica mostra que esse patamar se mantém desde 2016.
+      </Verdict>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <KpiCard num="48,6%" label="Índice de exclusão geral 2024" accent />
+        <KpiCard num="10,75 mi" label="Cotas excluídas em 2024" />
+        <KpiCard num="50,7%" label="Pico histórico (2017)" note="Imóveis chegaram a 62,4%" />
+        <KpiCard num="9 anos" label="acima de 48% consecutivos" />
+      </div>
+      <ChartBox title="Índice de exclusão — geral" subtitle="% de cotas excluídas sobre ativas (2016–2024)">
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={280}>
+            <ComposedChart data={ieGeral} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <Tooltip formatter={(v: number, name: string) => name === "ie" ? [`${v}%`, "IE"] : [`${v.toFixed(2)} mi`, "Excluídas"]} />
+              <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" label={{ value: "50%", fill: C.terra, fontSize: 11 }} />
+              <Bar yAxisId="right" dataKey="excluidas" name="excluidas" fill={C.grid} radius={[2, 2, 0, 0]} />
+              <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={C.terra} strokeWidth={2.5} dot={{ r: 4, fill: C.terra }} />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+      <ChartBox title="Índice de exclusão — por produto" subtitle="Selecione o segmento">
+        <SegButtons segs={SEGS} active={seg} onChange={setSeg} />
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={260}>
+            <ComposedChart data={ieSeg} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <Tooltip formatter={(v: number, name: string) => name === "ie" ? [`${v}%`, "IE"] : [`${v.toFixed(3)} mi`, "Excluídas"]} />
+              <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" />
+              <Bar yAxisId="right" dataKey="excluidas" name="excluidas" fill={C.grid} radius={[2, 2, 0, 0]} />
+              <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={SEG_COLORS[seg] ?? C.terra} strokeWidth={2.5} dot={{ r: 4, fill: SEG_COLORS[seg] ?? C.terra }} />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
+        {(["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"]).map((s) => {
+          const last = segmentData.filter((d) => d.segmento === s).at(-1);
+          return last ? (
+            <div key={s} className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm">
+              <span className="inline-block w-3 h-3 rounded-full mr-2" style={{ background: SEG_COLORS[s] }} />
+              <span className="font-bold text-[#15140f]">{s}</span>
+              <div className="mt-2 text-sm text-[#9e9890]">
+                IE 2024: <strong className="text-[#15140f]">{pct(last.ie)}</strong> · {mi(last.excluidas)} excluídas
+              </div>
+            </div>
+          ) : null;
+        })}
+      </div>
+    </div>
+  );
+}
 
-      {/* ── Hero ── */}
-      <header style={{
-        background: "#15140f", color: "#f3efe6",
-        padding: "52px 24px 44px", position: "relative", overflow: "hidden",
-      }}>
-        <div style={{
-          position: "absolute", inset: 0,
-          background: "linear-gradient(180deg, rgba(194,65,12,.10) 0%, transparent 35%)",
-          pointerEvents: "none",
-        }} />
-        <div style={{ maxWidth: 1180, margin: "auto", position: "relative" }}>
-          <div style={{ display: "flex", alignItems: "flex-start", justifyContent: "space-between", gap: 18, flexWrap: "wrap" }}>
-            <div style={{
-              display: "inline-flex", gap: 7, alignItems: "center", color: "#e7b692",
-              border: "1px solid rgba(194,65,12,.5)", padding: "6px 11px", borderRadius: 3,
-              fontSize: 11.5, textTransform: "uppercase", letterSpacing: ".11em",
-              fontWeight: 700, fontFamily: "'IBM Plex Mono', monospace",
-            }}>
-              Panorama do mercado de consórcios · BCB 2016–2024
+// ─── Seção 3: Reclamações ─────────────────────────────────────────────────────
+function SecaoReclamacoes() {
+  const bcbData = complaintsBCB.map((d) => ({
+    ano: String(d.ano), total: d.total, procedentes: d.procedentes,
+  }));
+  const govData = consumerGovComplaints.map((d) => ({
+    ano: String(d.ano), reclamacoes: d.reclamacoes,
+  }));
+
+  return (
+    <div id="reclamacoes" className="scroll-mt-24">
+      <SectionHead kicker="03 — Reclamações · Crescem"
+        title="As reclamações cresceram mais rápido que as vendas."
+        desc="Dois bancos de dados independentes mostram a mesma tendência: o volume de reclamações no setor de consórcios aumentou de forma consistente." />
+      <Verdict tag="Banco Central — reclamações procedentes">
+        Entre 2017 e 2023, as reclamações procedentes no BCB cresceram <strong>+1.224%</strong> (de 240 para 3.179).
+        Em 2025, já são <strong>2.955 reclamações procedentes</strong> registradas.
+      </Verdict>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <KpiCard num="6.400" label="Total de reclamações BCB em 2025" accent />
+        <KpiCard num="2.955" label="Reclamações procedentes em 2025" />
+        <KpiCard num="6.986" label="Reclamações Consumidor.gov em 2025" accent />
+        <KpiCard num="+998%" label="Crescimento Consumidor.gov 2016→2025" />
+      </div>
+      <ChartBox title="Reclamações BCB — total e procedentes" subtitle="Volume de reclamações registradas no Banco Central (2017–2025)">
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={280}>
+            <RBarChart data={bcbData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={fmtN} />
+              <Tooltip formatter={(v: number) => [fmtN(v), ""]} />
+              <Legend />
+              <Bar dataKey="total" name="Total" fill={C.muted} radius={[2, 2, 0, 0]} />
+              <Bar dataKey="procedentes" name="Procedentes" fill={C.terra} radius={[2, 2, 0, 0]} />
+            </RBarChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+      <ChartBox title="Reclamações — Consumidor.gov.br" subtitle="Administradoras de consórcios (2016–2025)">
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={260}>
+            <RLineChart data={govData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={fmtN} />
+              <Tooltip formatter={(v: number) => [fmtN(v), "Reclamações"]} />
+              <Line type="monotone" dataKey="reclamacoes" name="Reclamações" stroke={C.orange} strokeWidth={2.5} dot={{ r: 4, fill: C.orange }} />
+            </RLineChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+      <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
+        <h3 className="text-base font-bold text-[#15140f] mb-4">Principais motivos de reclamação — Consumidor.gov.br 2025</h3>
+        <div className="space-y-3">
+          {consumerGovTopReasons2025.map((r) => (
+            <div key={r.rank}>
+              <div className="flex justify-between text-sm mb-1">
+                <span className="text-[#15140f]">
+                  <span className="font-mono font-bold text-[#c2410c] mr-2">#{r.rank}</span>
+                  {r.motivo}
+                </span>
+                <span className="font-mono font-bold text-[#15140f] ml-4 whitespace-nowrap">{pct(r.pct)}</span>
+              </div>
+              <div className="h-2 bg-[#e5e0d8] rounded-full overflow-hidden">
+                <div className="h-full rounded-full bg-[#c2410c]" style={{ width: `${r.pct * 100}%` }} />
+              </div>
             </div>
-            <div style={{
-              background: "rgba(255,230,109,.12)", border: "1px solid rgba(255,230,109,.3)",
-              borderRadius: 6, padding: "8px 14px", fontSize: 12, color: "#ffe66d",
-              fontFamily: "'IBM Plex Mono', monospace", fontWeight: 600,
-            }}>
-              ⚠ Panorama BCB 2025 não liberado pelo Banco Central
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Seção 4: Sorte ───────────────────────────────────────────────────────────
+function SecaoSorte() {
+  const lanceData = annualData.map((d) => ({
+    ano: String(d.ano),
+    lance: parseFloat((d.lance * 100).toFixed(1)),
+    sorteio: parseFloat(((1 - d.lance) * 100).toFixed(1)),
+  }));
+  const macroChartData = macroData.map((d) => ({
+    ano: String(d.ano),
+    selic: parseFloat((d.selic * 100).toFixed(2)),
+    fin: parseFloat((d.financiamento_imob * 100).toFixed(2)),
+    vendidas: d.vendidas,
+    evento: d.evento,
+  }));
+
+  return (
+    <div id="sorte" className="scroll-mt-24">
+      <SectionHead kicker="04 — Sorte · Não conte com ela"
+        title="Quem contempla por sorteio é minoria. Quem paga lance, maioria."
+        desc="A contemplação por lance cresceu de forma consistente. Em 2024, mais de 78% das contemplações ocorreram por lance — não por sorteio." />
+      <Verdict tag="O dado que o mercado não destaca">
+        Em 2024, <strong>78,3%</strong> das contemplações foram por lance. Apenas <strong>21,7%</strong> ocorreram por sorteio.
+        Quem planeja contar com a sorte para contemplar está apostando contra a probabilidade histórica.
+      </Verdict>
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        <KpiCard num="78,3%" label="Contemplações por lance em 2024" accent />
+        <KpiCard num="21,7%" label="Contemplações por sorteio em 2024" />
+        <KpiCard num="69,8%" label="Lance em 2016 (era menor)" note="Cresceu 8,5 p.p. em 9 anos" />
+        <KpiCard num="1,68 mi" label="Contemplações totais em 2024" />
+      </div>
+      <ChartBox title="Contemplações: lance vs. sorteio" subtitle="% de contemplações por modalidade (2016–2024)">
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={280}>
+            <RBarChart data={lanceData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+              <Tooltip formatter={(v: number) => [`${v}%`, ""]} />
+              <Legend />
+              <Bar dataKey="lance" name="Lance" fill={C.terra} stackId="a" />
+              <Bar dataKey="sorteio" name="Sorteio" fill={C.muted} stackId="a" radius={[3, 3, 0, 0]} />
+            </RBarChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+      </ChartBox>
+      <ChartBox title="Juros, vendas e exclusão lado a lado" subtitle="Selic e financiamento imobiliário vs. crescimento do consórcio (2016–2024)">
+        <ScrollChart>
+          <ResponsiveContainer width="100%" height={300}>
+            <ComposedChart data={macroChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
+              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
+              <YAxis yAxisId="pct" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 20]} />
+              <YAxis yAxisId="mi" orientation="right" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <Tooltip formatter={(v: number, name: string) => {
+                if (name === "vendidas") return [`${v.toFixed(2)} mi`, "Vendidas"];
+                return [`${v}%`, name];
+              }} />
+              <Legend />
+              <Line yAxisId="pct" type="monotone" dataKey="selic" name="Selic" stroke={C.terra} strokeWidth={2} dot={{ r: 3 }} />
+              <Line yAxisId="pct" type="monotone" dataKey="fin" name="Financiamento imob." stroke={C.olive} strokeWidth={2} dot={{ r: 3 }} />
+              <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.5} radius={[2, 2, 0, 0]} />
+            </ComposedChart>
+          </ResponsiveContainer>
+        </ScrollChart>
+        <div className="mt-4 space-y-2">
+          {macroChartData.map((d) => (
+            <div key={d.ano} className="flex items-start gap-3 text-sm">
+              <span className="font-mono font-bold text-[#c2410c] w-10 shrink-0">{d.ano}</span>
+              <span className="text-[#9e9890]">{d.evento}</span>
             </div>
+          ))}
+        </div>
+      </ChartBox>
+
+      {/* Tabela base */}
+      <div id="base" className="mt-8">
+        <h3 className="text-xl font-bold text-[#15140f] mb-4">Base de dados completa</h3>
+        <div className="w-full overflow-x-auto rounded-xl border border-[#e5e0d8] shadow-sm">
+          <table className="w-full text-sm">
+            <thead>
+              <tr className="bg-[#15140f] text-white">
+                {["Ano", "Segmento", "Vendidas", "Ativas", "Excluídas", "IE", "Status"].map((h) => (
+                  <th key={h} className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider whitespace-nowrap">{h}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {segmentData.map((row, i) => (
+                <tr key={`${row.ano}-${row.segmento}`} className={i % 2 === 0 ? "bg-white" : "bg-[#faf8f4]"}>
+                  <td className="px-4 py-2.5 font-mono font-bold text-[#15140f]">{row.ano}</td>
+                  <td className="px-4 py-2.5 text-[#15140f]">
+                    <span className="inline-block w-2.5 h-2.5 rounded-full mr-2" style={{ background: SEG_COLORS[row.segmento] }} />
+                    {row.segmento}
+                  </td>
+                  <td className="px-4 py-2.5 font-mono text-right">{mi(row.vendidas)}</td>
+                  <td className="px-4 py-2.5 font-mono text-right">{mi(row.ativas)}</td>
+                  <td className="px-4 py-2.5 font-mono text-right">{mi(row.excluidas)}</td>
+                  <td className="px-4 py-2.5 font-mono text-right font-bold text-[#c2410c]">{pct(row.ie)}</td>
+                  <td className="px-4 py-2.5 text-[#9e9890] text-xs">{row.status}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ─── Tabs de navegação ────────────────────────────────────────────────────────
+const TABS = [
+  { id: "vendas",      label: "Vendas — recordes históricos" },
+  { id: "exclusao",    label: "Índice de exclusão — isso é grave" },
+  { id: "reclamacoes", label: "Reclamações — crescem" },
+  { id: "sorte",       label: "Sorte — não conte com ela" },
+] as const;
+type TabId = (typeof TABS)[number]["id"];
+
+// ─── Página principal ─────────────────────────────────────────────────────────
+export default function Panorama() {
+  const [activeTab, setActiveTab] = useState<TabId>("vendas");
+
+  useEffect(() => {
+    const observers: IntersectionObserver[] = [];
+    TABS.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const obs = new IntersectionObserver(
+        ([entry]) => { if (entry.isIntersecting) setActiveTab(id); },
+        { rootMargin: "-30% 0px -60% 0px" }
+      );
+      obs.observe(el);
+      observers.push(obs);
+    });
+    return () => observers.forEach((o) => o.disconnect());
+  }, []);
+
+  function scrollTo(id: TabId) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    setActiveTab(id);
+  }
+
+  return (
+    <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
+      {/* Hero */}
+      <header className="bg-[#15140f] text-white pt-16 pb-12 px-6">
+        <div className="max-w-5xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
+              Panorama: Dados Oficiais BCB 2016–2024
+            </span>
+            <img src={LOGO.light} alt="r.enatto Consórcio de Verdade" className="h-9 object-contain" />
           </div>
-
-          <h1 style={{
-            fontSize: "clamp(34px, 5.4vw, 60px)", lineHeight: 1.04,
-            margin: "18px 0 14px", letterSpacing: "-.025em", maxWidth: 780,
-            fontWeight: 700, fontFamily: "'Source Serif 4', serif",
-          }}>
+          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 tracking-tight">
             Não é opinião.{" "}
-            <em style={{ fontStyle: "normal", color: "#c2410c" }}>É o dado oficial.</em>
+            <em className="not-italic text-[#f97316]">É o dado oficial.</em>
           </h1>
-          <p style={{ maxWidth: 640, fontSize: 17, color: "#c9c2b4", fontWeight: 400 }}>
+          <p className="text-white/70 text-lg max-w-2xl leading-relaxed mb-8">
             Este painel organiza, sem arredondar a favor de ninguém, os números que o próprio Banco
             Central publica sobre vendas, cotas ativas, exclusão e reclamações no sistema de
             consórcios brasileiro.
           </p>
-
-          {/* 4 hero cards */}
-          <div style={{
-            marginTop: 30,
-            display: "grid", gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 1, background: "rgba(255,255,255,.12)", borderRadius: 10, overflow: "hidden",
-          }} className="!grid-cols-2 lg:!grid-cols-4">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-xl overflow-hidden">
             {[
-              { num: "4,53 milhões", label: "cotas comercializadas em 2024" },
-              { num: "11,4 milhões", label: "cotas ativas em dez/2024" },
-              { num: "48,6%", label: "índice de exclusão geral em 2024" },
-              { num: "78,3%", label: "contemplações por lance em 2024" },
+              { num: "4,53 mi", label: "cotas comercializadas em 2024" },
+              { num: "11,4 mi", label: "cotas ativas em dez/2024" },
+              { num: "48,6%",   label: "índice de exclusão geral em 2024" },
+              { num: "78,3%",   label: "contemplações por lance em 2024" },
             ].map((c) => (
-              <div key={c.label} style={{ background: "#1c1b15", padding: "18px 16px" }}>
-                <b style={{
-                  display: "block", fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 26, fontWeight: 600, letterSpacing: "-.01em", color: "#fff",
-                }}>{c.num}</b>
-                <span style={{
-                  display: "block", color: "#a39c8c", fontSize: 12.5,
-                  fontWeight: 500, marginTop: 5, lineHeight: 1.35,
-                }}>{c.label}</span>
+              <div key={c.label} className="bg-[#1c1b15] px-5 py-4">
+                <b className="block font-mono text-2xl font-semibold tracking-tight text-white">{c.num}</b>
+                <span className="block text-white/55 text-xs font-medium mt-1 leading-snug">{c.label}</span>
               </div>
             ))}
           </div>
         </div>
       </header>
 
-      {/* ── Seção 01 — Vendas ── */}
-      <section style={{ padding: "40px 24px", background: "#f6f3ec" }}>
-        <div style={{ maxWidth: 1180, margin: "auto" }}>
-          <SectionHead
-            kicker="01 — Vendas"
-            title="Quantas cotas foram vendidas, e onde"
-            desc="Cota comercializada é adesão vendida no ano. Não é contemplação, não é aquisição do bem — é apenas o início do contrato."
-          />
-          <Verdict tag="Leitura direta">
-            De 2016 a 2024 a venda total de cotas quase dobrou (2,28 milhões → 4,53 milhões). O
-            segmento que mais acelerou foi <strong>Imóveis</strong>, com crescimento de 333% nas
-            vendas no período — bem acima da média do mercado.
-          </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
-            <MiniCard num="2,28 milhões" label="2016" note="cotas comercializadas" />
-            <MiniCard num="4,53 milhões" label="2024" note="cotas comercializadas" variant="terra" />
-            <MiniCard num="2,25 milhões" label="Diferença absoluta" note="2024 menos 2016" />
-            <MiniCard num="Auto 1,76 mi" label="Maior produto em 2024" note="vendidas" variant="olive" />
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }} className="!grid-cols-1 lg:!grid-cols-2">
-            <ChartBox title="Cotas comercializadas — total" subtitle="escala inicia em zero">
-              <BarChart data={totalVendidasData} />
-            </ChartBox>
-            <ChartBox title="Cotas comercializadas — por produto" subtitle="em milhões de cotas">
-              <GroupedBarChart series={vendBySegSeries} />
-            </ChartBox>
-          </div>
-          <p style={{ marginTop: 16, fontSize: 13.5, color: "#716b60", fontStyle: "italic", fontWeight: 500 }}>
-            Próximo passo: O crescimento da venda só tem sentido lido junto com o índice de
-            exclusão, na seção seguinte.
-          </p>
-        </div>
-      </section>
-
-      {/* ── Seção 02 — Índice de Exclusão ── */}
-      <section style={{ padding: "40px 24px", background: "#ece7dc" }}>
-        <div style={{ maxWidth: 1180, margin: "auto" }}>
-          <SectionHead
-            kicker="02 — Índice de exclusão"
-            title="De quem desiste, ou é excluído, no meio do caminho"
-            desc="Índice de exclusão = cotas excluídas ÷ (cotas ativas + cotas excluídas). É a fração de quem entrou e não chegou à contemplação dentro do próprio grupo."
-          />
-          <Verdict tag="Leitura direta">
-            O índice de exclusão geral caiu pouco em 8 anos (50,2% → 48,6%, -1,6 p.p.) — segue
-            perto da metade de todas as cotas do sistema. Em <strong>Imóveis</strong>, mesmo caindo
-            de 63,0% para 56,9%, o índice continua o mais alto entre os quatro produtos: mais de
-            metade de quem entra nesse segmento sai sem ser contemplado.
-          </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
-            <MiniCard num="50,2%" label="IE geral 2016" note="base BCB" />
-            <MiniCard num="48,6%" label="IE geral 2024" note="base BCB" variant="terra" />
-            <MiniCard num="-1,6 p.p." label="Variação" note="2024 menos 2016" />
-            <MiniCard num="56,9%" label="Maior IE em 2024" note="Imóveis" variant="terra" />
-          </div>
-          <div style={{ marginBottom: 18 }}>
-            <ChartBox title="Índice de exclusão — geral" subtitle="escala fixa: 0% a 100%">
-              <LineChart series={ieGeralSeries} percent yMin={0} yMax={1} />
-            </ChartBox>
-          </div>
-
-          {/* gráfico por produto com botões */}
-          <div style={{
-            background: "#fffdf8", border: "1px solid #ddd5c5", borderRadius: 10,
-            padding: "18px 16px 8px", boxShadow: "0 14px 38px rgba(26,26,23,.08)",
-          }}>
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", paddingBottom: 6 }}>
-              <h3 style={{ margin: 0, fontSize: 16.5, fontWeight: 700, fontFamily: "'Source Serif 4', serif" }}>
-                Índice de exclusão — por produto
-              </h3>
-              <span style={{ fontSize: 11.5, color: "#716b60", fontFamily: "'IBM Plex Mono', monospace", fontWeight: 600 }}>
-                selecione o produto
-              </span>
-            </div>
-            <div style={{ display: "flex", gap: 6, flexWrap: "wrap", marginBottom: 12 }}>
-              {["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"].map((seg) => (
-                <button
-                  key={seg}
-                  onClick={() => setSelectedSegment(seg)}
-                  style={{
-                    border: `1px solid ${selectedSegment === seg ? "#15140f" : "#ddd5c5"}`,
-                    background: selectedSegment === seg ? "#15140f" : "#fffdf8",
-                    color: selectedSegment === seg ? "#fff" : "#1a1a17",
-                    fontWeight: 600, fontSize: 13, borderRadius: 6,
-                    padding: "7px 13px", cursor: "pointer", fontFamily: "'Inter', sans-serif",
-                  }}
-                >
-                  {seg}
-                </button>
-              ))}
-            </div>
-            <LineChart series={selSegIESeries} percent yMin={0} yMax={1} />
-            <div style={{ marginTop: 10 }}>
-              <p style={{ margin: "0 0 4px", fontSize: 13, color: "#716b60", fontFamily: "'IBM Plex Mono', monospace" }}>
-                Produto selecionado: vendas — {selectedSegment}
-              </p>
-              <BarChart data={selSegVendData} />
-            </div>
-          </div>
-
-          <Divider />
-          <h3 style={{ margin: "0 0 14px", fontSize: 18, fontWeight: 700, fontFamily: "'Source Serif 4', serif" }}>
-            Leitura direta do dado, por produto
-          </h3>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12 }}>
-            {["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"].map((seg) => {
-              const ie24 = ie2024(seg);
-              const ie16 = ie2016(seg);
-              const diff = ie24 - ie16;
-              return (
-                <MiniCard
-                  key={seg}
-                  num={pct(ie24)}
-                  label={seg}
-                  note={`2016: ${pct(ie16)} · 2024: ${pct(ie24)} · variação: ${diff >= 0 ? "+" : ""}${(diff * 100).toFixed(1)} p.p.`}
-                  variant={ie24 > 0.5 ? "terra" : "default"}
-                />
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* ── Seção 03 — Reclamações ── */}
-      <section style={{ padding: "40px 24px", background: "#f6f3ec" }}>
-        <div style={{ maxWidth: 1180, margin: "auto" }}>
-          <SectionHead
-            kicker="03 — Reclamações"
-            title="Reclamações: Banco Central primeiro, Consumidor.gov.br depois"
-            desc="Duas bases oficiais, sem misturar metodologia: primeiro o ranking de reclamações do Banco Central; depois o recorte do Consumidor.gov.br para administradoras de consórcios."
-          />
-
-          <h3 style={{ margin: "0 0 10px", fontSize: 20, letterSpacing: "-.01em", fontFamily: "'Source Serif 4', serif" }}>
-            Base Banco Central — reclamações no sistema de consórcios
-          </h3>
-          <Verdict tag="Leitura direta — BCB">
-            As reclamações procedentes — aquelas em que o BCB já encontrou indício de descumprimento
-            — saltaram de 240 em 2017 para 2.955 em 2025: um crescimento de <strong>1131%</strong>.
-            Em 2022, o maior índice por milhão de clientes foi 31 vezes maior que a média do mercado
-            naquele ano (352,38 por milhão), evidenciando forte dispersão entre administradoras.
-          </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
-            <MiniCard num="6.400" label="Total 2025" note="reclamações BCB" variant="terra" />
-            <MiniCard num="2.955" label="Procedentes 2025" note="reguladas procedentes" variant="terra" />
-            <MiniCard num="5.618" label="Total 2024" note="reclamações BCB" />
-            <MiniCard num="270,21" label="Índice 2025" note="procedentes por milhão de clientes" />
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18, marginBottom: 20 }} className="!grid-cols-1 lg:!grid-cols-2">
-            <ChartBox title="Reclamações BCB — total" subtitle="procedentes + outras + não reguladas">
-              <BarChart data={bcbTotalData} yMax={8000} />
-            </ChartBox>
-            <ChartBox title="Reclamações BCB — procedentes" subtitle="reclamações reguladas procedentes">
-              <BarChart data={bcbProcData} yMax={4000} />
-            </ChartBox>
-          </div>
-          <p style={{ margin: "0 0 20px", fontSize: 12.5, color: "#716b60", fontWeight: 600 }}>
-            Fonte: Panorama de Consórcio — Banco Central do Brasil (BCB).
-          </p>
-
-          <Divider />
-
-          <h3 style={{ margin: "0 0 10px", fontSize: 20, letterSpacing: "-.01em", fontFamily: "'Source Serif 4', serif" }}>
-            Base Consumidor.gov.br — administradoras de consórcios
-          </h3>
-          <p style={{ margin: "0 0 16px", fontSize: 15, color: "#716b60", fontWeight: 500 }}>
-            Recorte consolidado do painel público do Consumidor.gov.br, filtrado para o segmento
-            "Administradoras de Consórcios". Aqui entram apenas ano, volume de reclamações e
-            principais motivos reclamados.
-          </p>
-          <Verdict tag="Leitura direta — Consumidor.gov.br">
-            De 2016 a 2025, as reclamações contra administradoras de consórcio no Consumidor.gov.br
-            saíram de 636 para 6.986. Isso representa crescimento de <strong>998%</strong> no
-            período — quase 10 vezes mais reclamações.
-          </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 20 }} className="!grid-cols-2 lg:!grid-cols-4">
-            <MiniCard num="636" label="2016" note="reclamações registradas" />
-            <MiniCard num="6.986" label="2025" note="reclamações registradas" variant="terra" />
-            <MiniCard num="998%" label="Crescimento 2016–2025" note="quase 10 vezes mais reclamações" variant="terra" />
-            <MiniCard num="15,89%" label="Principal motivo em 2025" note="dificuldade ou atraso na devolução de valores" />
-          </div>
-          <ChartBox title="Reclamações — Administradoras de Consórcios" subtitle="Consumidor.gov.br">
-            <BarChart data={cgData} />
-          </ChartBox>
-
-          {/* Principais motivos 2025 */}
-          <div style={{ marginTop: 16 }}>
-            <h4 style={{ margin: "0 0 12px", fontSize: 15, fontWeight: 700, fontFamily: "'Source Serif 4', serif" }}>
-              Principais motivos — 2025
-            </h4>
-            <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 12 }} className="!grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3">
-              {consumerGovTopReasons2025.map((r) => (
-                <div key={r.rank} style={{
-                  background: "#15140f", color: "#f3efe6", borderRadius: 10,
-                  padding: 18, minHeight: 168, display: "flex", flexDirection: "column",
-                  justifyContent: "space-between", border: "1px solid rgba(255,255,255,.08)",
-                }}>
-                  <span style={{
-                    fontFamily: "'IBM Plex Mono', monospace", fontSize: 11,
-                    textTransform: "uppercase", letterSpacing: ".08em",
-                    color: "#e7b692", fontWeight: 700,
-                  }}>#{r.rank}</span>
-                  <div style={{
-                    fontFamily: "'IBM Plex Mono', monospace", fontSize: 34,
-                    lineHeight: 1, fontWeight: 600, color: "#fff", margin: "10px 0",
-                  }}>{pct(r.pct)}</div>
-                  <div style={{ fontSize: 15, lineHeight: 1.28, fontWeight: 700, letterSpacing: "-.01em" }}>
-                    {r.motivo}
-                  </div>
-                  <div style={{
-                    fontSize: 11.5, color: "#a39c8c", marginTop: 10,
-                    fontFamily: "'IBM Plex Mono', monospace",
-                  }}>base: Consumidor.gov.br 2025</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── Seção 04 — Macro ── */}
-      <section style={{ padding: "40px 24px", background: "#ece7dc" }}>
-        <div style={{ maxWidth: 1180, margin: "auto" }}>
-          <SectionHead
-            kicker="04 — Macro"
-            title="Juros, vendas e exclusão lado a lado"
-            desc="Bloco separado para comparar Selic, financiamento imobiliário, vendas e índice de exclusão sem misturar conceito macro com conceito operacional do consórcio."
-          />
-          <Verdict tag="Leitura direta">
-            A venda de cotas cresceu em todos os cenários de juros do período — com Selic em baixa
-            histórica (2,0% em 2020) ou em alta (12,3% em 2024). Isso sugere que o crescimento do
-            consórcio não depende do nível de juros: ele compete com o financiamento bancário em
-            qualquer cenário, o que reforça a leitura de que o produto se sustenta por
-            características próprias — incluindo o índice de exclusão estrutural visto na seção 2.
-          </Verdict>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 18 }} className="!grid-cols-1 lg:!grid-cols-2">
-            <ChartBox title="Selic e financiamento imobiliário" subtitle="pontos marcados por ano">
-              <LineChart series={macroSelicSeries} percent yMin={0} yMax={0.2} legend />
-            </ChartBox>
-            <ChartBox title="Vendas e índice de exclusão geral" subtitle="duas leituras, mesmo período">
-              <LineChart series={macroVendIESeries} percent yMin={0} yMax={1} legend />
-            </ChartBox>
-          </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 8, marginTop: 10 }} className="!grid-cols-1 sm:!grid-cols-2 lg:!grid-cols-3">
-            {macroMarkers.map((m) => (
-              <div key={m.ano} style={{
-                background: "#15140f", color: "#f3efe6",
-                borderLeft: "4px solid #ffe66d", borderRadius: 8,
-                padding: "13px 16px", fontSize: 14, fontWeight: 600, letterSpacing: "-.01em",
-              }}>
-                <span style={{
-                  color: "#ffe66d", fontFamily: "'IBM Plex Mono', monospace",
-                  fontSize: 12, textTransform: "uppercase", letterSpacing: ".05em",
-                  display: "block", marginBottom: 4,
-                }}>{m.ano}</span>
-                <strong>{m.label}</strong><br />
-                <span style={{ fontSize: 12, color: "#a39c8c", fontFamily: "'IBM Plex Mono', monospace" }}>
-                  Selic: {m.selic} · Financiamento imob.: {m.financ} · IE geral: {m.ie}
-                </span>
-              </div>
+      {/* Sticky nav */}
+      <nav className="sticky top-0 z-30 bg-white border-b border-[#e5e0d8] shadow-sm">
+        <div className="max-w-5xl mx-auto px-4">
+          <div className="flex overflow-x-auto -mb-px">
+            {TABS.map((tab) => (
+              <button key={tab.id} onClick={() => scrollTo(tab.id)}
+                className={`shrink-0 px-4 py-4 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
+                  activeTab === tab.id
+                    ? "border-[#f97316] text-[#c2410c]"
+                    : "border-transparent text-[#9e9890] hover:text-[#15140f]"
+                }`}
+              >{tab.label}</button>
             ))}
           </div>
         </div>
-      </section>
+      </nav>
 
-      {/* ── Base de dados ── */}
-      <section style={{ padding: "40px 24px", background: "#f6f3ec" }}>
-        <div style={{ maxWidth: 1180, margin: "auto" }}>
-          <details>
-            <summary style={{
-              cursor: "pointer", fontWeight: 700, fontSize: 16,
-              fontFamily: "'Source Serif 4', serif", padding: "12px 0",
-              borderTop: "1px solid #ddd5c5", listStyle: "none",
-              display: "flex", alignItems: "center", gap: 8,
-            }}>
-              <span style={{ color: "#c2410c" }}>▶</span> Ver base de dados do painel
+      {/* Conteúdo em scroll infinito */}
+      <main className="max-w-5xl mx-auto px-4 py-12 space-y-20">
+        <SecaoVendas />
+        <hr className="border-[#e5e0d8]" />
+        <SecaoExclusao />
+        <hr className="border-[#e5e0d8]" />
+        <SecaoReclamacoes />
+        <hr className="border-[#e5e0d8]" />
+        <SecaoSorte />
+
+        {/* Fontes */}
+        <div id="fontes" className="pt-4">
+          <details className="group">
+            <summary className="cursor-pointer flex items-center gap-2 font-bold text-lg text-[#15140f] py-3 list-none">
+              <span className="text-[#c2410c] group-open:rotate-90 transition-transform">▶</span>
+              De onde vêm os dados deste painel
             </summary>
-            <div style={{ paddingTop: 16 }}>
-              <p style={{ fontSize: 13, color: "#716b60", marginBottom: 16 }}>
-                Dados abertos dentro do próprio HTML. Percentuais armazenados como fração decimal e
-                exibidos como porcentagem.
-              </p>
-              <div style={{ overflowX: "auto", border: "1px solid #ddd5c5", borderRadius: 8, background: "#fffdf8" }}>
-                <table style={{
-                  borderCollapse: "collapse", width: "100%", minWidth: 720,
-                  fontFamily: "'IBM Plex Mono', monospace", fontSize: 13,
-                }}>
-                  <thead>
-                    <tr>
-                      {["Ano", "Produto", "Cotas vendidas", "Cotas ativas", "Cotas excluídas", "Índice de exclusão", "Status"].map((h) => (
-                        <th key={h} style={{
-                          position: "sticky", top: 0, background: "#15140f", color: "#f3efe6",
-                          fontSize: 11, textTransform: "uppercase", letterSpacing: ".05em",
-                          fontWeight: 600, fontFamily: "'Inter', sans-serif",
-                          padding: "10px 13px",
-                          textAlign: (h === "Ano" || h === "Produto" || h === "Status") ? "left" : "right",
-                          whiteSpace: "nowrap",
-                        }}>{h}</th>
-                      ))}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {segmentData.map((r, i) => (
-                      <tr key={i} style={{ borderBottom: "1px solid #ece7dc" }}>
-                        <td style={{ padding: "10px 13px", textAlign: "left" }}>{r.ano}</td>
-                        <td style={{ padding: "10px 13px", textAlign: "left" }}>{r.segmento}</td>
-                        <td style={{ padding: "10px 13px", textAlign: "right" }}>{mi(r.vendidas)}</td>
-                        <td style={{ padding: "10px 13px", textAlign: "right" }}>{mi(r.ativas)}</td>
-                        <td style={{ padding: "10px 13px", textAlign: "right" }}>{mi(r.excluidas)}</td>
-                        <td style={{ padding: "10px 13px", textAlign: "right" }}>{pct(r.ie)}</td>
-                        <td style={{ padding: "10px 13px", textAlign: "left", color: "#716b60" }}>{r.status}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
-          </details>
-
-          <Divider />
-
-          <details>
-            <summary style={{
-              cursor: "pointer", fontWeight: 700, fontSize: 16,
-              fontFamily: "'Source Serif 4', serif", padding: "12px 0",
-              listStyle: "none", display: "flex", alignItems: "center", gap: 8,
-            }}>
-              <span style={{ color: "#c2410c" }}>▶</span> De onde vêm os dados deste painel
-            </summary>
-            <div style={{ paddingTop: 16, display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 18 }}>
+            <div className="pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
               {[
-                {
-                  title: "Panorama BCB 2016–2024",
-                  body: "Cotas vendidas, ativas, excluídas, índice de exclusão, contemplações, recursos e taxa média de administração.",
-                  note: "Nota sobre BCB 2025: As análises anuais de 2025 do Banco Central ainda não foram incorporadas ao painel; a limitação aparece sinalizada no hero.",
-                },
-                {
-                  title: "Consumidor.gov.br",
-                  body: "Base pública de indicadores. Nesta versão, os registros de administradoras de consórcios foram consolidados por ano, volume de reclamações e principais motivos.",
-                },
-                {
-                  title: "Macro (Selic / financiamento imobiliário)",
-                  body: "Mantidos em seção separada para não misturar dado macroeconômico com dado operacional do consórcio.",
-                },
+                { title: "Panorama BCB 2016–2024", body: "Cotas vendidas, ativas, excluídas, índice de exclusão, contemplações, recursos e taxa média de administração.", note: "Nota: As análises anuais de 2025 do Banco Central ainda não foram incorporadas ao painel." },
+                { title: "Consumidor.gov.br", body: "Base pública de indicadores. Registros de administradoras de consórcios consolidados por ano, volume de reclamações e principais motivos." },
+                { title: "Macro (Selic / financiamento imobiliário)", body: "Mantidos em seção separada para não misturar dado macroeconômico com dado operacional do consórcio." },
               ].map((s) => (
-                <div key={s.title} style={{
-                  background: "#fffdf8", border: "1px solid #ddd5c5", borderRadius: 10,
-                  padding: 22, boxShadow: "0 14px 38px rgba(26,26,23,.08)",
-                }}>
-                  <h3 style={{ margin: "0 0 10px", fontSize: 16, fontWeight: 700, fontFamily: "'Source Serif 4', serif" }}>
-                    {s.title}
-                  </h3>
-                  <p style={{ margin: 0, fontSize: 14, color: "#716b60", lineHeight: 1.55 }}>{s.body}</p>
-                  {s.note && (
-                    <p style={{ margin: "10px 0 0", fontSize: 12.5, color: "#8a8275", lineHeight: 1.45, fontStyle: "italic" }}>
-                      {s.note}
-                    </p>
-                  )}
+                <div key={s.title} className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
+                  <h3 className="font-bold text-[#15140f] mb-2">{s.title}</h3>
+                  <p className="text-sm text-[#9e9890] leading-relaxed">{s.body}</p>
+                  {"note" in s && s.note && <p className="mt-2 text-xs text-[#9e9890] italic">{s.note}</p>}
                 </div>
               ))}
             </div>
-            <div style={{
-              marginTop: 16, background: "#fffdf8", border: "1px solid #ddd5c5",
-              borderRadius: 8, padding: "14px 18px", fontSize: 13.5, color: "#716b60", lineHeight: 1.55,
-            }}>
-              <strong style={{ color: "#15140f" }}>Metodologia:</strong> A base principal é oficial, do Banco Central. A ABAC não foi
-              usada como fonte primária — apenas o BCB, que divulga os dados a partir do Cosif,
-              Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a
-              2024 e, na seção de reclamações, os dados consolidados a partir do painel público do
-              Consumidor.gov.br. Regra desta versão: onde o dado foi derivado por diferença ou
-              cálculo a partir de número arredondado, isso aparece na coluna "status" da
-              tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é
-              sempre exibido de 0% a 100%.
+            <div className="mt-4 bg-white border border-[#e5e0d8] rounded-xl p-5 text-sm text-[#9e9890] leading-relaxed">
+              <strong className="text-[#15140f]">Metodologia:</strong> A base principal é oficial, do Banco Central. A ABAC não foi usada como fonte primária — apenas o BCB, que divulga os dados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
             </div>
           </details>
         </div>
-      </section>
+      </main>
     </div>
   );
 }

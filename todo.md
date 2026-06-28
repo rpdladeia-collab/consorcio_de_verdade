@@ -230,3 +230,11 @@
 - [x] Dados de exemplo pré-carregados (grupo XYZ)
 - [x] PDF com logo + bloco de transparência (gerarPdfZonaContemplacao)
 - [x] 105/105 testes passando · 0 erros TypeScript
+
+## Sprint Panorama Dados Oficiais — Refatoração Nativa
+
+- [ ] Panorama: criar client/src/lib/panoramaData.ts com todos os dados tipados
+- [ ] Panorama: reescrever página nativa com 4 submenus em scroll infinito (sticky nav)
+- [ ] Panorama: Recharts responsivo em todos os gráficos (ResponsiveContainer + overflow-x-auto)
+- [ ] Panorama: 4 submenus — Vendas · Índice de Exclusão · Reclamações · Sorte
+- [ ] Panorama: design system (--paper, --ink, --orange) sem cores hardcoded do HTML original
