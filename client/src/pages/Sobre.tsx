@@ -22,7 +22,6 @@ export default function Sobre() {
                 src="/manus-storage/video_sem_logo_38c4444a.mp4"
                 autoPlay
                 loop
-                muted
                 playsInline
                 disablePictureInPicture
                 controlsList="nodownload noremoteplayback"

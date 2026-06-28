@@ -15,6 +15,7 @@ import {
   Trash2,
   ShieldCheck,
   BarChart2,
+  HelpCircle,
 } from "lucide-react";
 import {
   LineChart,
@@ -26,6 +27,7 @@ import {
   ResponsiveContainer,
   ReferenceLine,
   Legend,
+  LabelList,
 } from "recharts";
 import {
   AuditSeal,
@@ -132,14 +134,18 @@ function ChipBadge({ text, cls }: { text: string; cls: "green" | "yellow" | "red
 }
 
 function Thermometer({ pos, label }: { pos: number; label: string }) {
+  // Gradiente: vermelho forte (piso) → amarelo claro (abaixo da média) → amarelo escuro (média) → verde (teto)
   return (
     <div className="space-y-2">
-      <div className="relative h-8 rounded-full bg-gradient-to-r from-[var(--destructive)]/25 via-[var(--positive)]/25 to-[var(--destructive)]/25 overflow-visible border border-border">
+      <div
+        className="relative h-8 rounded-full overflow-visible border border-border"
+        style={{ background: 'linear-gradient(to right, #dc2626 0%, #ef4444 15%, #f59e0b 35%, #d97706 50%, #84cc16 70%, #22c55e 100%)' }}
+      >
         <div
           className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 transition-all duration-700"
           style={{ left: `${Math.max(2, Math.min(98, pos))}%`, transitionTimingFunction: "cubic-bezier(0.23,1,0.32,1)" }}
         >
-          <div className="w-0.5 h-10 bg-[var(--ink)] rounded-full" />
+          <div className="w-1 h-10 bg-[var(--ink)] rounded-full shadow-md" />
           <span className="absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap text-xs font-bold data-num bg-[var(--ink)] text-white px-2 py-0.5 rounded-full shadow">
             {label}
           </span>
@@ -350,17 +356,20 @@ export default function SimuladorZonaContemplacao() {
             Central de Simuladores
           </Link>
           <div className="max-w-3xl">
-            <AuditSeal className="mb-5" />
-            <p className="eyebrow text-[var(--orange)] mb-3">Raio-X do Lance · Análise independente</p>
+            {/* Selo */}
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--orange)]/50 bg-[var(--orange)]/10 px-3 py-1 text-xs font-semibold text-[var(--orange)] mb-5">
+              Zona de Contemplação
+            </span>
             <h1 className="text-3xl md:text-4xl font-extrabold leading-[1.05] tracking-tight">
-              Raio-X do Lance
+              O movimento das contemplações
             </h1>
-            <p className="text-lg text-white/65 mt-4 leading-relaxed max-w-2xl">
-              Lance não é mágica.<br />
-              É dinheiro seu na mesa.<br /><br />
-              Calcule a força do lance, o impacto na carta líquida e a parcela depois da contemplação
-              antes de assumir que essa estratégia faz sentido.
-            </p>
+            {/* Aviso legal — texto formal, letras menores */}
+            <div className="mt-5 max-w-3xl">
+              <p className="text-[11px] font-bold tracking-wide uppercase mb-1" style={{ color: '#F5C518' }}>Aviso importante</p>
+              <p className="text-[11px] text-white/55 leading-relaxed">
+                Este simulador tem finalidade exclusivamente educativa e analítica. Em consórcio, há prazo de duração do grupo, mas não existe prazo individual garantido para contemplação. A contemplação depende das regras do contrato, dos sorteios, dos lances, da concorrência entre participantes, do caixa do grupo e de outros fatores definidos pela administradora. O histórico apresentado serve apenas para observar o comportamento do grupo em assembleias anteriores. Nenhum dado histórico, média ou faixa de lance deve ser interpretado como promessa, previsão ou garantia de contemplação futura.
+              </p>
+            </div>
           </div>
         </div>
       </section>
@@ -399,6 +408,13 @@ export default function SimuladorZonaContemplacao() {
                 title="Configurações do grupo"
                 desc="Identifique o grupo e escolha a modalidade de lance para filtrar o histórico corretamente."
               />
+              {/* Texto orientador */}
+              <div className="rounded-xl bg-secondary/50 border border-border px-4 py-3">
+                <p className="text-xs text-foreground/65 leading-relaxed">
+                  Informe os lances observados nas últimas assembleias do grupo. Preencha o % do menor lance, do lance médio e do maior lance de cada assembleia, sempre usando dados da mesma modalidade. Depois, insira o percentual de lance que deseja testar. O simulador vai posicionar esse lance dentro da faixa histórica informada, permitindo comparar o valor testado com o piso, a referência central e o teto dos lances anteriores.{" "}
+                  <strong className="text-foreground/80">O RESULTADO NÃO REFLETE PROMESSA OU GARANTIA DE CONTEMPLAÇÃO, APENAS MOSTRA COMO O GRUPO VEM SE MOVIMENTANDO.</strong>
+                </p>
+              </div>
               <div className="grid sm:grid-cols-3 gap-4">
                 <div>
                   <label className="text-sm font-medium text-foreground/70 mb-1.5 block">Nome do grupo</label>
@@ -452,10 +468,30 @@ export default function SimuladorZonaContemplacao() {
                 <table className="w-full text-sm">
                   <thead>
                     <tr className="bg-secondary/60 text-foreground/55 text-xs uppercase tracking-wide">
-                      <th className="text-left font-medium px-4 py-3">Assembleia</th>
-                      <th className="text-left font-medium px-4 py-3">Menor lance (%)</th>
-                      <th className="text-left font-medium px-4 py-3">Lance médio (%)</th>
-                      <th className="text-left font-medium px-4 py-3">Maior lance (%)</th>
+                      <th className="text-left font-medium px-4 py-3">
+                        <span className="inline-flex items-center gap-1">
+                          Assembleia
+                          <span title="Número da assembleia (mês do grupo)"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                        </span>
+                      </th>
+                      <th className="text-left font-medium px-4 py-3">
+                        <span className="inline-flex items-center gap-1">
+                          Menor lance (%)
+                          <span title="Menor percentual de lance que venceu contemplação nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                        </span>
+                      </th>
+                      <th className="text-left font-medium px-4 py-3">
+                        <span className="inline-flex items-center gap-1">
+                          Lance médio (%)
+                          <span title="Lance médio dos contemplados nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                        </span>
+                      </th>
+                      <th className="text-left font-medium px-4 py-3">
+                        <span className="inline-flex items-center gap-1">
+                          Maior lance (%)
+                          <span title="Maior percentual de lance vencedor nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                        </span>
+                      </th>
                       <th className="px-4 py-3 w-10"></th>
                     </tr>
                   </thead>
@@ -586,9 +622,15 @@ export default function SimuladorZonaContemplacao() {
                                 strokeDasharray="4 4"
                                 label={{ value: "Meu lance", fontSize: 10, position: "insideTopRight" }}
                               />
-                              <Line type="monotone" dataKey="low" name="Menor" stroke="#27c07d" strokeWidth={2} dot={{ r: 3 }} />
-                              <Line type="monotone" dataKey="mid" name="Médio" stroke="#F97316" strokeWidth={2.5} dot={{ r: 3 }} />
-                              <Line type="monotone" dataKey="high" name="Maior" stroke="#111" strokeWidth={2} dot={{ r: 3 }} />
+                              <Line type="monotone" dataKey="low" name="Menor" stroke="#27c07d" strokeWidth={2} dot={{ r: 4 }}>
+                                <LabelList dataKey="low" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: '#27c07d' }} />
+                              </Line>
+                              <Line type="monotone" dataKey="mid" name="Médio" stroke="#F97316" strokeWidth={2.5} dot={{ r: 4 }}>
+                                <LabelList dataKey="mid" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: '#F97316' }} />
+                              </Line>
+                              <Line type="monotone" dataKey="high" name="Maior" stroke="#111" strokeWidth={2} dot={{ r: 4 }}>
+                                <LabelList dataKey="high" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: '#555' }} />
+                              </Line>
                             </LineChart>
                           </ResponsiveContainer>
                         </div>
