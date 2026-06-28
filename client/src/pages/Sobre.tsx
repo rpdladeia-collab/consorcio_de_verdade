@@ -82,17 +82,13 @@ export default function Sobre() {
             {/* Texto de apresentação */}
             <div className="space-y-4 text-white/70 text-base leading-relaxed max-w-xl">
               <p>
-                O <strong className="text-white">Consórcio de Verdade</strong> nasceu de uma
-                constatação simples: o mercado bate recordes de vendas enquanto quase metade das
-                cotas não chega ao bem desejado.
+                O <strong className="text-white">Consórcio de Verdade</strong> foi construído para dar clareza a uma decisão que costuma ser apresentada de forma simples demais.
               </p>
               <p>
-                Esta plataforma foi criada para que qualquer pessoa possa entender os cálculos
-                reais de uma proposta — parcela, lance, custo, correção e viabilidade — antes de
-                assinar qualquer contrato.
+                O consórcio pode fazer sentido em muitos cenários, mas não deve ser tratado como solução universal. Por isso, este espaço reúne simulações, análises e explicações para que cada pessoa consiga enxergar o produto por inteiro: o que ele entrega, o que ele não promete, onde pode funcionar e onde pode gerar frustração.
               </p>
               <p>
-                Aqui não se vende consórcio. Aqui se faz a conta.
+                A ideia é simples: menos discurso pronto, mais entendimento real.
               </p>
             </div>
 

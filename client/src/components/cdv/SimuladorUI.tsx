@@ -384,7 +384,12 @@ export function VideoBlock({ title }: { title: string }) {
   return (
     <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] p-8 flex flex-col items-center text-center">
       <PlayCircle className="w-12 h-12 text-[var(--orange)] mb-4" />
-      <p className="font-semibold text-lg">{title}</p>
+      <div className="flex items-center gap-2 mb-1">
+        <p className="font-semibold text-lg">{title}</p>
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F5C518] text-black tracking-wide uppercase">
+          Em breve
+        </span>
+      </div>
       <p className="text-sm text-white/50 mt-1 max-w-md">
         Em breve: um vídeo curto explicando, na prática, como interpretar este
         resultado e evitar as armadilhas mais comuns.

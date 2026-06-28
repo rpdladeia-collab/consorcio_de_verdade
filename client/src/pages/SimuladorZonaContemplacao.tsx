@@ -29,6 +29,7 @@ import {
   Legend,
   LabelList,
 } from "recharts";
+import { LOGO } from "@/lib/brand";
 import {
   AuditSeal,
   SectionTitle,
@@ -71,18 +72,9 @@ interface QuantRow {
 // ─── Dados de exemplo (XYZ) ───────────────────────────────────────────────────
 
 const HIST_SEED: HistRow[] = [
-  { ass: "36", low: "48", mid: "56", high: "72" },
-  { ass: "35", low: "45", mid: "54", high: "69" },
-  { ass: "34", low: "50", mid: "58", high: "74" },
-  { ass: "33", low: "43", mid: "52", high: "68" },
-  { ass: "32", low: "46", mid: "55", high: "71" },
-  { ass: "31", low: "44", mid: "53", high: "70" },
-  { ass: "30", low: "47", mid: "57", high: "73" },
-  { ass: "29", low: "49", mid: "59", high: "76" },
-  { ass: "28", low: "42", mid: "51", high: "66" },
-  { ass: "27", low: "45", mid: "55", high: "73" },
-  { ass: "26", low: "51", mid: "60", high: "78" },
-  { ass: "25", low: "47", mid: "58", high: "75" },
+  { ass: "3", low: "", mid: "", high: "" },
+  { ass: "2", low: "", mid: "", high: "" },
+  { ass: "1", low: "", mid: "", high: "" },
 ];
 
 const QUANT_SEED: QuantRow[] = [
@@ -355,7 +347,8 @@ export default function SimuladorZonaContemplacao() {
             <ArrowLeft className="w-4 h-4" />
             Central de Simuladores
           </Link>
-          <div className="max-w-3xl">
+          <div className="flex items-start justify-between gap-4">
+          <div className="max-w-3xl flex-1">
             {/* Selo */}
             <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--orange)]/50 bg-[var(--orange)]/10 px-3 py-1 text-xs font-semibold text-[var(--orange)] mb-5">
               Zona de Contemplação
@@ -369,11 +362,15 @@ export default function SimuladorZonaContemplacao() {
               <p className="text-[11px] text-white/55 leading-relaxed">
                 Este simulador tem finalidade exclusivamente educativa e analítica. Em consórcio, há prazo de duração do grupo, mas não existe prazo individual garantido para contemplação. A contemplação depende das regras do contrato, dos sorteios, dos lances, da concorrência entre participantes, do caixa do grupo e de outros fatores definidos pela administradora. O histórico apresentado serve apenas para observar o comportamento do grupo em assembleias anteriores. Nenhum dado histórico, média ou faixa de lance deve ser interpretado como promessa, previsão ou garantia de contemplação futura.
               </p>
-            </div>
+                        </div>
+          </div>
+          {/* Logo no canto superior direito */}
+          <div className="hidden md:block shrink-0 mt-1">
+            <img src={LOGO.light} alt="r.enatto" className="h-10 w-auto opacity-90" />
+          </div>
           </div>
         </div>
       </section>
-
       {/* TABS */}
       <div className="sticky top-0 z-20 bg-[var(--paper)] border-b border-border shadow-sm">
         <div className="container">
@@ -462,7 +459,7 @@ export default function SimuladorZonaContemplacao() {
             <div className="rounded-2xl border border-border bg-card overflow-hidden">
               <div className="px-5 py-4 border-b border-border">
                 <p className="font-semibold text-sm">Histórico mensal</p>
-                <p className="text-xs text-foreground/55 mt-0.5">Informe, por assembleia, o menor, o médio e o maior lance vencedor (% da carta). Quanto mais assembleias, melhor a leitura.</p>
+                <p className="text-xs text-foreground/75 mt-0.5">Informe, por assembleia, o menor, o médio e o maior lance vencedor (% da carta). Quanto mais assembleias, melhor a leitura.</p>
               </div>
               <div className="overflow-x-auto">
                 <table className="w-full text-sm">
@@ -545,7 +542,7 @@ export default function SimuladorZonaContemplacao() {
                 <div className="rounded-2xl border border-dashed border-border bg-secondary/40 p-10 text-center">
                   <BarChart2 className="w-10 h-10 text-foreground/30 mx-auto mb-4" />
                   <p className="font-semibold text-lg">Zona de Contemplação aparece aqui</p>
-                  <p className="text-sm text-foreground/55 mt-1 max-w-sm mx-auto">Preencha o histórico, informe seu lance e clique em analisar.</p>
+                  <p className="text-sm text-foreground/75 mt-1 max-w-sm mx-auto">Preencha o histórico, informe seu lance e clique em analisar.</p>
                 </div>
               )}
 
@@ -623,13 +620,13 @@ export default function SimuladorZonaContemplacao() {
                                 label={{ value: "Meu lance", fontSize: 10, position: "insideTopRight" }}
                               />
                               <Line type="monotone" dataKey="low" name="Menor" stroke="#27c07d" strokeWidth={2} dot={{ r: 4 }}>
-                                <LabelList dataKey="low" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: '#27c07d' }} />
+                                <LabelList dataKey="low" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 11, fontWeight: 700, fill: '#16a34a' }} />
                               </Line>
                               <Line type="monotone" dataKey="mid" name="Médio" stroke="#F97316" strokeWidth={2.5} dot={{ r: 4 }}>
-                                <LabelList dataKey="mid" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: '#F97316' }} />
+                                <LabelList dataKey="mid" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 11, fontWeight: 700, fill: '#ea580c' }} />
                               </Line>
                               <Line type="monotone" dataKey="high" name="Maior" stroke="#111" strokeWidth={2} dot={{ r: 4 }}>
-                                <LabelList dataKey="high" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: '#555' }} />
+                                <LabelList dataKey="high" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 11, fontWeight: 700, fill: '#111' }} />
                               </Line>
                             </LineChart>
                           </ResponsiveContainer>
@@ -638,23 +635,7 @@ export default function SimuladorZonaContemplacao() {
                     </div>
                   )}
 
-                  {/* O que significa */}
-                  <MeaningBlock label="Zona de Contemplação">
-                    <p>
-                      Com base no histórico, os lances vencedores variam de{" "}
-                      <strong>{formatPct(histResult.low)}</strong> (piso) a{" "}
-                      <strong>{formatPct(histResult.high)}</strong> (teto), com referência central em{" "}
-                      <strong>{formatPct(histResult.mid)}</strong>. Seu lance de{" "}
-                      <strong>{formatPct(parseNum(meuLance))}</strong> está posicionado na{" "}
-                      <strong>{histResult.position.title.toLowerCase()}</strong>.
-                    </p>
-                    <p>
-                      Tendência: <strong>{histResult.trend.label}</strong> — {histResult.trend.detail}.
-                    </p>
-                    <p>
-                      Lembre-se: histórico não é garantia. A zona indica a faixa provável, mas cada assembleia tem sua própria disputa.
-                    </p>
-                  </MeaningBlock>
+
 
                   {/* PDF */}
                   <div className="flex flex-wrap items-center gap-3">
@@ -676,8 +657,13 @@ export default function SimuladorZonaContemplacao() {
               <SectionTitle
                 eyebrow="Quantitativo das contemplações"
                 title="Saúde do grupo"
-                desc="Informe o quantitativo de contemplações por assembleia. Selecione as assembleias que deseja incluir na análise e defina o prazo total do grupo."
               />
+              {/* Texto orientador */}
+              <div className="rounded-xl bg-secondary/50 border border-border px-4 py-3">
+                <p className="text-xs text-foreground/75 leading-relaxed">
+                  Preencha com a quantidade de contemplações realizadas, começando pela mais recente. Em cada linha, informe o número da assembleia, a base geral de cotas ativas participantes do sorteio geral, a quantidade de cotas que disputaram os lances fixos de 30% e 50% e quantas contemplações ocorreram em cada modalidade: lance livre, lance limitado, lance fixo 30%, lance fixo 50%, sorteio geral ou outras. O objetivo é organizar o comportamento histórico do grupo por assembleia, permitindo observar o ritmo das contemplações sem transformar esses dados em previsão, promessa ou garantia de resultado futuro.
+                </p>
+              </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
                   <label className="text-sm font-medium text-foreground/70 mb-1.5 block">Prazo total do grupo (assembleias)</label>
@@ -769,7 +755,7 @@ export default function SimuladorZonaContemplacao() {
                 <div className="rounded-2xl border border-dashed border-border bg-secondary/40 p-10 text-center">
                   <BarChart2 className="w-10 h-10 text-foreground/30 mx-auto mb-4" />
                   <p className="font-semibold text-lg">Diagnóstico do grupo aparece aqui</p>
-                  <p className="text-sm text-foreground/55 mt-1">Preencha a tabela e clique em analisar.</p>
+                  <p className="text-sm text-foreground/75 mt-1">Preencha a tabela e clique em analisar.</p>
                 </div>
               )}
 
@@ -876,7 +862,7 @@ export default function SimuladorZonaContemplacao() {
               <div className="rounded-2xl border border-dashed border-border bg-secondary/40 p-10 text-center">
                 <BarChart2 className="w-10 h-10 text-foreground/30 mx-auto mb-4" />
                 <p className="font-semibold text-lg">Execute as análises primeiro</p>
-                <p className="text-sm text-foreground/55 mt-1">Vá para as abas 1 e 2, preencha os dados e clique em analisar.</p>
+                  <p className="text-sm text-foreground/75 mt-1">Vá para as abas 1 e 2, preencha os dados e clique em analisar.</p>
               </div>
             )}
 

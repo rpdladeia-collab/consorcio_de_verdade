@@ -212,9 +212,13 @@ export function runZonaHistorico(input: ZonaHistoricoInput): ZonaHistoricoOutput
   const chips: ChipItem[] = [];
 
   if (rows.length && low && mid && high) {
-    const minScale = Math.max(0, low - 10);
-    const maxScale = Math.max(high + 10, me + 5, 100);
-    pos = clamp(((me - minScale) / (maxScale - minScale)) * 100, 0, 100);
+    // Mapeia diretamente na escala visual [low, high] para que o pin reflita
+    // exatamente onde o lance testado cai entre piso e teto.
+    if (high > low) {
+      pos = clamp(((me - low) / (high - low)) * 100, 0, 100);
+    } else {
+      pos = 50;
+    }
 
     if (me < low) {
       posTitle = "Abaixo da zona";
