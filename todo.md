@@ -248,3 +248,19 @@
 - [x] Sobre: substituir todo o conteúdo pelo novo (Renato Ladeia, cargo, texto, botão "Pedir análise individual")
 - [x] Sobre: ícone LinkedIn na cor laranja (bg-[var(--orange)])
 - [x] Sobre: corrigir espaço vazio (removido min-h-screen, fundo bg-[var(--ink)] sem padding extra)
+
+## Sprint Panorama — Reestruturação Editorial Completa
+
+- [x] Hero: corrigir texto "É o dado oficial." → "São os dados oficiais."
+- [x] Resumo executivo: 5 cards-âncora clicáveis (Leitura rápida) antes dos capítulos
+- [x] Sticky nav: atualizar labels para os 5 capítulos novos
+- [x] Capítulo 01: Mercado de consórcios (ex-Vendas) — rótulos fixos nos gráficos, botão PDF
+- [x] Capítulo 02: Exclusões e permanência (ex-Índice de Exclusão) — rótulos fixos, botão PDF
+- [x] Capítulo 03: Reclamações e atendimento — rótulos fixos, botão PDF
+- [x] Capítulo 04: Contemplações: lance e sorteio (ex-Sorte) — rótulos fixos, botão PDF
+- [x] Capítulo 05: Consórcio em diferentes cenários econômicos (novo bloco macro separado) — botão PDF
+- [x] Base de dados: tabela colapsável com botão "Ver base de dados completa" / "Recolher"
+- [x] Fontes: observação "O Consórcio de Verdade não tem a ABAC como fonte" em destaque laranja
+- [x] Fontes: remover referência à ABAC do texto de metodologia
+- [x] pdfPanorama.ts: gerador de PDFs por bloco (6 blocos + PDF completo)
+- [x] 0 erros TypeScript · 105/105 testes passando

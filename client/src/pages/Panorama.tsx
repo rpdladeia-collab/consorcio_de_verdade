@@ -1,8 +1,8 @@
 /**
- * Panorama: Dados Oficiais — Reescrita nativa React + Tailwind + Recharts
- * 4 submenus em scroll infinito com sticky nav
+ * Panorama: Dados Oficiais — Reestruturado conforme prompt editorial
+ * 7 capítulos + resumo executivo + rótulos fixos + tabela colapsável + PDFs por bloco
  */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import {
   ResponsiveContainer,
   BarChart as RBarChart,
@@ -16,6 +16,7 @@ import {
   Tooltip,
   Legend,
   ReferenceLine,
+  LabelList,
 } from "recharts";
 import {
   annualData,
@@ -26,6 +27,7 @@ import {
   macroData,
 } from "@/lib/panoramaData";
 import { LOGO } from "@/lib/brand";
+import { gerarPdfPanorama } from "@/lib/pdfPanorama";
 
 // ─── Paleta alinhada ao design system ────────────────────────────────────────
 const C = {
@@ -68,12 +70,22 @@ function KpiCard({ num, label, note, accent = false }: { num: string; label: str
   );
 }
 
-function SectionHead({ kicker, title, desc }: { kicker: string; title: string; desc?: string }) {
+function SectionHead({ kicker, title, desc, id }: { kicker: string; title: string; desc?: string; id?: string }) {
   return (
-    <div className="mb-8">
+    <div className="mb-8" id={id}>
       <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">{kicker}</span>
       <h2 className="text-3xl md:text-4xl font-bold text-[#15140f] leading-tight mb-3">{title}</h2>
       {desc && <p className="text-[#716b60] text-base leading-relaxed max-w-2xl">{desc}</p>}
+    </div>
+  );
+}
+
+function ChapterDivider({ num, title }: { num: string; title: string }) {
+  return (
+    <div className="flex items-center gap-4 py-3 mb-2">
+      <span className="font-mono text-xs font-bold text-[#c2410c] shrink-0">{num}</span>
+      <div className="flex-1 h-px bg-[#e5e0d8]" />
+      <span className="text-xs uppercase tracking-widest font-bold text-[#9e9890] shrink-0">{title}</span>
     </div>
   );
 }
@@ -110,8 +122,93 @@ function SegButtons({ segs, active, onChange }: { segs: string[]; active: string
   );
 }
 
+function PdfButton({ label, onClick }: { label: string; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#9e9890] border border-[#e5e0d8] rounded-full px-3 py-1.5 hover:text-[#c2410c] hover:border-[#c2410c] transition-colors bg-white"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+      {label}
+    </button>
+  );
+}
+
+// ─── Resumo executivo ─────────────────────────────────────────────────────────
+const EXEC_CARDS = [
+  {
+    id: "vendas",
+    num: "01",
+    title: "Mercado de consórcios",
+    desc: "Vendas, crescimento histórico e estoque ativo de cotas.",
+    icon: "📊",
+  },
+  {
+    id: "exclusao",
+    num: "02",
+    title: "Exclusões e permanência",
+    desc: "Índice de exclusão por segmento e evolução histórica.",
+    icon: "⚠️",
+  },
+  {
+    id: "reclamacoes",
+    num: "03",
+    title: "Reclamações e atendimento",
+    desc: "Volume de reclamações no BCB e Consumidor.gov.br.",
+    icon: "📋",
+  },
+  {
+    id: "sorte",
+    num: "04",
+    title: "Contemplações: lance e sorteio",
+    desc: "Proporção histórica entre contemplação por lance e por sorteio.",
+    icon: "🎯",
+  },
+  {
+    id: "macro",
+    num: "05",
+    title: "Consórcio em diferentes cenários econômicos",
+    desc: "Comportamento do mercado em diferentes ciclos da economia.",
+    icon: "📈",
+  },
+];
+
+function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
+  return (
+    <section className="mb-16">
+      <div className="mb-6">
+        <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">
+          Leitura rápida
+        </span>
+        <h2 className="text-2xl font-bold text-[#15140f]">O que você vai encontrar neste painel</h2>
+      </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        {EXEC_CARDS.map((card) => (
+          <button
+            key={card.id}
+            onClick={() => onScrollTo(card.id)}
+            className="text-left bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm hover:border-[#c2410c] hover:shadow-md transition-all group"
+          >
+            <div className="flex items-start justify-between mb-3">
+              <span className="font-mono text-xs font-bold text-[#c2410c]">{card.num}</span>
+              <span className="text-lg">{card.icon}</span>
+            </div>
+            <h3 className="font-bold text-[#15140f] text-sm mb-1 group-hover:text-[#c2410c] transition-colors leading-snug">
+              {card.title}
+            </h3>
+            <p className="text-xs text-[#9e9890] leading-relaxed">{card.desc}</p>
+            <div className="mt-3 text-xs font-semibold text-[#c2410c] opacity-0 group-hover:opacity-100 transition-opacity">
+              Ver capítulo →
+            </div>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 // ─── Seção 1: Vendas ──────────────────────────────────────────────────────────
-function SecaoVendas() {
+function SecaoVendas({ onPdf }: { onPdf: () => void }) {
   const SEGS = ["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"];
   const [seg, setSeg] = useState(SEGS[0]);
 
@@ -122,10 +219,13 @@ function SecaoVendas() {
   });
 
   return (
-    <div id="vendas" className="scroll-mt-24">
-      <SectionHead kicker="01 — Vendas · Recordes Históricos"
-        title="O mercado bate recordes. Mas o que isso significa?"
-        desc="Cota comercializada é adesão vendida no ano. Não é contemplação, não é aquisição do bem — é apenas o início do contrato." />
+    <div id="vendas" className="scroll-mt-28">
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+        <SectionHead kicker="01 — Mercado de consórcios"
+          title="O mercado bate recordes. Mas o que isso significa?"
+          desc="Cota comercializada é adesão vendida no ano. Não é contemplação, não é aquisição do bem — é apenas o início do contrato." />
+        <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
+      </div>
       <Verdict tag="Leitura direta">
         Em 2024, foram comercializadas <strong>4,53 milhões de cotas</strong> — o maior volume da série histórica.
         O estoque ativo chegou a <strong>11,35 milhões</strong>. O crescimento é real, mas o índice de exclusão permanece acima de 48% há quase uma década.
@@ -138,13 +238,15 @@ function SecaoVendas() {
       </div>
       <ChartBox title="Cotas comercializadas — total" subtitle="Milhões de cotas vendidas por ano (2016–2024)">
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={280}>
-            <RBarChart data={totalData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <RBarChart data={totalData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number) => [`${v.toFixed(2)} mi`, "Vendidas"]} />
-              <Bar dataKey="vendidas" name="Vendidas" fill={C.terra} radius={[3, 3, 0, 0]} />
+              <Bar dataKey="vendidas" name="Vendidas" fill={C.terra} radius={[3, 3, 0, 0]}>
+                <LabelList dataKey="vendidas" position="top" formatter={(v: number) => `${v.toFixed(2)}`} style={{ fontSize: 10, fill: C.ink, fontWeight: 600 }} />
+              </Bar>
             </RBarChart>
           </ResponsiveContainer>
         </ScrollChart>
@@ -152,13 +254,15 @@ function SecaoVendas() {
       <ChartBox title="Cotas comercializadas — por produto" subtitle="Selecione o segmento">
         <SegButtons segs={SEGS} active={seg} onChange={setSeg} />
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={260}>
-            <RBarChart data={segData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={280}>
+            <RBarChart data={segData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number) => [`${v.toFixed(3)} mi`, "Vendidas"]} />
-              <Bar dataKey="vendidas" name="Vendidas" fill={SEG_COLORS[seg] ?? C.terra} radius={[3, 3, 0, 0]} />
+              <Bar dataKey="vendidas" name="Vendidas" fill={SEG_COLORS[seg] ?? C.terra} radius={[3, 3, 0, 0]}>
+                <LabelList dataKey="vendidas" position="top" formatter={(v: number) => `${v.toFixed(2)}`} style={{ fontSize: 10, fill: C.ink, fontWeight: 600 }} />
+              </Bar>
             </RBarChart>
           </ResponsiveContainer>
         </ScrollChart>
@@ -168,7 +272,7 @@ function SecaoVendas() {
 }
 
 // ─── Seção 2: Exclusão ────────────────────────────────────────────────────────
-function SecaoExclusao() {
+function SecaoExclusao({ onPdf }: { onPdf: () => void }) {
   const SEGS = ["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"];
   const [seg, setSeg] = useState(SEGS[0]);
 
@@ -183,10 +287,13 @@ function SecaoExclusao() {
   });
 
   return (
-    <div id="exclusao" className="scroll-mt-24">
-      <SectionHead kicker="02 — Índice de Exclusão · Isso é Grave"
-        title="Quase metade não chega ao fim."
-        desc="O índice de exclusão mede a proporção de cotas excluídas em relação às ativas. Acima de 40% é alto. O consórcio brasileiro opera nessa faixa há quase uma década." />
+    <div id="exclusao" className="scroll-mt-28">
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+        <SectionHead kicker="02 — Exclusões e permanência"
+          title="Quase metade não chega ao fim."
+          desc="O índice de exclusão mede a proporção de cotas excluídas em relação às ativas. Acima de 40% é alto. O consórcio brasileiro opera nessa faixa há quase uma década." />
+        <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
+      </div>
       <Verdict tag="Leitura direta">
         Em 2024, o índice de exclusão geral foi de <strong>48,6%</strong>. Isso significa que, para cada 100 cotas ativas,
         quase 49 foram canceladas naquele ano. O dado não é novo: a série histórica mostra que esse patamar se mantém desde 2016.
@@ -199,8 +306,8 @@ function SecaoExclusao() {
       </div>
       <ChartBox title="Índice de exclusão — geral" subtitle="% de cotas excluídas sobre ativas (2016–2024)">
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={280}>
-            <ComposedChart data={ieGeral} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <ComposedChart data={ieGeral} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
@@ -208,7 +315,9 @@ function SecaoExclusao() {
               <Tooltip formatter={(v: number, name: string) => name === "ie" ? [`${v}%`, "IE"] : [`${v.toFixed(2)} mi`, "Excluídas"]} />
               <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" label={{ value: "50%", fill: C.terra, fontSize: 11 }} />
               <Bar yAxisId="right" dataKey="excluidas" name="excluidas" fill={C.grid} radius={[2, 2, 0, 0]} />
-              <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={C.terra} strokeWidth={2.5} dot={{ r: 4, fill: C.terra }} />
+              <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={C.terra} strokeWidth={2.5} dot={{ r: 4, fill: C.terra }}>
+                <LabelList dataKey="ie" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 10, fill: C.terra, fontWeight: 700 }} />
+              </Line>
             </ComposedChart>
           </ResponsiveContainer>
         </ScrollChart>
@@ -216,8 +325,8 @@ function SecaoExclusao() {
       <ChartBox title="Índice de exclusão — por produto" subtitle="Selecione o segmento">
         <SegButtons segs={SEGS} active={seg} onChange={setSeg} />
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={260}>
-            <ComposedChart data={ieSeg} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={280}>
+            <ComposedChart data={ieSeg} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
@@ -225,7 +334,9 @@ function SecaoExclusao() {
               <Tooltip formatter={(v: number, name: string) => name === "ie" ? [`${v}%`, "IE"] : [`${v.toFixed(3)} mi`, "Excluídas"]} />
               <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" />
               <Bar yAxisId="right" dataKey="excluidas" name="excluidas" fill={C.grid} radius={[2, 2, 0, 0]} />
-              <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={SEG_COLORS[seg] ?? C.terra} strokeWidth={2.5} dot={{ r: 4, fill: SEG_COLORS[seg] ?? C.terra }} />
+              <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={SEG_COLORS[seg] ?? C.terra} strokeWidth={2.5} dot={{ r: 4, fill: SEG_COLORS[seg] ?? C.terra }}>
+                <LabelList dataKey="ie" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 10, fill: SEG_COLORS[seg] ?? C.terra, fontWeight: 700 }} />
+              </Line>
             </ComposedChart>
           </ResponsiveContainer>
         </ScrollChart>
@@ -249,7 +360,7 @@ function SecaoExclusao() {
 }
 
 // ─── Seção 3: Reclamações ─────────────────────────────────────────────────────
-function SecaoReclamacoes() {
+function SecaoReclamacoes({ onPdf }: { onPdf: () => void }) {
   const bcbData = complaintsBCB.map((d) => ({
     ano: String(d.ano), total: d.total, procedentes: d.procedentes,
   }));
@@ -258,10 +369,13 @@ function SecaoReclamacoes() {
   }));
 
   return (
-    <div id="reclamacoes" className="scroll-mt-24">
-      <SectionHead kicker="03 — Reclamações · Crescem"
-        title="As reclamações cresceram mais rápido que as vendas."
-        desc="Dois bancos de dados independentes mostram a mesma tendência: o volume de reclamações no setor de consórcios aumentou de forma consistente." />
+    <div id="reclamacoes" className="scroll-mt-28">
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+        <SectionHead kicker="03 — Reclamações e atendimento"
+          title="As reclamações cresceram mais rápido que as vendas."
+          desc="Dois bancos de dados independentes mostram a mesma tendência: o volume de reclamações no setor de consórcios aumentou de forma consistente." />
+        <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
+      </div>
       <Verdict tag="Banco Central — reclamações procedentes">
         Entre 2017 e 2023, as reclamações procedentes no BCB cresceram <strong>+1.224%</strong> (de 240 para 3.179).
         Em 2025, já são <strong>2.955 reclamações procedentes</strong> registradas.
@@ -274,28 +388,34 @@ function SecaoReclamacoes() {
       </div>
       <ChartBox title="Reclamações BCB — total e procedentes" subtitle="Volume de reclamações registradas no Banco Central (2017–2025)">
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={280}>
-            <RBarChart data={bcbData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <RBarChart data={bcbData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} tickFormatter={fmtN} />
               <Tooltip formatter={(v: number) => [fmtN(v), ""]} />
               <Legend />
-              <Bar dataKey="total" name="Total" fill={C.muted} radius={[2, 2, 0, 0]} />
-              <Bar dataKey="procedentes" name="Procedentes" fill={C.terra} radius={[2, 2, 0, 0]} />
+              <Bar dataKey="total" name="Total" fill={C.muted} radius={[2, 2, 0, 0]}>
+                <LabelList dataKey="total" position="top" formatter={fmtN} style={{ fontSize: 9, fill: C.muted, fontWeight: 600 }} />
+              </Bar>
+              <Bar dataKey="procedentes" name="Procedentes" fill={C.terra} radius={[2, 2, 0, 0]}>
+                <LabelList dataKey="procedentes" position="top" formatter={fmtN} style={{ fontSize: 9, fill: C.terra, fontWeight: 700 }} />
+              </Bar>
             </RBarChart>
           </ResponsiveContainer>
         </ScrollChart>
       </ChartBox>
       <ChartBox title="Reclamações — Consumidor.gov.br" subtitle="Administradoras de consórcios (2016–2025)">
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={260}>
-            <RLineChart data={govData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={280}>
+            <RLineChart data={govData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} tickFormatter={fmtN} />
               <Tooltip formatter={(v: number) => [fmtN(v), "Reclamações"]} />
-              <Line type="monotone" dataKey="reclamacoes" name="Reclamações" stroke={C.orange} strokeWidth={2.5} dot={{ r: 4, fill: C.orange }} />
+              <Line type="monotone" dataKey="reclamacoes" name="Reclamações" stroke={C.orange} strokeWidth={2.5} dot={{ r: 4, fill: C.orange }}>
+                <LabelList dataKey="reclamacoes" position="top" formatter={fmtN} style={{ fontSize: 10, fill: C.orange, fontWeight: 700 }} />
+              </Line>
             </RLineChart>
           </ResponsiveContainer>
         </ScrollChart>
@@ -323,26 +443,22 @@ function SecaoReclamacoes() {
   );
 }
 
-// ─── Seção 4: Sorte ───────────────────────────────────────────────────────────
-function SecaoSorte() {
+// ─── Seção 4: Contemplações (lance e sorteio) ─────────────────────────────────
+function SecaoSorte({ onPdf }: { onPdf: () => void }) {
   const lanceData = annualData.map((d) => ({
     ano: String(d.ano),
     lance: parseFloat((d.lance * 100).toFixed(1)),
     sorteio: parseFloat(((1 - d.lance) * 100).toFixed(1)),
   }));
-  const macroChartData = macroData.map((d) => ({
-    ano: String(d.ano),
-    selic: parseFloat((d.selic * 100).toFixed(2)),
-    fin: parseFloat((d.financiamento_imob * 100).toFixed(2)),
-    vendidas: d.vendidas,
-    evento: d.evento,
-  }));
 
   return (
-    <div id="sorte" className="scroll-mt-24">
-      <SectionHead kicker="04 — Sorte · Não conte com ela"
-        title="Quem contempla por sorteio é minoria. Quem paga lance, maioria."
-        desc="A contemplação por lance cresceu de forma consistente. Em 2024, mais de 78% das contemplações ocorreram por lance — não por sorteio." />
+    <div id="sorte" className="scroll-mt-28">
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+        <SectionHead kicker="04 — Contemplações: lance e sorteio"
+          title="Quem contempla por sorteio é minoria. Quem paga lance, maioria."
+          desc="A contemplação por lance cresceu de forma consistente. Em 2024, mais de 78% das contemplações ocorreram por lance — não por sorteio." />
+        <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
+      </div>
       <Verdict tag="O dado que o mercado não destaca">
         Em 2024, <strong>78,3%</strong> das contemplações foram por lance. Apenas <strong>21,7%</strong> ocorreram por sorteio.
         Quem planeja contar com a sorte para contemplar está apostando contra a probabilidade histórica.
@@ -355,23 +471,47 @@ function SecaoSorte() {
       </div>
       <ChartBox title="Contemplações: lance vs. sorteio" subtitle="% de contemplações por modalidade (2016–2024)">
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={280}>
-            <RBarChart data={lanceData} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={300}>
+            <RBarChart data={lanceData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
               <Tooltip formatter={(v: number) => [`${v}%`, ""]} />
               <Legend />
-              <Bar dataKey="lance" name="Lance" fill={C.terra} stackId="a" />
+              <Bar dataKey="lance" name="Lance" fill={C.terra} stackId="a">
+                <LabelList dataKey="lance" position="insideTop" formatter={(v: number) => `${v}%`} style={{ fontSize: 10, fill: "#fff", fontWeight: 700 }} />
+              </Bar>
               <Bar dataKey="sorteio" name="Sorteio" fill={C.muted} stackId="a" radius={[3, 3, 0, 0]} />
             </RBarChart>
           </ResponsiveContainer>
         </ScrollChart>
       </ChartBox>
+    </div>
+  );
+}
+
+// ─── Seção 5: Macroeconomia ───────────────────────────────────────────────────
+function SecaoMacro({ onPdf }: { onPdf: () => void }) {
+  const macroChartData = macroData.map((d) => ({
+    ano: String(d.ano),
+    selic: parseFloat((d.selic * 100).toFixed(2)),
+    fin: parseFloat((d.financiamento_imob * 100).toFixed(2)),
+    vendidas: d.vendidas,
+    evento: d.evento,
+  }));
+
+  return (
+    <div id="macro" className="scroll-mt-28">
+      <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
+        <SectionHead kicker="05 — Consórcio em diferentes cenários econômicos"
+          title="Consórcio em diferentes cenários econômicos"
+          desc="O comportamento do consórcio também pode ser observado em diferentes ciclos da economia. Esta leitura ajuda a comparar o desempenho do mercado em períodos de juros, inflação, crédito e atividade econômica distintos, sempre a partir dos dados utilizados na base." />
+        <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
+      </div>
       <ChartBox title="Juros, vendas e exclusão lado a lado" subtitle="Selic e financiamento imobiliário vs. crescimento do consórcio (2016–2024)">
         <ScrollChart>
-          <ResponsiveContainer width="100%" height={300}>
-            <ComposedChart data={macroChartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <ResponsiveContainer width="100%" height={320}>
+            <ComposedChart data={macroChartData} margin={{ top: 24, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
               <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
               <YAxis yAxisId="pct" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 20]} />
@@ -381,9 +521,13 @@ function SecaoSorte() {
                 return [`${v}%`, name];
               }} />
               <Legend />
-              <Line yAxisId="pct" type="monotone" dataKey="selic" name="Selic" stroke={C.terra} strokeWidth={2} dot={{ r: 3 }} />
-              <Line yAxisId="pct" type="monotone" dataKey="fin" name="Financiamento imob." stroke={C.olive} strokeWidth={2} dot={{ r: 3 }} />
               <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.5} radius={[2, 2, 0, 0]} />
+              <Line yAxisId="pct" type="monotone" dataKey="selic" name="Selic" stroke={C.terra} strokeWidth={2} dot={{ r: 3 }}>
+                <LabelList dataKey="selic" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.terra, fontWeight: 700 }} />
+              </Line>
+              <Line yAxisId="pct" type="monotone" dataKey="fin" name="Financiamento imob." stroke={C.olive} strokeWidth={2} dot={{ r: 3 }}>
+                <LabelList dataKey="fin" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.olive, fontWeight: 700 }} />
+              </Line>
             </ComposedChart>
           </ResponsiveContainer>
         </ScrollChart>
@@ -396,10 +540,30 @@ function SecaoSorte() {
           ))}
         </div>
       </ChartBox>
+    </div>
+  );
+}
 
-      {/* Tabela base */}
-      <div id="base" className="mt-8">
-        <h3 className="text-xl font-bold text-[#15140f] mb-4">Base de dados completa</h3>
+// ─── Seção 6: Base de dados colapsável ────────────────────────────────────────
+function SecaoBase({ onPdf }: { onPdf: () => void }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div id="base" className="scroll-mt-28">
+      <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
+        <h2 className="text-xl font-bold text-[#15140f]">Base de dados completa</h2>
+        <div className="flex items-center gap-3">
+          <PdfButton label="Gerar PDF da base" onClick={onPdf} />
+          <button
+            onClick={() => setOpen((v) => !v)}
+            className="inline-flex items-center gap-2 text-sm font-semibold text-[#15140f] border border-[#e5e0d8] rounded-full px-4 py-2 hover:border-[#15140f] transition-colors bg-white"
+          >
+            <span className={`transition-transform duration-200 ${open ? "rotate-90" : ""}`}>▶</span>
+            {open ? "Recolher base de dados" : "Ver base de dados completa"}
+          </button>
+        </div>
+      </div>
+      {open && (
         <div className="w-full overflow-x-auto rounded-xl border border-[#e5e0d8] shadow-sm">
           <table className="w-full text-sm">
             <thead>
@@ -427,17 +591,18 @@ function SecaoSorte() {
             </tbody>
           </table>
         </div>
-      </div>
+      )}
     </div>
   );
 }
 
 // ─── Tabs de navegação ────────────────────────────────────────────────────────
 const TABS = [
-  { id: "vendas",      label: "Vendas — recordes históricos" },
-  { id: "exclusao",    label: "Índice de exclusão — isso é grave" },
-  { id: "reclamacoes", label: "Reclamações — crescem" },
-  { id: "sorte",       label: "Sorte — não conte com ela" },
+  { id: "vendas",      label: "Mercado de consórcios" },
+  { id: "exclusao",    label: "Exclusões e permanência" },
+  { id: "reclamacoes", label: "Reclamações e atendimento" },
+  { id: "sorte",       label: "Contemplações: lance e sorteio" },
+  { id: "macro",       label: "Cenários econômicos" },
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
@@ -446,12 +611,13 @@ export default function Panorama() {
   const [activeTab, setActiveTab] = useState<TabId>("vendas");
 
   useEffect(() => {
+    const allIds = [...TABS.map((t) => t.id), "base"];
     const observers: IntersectionObserver[] = [];
-    TABS.forEach(({ id }) => {
+    allIds.forEach((id) => {
       const el = document.getElementById(id);
       if (!el) return;
       const obs = new IntersectionObserver(
-        ([entry]) => { if (entry.isIntersecting) setActiveTab(id); },
+        ([entry]) => { if (entry.isIntersecting) setActiveTab(id as TabId); },
         { rootMargin: "-30% 0px -60% 0px" }
       );
       obs.observe(el);
@@ -460,14 +626,18 @@ export default function Panorama() {
     return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  function scrollTo(id: TabId) {
+  const scrollTo = useCallback((id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    setActiveTab(id);
-  }
+    if (TABS.some((t) => t.id === id)) setActiveTab(id as TabId);
+  }, []);
+
+  const handlePdf = useCallback((bloco: string) => {
+    gerarPdfPanorama(bloco);
+  }, []);
 
   return (
     <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
-      {/* Hero */}
+      {/* ── Hero ── */}
       <header className="bg-[#15140f] text-white pt-16 pb-12 px-6">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center justify-between mb-6">
@@ -478,7 +648,7 @@ export default function Panorama() {
           </div>
           <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 tracking-tight">
             Não é opinião.{" "}
-            <em className="not-italic text-[#f97316]">É o dado oficial.</em>
+            <em className="not-italic text-[#f97316]">São os dados oficiais.</em>
           </h1>
           <p className="text-white/70 text-lg max-w-2xl leading-relaxed mb-8">
             Este painel organiza, sem arredondar a favor de ninguém, os números que o próprio Banco
@@ -501,7 +671,7 @@ export default function Panorama() {
         </div>
       </header>
 
-      {/* Sticky nav */}
+      {/* ── Sticky nav ── */}
       <nav className="sticky top-0 z-30 bg-white border-b border-[#e5e0d8] shadow-sm">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex overflow-x-auto -mb-px">
@@ -518,40 +688,90 @@ export default function Panorama() {
         </div>
       </nav>
 
-      {/* Conteúdo em scroll infinito */}
-      <main className="max-w-5xl mx-auto px-4 py-12 space-y-20">
-        <SecaoVendas />
-        <hr className="border-[#e5e0d8]" />
-        <SecaoExclusao />
-        <hr className="border-[#e5e0d8]" />
-        <SecaoReclamacoes />
-        <hr className="border-[#e5e0d8]" />
-        <SecaoSorte />
+      {/* ── Conteúdo ── */}
+      <main className="max-w-5xl mx-auto px-4 py-12">
 
-        {/* Fontes */}
-        <div id="fontes" className="pt-4">
-          <details className="group">
-            <summary className="cursor-pointer flex items-center gap-2 font-bold text-lg text-[#15140f] py-3 list-none">
-              <span className="text-[#c2410c] group-open:rotate-90 transition-transform">▶</span>
-              De onde vêm os dados deste painel
-            </summary>
-            <div className="pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-              {[
-                { title: "Panorama BCB 2016–2024", body: "Cotas vendidas, ativas, excluídas, índice de exclusão, contemplações, recursos e taxa média de administração.", note: "Nota: As análises anuais de 2025 do Banco Central ainda não foram incorporadas ao painel." },
-                { title: "Consumidor.gov.br", body: "Base pública de indicadores. Registros de administradoras de consórcios consolidados por ano, volume de reclamações e principais motivos." },
-                { title: "Macro (Selic / financiamento imobiliário)", body: "Mantidos em seção separada para não misturar dado macroeconômico com dado operacional do consórcio." },
-              ].map((s) => (
-                <div key={s.title} className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
-                  <h3 className="font-bold text-[#15140f] mb-2">{s.title}</h3>
-                  <p className="text-sm text-[#9e9890] leading-relaxed">{s.body}</p>
-                  {"note" in s && s.note && <p className="mt-2 text-xs text-[#9e9890] italic">{s.note}</p>}
-                </div>
-              ))}
-            </div>
-            <div className="mt-4 bg-white border border-[#e5e0d8] rounded-xl p-5 text-sm text-[#9e9890] leading-relaxed">
-              <strong className="text-[#15140f]">Metodologia:</strong> A base principal é oficial, do Banco Central. A ABAC não foi usada como fonte primária — apenas o BCB, que divulga os dados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
-            </div>
-          </details>
+        {/* Resumo executivo */}
+        <ResumoExecutivo onScrollTo={scrollTo} />
+
+        <div className="space-y-20">
+          {/* Cap 1 */}
+          <div>
+            <ChapterDivider num="01" title="Mercado de consórcios" />
+            <SecaoVendas onPdf={() => handlePdf("vendas")} />
+          </div>
+
+          <hr className="border-[#e5e0d8]" />
+
+          {/* Cap 2 */}
+          <div>
+            <ChapterDivider num="02" title="Exclusões e permanência" />
+            <SecaoExclusao onPdf={() => handlePdf("exclusao")} />
+          </div>
+
+          <hr className="border-[#e5e0d8]" />
+
+          {/* Cap 3 */}
+          <div>
+            <ChapterDivider num="03" title="Reclamações e atendimento" />
+            <SecaoReclamacoes onPdf={() => handlePdf("reclamacoes")} />
+          </div>
+
+          <hr className="border-[#e5e0d8]" />
+
+          {/* Cap 4 */}
+          <div>
+            <ChapterDivider num="04" title="Contemplações: lance e sorteio" />
+            <SecaoSorte onPdf={() => handlePdf("sorte")} />
+          </div>
+
+          <hr className="border-[#e5e0d8]" />
+
+          {/* Cap 5 — Novo bloco macro */}
+          <div>
+            <ChapterDivider num="05" title="Consórcio em diferentes cenários econômicos" />
+            <SecaoMacro onPdf={() => handlePdf("macro")} />
+          </div>
+
+          <hr className="border-[#e5e0d8]" />
+
+          {/* Cap 6 — Base de dados colapsável */}
+          <SecaoBase onPdf={() => handlePdf("base")} />
+
+          {/* Fontes */}
+          <div id="fontes" className="pt-4">
+            <details className="group">
+              <summary className="cursor-pointer flex items-center gap-2 font-bold text-lg text-[#15140f] py-3 list-none">
+                <span className="text-[#c2410c] group-open:rotate-90 transition-transform">▶</span>
+                De onde vêm os dados deste painel
+              </summary>
+              <div className="pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
+                {[
+                  { title: "Panorama BCB 2016–2024", body: "Cotas vendidas, ativas, excluídas, índice de exclusão, contemplações, recursos e taxa média de administração.", note: "Nota: As análises anuais de 2025 do Banco Central ainda não foram incorporadas ao painel." },
+                  { title: "Consumidor.gov.br", body: "Base pública de indicadores. Registros de administradoras de consórcios consolidados por ano, volume de reclamações e principais motivos." },
+                  { title: "Macro (Selic / financiamento imobiliário)", body: "Mantidos em seção separada para não misturar dado macroeconômico com dado operacional do consórcio." },
+                ].map((s) => (
+                  <div key={s.title} className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
+                    <h3 className="font-bold text-[#15140f] mb-2">{s.title}</h3>
+                    <p className="text-sm text-[#9e9890] leading-relaxed">{s.body}</p>
+                    {"note" in s && s.note && <p className="mt-2 text-xs text-[#9e9890] italic">{s.note}</p>}
+                  </div>
+                ))}
+              </div>
+
+              {/* Observação sobre ABAC — destacada */}
+              <div className="mt-4 bg-[#fff8f5] border border-[#fcd9c9] rounded-xl p-5 flex items-start gap-3">
+                <span className="text-[#c2410c] text-lg shrink-0 mt-0.5">ℹ</span>
+                <p className="text-sm text-[#c2410c] font-semibold leading-relaxed">
+                  O Consórcio de Verdade não tem a ABAC como fonte de dados.
+                </p>
+              </div>
+
+              <div className="mt-4 bg-white border border-[#e5e0d8] rounded-xl p-5 text-sm text-[#9e9890] leading-relaxed">
+                <strong className="text-[#15140f]">Metodologia:</strong> A base principal é oficial, do Banco Central. Os dados são divulgados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
+              </div>
+            </details>
+          </div>
         </div>
       </main>
     </div>
