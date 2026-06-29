@@ -264,3 +264,18 @@
 - [x] Fontes: remover referência à ABAC do texto de metodologia
 - [x] pdfPanorama.ts: gerador de PDFs por bloco (6 blocos + PDF completo)
 - [x] 0 erros TypeScript · 105/105 testes passando
+
+## Sprint Preparação para Produção — Go Live
+
+- [x] SEO: title "Consórcio de Verdade | Análise Independente" no index.html
+- [x] SEO: description atualizada conforme especificação
+- [x] Open Graph completo (og:title, og:description, og:url, og:image, og:locale) para WhatsApp/LinkedIn
+- [x] Twitter Card configurado
+- [x] Favicon SVG gerado com ícone r. laranja (fundo preto, ponto laranja)
+- [x] Favicon PNG 32x32, 16x16 e apple-touch-icon 180x180 gerados
+- [x] console.log de desenvolvimento removido (ComponentShowcase.tsx)
+- [x] TypeScript: 0 erros (npx tsc --noEmit)
+- [x] Build: ✓ built in 9.90s, 0 erros
+- [ ] Termos de Uso — conteúdo jurídico real (pendente do cliente)
+- [ ] Privacidade — política real (pendente do cliente)
+- [ ] og-image.png (1200x630) — imagem de compartilhamento para WhatsApp/LinkedIn (pendente)
