@@ -90,9 +90,9 @@ export function SectionTitle({
   desc?: string;
 }) {
   return (
-    <div className="mb-6">
+    <div className="mb-4">
       {eyebrow && <p className="eyebrow text-[var(--orange)] mb-2">{eyebrow}</p>}
-      <h2 className="text-2xl md:text-3xl font-extrabold">{title}</h2>
+      <h2 className="text-xl md:text-2xl font-extrabold">{title}</h2>
       {desc && <p className="text-foreground/60 mt-2 max-w-2xl">{desc}</p>}
     </div>
   );
@@ -360,10 +360,10 @@ export function Collapsible({
     <div className="rounded-2xl border border-border bg-card overflow-hidden">
       <button
         onClick={onToggle}
-        className="w-full flex items-center justify-between px-6 py-5 text-left"
+        className="w-full flex items-center justify-between px-5 py-3.5 text-left"
       >
         <div>
-          <p className="font-semibold text-lg">{title}</p>
+          <p className="font-semibold text-base">{title}</p>
           {subtitle && <p className="text-sm text-foreground/55 mt-0.5">{subtitle}</p>}
         </div>
         <ChevronDown
@@ -372,7 +372,7 @@ export function Collapsible({
           }`}
         />
       </button>
-      {open && <div className="px-6 pb-6 pt-0">{children}</div>}
+      {open && <div className="px-5 pb-5 pt-0">{children}</div>}
     </div>
   );
 }
@@ -382,8 +382,8 @@ export function Collapsible({
 ---------------------------------------------------------------------------- */
 export function VideoBlock({ title }: { title: string }) {
   return (
-    <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] p-8 flex flex-col items-center text-center">
-      <PlayCircle className="w-12 h-12 text-[var(--orange)] mb-4" />
+    <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] p-5 flex flex-col items-center text-center">
+      <PlayCircle className="w-8 h-8 text-[var(--orange)] mb-3" />
       <div className="flex items-center gap-2 mb-1">
         <p className="font-semibold text-lg">{title}</p>
         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F5C518] text-black tracking-wide uppercase">
@@ -422,12 +422,12 @@ export function ConsultCTA({
   context?: string;
 }) {
   return (
-    <div className="rounded-2xl border border-border bg-card p-6 md:p-7 flex flex-col md:flex-row md:items-center gap-5">
+    <div className="rounded-2xl border border-border bg-card py-4 px-5 flex flex-col md:flex-row md:items-center gap-4">
       <div className="flex-1">
-        <p className="font-semibold text-lg">
+        <p className="font-semibold text-sm">
           Quer validar {context} com um especialista?
         </p>
-        <p className="text-sm text-foreground/60 mt-1 max-w-xl">
+        <p className="text-xs text-foreground/60 mt-1 max-w-xl">
           Você pode usar todos os simuladores gratuitamente. Se preferir uma
           leitura humana e personalizada da sua proposta, fale diretamente com o
           especialista — sem compromisso.

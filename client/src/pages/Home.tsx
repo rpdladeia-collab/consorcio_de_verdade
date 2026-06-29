@@ -77,16 +77,16 @@ export default function Home() {
     <main className="w-full overflow-x-hidden">
 
       {/* ─── HERO ─────────────────────────────────────────────────── */}
-      <section className="w-full bg-[var(--paper)] pt-10 pb-12 px-4 md:px-8">
+      <section className="w-full bg-[var(--paper)] pt-8 pb-8 px-4 md:px-8">
         <div className="max-w-3xl mx-auto">
           <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--orange)]/30 bg-[var(--orange)]/8 px-3 py-1 text-xs font-semibold text-[var(--orange)] mb-5 tracking-wide">
             Consórcio não é para todo mundo
           </span>
-          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[var(--ink)] leading-[1.05] tracking-tight mb-4">
+          <h1 className="text-3xl sm:text-4xl font-black text-[var(--ink)] leading-[1.05] tracking-tight mb-3">
             Antes de contratar um consórcio,{" "}
             <span className="text-[var(--orange)]">faça a conta.</span>
           </h1>
-          <div className="text-base sm:text-lg text-foreground/75 leading-relaxed max-w-2xl mb-7 space-y-3">
+          <div className="text-sm text-foreground/75 leading-relaxed max-w-2xl mb-5 space-y-2">
             <p>Eu construí esta plataforma para que você consiga analisar uma proposta de consórcio com mais clareza: parcela, lance, custo total, correções, contemplação e capacidade real de pagamento.</p>
             <p>Os simuladores são gratuitos e foram criados para ajudar você a decidir com menos pressão e mais consciência. E, se mesmo assim quiser uma leitura individual do seu caso, eu posso te ajudar a entender se o consórcio faz sentido para você.</p>
           </div>
@@ -114,21 +114,21 @@ export default function Home() {
       </section>
 
       {/* ─── SEÇÃO SIMULADORES (Raio-X) ─────────────────────────── */}
-      <section className="w-full bg-[var(--ink)] py-10 px-4 md:px-8">
+      <section className="w-full bg-[var(--ink)] py-6 px-4 md:px-8">
         <div className="max-w-5xl mx-auto">
           <p className="eyebrow text-[var(--orange)] mb-3">RAIO X DO CONSÓRCIO</p>
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-black text-white leading-tight mb-3 max-w-3xl">
+          <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2 max-w-3xl">
             Se você não entende estes pontos, não contrate ainda.
           </h2>
-          <p className="text-white/60 text-sm leading-relaxed max-w-2xl mb-8">
+          <p className="text-white/60 text-xs leading-relaxed max-w-2xl mb-5">
             O Raio-X do Consórcio reúne <strong className="text-white">todos os módulos essenciais</strong> para analisar uma proposta antes da contratação.
           </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
             {MODULOS.map((m) => (
               <Link
                 key={m.id}
                 href={m.href}
-                className="group flex flex-col gap-2.5 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[var(--orange)]/40 p-4 transition-all duration-200"
+                className="group flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[var(--orange)]/40 p-3 transition-all duration-200"
               >
                 <div className="flex items-center gap-2.5">
                   <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--orange)]/15 text-[var(--orange)]">
@@ -152,7 +152,7 @@ export default function Home() {
       </section>
 
       {/* ─── BLOCO ZONA DE CONTEMPLAÇÃO ───────────────────────────── */}
-      <section className="w-full bg-white py-10 px-4 md:px-8 border-b border-border">
+      <section className="w-full bg-white py-6 px-4 md:px-8 border-b border-border">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
           <div className="flex-1">
             <p className="eyebrow text-[var(--orange)] mb-2">ZONA DE CONTEMPLAÇÃO</p>
@@ -176,7 +176,7 @@ export default function Home() {
       </section>
 
       {/* ─── BLOCO PANORAMA: DADOS OFICIAIS ───────────────────────── */}
-      <section className="w-full bg-[var(--paper)] py-10 px-4 md:px-8 border-b border-border">
+      <section className="w-full bg-[var(--paper)] py-6 px-4 md:px-8 border-b border-border">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
           <div className="flex-1">
             <p className="eyebrow text-[var(--orange)] mb-2">PANORAMA: DADOS OFICIAIS</p>
@@ -200,10 +200,10 @@ export default function Home() {
       </section>
 
       {/* ─── BLOCO POSICIONAMENTO ─────────────────────────────────── */}
-      <section className="w-full bg-[var(--ink)] py-10 px-4 md:px-8 border-b border-white/10">
+      <section className="w-full bg-[var(--ink)] py-6 px-4 md:px-8 border-b border-white/10">
         <div className="max-w-3xl mx-auto text-center">
           <p className="eyebrow text-[var(--orange)] mb-3">NOSSO COMPROMISSO</p>
-          <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-4">
+          <h2 className="text-lg sm:text-xl font-black text-white leading-tight mb-3">
             Consórcio vendido com análise, transparência e responsabilidade.
           </h2>
           <p className="text-white/65 text-sm leading-relaxed mb-3">
@@ -216,7 +216,7 @@ export default function Home() {
       </section>
 
       {/* ─── BLOCO SOBRE ──────────────────────────────────────────── */}
-      <section className="w-full bg-[var(--paper)] py-10 px-4 md:px-8 border-b border-border">
+      <section className="w-full bg-[var(--paper)] py-6 px-4 md:px-8 border-b border-border">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
           <div className="flex-1">
             <p className="eyebrow text-[var(--orange)] mb-2">SOBRE</p>
@@ -240,13 +240,13 @@ export default function Home() {
       </section>
 
       {/* ─── CTA FINAL + FORMULÁRIO DE CONTATO (seção laranja) ────── */}
-      <section className="w-full bg-[var(--orange)] py-10 px-4 md:px-8" id="contato">
+      <section className="w-full bg-[var(--orange)] py-6 px-4 md:px-8" id="contato">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
 
           {/* Lado esquerdo: texto + botão simuladores */}
           <div className="flex-1">
-            <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-3">
-              Use os simuladores à vontade.
+          <h2 className="text-lg font-black text-white leading-tight mb-2">
+            Use os simuladores à vontade.
             </h2>
             <p className="text-white/85 text-sm leading-relaxed mb-5 max-w-sm">
               Se quiser, traga sua proposta para uma segunda opinião ou construa o seu plano com quem joga limpo.

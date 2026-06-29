@@ -36,48 +36,48 @@ export default function RaioXLayout({
   hasResult,
 }: RaioXLayoutProps) {
   return (
-    <div className="min-h-screen">
+    <div>
       {/* ── Hero ── */}
-      <section className="bg-[var(--ink)] text-white py-10 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
+      <section className="bg-[var(--ink)] text-white py-5 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
         <div className="max-w-6xl mx-auto relative">
           {/* Logo canto superior direito */}
           <img
             src={LOGO.light}
             alt={BRAND.name}
-            className="absolute top-0 right-0 h-10 md:h-12 w-auto object-contain"
+            className="absolute top-0 right-0 h-7 md:h-8 w-auto object-contain"
           />
           {/* Botão Voltar */}
           <Link
             href="/simuladores"
-            className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-5 transition-colors"
+            className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-3 transition-colors"
           >
             <ArrowLeft className="w-3.5 h-3.5" />
             Voltar para o Raio-X
           </Link>
 
           {/* Badge + Módulo */}
-          <div className="flex items-center gap-3 mb-3">
+          <div className="flex items-center gap-3 mb-2">
             <span className="inline-flex items-center gap-1.5 bg-[var(--orange)]/20 text-[var(--orange)] text-xs font-semibold px-3 py-1 rounded-full border border-[var(--orange)]/30">
               Raio-X do Consórcio
             </span>
           </div>
 
           {/* Número do módulo com marca-texto amarelo */}
-          <p className="mono text-xs uppercase tracking-widest text-white/40 mb-1 flex items-center gap-2">
+          <p className="mono text-xs uppercase tracking-widest text-white/40 mb-0.5 flex items-center gap-2">
             <span className="bg-yellow-400 text-black px-2 py-0.5 rounded font-bold text-[11px]">
               Módulo {moduleNumber}
             </span>
           </p>
 
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">{title}</h1>
-          <p className="text-white/60 max-w-xl leading-relaxed text-sm md:text-base">
+          <h1 className="text-xl md:text-2xl font-bold mb-1">{title}</h1>
+          <p className="text-white/60 max-w-xl leading-relaxed text-xs">
             {description}
           </p>
         </div>
       </section>
 
       {/* ── Grid principal ── */}
-      <section className="w-full max-w-6xl mx-auto px-4 lg:px-8 py-8">
+      <section className="w-full max-w-6xl mx-auto px-4 lg:px-8 py-5">
         <div className="flex flex-col lg:flex-row gap-6 items-start">
           {/* Coluna esquerda — Formulário */}
           <div className="w-full lg:w-[380px] lg:shrink-0">

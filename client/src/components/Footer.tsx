@@ -7,24 +7,24 @@ export default function Footer() {
 
   return (
     <footer className="dark bg-[var(--ink)] text-[var(--paper)] w-full max-w-[100vw]">
-      <div className="w-full px-4 md:px-5 lg:px-8 py-16">
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-10">
+      <div className="w-full px-4 md:px-5 lg:px-8 py-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6">
           {/* Brand */}
           <div className="md:col-span-5">
-            <img src={LOGO.horizontalLight} alt={BRAND.name} className="h-10 w-auto mb-5" />
-            <p className="text-sm text-white/60 max-w-sm leading-relaxed">
+            <img src={LOGO.horizontalLight} alt={BRAND.name} className="h-7 w-auto mb-3" />
+            <p className="text-xs text-white/60 max-w-sm leading-relaxed">
               Plataforma independente de inteligência sobre consórcios. Dados,
               matemática e análise sem conflito de interesse.
             </p>
-            <p className="mono text-xs text-[var(--orange)] mt-5 tracking-wide">
+            <p className="mono text-xs text-[var(--orange)] mt-3 tracking-wide">
               {BRAND.domain}
             </p>
           </div>
 
           {/* Navegação */}
           <div className="md:col-span-2">
-            <h4 className="eyebrow text-white/40 mb-4">Plataforma</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="eyebrow text-white/40 mb-2">Plataforma</h4>
+            <ul className="space-y-2 text-xs">
               <li><Link href="/" className="text-white/75 hover:text-[var(--orange)] transition-colors">Home</Link></li>
               <li><Link href="/simuladores" className="text-white/75 hover:text-[var(--orange)] transition-colors">Simuladores</Link></li>
               <li><Link href="/sobre" className="text-white/75 hover:text-[var(--orange)] transition-colors">Sobre</Link></li>
@@ -34,8 +34,8 @@ export default function Footer() {
 
           {/* Legal */}
           <div className="md:col-span-2">
-            <h4 className="eyebrow text-white/40 mb-4">Legal</h4>
-            <ul className="space-y-3 text-sm">
+            <h4 className="eyebrow text-white/40 mb-2">Legal</h4>
+            <ul className="space-y-2 text-xs">
               <li><Link href="/termos" className="text-white/75 hover:text-[var(--orange)] transition-colors">Termos de Uso</Link></li>
               <li><Link href="/privacidade" className="text-white/75 hover:text-[var(--orange)] transition-colors">Privacidade</Link></li>
             </ul>
@@ -43,14 +43,14 @@ export default function Footer() {
 
           {/* Social / contato */}
           <div className="md:col-span-3">
-            <h4 className="eyebrow text-white/40 mb-4">Acompanhe</h4>
-            <div className="flex gap-3 mb-5">
+            <h4 className="eyebrow text-white/40 mb-2">Acompanhe</h4>
+            <div className="flex gap-2 mb-3">
               <a href={BRAND.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"
-                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
+                className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
                 <Instagram className="w-4 h-4" />
               </a>
               <a href={BRAND.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"
-                className="w-10 h-10 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
+                className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
                 <Linkedin className="w-4 h-4" />
               </a>
             </div>
@@ -63,7 +63,7 @@ export default function Footer() {
         </div>
 
         {/* Aviso educativo */}
-        <div className="mt-14 pt-8 border-t border-white/10">
+        <div className="mt-6 pt-5 border-t border-white/10">
           <p className="text-xs text-white/45 leading-relaxed max-w-3xl">
             {BRAND.disclaimer}
           </p>
