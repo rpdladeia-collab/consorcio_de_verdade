@@ -1,22 +1,22 @@
 /**
  * Página r.enatto — Renato Ladeia
- * Layout: vídeo 4:5 lado esquerdo (autoplay, loop, sem download) + texto lado direito
- * Fundo: bg-[var(--ink)] (preto) — sem min-h-screen para evitar espaço vazio
+ * Layout compacto: vídeo 4:5 lado esquerdo + texto lado direito
+ * Fontes reduzidas para caber na tela sem scroll
  */
 import { BRAND } from "@/lib/brand";
 
 export default function Sobre() {
   return (
     <div className="bg-[var(--ink)] text-white min-h-full">
-      <main className="w-full max-w-6xl mx-auto px-4 md:px-8 py-16 md:py-24">
+      <main className="w-full max-w-5xl mx-auto px-4 md:px-8 py-6 md:py-8">
 
         {/* ── Grid: vídeo (esq) + apresentação (dir) ── */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-10 lg:gap-16">
+        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-10">
 
           {/* Vídeo 4:5 — lado esquerdo */}
           <div
-            className="w-full lg:w-auto lg:shrink-0 rounded-2xl overflow-hidden shadow-2xl border border-white/10"
-            style={{ maxWidth: "340px", width: "100%" }}
+            className="w-full lg:w-auto lg:shrink-0 rounded-xl overflow-hidden shadow-xl border border-white/10"
+            style={{ maxWidth: "260px", width: "100%" }}
             onContextMenu={(e) => e.preventDefault()}
           >
             <div className="relative" style={{ aspectRatio: "4/5" }}>
@@ -41,11 +41,11 @@ export default function Sobre() {
           </div>
 
           {/* Texto de apresentação — lado direito */}
-          <div className="flex-1 flex flex-col justify-center gap-6 lg:pt-4">
+          <div className="flex-1 flex flex-col justify-center gap-4">
 
             {/* Nome + LinkedIn */}
-            <div className="flex items-center gap-3">
-              <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight">
+            <div className="flex items-center gap-2.5">
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
                 Renato Ladeia
               </h1>
               <a
@@ -53,12 +53,12 @@ export default function Sobre() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="LinkedIn de Renato Ladeia"
-                className="inline-flex items-center justify-center w-9 h-9 rounded-lg bg-[var(--orange)] hover:bg-[var(--orange)]/80 transition-colors shrink-0"
+                className="inline-flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--orange)] hover:bg-[var(--orange)]/80 transition-colors shrink-0"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
-                  width="18"
-                  height="18"
+                  width="15"
+                  height="15"
                   viewBox="0 0 24 24"
                   fill="currentColor"
                   className="text-white"
@@ -69,20 +69,20 @@ export default function Sobre() {
             </div>
 
             {/* Credenciais */}
-            <div className="space-y-1">
-              <p className="text-white/55 text-sm tracking-wide">
+            <div className="space-y-0.5">
+              <p className="text-white/55 text-xs tracking-wide">
                 Consultor de Investimentos Independente · CVM · Certificação CEA
               </p>
-              <p className="text-white/70 text-base leading-relaxed">
+              <p className="text-white/65 text-sm leading-snug">
                 Mais de 15 anos de experiência no mercado financeiro
               </p>
             </div>
 
             {/* Separador */}
-            <div className="w-12 h-0.5 bg-[var(--orange)] rounded-full" />
+            <div className="w-10 h-0.5 bg-[var(--orange)] rounded-full" />
 
             {/* Texto de apresentação */}
-            <div className="space-y-4 text-white/70 text-base leading-relaxed max-w-xl">
+            <div className="space-y-3 text-white/70 text-sm leading-relaxed max-w-lg">
               <p>
                 O <strong className="text-white">Consórcio de Verdade</strong> nasceu para dar clareza a uma decisão que costuma ser apresentada de forma simples demais.
               </p>
@@ -101,15 +101,15 @@ export default function Sobre() {
             </div>
 
             {/* Botão CTA */}
-            <div className="pt-2">
+            <div className="pt-1">
               <a
                 href={BRAND.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
+                className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
               >
                 Pedir análise individual
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
               </a>
             </div>
 

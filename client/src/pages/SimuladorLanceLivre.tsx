@@ -197,7 +197,7 @@ export default function SimuladorLanceLivre() {
                 <Collapsible title="Sensibilidade e memória de cálculo" subtitle="Como diferentes lances se comparam à referência" open={true} onToggle={() => {}}>
                   <div className="space-y-8 pt-2">
                     <div className="overflow-x-auto -mx-2 px-2">
-                      <table className="w-full text-sm border-collapse">
+                      <table className="w-full text-sm border-collapse min-w-[400px]">
                         <thead>
                           <tr className="text-left text-foreground/50 text-xs uppercase tracking-wide">
                             <th className="py-2 pr-3 font-medium">% Lance</th>

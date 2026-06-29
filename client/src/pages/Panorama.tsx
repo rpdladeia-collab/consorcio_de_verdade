@@ -40,7 +40,7 @@ const C = {
 };
 const SEG_COLORS: Record<string, string> = {
   "Imóveis": "#c2410c",
-  "Automóveis": "#2f5233",
+  "Automóveis": "#716b60",
   "Motocicletas": "#15140f",
   "Outros bens e serviços": "#9e9890",
 };
@@ -141,65 +141,59 @@ const EXEC_CARDS = [
     num: "01",
     title: "Mercado de consórcios",
     desc: "Vendas, crescimento histórico e estoque ativo de cotas.",
-    icon: "📊",
   },
   {
     id: "exclusao",
     num: "02",
     title: "Exclusões e permanência",
     desc: "Índice de exclusão por segmento e evolução histórica.",
-    icon: "⚠️",
   },
   {
     id: "reclamacoes",
     num: "03",
     title: "Reclamações e atendimento",
     desc: "Volume de reclamações no BCB e Consumidor.gov.br.",
-    icon: "📋",
   },
   {
     id: "sorte",
     num: "04",
     title: "Contemplações: lance e sorteio",
     desc: "Proporção histórica entre contemplação por lance e por sorteio.",
-    icon: "🎯",
   },
   {
     id: "macro",
     num: "05",
     title: "Consórcio em diferentes cenários econômicos",
     desc: "Comportamento do mercado em diferentes ciclos da economia.",
-    icon: "📈",
   },
 ];
 
 function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
   return (
-    <section className="mb-16">
-      <div className="mb-6">
-        <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">
+    <section className="mb-12">
+      <div className="mb-5 border-b border-[#e5e0d8] pb-3">
+        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">
           Leitura rápida
         </span>
-        <h2 className="text-2xl font-bold text-[#15140f]">O que você vai encontrar neste painel</h2>
+        <h2 className="text-xl font-bold text-[#15140f]">O que você vai encontrar neste painel</h2>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         {EXEC_CARDS.map((card) => (
           <button
             key={card.id}
             onClick={() => onScrollTo(card.id)}
-            className="text-left bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm hover:border-[#c2410c] hover:shadow-md transition-all group"
+            className="text-left bg-white border border-[#e5e0d8] rounded-lg p-4 hover:border-[#c2410c] transition-all group"
           >
-            <div className="flex items-start justify-between mb-3">
-              <span className="font-mono text-xs font-bold text-[#c2410c]">{card.num}</span>
-              <span className="text-lg">{card.icon}</span>
-            </div>
+            <span className="block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">
+              Capítulo {card.num}
+            </span>
             <h3 className="font-bold text-[#15140f] text-sm mb-1 group-hover:text-[#c2410c] transition-colors leading-snug">
               {card.title}
             </h3>
-            <p className="text-xs text-[#9e9890] leading-relaxed">{card.desc}</p>
-            <div className="mt-3 text-xs font-semibold text-[#c2410c] opacity-0 group-hover:opacity-100 transition-opacity">
+            <p className="text-xs text-[#9e9890] leading-relaxed mb-3">{card.desc}</p>
+            <span className="text-[10px] font-semibold text-[#c2410c] border-b border-[#c2410c]/30 pb-px">
               Ver capítulo →
-            </div>
+            </span>
           </button>
         ))}
       </div>
@@ -521,12 +515,12 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
                 return [`${v}%`, name];
               }} />
               <Legend />
-              <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.5} radius={[2, 2, 0, 0]} />
+              <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.4} radius={[2, 2, 0, 0]} />
               <Line yAxisId="pct" type="monotone" dataKey="selic" name="Selic" stroke={C.terra} strokeWidth={2} dot={{ r: 3 }}>
                 <LabelList dataKey="selic" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.terra, fontWeight: 700 }} />
               </Line>
-              <Line yAxisId="pct" type="monotone" dataKey="fin" name="Financiamento imob." stroke={C.olive} strokeWidth={2} dot={{ r: 3 }}>
-                <LabelList dataKey="fin" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.olive, fontWeight: 700 }} />
+              <Line yAxisId="pct" type="monotone" dataKey="fin" name="Financiamento imob." stroke={C.ink} strokeWidth={2} dot={{ r: 3 }} strokeDasharray="4 2">
+                <LabelList dataKey="fin" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.ink, fontWeight: 700 }} />
               </Line>
             </ComposedChart>
           </ResponsiveContainer>

@@ -331,7 +331,7 @@ export default function SimuladorLanceEmbutido() {
                     <div>
                       <p className="eyebrow text-foreground/50 mb-3">Comparação de cenários</p>
                       <div className="overflow-x-auto -mx-2 px-2">
-                        <table className="w-full text-sm border-collapse">
+                        <table className="w-full text-sm border-collapse min-w-[560px]">
                           <thead>
                             <tr className="text-left text-foreground/50 text-xs uppercase tracking-wide">
                               <th className="py-2 pr-3 font-medium">Cenário</th>
@@ -360,7 +360,7 @@ export default function SimuladorLanceEmbutido() {
                     <div>
                       <p className="eyebrow text-foreground/50 mb-3">Sensibilidade ao percentual de lance</p>
                       <div className="overflow-x-auto -mx-2 px-2">
-                        <table className="w-full text-sm border-collapse">
+                        <table className="w-full text-sm border-collapse min-w-[480px]">
                           <thead>
                             <tr className="text-left text-foreground/50 text-xs uppercase tracking-wide">
                               <th className="py-2 pr-3 font-medium">% Lance</th>

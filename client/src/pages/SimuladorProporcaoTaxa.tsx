@@ -386,13 +386,17 @@ export default function SimuladorProporcaoTaxa() {
             {/* Gráfico Canvas */}
             <div>
               <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Gráfico de Degradação Progressiva</p>
-              <canvas
-                ref={canvasRef}
-                width={560}
-                height={220}
-                className="w-full rounded-xl"
-                style={{ display: "block" }}
-              />
+              <div className="w-full overflow-x-auto">
+                <div className="min-w-[560px]">
+                  <canvas
+                    ref={canvasRef}
+                    width={560}
+                    height={220}
+                    className="w-full rounded-xl"
+                    style={{ display: "block" }}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Tabela progressiva */}

@@ -31,19 +31,19 @@ export default function Header() {
           : "bg-transparent border-b border-transparent"
       }`}
     >
-      <div className="w-full px-4 md:px-5 lg:px-8 max-w-[100vw]">
-        <div className="flex items-center justify-between h-16 md:h-20">
+      <div className="w-full px-4 md:px-5 lg:px-6 max-w-[100vw]">
+        <div className="flex items-center justify-between h-12 md:h-14">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <img
               src={LOGO.dark}
               alt={BRAND.name}
-              className="h-9 md:h-10 w-auto"
+              className="h-7 md:h-8 w-auto"
             />
           </Link>
 
           {/* Nav desktop */}
-          <nav className="hidden lg:flex items-center gap-8">
+          <nav className="hidden lg:flex items-center gap-5">
             <Link
               href="/"
               className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
