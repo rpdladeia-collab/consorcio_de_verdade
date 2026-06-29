@@ -199,38 +199,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ─── BLOCO POSICIONAMENTO ─────────────────────────────────── */}
+      {/* ─── BLOCO r.enatto (fundo preto) ─────────────────────────── */}
       <section className="w-full bg-[var(--ink)] py-6 px-4 md:px-8 border-b border-white/10">
-        <div className="max-w-3xl mx-auto text-center">
-          <p className="eyebrow text-[var(--orange)] mb-3">NOSSO COMPROMISSO</p>
-          <h2 className="text-lg sm:text-xl font-black text-white leading-tight mb-3">
-            Consórcio vendido com análise, transparência e responsabilidade.
-          </h2>
-          <p className="text-white/65 text-sm leading-relaxed mb-3">
-            Nós acreditamos na venda consultiva. Nosso compromisso é com a matemática e com a sua decisão.
-          </p>
-          <p className="text-white/65 text-sm leading-relaxed">
-            O consórcio é um produto legítimo. O problema não é o produto — é a venda feita sem análise, sem transparência e sem respeito ao comprador.
-          </p>
-        </div>
-      </section>
-
-      {/* ─── BLOCO SOBRE ──────────────────────────────────────────── */}
-      <section className="w-full bg-[var(--paper)] py-6 px-4 md:px-8 border-b border-border">
         <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
           <div className="flex-1">
-            <p className="eyebrow text-[var(--orange)] mb-2">SOBRE</p>
-            <h2 className="text-xl sm:text-2xl font-black text-[var(--ink)] leading-tight mb-3">
+            <p className="eyebrow text-[var(--orange)] mb-2">r.enatto</p>
+            <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-3">
               Vender consórcio da forma correta.
             </h2>
-            <p className="text-foreground/65 text-sm leading-relaxed max-w-xl">
+            <p className="text-white/65 text-sm leading-relaxed max-w-xl">
               O Consórcio de Verdade foi criado para vender consórcio da forma correta: com análise, transparência e decisão consciente antes da contratação.
             </p>
           </div>
           <div className="shrink-0">
             <Link
               href="/sobre"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--ink)]/20 bg-transparent text-[var(--ink)] px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
+              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-transparent text-white px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] hover:border-white/60"
             >
               Conhecer o projeto
               <ArrowRight className="w-4 h-4" />

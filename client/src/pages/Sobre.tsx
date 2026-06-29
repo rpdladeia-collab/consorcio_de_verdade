@@ -1,22 +1,21 @@
 /**
  * Página r.enatto — Renato Ladeia
- * Layout compacto: vídeo 4:5 lado esquerdo + texto lado direito
- * Fontes reduzidas para caber na tela sem scroll
+ * Layout: 1/3 vídeo (esq) + 2/3 texto (dir)
+ * Proporções exatas conforme especificação do prompt
  */
 import { BRAND } from "@/lib/brand";
 
 export default function Sobre() {
   return (
-    <div className="bg-[var(--ink)] text-white min-h-full">
-      <main className="w-full max-w-5xl mx-auto px-4 md:px-8 py-6 md:py-8">
+    <div className="bg-[var(--ink)] text-white">
+      <main className="w-full px-4 md:px-8 py-6 md:py-8">
 
-        {/* ── Grid: vídeo (esq) + apresentação (dir) ── */}
-        <div className="flex flex-col lg:flex-row items-center lg:items-start gap-6 lg:gap-10">
+        {/* ── Container principal: 1/3 foto + 2/3 texto ── */}
+        <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start w-full max-w-6xl mx-auto">
 
-          {/* Vídeo 4:5 — lado esquerdo */}
+          {/* Coluna esquerda — Vídeo 4:5 (1/3) */}
           <div
-            className="w-full lg:w-auto lg:shrink-0 rounded-xl overflow-hidden shadow-xl border border-white/10"
-            style={{ maxWidth: "260px", width: "100%" }}
+            className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 rounded-xl overflow-hidden shadow-xl border border-white/10"
             onContextMenu={(e) => e.preventDefault()}
           >
             <div className="relative" style={{ aspectRatio: "4/5" }}>
@@ -40,12 +39,12 @@ export default function Sobre() {
             </div>
           </div>
 
-          {/* Texto de apresentação — lado direito */}
-          <div className="flex-1 flex flex-col justify-center gap-4">
+          {/* Coluna direita — Texto (2/3) */}
+          <div className="w-full md:w-2/3 lg:w-3/4 flex-1 flex flex-col justify-start gap-4">
 
             {/* Nome + LinkedIn */}
             <div className="flex items-center gap-2.5">
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight">
+              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
                 Renato Ladeia
               </h1>
               <a
@@ -81,8 +80,8 @@ export default function Sobre() {
             {/* Separador */}
             <div className="w-10 h-0.5 bg-[var(--orange)] rounded-full" />
 
-            {/* Texto de apresentação */}
-            <div className="space-y-3 text-white/70 text-sm leading-relaxed max-w-lg">
+            {/* Texto de apresentação — sem max-w, flui livremente na coluna */}
+            <div className="space-y-3 text-white/75 text-sm leading-relaxed">
               <p>
                 O <strong className="text-white">Consórcio de Verdade</strong> nasceu para dar clareza a uma decisão que costuma ser apresentada de forma simples demais.
               </p>
@@ -96,7 +95,7 @@ export default function Sobre() {
                 Se mesmo depois de usar os simuladores você quiser uma leitura individual do seu caso, posso analisar sua proposta com critério, independência e responsabilidade.
               </p>
               <p>
-                A ideia é simples: menos promessa pronta, mais conta aberta.
+                A ideia é simples: <strong className="text-white">menos promessa pronta, mais conta aberta.</strong>
               </p>
             </div>
 

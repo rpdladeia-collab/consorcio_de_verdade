@@ -3,7 +3,7 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -51,19 +51,33 @@ function Router() {
   );
 }
 
+// Rotas com fundo escuro (bg-ink) — o main herda o fundo para preencher o flex-1
+const DARK_ROUTES = ["/sobre", "/panorama"];
+
+function AppLayout() {
+  const [location] = useLocation();
+  const isDark = DARK_ROUTES.some((r) => location === r || location.startsWith(r + "/"));
+  return (
+    <div className="flex flex-col min-h-screen">
+      <Header />
+      <main
+        className="flex-1"
+        style={isDark ? { backgroundColor: 'var(--ink)' } : undefined}
+      >
+        <Router />
+      </main>
+      <Footer />
+    </div>
+  );
+}
+
 function App() {
   return (
     <ErrorBoundary>
       <ThemeProvider defaultTheme="light">
         <TooltipProvider>
           <Toaster />
-          <div className="flex flex-col min-h-screen">
-            <Header />
-            <main className="flex-1">
-              <Router />
-            </main>
-            <Footer />
-          </div>
+          <AppLayout />
         </TooltipProvider>
       </ThemeProvider>
     </ErrorBoundary>
