@@ -1,9 +1,0 @@
-{
-  "buildCommand": "pnpm run build",
-  "outputDirectory": "dist",
-  "framework": null,
-  "nodeVersion": "22.x",
-  "env": {
-    "NODE_ENV": "production"
-  }
-}
