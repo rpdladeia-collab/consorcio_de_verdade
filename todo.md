@@ -291,3 +291,13 @@
 - [x] Atualizar 7 PDFs com nova URL da logo
 - [x] Aumentar altura das logos: Header h-9 md:h-10, Footer h-10
 - [x] 105/105 testes passando · 0 erros TypeScript
+
+## Sprint Correções Pontuais Home — Prompt Fechado
+
+- [x] Correção 1: Melhorar legibilidade da logo no header (aumentar tamanho, frase "Consórcio de verdade" visível)
+- [x] Correção 2: Remover arte/bloco "O que você precisa analisar" do hero (manter resto intacto)
+- [x] Correção 3: Remover frase "A maioria dos problemas começa..." da seção "Por que simular antes de contratar"
+- [x] Correção 4: Corrigir links 404 do Raio-X do Consórcio (todos os cards e botão)
+- [x] Correção 5: Corrigir link 404 do botão "Testar meu lance" (Zona de Contemplação)
+- [x] Correção 6a: Padronizar nome "r.enatto" na seção final (minúsculas, padrão marca, quadrado laranja)
+- [x] Correção 6b: Limpar box direita seção r.enatto (apenas "Renato Ladeia" + "Consultor de Investimentos Independente · CVM · CEA")

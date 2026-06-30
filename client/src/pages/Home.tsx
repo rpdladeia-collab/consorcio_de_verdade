@@ -49,30 +49,7 @@ function HeroSection() {
             </p>
           </div>
 
-          {/* Painel visual editorial */}
-          <div className="w-full md:w-72 flex-shrink-0">
-            <div className="bg-[var(--ink)] rounded-xl p-5 text-white">
-              <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
-                O que você precisa analisar
-              </p>
-              {[
-                { label: "Parcela real", sub: "com correção e seguro" },
-                { label: "Lance", sub: "embutido ou livre" },
-                { label: "Custo total", sub: "taxa + fundo + seguro" },
-                { label: "Correções", sub: "INCC, IPCA, IGP-M" },
-                { label: "Contemplação", sub: "sorteio vs. lance" },
-                { label: "Auto pagável?", sub: "rendimento pós-contemplação" },
-              ].map((item) => (
-                <div
-                  key={item.label}
-                  className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
-                >
-                  <span className="text-xs font-semibold">{item.label}</span>
-                  <span className="text-[10px] text-white/50">{item.sub}</span>
-                </div>
-              ))}
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
@@ -111,10 +88,7 @@ function ConscienciaSection() {
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
           Consórcio não é golpe. Mas também não é simples.
         </h2>
-        <p className="text-sm text-white/60 mb-6 max-w-2xl">
-          A maioria dos problemas começa quando o consórcio é vendido como se fosse uma solução
-          fácil: sem juros, sem risco, sem pressa e sem impacto no bolso.
-        </p>
+
 
         <div className="flex flex-col md:flex-row gap-8 mb-8">
           {/* Texto */}
@@ -188,42 +162,42 @@ function RaioXSection() {
       name: "Raio-X da Parcela",
       call: "Cabe hoje. Amanhã a gente confere.",
       text: "Veja como a parcela pode mudar com o tempo, especialmente quando entram correções, seguros e saldo devedor.",
-      href: "/simuladores/simule-o-plano",
+      href: "/simulador/simule-seu-plano",
     },
     {
       num: "02",
       name: "Raio-X do Lance",
       call: "Dar lance é fácil. Saber se ele compra chance é outra história.",
       text: "Entenda se o lance aproxima você da contemplação ou apenas aumenta o esforço financeiro.",
-      href: "/simuladores/lance-embutido",
+      href: "/simulador/lance-embutido",
     },
     {
       num: "03",
       name: "Custo Total",
       call: "Sem juros não significa sem conta.",
       text: "Separe crédito, taxa, seguro, fundo de reserva e correção para entender o custo real da operação.",
-      href: "/simuladores/custo-operacao",
+      href: "/simulador/custo-operacao",
     },
     {
       num: "04",
       name: "Eficiência da Taxa",
       call: "Crédito contratado é uma coisa. Dinheiro novo é outra.",
       text: "Veja quanto da operação chega de fato até você e quanto fica no caminho.",
-      href: "/simuladores/proporcao-taxa",
+      href: "/simulador/proporcao-taxa",
     },
     {
       num: "05",
       name: "Correções",
       call: "O juro saiu da conversa. O reajuste ficou.",
       text: "Simule como a correção pode afetar carta, saldo e parcela ao longo do contrato.",
-      href: "/simuladores/historico-correcoes",
+      href: "/simulador/historico-correcoes",
     },
     {
       num: "06",
       name: "Auto pagável?",
       call: "Quando a promessa é bonita, a matemática precisa assinar embaixo.",
       text: "Teste se a carta realmente se paga depois da contemplação ou se a conta só fecha no discurso.",
-      href: "/simuladores/auto-pagavel",
+      href: "/simulador/auto-pagavel",
     },
   ];
 
@@ -338,7 +312,7 @@ function ZonaSection() {
           </div>
         </div>
 
-        <Link href="/zona-de-contemplacao">
+        <Link href="/zona-contemplacao">
           <button className="border border-[var(--orange)] text-[var(--orange)] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[var(--orange)] hover:text-white active:scale-95 transition-all">
             Testar meu lance →
           </button>
@@ -495,36 +469,10 @@ function RenatoSection() {
           {/* Credenciais */}
           <div className="w-full md:w-64 flex-shrink-0">
             <div className="border border-white/15 rounded-xl p-5">
-              <p className="text-sm font-bold text-white mb-0.5">Renato Ladeia</p>
-              <p className="text-xs text-[var(--orange)] mb-3">
+              <p className="text-sm font-bold text-white mb-2">Renato Ladeia</p>
+              <p className="text-xs text-white/75 leading-relaxed text-left">
                 Consultor de Investimentos Independente · CVM · CEA
               </p>
-              <div className="space-y-2">
-                {[
-                  "Mais de 15 anos no mercado financeiro",
-                  "Certificação CEA — ANBIMA",
-                  "Credenciado CVM",
-                  "Análise independente, sem vínculo com administradoras",
-                ].map((item) => (
-                  <div key={item} className="flex items-start gap-2">
-                    <span className="text-[var(--orange)] text-xs mt-0.5">▪</span>
-                    <span className="text-xs text-white/60 leading-snug">{item}</span>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-4 pt-4 border-t border-white/10">
-                <a
-                  href={BRAND.linkedin}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-xs text-white/50 hover:text-[var(--orange)] transition-colors"
-                >
-                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden>
-                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                  </svg>
-                  <span>linkedin.com/in/renatoladeia</span>
-                </a>
-              </div>
             </div>
           </div>
         </div>
