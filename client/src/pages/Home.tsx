@@ -1,324 +1,590 @@
 import { Link } from "wouter";
-import { ArrowRight, BarChart2, Search, TrendingUp, Calculator, Clock, Zap, ChevronRight } from "lucide-react";
 import { BRAND } from "@/lib/brand";
-import { useState } from "react";
 
-// Módulos do Raio-X
-const MODULOS = [
-  {
-    id: 1,
-    icon: <Calculator className="w-5 h-5" />,
-    title: "Raio-X da Parcela",
-    desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
-    href: "/simulador/simule-seu-plano",
-  },
-  {
-    id: 2,
-    icon: <TrendingUp className="w-5 h-5" />,
-    title: "Raio-X do Lance",
-    desc: "Projeta o impacto financeiro da contemplação em diferentes momentos do plano.",
-    href: "/simulador/contemplacao",
-  },
-  {
-    id: 3,
-    icon: <BarChart2 className="w-5 h-5" />,
-    title: "Raio-X do Custo Total",
-    desc: "Calcula o custo real do consórcio: taxa de administração, seguro e fundo de reserva.",
-    href: "/simulador/custo-da-operacao",
-  },
-  {
-    id: 4,
-    icon: <Search className="w-5 h-5" />,
-    title: "Raio-X da Eficiência da Taxa",
-    desc: "Mostra quanto da parcela é taxa e como isso degrada a eficiência ao longo do tempo.",
-    href: "/simulador/proporcao-da-taxa",
-  },
-  {
-    id: 5,
-    icon: <Clock className="w-5 h-5" />,
-    title: "Raio-X das Correções",
-    desc: "Analisa o impacto dos reajustes históricos sobre o saldo devedor e a carta de crédito.",
-    href: "/simulador/historico-de-correcoes",
-  },
-  {
-    id: 6,
-    icon: <Zap className="w-5 h-5" />,
-    title: "Auto pagável?",
-    desc: "Verifica se a carta de crédito é capaz de se pagar com rendimento após a contemplação.",
-    href: "/simulador/auto-pagavel",
-  },
-];
+// ─── Seção 1: Hero ────────────────────────────────────────────────────────────
+function HeroSection() {
+  return (
+    <section className="bg-[var(--paper)] py-12 md:py-16 border-b border-[var(--ink)]/10">
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="flex flex-col md:flex-row gap-10 items-start">
+          {/* Coluna de texto */}
+          <div className="flex-1">
+            <span className="inline-block text-xs font-semibold tracking-widest uppercase text-[var(--orange)] border border-[var(--orange)] rounded-full px-3 py-1 mb-5">
+              Consórcio não é para todo mundo
+            </span>
+            <h1 className="font-serif text-3xl md:text-4xl font-bold text-[var(--ink)] leading-tight mb-4">
+              Antes de contratar um consórcio,{" "}
+              <span className="text-[var(--orange)]">faça a conta.</span>
+            </h1>
+            <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-3 max-w-xl">
+              Eu criei esta plataforma para ajudar você a enxergar o consórcio antes de assinar o
+              contrato.
+            </p>
+            <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-3 max-w-xl">
+              Aqui você simula parcela, lance, custo total, correção, contemplação e capacidade real
+              de pagamento — sem cadastro, sem pressão e sem promessa fácil.
+            </p>
+            <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-6 max-w-xl">
+              Use as ferramentas gratuitamente. Se depois quiser uma leitura individual do seu caso,
+              eu analiso com você.
+            </p>
+            <div className="flex flex-wrap gap-3 mb-4">
+              <Link href="/simuladores">
+                <button className="bg-[var(--orange)] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 active:scale-95 transition-all">
+                  Usar simuladores gratuitamente →
+                </button>
+              </Link>
+              <a
+                href={`https://wa.me/${BRAND.whatsapp.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="border border-[var(--ink)] text-[var(--ink)] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[var(--ink)] hover:text-white active:scale-95 transition-all">
+                  Pedir análise individual
+                </button>
+              </a>
+            </div>
+            <p className="text-xs text-[var(--ink)]/50">
+              Simulações gratuitas. Dados claros. Decisão com menos impulso e mais consciência.
+            </p>
+          </div>
 
-const ASSUNTOS = ["Dúvida", "Segunda Opinião", "Quero Contratar"];
+          {/* Painel visual editorial */}
+          <div className="w-full md:w-72 flex-shrink-0">
+            <div className="bg-[var(--ink)] rounded-xl p-5 text-white">
+              <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
+                O que você precisa analisar
+              </p>
+              {[
+                { label: "Parcela real", sub: "com correção e seguro" },
+                { label: "Lance", sub: "embutido ou livre" },
+                { label: "Custo total", sub: "taxa + fundo + seguro" },
+                { label: "Correções", sub: "INCC, IPCA, IGP-M" },
+                { label: "Contemplação", sub: "sorteio vs. lance" },
+                { label: "Auto pagável?", sub: "rendimento pós-contemplação" },
+              ].map((item) => (
+                <div
+                  key={item.label}
+                  className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
+                >
+                  <span className="text-xs font-semibold">{item.label}</span>
+                  <span className="text-[10px] text-white/50">{item.sub}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
 
-export default function Home() {
-  const [form, setForm] = useState({ nome: "", contato: "", assunto: "", mensagem: "" });
-  const [enviado, setEnviado] = useState(false);
-  const [enviando, setEnviando] = useState(false);
+// ─── Seção 2: Bloco de Consciência ───────────────────────────────────────────
+function ConscienciaSection() {
+  const cards = [
+    {
+      title: "Sem juros não significa sem custo.",
+      text: "Taxa de administração, fundo de reserva, seguro e correção podem mudar completamente a leitura da operação.",
+    },
+    {
+      title: "Parcela baixa pode esconder esforço futuro.",
+      text: "O valor inicial pode parecer confortável, mas a correção da carta e do saldo pode alterar o peso do contrato no tempo.",
+    },
+    {
+      title: "Lance não é garantia. É disputa.",
+      text: "Você não dá lance sozinho. O resultado depende do grupo, da assembleia, da modalidade e do caixa disponível.",
+    },
+    {
+      title: "Contemplação não resolve tudo.",
+      text: "Depois de contemplado, ainda existe saldo, reajuste, capacidade de pagamento e análise da administradora.",
+    },
+  ];
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) {
-    setForm((f) => ({ ...f, [e.target.name]: e.target.value }));
-  }
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!form.nome || !form.contato || !form.assunto || !form.mensagem) return;
-    setEnviando(true);
-    const numero = BRAND.whatsapp.replace("https://wa.me/", "");
-    const texto = encodeURIComponent(
-      `*Contato via Consórcio de Verdade*\n\n*Nome:* ${form.nome}\n*Contato:* ${form.contato}\n*Assunto:* ${form.assunto}\n\n${form.mensagem}`
-    );
-    window.open(`https://wa.me/${numero}?text=${texto}`, "_blank");
-    setEnviando(false);
-    setEnviado(true);
-  }
+  const nodes = ["parcela", "taxa", "correção", "lance", "prazo", "contemplação", "renda", "exclusão"];
 
   return (
-    <main className="w-full overflow-x-hidden">
+    <section id="consciencia" className="bg-[var(--ink)] py-10 md:py-12">
+      <div className="max-w-5xl mx-auto px-4">
+        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
+          Por que simular antes de contratar
+        </p>
+        <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+          Consórcio não é golpe. Mas também não é simples.
+        </h2>
+        <p className="text-sm text-white/60 mb-6 max-w-2xl">
+          A maioria dos problemas começa quando o consórcio é vendido como se fosse uma solução
+          fácil: sem juros, sem risco, sem pressa e sem impacto no bolso.
+        </p>
 
-      {/* ─── HERO ─────────────────────────────────────────────────── */}
-      <section className="w-full bg-[var(--paper)] pt-8 pb-8 px-4 md:px-8">
-        <div className="max-w-3xl mx-auto">
-          <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--orange)]/30 bg-[var(--orange)]/8 px-3 py-1 text-xs font-semibold text-[var(--orange)] mb-5 tracking-wide">
-            Consórcio não é para todo mundo
-          </span>
-          <h1 className="text-3xl sm:text-4xl font-black text-[var(--ink)] leading-[1.05] tracking-tight mb-3">
-            Antes de contratar um consórcio,{" "}
-            <span className="text-[var(--orange)]">faça a conta.</span>
-          </h1>
-          <div className="text-sm text-foreground/75 leading-relaxed max-w-2xl mb-5 space-y-2">
-            <p>Eu construí esta plataforma para que você consiga analisar uma proposta de consórcio com mais clareza: parcela, lance, custo total, correções, contemplação e capacidade real de pagamento.</p>
-            <p>Os simuladores são gratuitos e foram criados para ajudar você a decidir com menos pressão e mais consciência. E, se mesmo assim quiser uma leitura individual do seu caso, eu posso te ajudar a entender se o consórcio faz sentido para você.</p>
-          </div>
-          <div className="flex flex-col sm:flex-row items-start gap-3 mb-4">
-            <Link
-              href="/simuladores"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
-            >
-              Usar simuladores gratuitamente
-              <ArrowRight className="w-4 h-4" />
+        <div className="flex flex-col md:flex-row gap-8 mb-8">
+          {/* Texto */}
+          <div className="flex-1">
+            <p className="text-sm text-white/75 leading-relaxed mb-3">
+              Consórcio pode ser uma boa estratégia quando existe planejamento, capacidade de
+              pagamento e clareza sobre as regras. Mas ele também pode virar um contrato caro, longo
+              e frustrante quando a decisão é tomada só pela parcela ou pela promessa de
+              contemplação.
+            </p>
+            <p className="text-sm text-white/75 leading-relaxed mb-3">
+              Antes de contratar, você precisa enxergar quatro coisas: quanto vai pagar, quanto pode
+              corrigir, quanto precisa ofertar de lance e se o seu grupo realmente tem dinâmica para
+              entregar contemplações.
+            </p>
+            <p className="text-sm text-white/75 leading-relaxed mb-5">
+              É por isso que esta plataforma existe: para transformar promessa comercial em análise.
+            </p>
+            <Link href="/simuladores">
+              <button className="text-xs border border-white/30 text-white/70 px-4 py-2 rounded-full hover:border-[var(--orange)] hover:text-[var(--orange)] transition-all">
+                Ver o que preciso analisar antes de contratar →
+              </button>
             </Link>
-            <a
-              href={BRAND.whatsapp}
-              target="_blank"
-              rel="noreferrer"
-              className="inline-flex items-center gap-2 rounded-full border border-[var(--ink)]/20 bg-white text-[var(--ink)] px-7 py-3 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] w-full sm:w-auto justify-center"
-            >
-              Pedir análise individual
-            </a>
           </div>
-          <p className="text-xs text-gray-500">
-            Use gratuitamente. Sem cadastro obrigatório. Cálculos auditáveis.
-          </p>
-        </div>
-      </section>
 
-      {/* ─── SEÇÃO SIMULADORES (Raio-X) ─────────────────────────── */}
-      <section className="w-full bg-[var(--ink)] py-6 px-4 md:px-8">
-        <div className="max-w-5xl mx-auto">
-          <p className="eyebrow text-[var(--orange)] mb-3">RAIO X DO CONSÓRCIO</p>
-          <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-2 max-w-3xl">
-            Se você não entende estes pontos, não contrate ainda.
-          </h2>
-          <p className="text-white/60 text-xs leading-relaxed max-w-2xl mb-5">
-            O Raio-X do Consórcio reúne <strong className="text-white">todos os módulos essenciais</strong> para analisar uma proposta antes da contratação.
-          </p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5">
-            {MODULOS.map((m) => (
-              <Link
-                key={m.id}
-                href={m.href}
-                className="group flex flex-col gap-2 rounded-xl border border-white/10 bg-white/5 hover:bg-white/10 hover:border-[var(--orange)]/40 p-3 transition-all duration-200"
-              >
-                <div className="flex items-center gap-2.5">
-                  <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-[var(--orange)]/15 text-[var(--orange)]">
-                    {m.icon}
+          {/* Diagrama editorial */}
+          <div className="w-full md:w-64 flex-shrink-0">
+            <div className="border border-white/15 rounded-xl p-4">
+              <p className="text-[10px] tracking-widest uppercase text-white/40 mb-3 text-center">
+                A conta antes do contrato
+              </p>
+              <div className="flex flex-wrap gap-2 justify-center mb-3">
+                {nodes.map((n) => (
+                  <span
+                    key={n}
+                    className="text-[10px] border border-[var(--orange)]/40 text-[var(--orange)] px-2 py-1 rounded"
+                  >
+                    {n}
                   </span>
-                  <span className="text-xs font-mono text-white/30 uppercase tracking-widest">
-                    Módulo {m.id}
-                  </span>
-                </div>
-                <p className="text-sm font-bold text-white group-hover:text-[var(--orange)] transition-colors">
-                  {m.title}
+                ))}
+              </div>
+              <div className="border-t border-white/10 pt-3 text-center">
+                <span className="text-2xl font-serif font-bold text-white">CONSÓRCIO</span>
+              </div>
+              <p className="text-[10px] text-white/40 text-center mt-2">
+                Quando você olha só a parcela, você enxerga pouco.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          {cards.map((c) => (
+            <div key={c.title} className="bg-white/5 border border-white/10 rounded-lg p-4">
+              <p className="text-xs font-bold text-[var(--orange)] mb-1">{c.title}</p>
+              <p className="text-xs text-white/60 leading-snug">{c.text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Seção 3: Raio-X do Consórcio ────────────────────────────────────────────
+function RaioXSection() {
+  const cards = [
+    {
+      num: "01",
+      name: "Raio-X da Parcela",
+      call: "Cabe hoje. Amanhã a gente confere.",
+      text: "Veja como a parcela pode mudar com o tempo, especialmente quando entram correções, seguros e saldo devedor.",
+      href: "/simuladores/simule-o-plano",
+    },
+    {
+      num: "02",
+      name: "Raio-X do Lance",
+      call: "Dar lance é fácil. Saber se ele compra chance é outra história.",
+      text: "Entenda se o lance aproxima você da contemplação ou apenas aumenta o esforço financeiro.",
+      href: "/simuladores/lance-embutido",
+    },
+    {
+      num: "03",
+      name: "Custo Total",
+      call: "Sem juros não significa sem conta.",
+      text: "Separe crédito, taxa, seguro, fundo de reserva e correção para entender o custo real da operação.",
+      href: "/simuladores/custo-operacao",
+    },
+    {
+      num: "04",
+      name: "Eficiência da Taxa",
+      call: "Crédito contratado é uma coisa. Dinheiro novo é outra.",
+      text: "Veja quanto da operação chega de fato até você e quanto fica no caminho.",
+      href: "/simuladores/proporcao-taxa",
+    },
+    {
+      num: "05",
+      name: "Correções",
+      call: "O juro saiu da conversa. O reajuste ficou.",
+      text: "Simule como a correção pode afetar carta, saldo e parcela ao longo do contrato.",
+      href: "/simuladores/historico-correcoes",
+    },
+    {
+      num: "06",
+      name: "Auto pagável?",
+      call: "Quando a promessa é bonita, a matemática precisa assinar embaixo.",
+      text: "Teste se a carta realmente se paga depois da contemplação ou se a conta só fecha no discurso.",
+      href: "/simuladores/auto-pagavel",
+    },
+  ];
+
+  return (
+    <section className="bg-[var(--paper)] py-10 md:py-12 border-t border-[var(--ink)]/10">
+      <div className="max-w-5xl mx-auto px-4">
+        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
+          Raio-X do Consórcio
+        </p>
+        <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-2 leading-tight">
+          A proposta cabe no bolso. Mas o contrato cabe na vida?
+        </h2>
+        <p className="text-sm text-[var(--ink)]/60 mb-2 max-w-2xl">
+          O Raio-X do Consórcio mostra o que normalmente fica pequeno na apresentação: parcela,
+          lance, custo total, correção, eficiência da taxa e capacidade real de pagamento.
+        </p>
+        <p className="text-sm text-[var(--ink)]/60 mb-6 max-w-2xl">
+          Use os simuladores para testar cenários antes de contratar, antes de ofertar lance ou
+          antes de acreditar que a operação se paga sozinha.
+        </p>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+          {cards.map((c) => (
+            <Link key={c.num} href={c.href}>
+              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-4 hover:border-[var(--orange)] hover:shadow-sm transition-all cursor-pointer h-full">
+                <p className="text-[10px] tracking-widest uppercase text-[var(--orange)]/60 mb-1 font-semibold">
+                  Módulo {c.num}
                 </p>
-                <p className="text-xs text-white/55 leading-relaxed">{m.desc}</p>
-                <span className="mt-auto flex items-center gap-1 text-xs font-semibold text-[var(--orange)] opacity-0 group-hover:opacity-100 transition-opacity">
-                  Abrir módulo <ChevronRight className="w-3.5 h-3.5" />
-                </span>
-              </Link>
+                <p className="text-sm font-bold text-[var(--ink)] mb-1">{c.name}</p>
+                <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
+                  {c.call}
+                </p>
+                <p className="text-xs text-[var(--ink)]/55 leading-snug">{c.text}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+
+        <Link href="/simuladores">
+          <button className="bg-[var(--ink)] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-80 active:scale-95 transition-all">
+            Abrir simuladores →
+          </button>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+// ─── Seção 4: Zona de Contemplação ───────────────────────────────────────────
+function ZonaSection() {
+  const cards = [
+    { title: "Histórico de lances", call: "O grupo tem memória. Use isso antes de ofertar." },
+    { title: "Pressão competitiva", call: "Seu lance não concorre com a tabela. Concorre com pessoas." },
+    { title: "Zona de disputa", call: "Às vezes o lance está alto. Às vezes só parece." },
+    { title: "Leitura sem promessa", call: "Dado histórico não garante contemplação. Mas é melhor que achismo." },
+  ];
+
+  return (
+    <section className="bg-[var(--ink)] py-10 md:py-12">
+      <div className="max-w-5xl mx-auto px-4">
+        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
+          Zona de Contemplação
+        </p>
+        <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
+          Lance não é palpite. É disputa.
+        </h2>
+        <p className="text-sm text-white/60 mb-2 max-w-2xl">
+          Antes de ofertar um lance, veja como o grupo vem se comportando. A Zona de Contemplação
+          mostra histórico, pressão competitiva e faixa provável de disputa.
+        </p>
+        <p className="text-sm text-white/60 mb-6 max-w-2xl">
+          Ela não promete contemplação. Ela não adivinha assembleia. Ela organiza os dados do grupo
+          para mostrar uma coisa que quase ninguém olha antes de ofertar lance: contra quem você
+          está competindo.
+        </p>
+
+        <div className="flex flex-col md:flex-row gap-8 mb-6">
+          {/* Cards */}
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {cards.map((c) => (
+              <div key={c.title} className="bg-white/5 border border-white/10 rounded-lg p-4">
+                <p className="text-xs font-bold text-white mb-1">{c.title}</p>
+                <p className="text-xs text-[var(--orange)] leading-snug">{c.call}</p>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
 
-      {/* ─── BLOCO ZONA DE CONTEMPLAÇÃO ───────────────────────────── */}
-      <section className="w-full bg-white py-6 px-4 md:px-8 border-b border-border">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
-          <div className="flex-1">
-            <p className="eyebrow text-[var(--orange)] mb-2">ZONA DE CONTEMPLAÇÃO</p>
-            <h2 className="text-xl sm:text-2xl font-black text-[var(--ink)] leading-tight mb-3">
-              Entenda a dinâmica do grupo antes de definir sua estratégia de lance.
-            </h2>
-            <p className="text-foreground/65 text-sm leading-relaxed max-w-xl">
-              A Zona de Raio-X do Lance permite analisar histórico de lances, pressão competitiva e quantitativo de contemplações de um grupo.
-            </p>
-          </div>
-          <div className="shrink-0">
-            <Link
-              href="/zona-contemplacao"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
-            >
-              Abrir Zona de Raio-X do Lance
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── BLOCO PANORAMA: DADOS OFICIAIS ───────────────────────── */}
-      <section className="w-full bg-[var(--paper)] py-6 px-4 md:px-8 border-b border-border">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
-          <div className="flex-1">
-            <p className="eyebrow text-[var(--orange)] mb-2">PANORAMA: DADOS OFICIAIS</p>
-            <h2 className="text-xl sm:text-2xl font-black text-[var(--ink)] leading-tight mb-3">
-              Não é opinião. É o dado oficial.
-            </h2>
-            <p className="text-foreground/65 text-sm leading-relaxed max-w-xl">
-              O Panorama reúne dados oficiais do Banco Central para contextualizar o mercado de consórcios: vendas, exclusões, reclamações e contemplações.
-            </p>
-          </div>
-          <div className="shrink-0">
-            <Link
-              href="/panorama"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--ink)] text-[var(--paper)] px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
-            >
-              Ver dados oficiais
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── BLOCO r.enatto (fundo preto) ─────────────────────────── */}
-      <section className="w-full bg-[var(--ink)] py-6 px-4 md:px-8 border-b border-white/10">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start lg:items-center gap-6">
-          <div className="flex-1">
-            <p className="eyebrow text-[var(--orange)] mb-2">r.enatto</p>
-            <h2 className="text-xl sm:text-2xl font-black text-white leading-tight mb-3">
-              Vender consórcio da forma correta.
-            </h2>
-            <p className="text-white/65 text-sm leading-relaxed max-w-xl">
-              O Consórcio de Verdade foi criado para vender consórcio da forma correta: com análise, transparência e decisão consciente antes da contratação.
-            </p>
-          </div>
-          <div className="shrink-0">
-            <Link
-              href="/sobre"
-              className="inline-flex items-center gap-2 rounded-full border border-white/25 bg-transparent text-white px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] hover:border-white/60"
-            >
-              Conhecer o projeto
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* ─── CTA FINAL + FORMULÁRIO DE CONTATO (seção laranja) ────── */}
-      <section className="w-full bg-[var(--orange)] py-6 px-4 md:px-8" id="contato">
-        <div className="max-w-5xl mx-auto flex flex-col lg:flex-row items-start gap-8 lg:gap-12">
-
-          {/* Lado esquerdo: texto + botão simuladores */}
-          <div className="flex-1">
-          <h2 className="text-lg font-black text-white leading-tight mb-2">
-            Use os simuladores à vontade.
-            </h2>
-            <p className="text-white/85 text-sm leading-relaxed mb-5 max-w-sm">
-              Se quiser, traga sua proposta para uma segunda opinião ou construa o seu plano com quem joga limpo.
-            </p>
-            <Link
-              href="/simuladores"
-              className="inline-flex items-center gap-2 rounded-full bg-white text-[var(--orange)] px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
-            >
-              Usar simuladores gratuitamente
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* Lado direito: formulário compacto */}
-          <div className="w-full lg:w-[340px] shrink-0 bg-white/10 backdrop-blur-sm rounded-xl p-5 border border-white/20">
-            <p className="text-xs font-bold text-white/70 uppercase tracking-widest mb-4">Pedir análise individual</p>
-
-            {enviado ? (
-              <div className="text-center py-4">
-                <p className="text-white font-bold mb-1">Mensagem enviada!</p>
-                <p className="text-white/70 text-xs mb-3">Você será redirecionado para o WhatsApp.</p>
-                <button
-                  onClick={() => { setEnviado(false); setForm({ nome: "", contato: "", assunto: "", mensagem: "" }); }}
-                  className="text-xs text-white underline underline-offset-4"
-                >
-                  Enviar outra mensagem
-                </button>
+          {/* Termômetro visual */}
+          <div className="w-full md:w-56 flex-shrink-0">
+            <div className="border border-white/15 rounded-xl p-4">
+              <p className="text-[10px] tracking-widest uppercase text-white/40 mb-3 text-center">
+                Termômetro de lance
+              </p>
+              <div className="flex flex-col gap-1 mb-3">
+                {[
+                  { label: "Acima do histórico", color: "bg-red-500/70" },
+                  { label: "Zona de disputa", color: "bg-[var(--orange)]" },
+                  { label: "Fora da zona", color: "bg-white/20" },
+                ].map((f) => (
+                  <div key={f.label} className="flex items-center gap-2">
+                    <div className={`h-4 flex-1 rounded ${f.color}`} />
+                    <span className="text-[10px] text-white/50 w-28 text-right">{f.label}</span>
+                  </div>
+                ))}
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} className="flex flex-col gap-3">
-                <input
-                  id="nome"
-                  name="nome"
-                  type="text"
-                  required
-                  placeholder="Seu nome"
-                  value={form.nome}
-                  onChange={handleChange}
-                  className="w-full rounded-lg bg-white/20 border border-white/30 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition"
-                />
-                <input
-                  id="contato"
-                  name="contato"
-                  type="text"
-                  required
-                  placeholder="WhatsApp ou e-mail"
-                  value={form.contato}
-                  onChange={handleChange}
-                  className="w-full rounded-lg bg-white/20 border border-white/30 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition"
-                />
-                <select
-                  id="assunto"
-                  name="assunto"
-                  required
-                  value={form.assunto}
-                  onChange={handleChange}
-                  className="w-full rounded-lg bg-white/20 border border-white/30 px-3 py-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white/50 transition appearance-none cursor-pointer"
-                >
-                  <option value="" className="text-[var(--ink)]">Assunto</option>
-                  {ASSUNTOS.map((a) => (
-                    <option key={a} value={a} className="text-[var(--ink)]">{a}</option>
-                  ))}
-                </select>
-                <textarea
-                  id="mensagem"
-                  name="mensagem"
-                  required
-                  rows={3}
-                  placeholder="Sua mensagem..."
-                  value={form.mensagem}
-                  onChange={handleChange}
-                  className="w-full rounded-lg bg-white/20 border border-white/30 px-3 py-2 text-sm text-white placeholder:text-white/50 focus:outline-none focus:ring-2 focus:ring-white/50 transition resize-none"
-                />
-                <button
-                  type="submit"
-                  disabled={enviando}
-                  className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-white text-[var(--orange)] px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97] disabled:opacity-60 disabled:cursor-not-allowed"
-                >
-                  {enviando ? "Enviando..." : "Enviar mensagem"}
-                  {!enviando && <ArrowRight className="w-4 h-4" />}
-                </button>
-              </form>
-            )}
+              <div className="border-t border-white/10 pt-2">
+                <p className="text-[10px] text-white/40 text-center">
+                  O lance não precisa ser o maior. Precisa fazer sentido dentro do grupo.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <Link href="/zona-de-contemplacao">
+          <button className="border border-[var(--orange)] text-[var(--orange)] text-sm font-semibold px-5 py-2.5 rounded-full hover:bg-[var(--orange)] hover:text-white active:scale-95 transition-all">
+            Testar meu lance →
+          </button>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+// ─── Seção 5: Panorama — Dados Oficiais ──────────────────────────────────────
+function PanoramaSection() {
+  const cards = [
+    {
+      title: "Vendas cresceram.",
+      call: "Mas venda não é posse.",
+      text: "Comprar uma cota não significa receber o bem. Entre a venda e a contemplação existe fila, lance, sorteio, correção e permanência no grupo.",
+    },
+    {
+      title: "Exclusões importam.",
+      call: "Quem sai da fila também conta a história.",
+      text: "O índice de exclusão ajuda a entender quantas pessoas não seguem até o fim do contrato.",
+    },
+    {
+      title: "Reclamações falam.",
+      call: "Quando o consumidor reclama, o dado deixa de ser detalhe.",
+      text: "Reclamações ajudam a mostrar atritos reais entre promessa, contrato e experiência do cliente.",
+    },
+    {
+      title: "Lance domina a contemplação.",
+      call: "Sorteio existe. Mas a realidade costuma ter boleto e disputa.",
+      text: "A contemplação por lance tem peso relevante e precisa ser considerada antes de contratar.",
+    },
+  ];
+
+  const placar = [
+    { label: "Vendas", value: "↑ Crescimento" },
+    { label: "Exclusões", value: "⚠ Relevante" },
+    { label: "Reclamações", value: "↑ Crescem" },
+    { label: "Lance", value: "Domina" },
+  ];
+
+  return (
+    <section className="bg-[var(--paper)] py-10 md:py-12 border-t border-[var(--ink)]/10">
+      <div className="max-w-5xl mx-auto px-4">
+        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
+          Panorama: Dados Oficiais
+        </p>
+        <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-2 leading-tight">
+          Não é opinião. São os dados oficiais.
+        </h2>
+        <p className="text-sm text-[var(--ink)]/60 mb-2 max-w-2xl">
+          O mercado gosta de mostrar venda, crescimento e oportunidade. O Panorama mostra também
+          exclusões, reclamações, contemplações e o comportamento real do sistema.
+        </p>
+        <p className="text-sm text-[var(--ink)]/60 mb-6 max-w-2xl">
+          Essa área reúne dados públicos e leitura crítica para mostrar o que acontece depois da
+          venda: quem entra, quem sai, quem reclama, como contempla e como o cenário econômico muda
+          a leitura do produto.
+        </p>
+
+        <div className="flex flex-col md:flex-row gap-8 mb-6">
+          {/* Cards */}
+          <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-3">
+            {cards.map((c) => (
+              <div key={c.title} className="bg-white border border-[var(--ink)]/10 rounded-lg p-4">
+                <p className="text-xs font-bold text-[var(--ink)] mb-0.5">{c.title}</p>
+                <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
+                  {c.call}
+                </p>
+                <p className="text-xs text-[var(--ink)]/55 leading-snug">{c.text}</p>
+              </div>
+            ))}
           </div>
 
+          {/* Bloco placar */}
+          <div className="w-full md:w-56 flex-shrink-0">
+            <div className="bg-[var(--ink)] rounded-xl p-4 text-white">
+              <p className="text-[10px] tracking-widest uppercase text-white/40 mb-3 text-center">
+                O placar que a propaganda não mostra
+              </p>
+              {placar.map((p) => (
+                <div
+                  key={p.label}
+                  className="flex items-center justify-between py-2 border-b border-white/10 last:border-0"
+                >
+                  <span className="text-xs font-semibold">{p.label}</span>
+                  <span className="text-xs text-[var(--orange)]">{p.value}</span>
+                </div>
+              ))}
+              <p className="text-[10px] text-white/40 text-center mt-3">
+                Dado oficial não vende sonho. Mostra comportamento.
+              </p>
+            </div>
+          </div>
         </div>
-      </section>
 
-    </main>
+        <Link href="/panorama">
+          <button className="bg-[var(--ink)] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-80 active:scale-95 transition-all">
+            Ver dados oficiais →
+          </button>
+        </Link>
+      </div>
+    </section>
+  );
+}
+
+// ─── Seção 6: r.enatto / Análise com Renato ──────────────────────────────────
+function RenatoSection() {
+  return (
+    <section className="bg-[var(--ink)] py-10 md:py-12">
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="flex flex-col md:flex-row gap-10 items-start">
+          {/* Texto */}
+          <div className="flex-1">
+            <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
+              r.enatto
+            </p>
+            <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
+              Eu vendo consórcio. Mas a conta vem antes da venda.
+            </h2>
+            <p className="text-sm text-white/60 mb-4 max-w-xl">
+              O Consórcio de Verdade nasceu para organizar aquilo que normalmente aparece espalhado,
+              pequeno ou mal explicado: custo total, lance, correção, contemplação, exclusão e
+              capacidade real de pagamento.
+            </p>
+            <blockquote className="border-l-2 border-[var(--orange)] pl-4 mb-4">
+              <p className="text-sm text-white font-medium italic">
+                "Quando fizer sentido, eu ajudo a estruturar. Quando não fizer, eu prefiro te
+                mostrar antes."
+              </p>
+            </blockquote>
+            <p className="text-sm text-white/60 mb-5 max-w-xl">
+              A ferramenta ajuda você a enxergar os números. A análise individual ajuda a
+              interpretar o seu caso real: grupo, carta, prazo, lance, renda e objetivo.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <a
+                href={`https://wa.me/${BRAND.whatsapp.replace(/\D/g, "")}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <button className="bg-[var(--orange)] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-90 active:scale-95 transition-all">
+                  Pedir análise individual →
+                </button>
+              </a>
+              <Link href="/sobre">
+                <button className="border border-white/30 text-white/70 text-sm font-semibold px-5 py-2.5 rounded-full hover:border-white hover:text-white active:scale-95 transition-all">
+                  Conhecer a análise individual
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Credenciais */}
+          <div className="w-full md:w-64 flex-shrink-0">
+            <div className="border border-white/15 rounded-xl p-5">
+              <p className="text-sm font-bold text-white mb-0.5">Renato Ladeia</p>
+              <p className="text-xs text-[var(--orange)] mb-3">
+                Consultor de Investimentos Independente · CVM · CEA
+              </p>
+              <div className="space-y-2">
+                {[
+                  "Mais de 15 anos no mercado financeiro",
+                  "Certificação CEA — ANBIMA",
+                  "Credenciado CVM",
+                  "Análise independente, sem vínculo com administradoras",
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2">
+                    <span className="text-[var(--orange)] text-xs mt-0.5">▪</span>
+                    <span className="text-xs text-white/60 leading-snug">{item}</span>
+                  </div>
+                ))}
+              </div>
+              <div className="mt-4 pt-4 border-t border-white/10">
+                <a
+                  href={BRAND.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-xs text-white/50 hover:text-[var(--orange)] transition-colors"
+                >
+                  <svg viewBox="0 0 24 24" className="w-4 h-4 fill-current" aria-hidden>
+                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
+                  </svg>
+                  <span>linkedin.com/in/renatoladeia</span>
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Seção 7: Fechamento ──────────────────────────────────────────────────────
+function FechamentoSection() {
+  return (
+    <section className="bg-[var(--orange)] py-8 md:py-10">
+      <div className="max-w-5xl mx-auto px-4">
+        <div className="flex flex-col md:flex-row gap-6 items-start md:items-center justify-between">
+          <div className="flex-1">
+            <h2 className="font-serif text-xl md:text-2xl font-bold text-white mb-2 leading-tight">
+              Use as ferramentas. Depois, traga o seu caso real.
+            </h2>
+            <p className="text-sm text-white/80 mb-2 max-w-xl">
+              Os simuladores ajudam você a entender a lógica. A análise individual ajuda a
+              interpretar seu grupo, sua carta, seu lance e sua capacidade real de seguir no
+              contrato.
+            </p>
+            <p className="text-xs text-white/70 italic">
+              Consórcio bem contratado não começa na assinatura. Começa na conta.
+            </p>
+          </div>
+          <div className="flex flex-col gap-3 flex-shrink-0">
+            <a
+              href={`https://wa.me/${BRAND.whatsapp.replace(/\D/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <button className="w-full bg-white text-[var(--orange)] text-sm font-bold px-6 py-2.5 rounded-full hover:bg-white/90 active:scale-95 transition-all">
+                Pedir análise individual
+              </button>
+            </a>
+            <Link href="/simuladores">
+              <button className="w-full border border-white text-white text-sm font-semibold px-6 py-2.5 rounded-full hover:bg-white/10 active:scale-95 transition-all">
+                Voltar aos simuladores
+              </button>
+            </Link>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+// ─── Página Home ──────────────────────────────────────────────────────────────
+export default function Home() {
+  return (
+    <div>
+      <HeroSection />
+      <ConscienciaSection />
+      <RaioXSection />
+      <ZonaSection />
+      <PanoramaSection />
+      <RenatoSection />
+      <FechamentoSection />
+    </div>
   );
 }

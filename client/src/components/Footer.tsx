@@ -11,12 +11,12 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6">
           {/* Brand */}
           <div className="md:col-span-5">
-            <img src={LOGO.horizontalLight} alt={BRAND.name} className="h-7 w-auto mb-3" />
+            <img src={LOGO.light} alt={BRAND.name} className="h-10 w-auto mb-3" />
             <p className="text-xs text-white/60 max-w-sm leading-relaxed">
-              Plataforma independente de inteligência sobre consórcios. Dados,
-              matemática e análise sem conflito de interesse.
+              Plataforma de simulação e análise de consórcios. Dados, matemática
+              e clareza para você decidir com consciência.
             </p>
-            <p className="mono text-xs text-[var(--orange)] mt-3 tracking-wide">
+            <p className="text-xs text-[var(--orange)] mt-3 tracking-wide font-mono">
               {BRAND.domain}
             </p>
           </div>

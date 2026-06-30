@@ -279,3 +279,15 @@
 - [ ] Termos de Uso — conteúdo jurídico real (pendente do cliente)
 - [ ] Privacidade — política real (pendente do cliente)
 - [ ] og-image.png (1200x630) — imagem de compartilhamento para WhatsApp/LinkedIn (pendente)
+
+## Sprint Logos Reais — Correção Final
+
+- [x] Diagnosticar problema: logos aparecendo como quadrados escuros minúsculos (997 bytes, 120×80px)
+- [x] Processar logo para fundo claro (Header): texto escuro, fundo transparente — 418×300px
+- [x] Processar logo para fundo escuro (Footer): texto branco, fundo transparente — 888×300px
+- [x] Processar logo para PDF: fundo branco, texto escuro — 167×120px
+- [x] Upload das 3 novas logos para CDN Manus
+- [x] Atualizar brand.ts com novas URLs (logo-for-light-bg-v2, logo-for-dark-bg-v2, logo-pdf-v2)
+- [x] Atualizar 7 PDFs com nova URL da logo
+- [x] Aumentar altura das logos: Header h-9 md:h-10, Footer h-10
+- [x] 105/105 testes passando · 0 erros TypeScript

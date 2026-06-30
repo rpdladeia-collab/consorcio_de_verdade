@@ -150,7 +150,7 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
 
   // Logomarca oficial no canto superior direito (pré-carregada como base64)
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-pdf_03e08f7d.jpg";
+    const logoUrl = window.location.origin + "/manus-storage/logo-pdf-v2_dca9a8b9.jpg";
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch {
