@@ -2,15 +2,19 @@
 // Logos hospedadas no storage do projeto (lifecycle do webdev)
 
 export const LOGO = {
-  // Logo com letras BRANCAS + fundo transparente — header escuro, footer, hero escuro, seções pretas
-  light: "/manus-storage/logo-light-transparent-v2_0f1b93a2.png",
-  // Logo com letras ESCURAS + fundo transparente — header claro/branco, fundos off-white, PDFs
-  dark: "/manus-storage/logo-dark-transparent-v2_8d69bcea.png",
+  // Logomarca oficial — fundo preto, r. branco + quadrado laranja
+  light: "/manus-storage/logo-512_b615a51e.png",
+  dark: "/manus-storage/logo-512_b615a51e.png",
   // Aliases para compatibilidade com código existente
-  horizontalLight: "/manus-storage/logo-light-transparent-v2_0f1b93a2.png",
-  horizontalDark: "/manus-storage/logo-dark-transparent-v2_8d69bcea.png",
-  // PDF usa versão escura (cabeçalho branco/claro nos PDFs)
-  official: "/manus-storage/logo-dark-transparent-v2_8d69bcea.png",
+  horizontalLight: "/manus-storage/logo-512_b615a51e.png",
+  horizontalDark: "/manus-storage/logo-512_b615a51e.png",
+  // PDF usa versão JPEG (sem transparência, fundo preto)
+  official: "/manus-storage/logo-pdf_03e08f7d.jpg",
+  // Ícones PWA
+  icon192: "/manus-storage/logo-192_6c388de9.png",
+  icon512: "/manus-storage/logo-512_b615a51e.png",
+  appleTouch: "/manus-storage/apple-touch-icon_3208144c.png",
+  favicon: "/manus-storage/favicon_6f80f926.ico",
 } as const;
 
 export const BRAND = {
@@ -22,5 +26,5 @@ export const BRAND = {
   email: "contato@consorciodeverdade.com.br",
   founder: "Renato",
   disclaimer:
-    "O Consórcio de Verdade é uma plataforma independente de informação e análise. Os conteúdos e simuladores têm caráter educativo e não constituem recomendação financeira, jurídica ou comercial.",
+    "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação.",
 } as const;

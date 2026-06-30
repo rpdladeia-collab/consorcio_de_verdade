@@ -14,7 +14,7 @@ const TRANSPARENCY_TEXT =
   "parâmetros informados pelo usuário e nas regras padrão do Banco Central. O resultado é uma " +
   "projeção independente para apoio à decisão e não substitui a leitura do seu contrato, que pode " +
   "conter regras específicas da administradora. " +
-  "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
+  "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação.";
 
 /* ─── Cores (RGB) ─── */
 const INK: [number, number, number] = [17, 17, 17];
@@ -163,7 +163,7 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
 
   // Logomarca oficial no canto superior direito
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-dark-transparent_4ce4b84a.png";
+    const logoUrl = window.location.origin + "/manus-storage/logo-pdf_03e08f7d.jpg";
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch {
@@ -178,7 +178,7 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
   doc.setFontSize(9);
   doc.setFont("helvetica", "normal");
   doc.setTextColor(180, 180, 180);
-  doc.text("Análise independente · Sem conflito de interesse", 14, 25);
+  doc.text("Simulação matemática · Consórcio de Verdade", 14, 25);
 
   doc.setFontSize(22);
   doc.setFont("helvetica", "bold");

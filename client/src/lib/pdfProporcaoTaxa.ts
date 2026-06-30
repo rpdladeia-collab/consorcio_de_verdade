@@ -12,7 +12,7 @@ const TRANSPARENCY_TEXT =
   "parâmetros informados pelo usuário e nas regras padrão do Banco Central. O resultado é uma " +
   "projeção independente para apoio à decisão e não substitui a leitura do seu contrato, que pode " +
   "conter regras específicas da administradora. " +
-  "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
+  "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação.";
 
 const INK: [number, number, number] = [17, 17, 17];
 const ORANGE: [number, number, number] = [249, 115, 22];
@@ -86,7 +86,7 @@ export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Prom
   doc.setFillColor(...INK);
   doc.rect(0, 0, pw, 52, "F");
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-dark-transparent_4ce4b84a.png";
+    const logoUrl = window.location.origin + "/manus-storage/logo-pdf_03e08f7d.jpg";
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
   } catch { /* sem logo */ }
@@ -95,7 +95,7 @@ export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Prom
   doc.setFontSize(9); doc.setFont("helvetica", "normal"); doc.setTextColor(180, 180, 180);
   doc.text("Raio-X do Consórcio · Módulo 4: Proporção da Taxa", 14, 26);
   doc.setFontSize(8); doc.setTextColor(140, 140, 140);
-  doc.text("Análise independente · Motor Matemático v1.0", 14, 33);
+  doc.text("Simulação matemática · Consórcio de Verdade", 14, 33);
   doc.text(`ID: ${data.simulationId}`, 14, 39);
   doc.setFontSize(7); doc.setTextColor(100, 100, 100);
   doc.text(`Gerado em: ${formatDate(data.generatedAt)}`, 14, 45);

@@ -23,7 +23,7 @@ const FONTE_TEXTO =
   "Seção de reclamações: Consumidor.gov.br (painel público). " +
   "O Consórcio de Verdade não tem a ABAC como fonte de dados.";
 const TRANSPARENCY_TEXT =
-  "Esta é uma projeção matemática independente e não constitui recomendação financeira. " +
+  "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação. " +
   "Os dados apresentados são de fontes oficiais públicas. Nenhuma informação deste relatório " +
   "constitui recomendação de compra ou venda de consórcio.";
 

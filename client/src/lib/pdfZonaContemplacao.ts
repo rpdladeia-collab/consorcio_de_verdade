@@ -14,7 +14,7 @@ const TRANSPARENCY_TEXT =
   "quantitativo de contemplações com base nos dados informados pelo usuário. O resultado é " +
   "educativo e não garante contemplação futura. Consulte sempre o contrato, regulamento, " +
   "regras da administradora, caixa do grupo e critérios de desempate. " +
-  "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
+  "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação.";
 
 /* ─── Cores (RGB) ─── */
 const INK: [number, number, number] = [17, 17, 17];
@@ -202,7 +202,7 @@ export async function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams
   // Pré-carregar logo
   let logoBase64: string | undefined;
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-dark-transparent_4ce4b84a.png";
+    const logoUrl = window.location.origin + "/manus-storage/logo-pdf_03e08f7d.jpg";
     logoBase64 = await loadImageAsBase64(logoUrl);
   } catch { /* sem logo */ }
 
@@ -474,7 +474,7 @@ export async function gerarPdfZonaContemplacao(params: PdfZonaContemplacaoParams
     "Histórico de lance, quantidade de contemplações e taxa histórica observada não garantem contemplação futura. " +
     "Consulte sempre contrato, regulamento, regras da administradora, caixa do grupo e critérios de desempate. " +
     "A leitura depende dos dados informados pelo usuário. " +
-    "Esta é uma projeção matemática independente e não constitui recomendação financeira.";
+    "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação.";
   const leituraLines = doc.splitTextToSize(leituraText, W - 32);
   doc.text(leituraLines, 16, y + 16);
   y += 56;
