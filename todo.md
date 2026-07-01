@@ -400,3 +400,32 @@
 - [x] 6. Cards Principais: 4 cards com novos títulos e subtítulos
 - [x] 7. Título Memória de Cálculo: "Como essa projeção foi construída"
 - [x] 8. CTA Final: "Quer interpretar esse resultado?" + "Pedir análise individual"
+
+
+## SPRINT CRÍTICA — CORREÇÕES GERAIS, UX/UI E DEPLOY EM PRODUÇÃO
+
+### Fase 1: Infraestrutura e Deploy
+- [ ] 1. Limpar cache de build do projeto
+- [ ] 2. Fazer novo commit forçado
+- [ ] 3. Garantir que pipeline de deploy seja concluído com sucesso
+- [ ] 4. Validar que site externo reflete as alterações mais recentes
+
+### Fase 2: Correções na Página r.enatto (Perfil)
+- [ ] 1. Bug do Vídeo: verificar caminho, formato, CORS, autoplay/lazy-load em produção
+- [ ] 2. Logo do LinkedIn: remover fundo laranja, deixar apenas ícone branco
+- [ ] 3. Novo Copy (Texto): substituir texto atual pela versão aprovada (6 parágrafos)
+- [ ] 4. Layout sem Rolagem: ajustar CSS para height: 100vh, overflow: hidden no desktop
+
+### Fase 3: Melhorias UX/UI na Zona de Contemplação
+- [ ] 1. Reduzir excesso de espaço vertical (paddings e margens)
+- [ ] 2. Priorizar leitura do resultado (cards como diagnóstico principal)
+- [ ] 3. Melhorar área do termômetro (destaque visual do lance testado)
+- [ ] 4. Melhorar gráfico (diferenças entre lances mais evidentes)
+- [ ] 5. Responsividade: desktop aproveita largura, mobile não fica excessivamente empilhado
+- [ ] 6. Exemplo Fixo no Input: adicionar placeholder/texto de apoio (Ex: 45,5%)
+
+### Fase 4: Validação Final
+- [ ] 1. TypeScript: 0 erros
+- [ ] 2. Build Vite: sucesso
+- [ ] 3. Testes Vitest: todos passando
+- [ ] 4. Checkpoint final e deploy em produção
