@@ -196,7 +196,7 @@ export default function SimuladorCustoOperacao() {
           hint="Custo adicional projetado" tone="orange" />
         <KpiCard label="Seguro projetado" value={brl(result.kpis.projectedInsurance)}
           hint="Total ao longo do prazo" tone="default" />
-        <KpiCard label="Custo explícito total" value={brl(result.kpis.explicitCost)}
+        <KpiCard label="Quanto custa contratar o crédito" value={brl(result.kpis.explicitCost)}
           hint="Adm. projetada + seguro" highlight={true} />
       </div>
 
@@ -208,6 +208,12 @@ export default function SimuladorCustoOperacao() {
             <p className="whitespace-pre-line">{rb.body}</p>
           </MeaningBlock>
         ))}
+      </div>
+
+      {/* Frase de impacto */}
+      <div className="mb-6">
+        <h3 className="text-lg font-bold text-foreground mb-2">O número que quase ninguém mostra</h3>
+        <p className="text-sm text-foreground/70">A parcela mensal pode parecer simples. O custo acumulado conta outra história.</p>
       </div>
 
       {/* Tabela de classificação econômica */}
@@ -292,7 +298,7 @@ export default function SimuladorCustoOperacao() {
         { label: "Taxa adm. contratual", value: brl(result.kpis.contractualAdmin),
           formula: `${brl(result.rows[0]?.credit ?? 0)} × taxa adm.` },
         { label: "Adm. sobre correções", value: brl(result.kpis.adminCorrection),
-          formula: "taxa adm. aplicada sobre o delta de correção acumulado" },
+          formula: "taxa adm. aplicada sobre a correção do fundo comum" },
         { label: "Seguro projetado", value: brl(result.kpis.projectedInsurance),
           formula: "% seguro × saldo pós-parcela, acumulado no prazo" },
         { label: "Custo explícito total", value: brl(result.kpis.explicitCost),
@@ -313,7 +319,11 @@ export default function SimuladorCustoOperacao() {
       <div className="flex flex-wrap gap-3">
         <PdfButton onClick={handlePdf} loading={pdfLoading} />
       </div>
-      <ConsultCTA context="a análise de custo da operação" />
+      <ConsultCTA context="esses números" />
+      <div className="rounded-2xl border border-border bg-card py-4 px-5">
+        <p className="font-semibold text-sm">Quer interpretar esses números?</p>
+        <p className="text-xs text-foreground/60 mt-1">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
+      </div>
     </div>
   ) : null;
 
@@ -321,7 +331,8 @@ export default function SimuladorCustoOperacao() {
     <RaioXLayout
       moduleNumber={3}
       title="Raio-X do Custo Total"
-      description="Identifique o custo explícito da operação: taxa de administração projetada e seguro. Entenda o que é custo real e o que é atualização monetária."
+      description="Consórcio não tem juros, mas tem correção e isso muda tudo !!"
+      descriptionSupport="Veja o custo real da operação, separando taxa, seguro, fundo de reserva e correções para entender o que você está pagando e o que é apenas atualização monetária."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

@@ -353,3 +353,22 @@
 - [x] 6. Criação do Card "Diagnóstico do Lance" (Novo Componente)
 - [x] 7. Reversão do CTA na seção "Raio-X da Parcela"
 - [x] 8. Inserção de Logomarca no Hero (Global para todos os simuladores)
+
+
+## 9 ALTERAÇÕES RAIO-X DO CUSTO TOTAL (MÓDULO 3)
+
+- [x] 1. PRIORIDADE 1: Correção do PDF - Avisos do Motor de Cálculo (truncamento)
+- [x] 2. PRIORIDADE 2: Padronizar "Delta de correção acumulado" → "Correção do fundo comum"
+- [x] 3. PRIORIDADE 2: Adicionar contraponto sobre risco de indexação
+- [x] 4. PRIORIDADE 3: Arredondamento - Total Pago Nominal (discépancia de R$ 0,24)
+- [x] 5. PRIORIDADE 4: Textos do Hero Section (novo hook e subtexto)
+- [x] 6. PRIORIDADE 4: Título do Card de Custo ("Custo explícito total" → "Quanto custa contratar o crédito")
+- [x] 7. PRIORIDADE 4: Títulos dos Blocos Pretos (4 blocos com novos títulos)
+- [x] 8. PRIORIDADE 4: Nova Frase de Impacto antes da Tabela
+- [x] 9. PRIORIDADE 4: Atualização do CTA Final
+
+## 3 ALTERAÇÕES GLOBAIS DE LOGOMARCAS
+
+- [x] 10. Alterar tamanho das logomarcas no Hero dos simuladores (mesmo tamanho da tela inicial)
+- [x] 11. Substituir logomarca no Footer de todas as páginas (usar r.enatto branca)
+- [x] 12. Remover informações de Renato da tela inicial ("Renato Ladeia / Consultor de Investimentos Independente · CVM · CEA")

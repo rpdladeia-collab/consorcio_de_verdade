@@ -111,19 +111,19 @@ export function runOperationCost(input: CustoOperacaoInput): CustoOperacaoResult
   // Textos exatos das <div class="readbox"> — HTML linhas 481-484
   const readboxes = [
     {
-      title: 'O que é custo aqui',
+      title: 'ONDE ESTÁ O CUSTO?',
       body: 'Custo explícito é somente aquilo que remunera a operação ou sai como encargo: taxa de administração projetada e seguro informado separadamente. A correção do fundo comum não entra como custo isolado.',
     },
     {
-      title: 'O que não pode ser lido como lucro',
+      title: 'O QUE PARECE LUCRO, MAS NÃO É',
       body: 'Não usamos "total pago − carta final corrigida" como KPI de custo, porque isso mistura desembolsos nominais ao longo do tempo com crédito corrigido no futuro. Essa leitura pode gerar número negativo e parecer lucro, o que é tecnicamente enganoso.',
     },
     {
-      title: 'Alerta sobre fundo comum',
-      body: `O fundo comum residual aumentou ${moneyStr(s.fcCorrection)} pelas correções. Isso não deve ser tratado como custo isolado: a carta de crédito também aumentou ${moneyStr(creditIncrease)}. A correção atualiza poder de compra e obrigação restante.`,
+      title: 'CORREÇÃO NÃO É TAXA. MAS AUMENTA A CONTA',
+      body: `O fundo comum residual aumentou ${moneyStr(s.fcCorrection)} pelas correções. Isso não deve ser tratado como custo isolado: a carta de crédito também aumentou ${moneyStr(creditIncrease)}. A correção atualiza poder de compra e obrigação restante. Atenção: Embora a carta também seja atualizada, a correção expõe o cliente a um índice fora de seu controle (risco de indexação), o que deve ser considerado como um custo de oportunidade e risco na operação.`,
     },
     {
-      title: 'Composição projetada',
+      title: 'COMPOSIÇÃO FINAL DA OPERAÇÃO',
       body: `Taxa adm. total projetada: ${moneyStr(projectedAdmin)}\nSeguro projetado: ${moneyStr(projectedInsurance)}\nFundo reserva projetado: ${moneyStr(contractualReserve + s.reserveCorrection)}\nTotal pago nominal no fluxo: ${moneyStr(totalPaidNominal)}`,
     },
   ];

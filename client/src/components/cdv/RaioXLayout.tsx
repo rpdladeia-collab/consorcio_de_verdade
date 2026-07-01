@@ -47,7 +47,7 @@ export default function RaioXLayout({
             <img
               src="/manus-storage/logo-renatto_75f2521c.png"
               alt="r.enatto"
-              className="h-8 md:h-10 w-auto object-contain"
+              className="h-9 md:h-10 w-auto object-contain"
             />
             <img
               src={LOGO.light}

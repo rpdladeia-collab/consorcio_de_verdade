@@ -443,15 +443,7 @@ function RenatoSection() {
             </div>
           </div>
 
-          {/* Credenciais */}
-          <div className="w-full md:w-64 flex-shrink-0">
-            <div className="border border-white/15 rounded-xl p-5">
-              <p className="text-sm font-bold text-white mb-2">Renato Ladeia</p>
-              <p className="text-xs text-white/75 leading-relaxed text-left">
-                Consultor de Investimentos Independente · CVM · CEA
-              </p>
-            </div>
-          </div>
+
         </div>
       </div>
     </section>
