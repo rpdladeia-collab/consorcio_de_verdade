@@ -301,3 +301,11 @@
 - [x] Correção 5: Corrigir link 404 do botão "Testar meu lance" (Zona de Contemplação)
 - [x] Correção 6a: Padronizar nome "r.enatto" na seção final (minúsculas, padrão marca, quadrado laranja)
 - [x] Correção 6b: Limpar box direita seção r.enatto (apenas "Renato Ladeia" + "Consultor de Investimentos Independente · CVM · CEA")
+
+
+## Sprint Responsividade Mobile e Logomarcas (Prompt 3)
+
+- [ ] Correção 1: Responsividade das Tabelas (overflow-x-auto em mobile)
+- [ ] Correção 2: Responsividade dos Formulários (flex-col em mobile)
+- [ ] Correção 3: Remover fundos sólidos das logomarcas (usar apenas transparente)
+- [ ] Correção 4: Deploy e validação em produção
