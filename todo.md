@@ -372,3 +372,14 @@
 - [x] 10. Alterar tamanho das logomarcas no Hero dos simuladores (mesmo tamanho da tela inicial)
 - [x] 11. Substituir logomarca no Footer de todas as páginas (usar r.enatto branca)
 - [x] 12. Remover informações de Renato da tela inicial ("Renato Ladeia / Consultor de Investimentos Independente · CVM · CEA")
+
+
+## 4 CORREÇÕES CRÍTICAS (NOVO PROMPT)
+
+- [x] 1. Remover texto de apoio quebrado do CTA (Global)
+- [x] 2. Restaurar estrutura original do card CTA
+- [x] 3. Aplicar textos corretos para Módulo 3 (Raio-X do Custo Total)
+- [x] 4. Garantir CTAs dos Módulos 1 e 2 com botão simples
+- [x] 5. Aumentar logomarca 60% no Hero (w-28 md:w-40)
+- [x] 6. Corrigir títulos dos accordions (remover "CUSTO DA OPERAÇÃO" genérico)
+- [x] 7. Melhorar tipografia dos textos de apoio (Hook + Descrição)

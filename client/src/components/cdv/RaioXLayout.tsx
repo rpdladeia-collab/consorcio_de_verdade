@@ -47,7 +47,7 @@ export default function RaioXLayout({
             <img
               src="/manus-storage/logo-renatto_75f2521c.png"
               alt="r.enatto"
-              className="h-9 md:h-10 w-auto object-contain"
+              className="w-28 md:w-40 h-auto object-contain"
             />
             <img
               src={LOGO.light}
@@ -78,11 +78,11 @@ export default function RaioXLayout({
             </span>
           </p>
 
-          <h1 className="text-xl md:text-2xl font-bold mb-1">{title}</h1>
-          <p className="text-white/60 max-w-xl leading-relaxed text-xs">
+          <h1 className="text-xl md:text-2xl font-bold mb-3">{title}</h1>
+          <p className="text-white font-bold text-base md:text-lg max-w-xl leading-relaxed">
             {description.startsWith("Parcela baixa vende fácil") ? (
               <>
-                <strong className="text-[var(--orange)] font-bold">Parcela baixa vende fácil. Conta mal feita cobra caro.</strong>
+                <span className="text-[var(--orange)]">Parcela baixa vende fácil. Conta mal feita cobra caro.</span>
                 {" "}
                 {description.substring("Parcela baixa vende fácil. Conta mal feita cobra caro.".length)}
               </>
@@ -91,7 +91,7 @@ export default function RaioXLayout({
             )}
           </p>
           {descriptionSupport && (
-            <p className="text-white/50 max-w-xl leading-relaxed text-xs mt-2">
+            <p className="text-gray-300 max-w-xl leading-relaxed text-base md:text-lg mt-4 font-medium">
               {descriptionSupport}
             </p>
           )}

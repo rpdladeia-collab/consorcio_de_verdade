@@ -427,12 +427,10 @@ export function ConsultCTA({
     <div className="rounded-2xl border border-border bg-card py-4 px-5 flex flex-col md:flex-row md:items-center gap-4">
       <div className="flex-1">
         <p className="font-semibold text-sm">
-          Quer validar {context} com um especialista?
+          {context === "esta análise" ? "Quer interpretar esses números?" : "Quer validar " + context + " com um especialista?"}
         </p>
         <p className="text-xs text-foreground/60 mt-1 max-w-xl">
-          Você pode usar todos os simuladores gratuitamente. Se preferir uma
-          leitura humana e personalizada da sua proposta, fale diretamente com o
-          especialista — sem compromisso.
+          {context === "esta análise" ? "Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos." : "Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso."}
         </p>
       </div>
       {variant === "old" ? (
@@ -446,20 +444,15 @@ export function ConsultCTA({
           Falar com o especialista
         </a>
       ) : (
-        <div className="flex flex-col items-start gap-1">
-          <a
-            href={BRAND.whatsapp}
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-3 text-sm font-semibold whitespace-nowrap transition-transform hover:scale-[1.02]"
-          >
-            <MessageCircle className="w-4 h-4" />
-            Pedir uma análise individual
-          </a>
-          <small className="text-xs text-foreground/50 mt-1">
-            A análise é feita diretamente por Renato Ladeia. Sem equipe comercial. Sem intermediários.
-          </small>
-        </div>
+        <a
+          href={BRAND.whatsapp}
+          target="_blank"
+          rel="noreferrer"
+          className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-3 text-sm font-semibold whitespace-nowrap transition-transform hover:scale-[1.02]"
+        >
+          <MessageCircle className="w-4 h-4" />
+          Pedir uma análise individual
+        </a>
       )}
     </div>
   );

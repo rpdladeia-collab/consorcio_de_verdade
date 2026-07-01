@@ -203,8 +203,7 @@ export default function SimuladorCustoOperacao() {
       {/* Leitura técnica — readboxes do HTML */}
       <div className="space-y-3">
         {result.readboxes.map((rb, i) => (
-          <MeaningBlock key={i} label="Custo da Operação">
-            <p className="font-semibold text-sm mb-1">{rb.title}</p>
+          <MeaningBlock key={i} label={rb.title}>
             <p className="whitespace-pre-line">{rb.body}</p>
           </MeaningBlock>
         ))}
