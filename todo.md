@@ -319,3 +319,12 @@
 - [x] 4. Padronizar PDFs: cabeçalho discreto com 2 linhas finas + logo transparente branca
 - [x] 5. Deletar simulador "Lance embutido: vale a pena no seu caso?" (rota, card, link, página)
 - [x] 6. Sincronizar Home Simuladores com Raio-X (mesmos nomes, ordem, quantidade, links)
+
+
+## CORREÇÕES URGENTES (PÓS CHECKPOINT)
+
+- [x] 1. Restaurar simulador "Raio-X do Lance" (Contemplação) — foi deletado por engano
+- [x] 2. Corrigir logomarcas preto com fundo preto — verificadas, todas corretas
+- [x] 3. Verificar vídeo na seção final — funcionando corretamente em /sobre
+- [x] 4. Garantir rolagem horizontal em tabelas/gráficos do Raio-X — já configuradas
+- [x] 5. Validação final e deploy

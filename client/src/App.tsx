@@ -34,6 +34,7 @@ function Router() {
       <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
       <Route path={"/simulador/simule-seu-plano"} component={SimuladorSimulePlano} />
       <Route path={"/simulador/contemplacao"} component={SimuladorContemplacao} />
+      <Route path={"/simulador/raio-x-do-lance"} component={SimuladorContemplacao} />
       <Route path={"/simulador/custo-operacao"} component={SimuladorCustoOperacao} />
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simulador/historico-correcoes"} component={SimuladorHistoricoCorrecoes} />
