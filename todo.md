@@ -341,3 +341,15 @@
 - [x] 7. Padronização Global de CTAs — Novo padrão duplo com texto de apoio
 - [x] 8. Atualização do Favicon — Substituir por logo "r." com ponto laranja
 - [x] 9. Reposicionamento do Ícone INCC — Mover para helper text
+
+
+## 8 ALTERAÇÕES RAIO-X DO LANCE (NOVO PROMPT)
+
+- [x] 1. Textos do Hero Section: Hook + Parágrafo
+- [x] 2. Título do Accordion de Projeção Mensal: "Ver projeção mensal completa" → "Como ficam todas as parcelas?"
+- [x] 3. Título do Accordion de Memória de Cálculo: "MEMÓRIA DE CÁLCULO" → "Como chegamos nesse numero?"
+- [x] 4. Subtítulo do Card "Força de Lance": "Base: carta" → "Base: carta atualizada"
+- [x] 5. Subtítulo do Card "Parcela Pós-Lance": "1ª parcela projetada após o lance" → "1ª parcela aproximada após o lance"
+- [x] 6. Criação do Card "Diagnóstico do Lance" (Novo Componente)
+- [x] 7. Reversão do CTA na seção "Raio-X da Parcela"
+- [x] 8. Inserção de Logomarca no Hero (Global para todos os simuladores)

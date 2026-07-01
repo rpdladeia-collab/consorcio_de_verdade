@@ -313,7 +313,7 @@ export function CalcMemory({
       >
         <div className="flex items-center gap-2">
           <FileText className="w-4 h-4 text-[var(--orange)]" />
-          <span className="eyebrow text-white/50">Memória de cálculo</span>
+          <span className="eyebrow text-white/50">Como chegamos nesse numero?</span>
         </div>
         <ChevronDown
           className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
@@ -418,8 +418,10 @@ export function MethodologyBlock({
 ---------------------------------------------------------------------------- */
 export function ConsultCTA({
   context = "esta análise",
+  variant = "new",
 }: {
   context?: string;
+  variant?: "new" | "old";
 }) {
   return (
     <div className="rounded-2xl border border-border bg-card py-4 px-5 flex flex-col md:flex-row md:items-center gap-4">
@@ -433,7 +435,7 @@ export function ConsultCTA({
           especialista — sem compromisso.
         </p>
       </div>
-      <div className="flex flex-col items-start gap-1">
+      {variant === "old" ? (
         <a
           href={BRAND.whatsapp}
           target="_blank"
@@ -441,12 +443,24 @@ export function ConsultCTA({
           className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-3 text-sm font-semibold whitespace-nowrap transition-transform hover:scale-[1.02]"
         >
           <MessageCircle className="w-4 h-4" />
-          Pedir uma análise individual
+          Falar com o especialista
         </a>
-        <small className="text-xs text-foreground/50 mt-1">
-          A análise é feita diretamente por Renato Ladeia. Sem equipe comercial. Sem intermediários.
-        </small>
-      </div>
+      ) : (
+        <div className="flex flex-col items-start gap-1">
+          <a
+            href={BRAND.whatsapp}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-3 text-sm font-semibold whitespace-nowrap transition-transform hover:scale-[1.02]"
+          >
+            <MessageCircle className="w-4 h-4" />
+            Pedir uma análise individual
+          </a>
+          <small className="text-xs text-foreground/50 mt-1">
+            A análise é feita diretamente por Renato Ladeia. Sem equipe comercial. Sem intermediários.
+          </small>
+        </div>
+      )}
     </div>
   );
 }

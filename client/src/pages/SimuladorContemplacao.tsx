@@ -266,13 +266,30 @@ export default function SimuladorContemplacao() {
       {/* KPIs — grid 2×2 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Força de lance" value={formatPct(result.forcePct)}
-          hint={`Base: ${result.baseLabel}`} tone={forceTone(result.forcePct)} />
+          hint="Base: carta atualizada" tone={forceTone(result.forcePct)} />
         <KpiCard label="Lance total" value={brl(result.totalLance)}
           hint="Próprio + FGTS + embutido" tone="orange" />
         <KpiCard label="Carta líquida" value={brl(result.creditLiquid)}
           hint="Carta menos lance embutido" tone={liquidTone(result.creditLiquid, result.credit)} />
         <KpiCard label="Parcela pós-lance" value={brlc(result.postLanceInstallment)}
-          hint="1ª parcela projetada após o lance" tone="default" />
+          hint="1ª parcela aproximada após o lance" tone="default" />
+      </div>
+
+      {/* Diagnóstico do Lance */}
+      <div className="rounded-2xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-5">
+        <div className="flex items-start gap-3">
+          <div className="flex-shrink-0 mt-0.5">
+            <svg className="w-5 h-5 text-[var(--orange)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="font-semibold text-sm mb-2">Diagnóstico do lance</h3>
+            <p className="text-xs leading-relaxed text-foreground/70">
+              Seu lance representa {formatPct(result.forcePct)} da carta. Desse total, {brl(result.own + result.fgts)} saem do seu patrimônio e {brl(result.embedded)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {brlc(result.postLanceInstallment)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* Leitura técnica */}
@@ -320,7 +337,7 @@ export default function SimuladorContemplacao() {
           onClick={() => setProjOpen(!projOpen)}
           className="w-full flex items-center justify-between px-4 py-3 bg-card hover:bg-secondary/30 transition-colors text-sm font-semibold"
         >
-          <span>Ver projeção mensal completa</span>
+          <span>Como ficam todas as parcelas?</span>
           <ChevronDown className={`w-4 h-4 transition-transform ${projOpen ? "rotate-180" : ""}`} />
         </button>
         {projOpen && (
@@ -398,7 +415,8 @@ export default function SimuladorContemplacao() {
     <RaioXLayout
       moduleNumber={2}
       title="Raio-X do Lance"
-      description="Lance não é mágica. É dinheiro seu na mesa. Calcule a força do lance, o impacto na carta líquida e a parcela depois da contemplação antes de assumir que essa estratégia faz sentido."
+      description="Seu lance compra contemplação. Ou compra frustração."
+      descriptionSupport="Antes de colocar dinheiro na mesa, descubra quanto ele realmente aumenta sua chance de contemplação, quanto reduz seu crédito e qual será o impacto financeiro depois da assembleia."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

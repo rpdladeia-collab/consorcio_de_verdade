@@ -22,6 +22,7 @@ interface RaioXLayoutProps {
   moduleNumber: number;
   title: string;
   description: string;
+  descriptionSupport?: string;
   formPanel: React.ReactNode;
   resultsPanel: React.ReactNode;
   hasResult: boolean;
@@ -31,6 +32,7 @@ export default function RaioXLayout({
   moduleNumber,
   title,
   description,
+  descriptionSupport,
   formPanel,
   resultsPanel,
   hasResult,
@@ -41,11 +43,18 @@ export default function RaioXLayout({
       <section className="bg-[var(--ink)] text-white py-5 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
         <div className="max-w-6xl mx-auto relative">
           {/* Logo canto superior direito */}
-          <img
-            src={LOGO.light}
-            alt={BRAND.name}
-            className="absolute top-0 right-0 h-7 md:h-8 w-auto object-contain"
-          />
+          <div className="absolute top-0 right-0 flex items-center gap-3">
+            <img
+              src="/manus-storage/logo-renatto_75f2521c.png"
+              alt="r.enatto"
+              className="h-8 md:h-10 w-auto object-contain"
+            />
+            <img
+              src={LOGO.light}
+              alt={BRAND.name}
+              className="h-7 md:h-8 w-auto object-contain"
+            />
+          </div>
           {/* Botão Voltar */}
           <Link
             href="/simuladores"
@@ -81,6 +90,11 @@ export default function RaioXLayout({
               description
             )}
           </p>
+          {descriptionSupport && (
+            <p className="text-white/50 max-w-xl leading-relaxed text-xs mt-2">
+              {descriptionSupport}
+            </p>
+          )}
         </div>
       </section>
 

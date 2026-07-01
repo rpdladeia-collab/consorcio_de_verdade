@@ -336,7 +336,7 @@ export default function SimuladorSimulePlano() {
       }} />
 
       {/* CTA */}
-      <ConsultCTA context="o fluxo do seu plano" />
+      <ConsultCTA context="o fluxo do seu plano" variant="old" />
     </div>
   ) : null;
 
