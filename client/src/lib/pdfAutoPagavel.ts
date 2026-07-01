@@ -80,24 +80,17 @@ export async function generatePdfAutoPagavel(data: PdfAutoPagavelData): Promise<
   const pw = doc.internal.pageSize.getWidth();
   let y = 0;
 
-  // Cabeçalho
-  doc.setFillColor(...INK);
-  doc.rect(0, 0, pw, 52, "F");
+  // Cabeçalho editorial
+  doc.setDrawColor(...GRAY);
+  doc.setLineWidth(0.3);
+  doc.line(14, 8, pw - 14, 8);
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-pdf-v2_dca9a8b9.jpg";
+    const logoUrl = window.location.origin + "/brand/logo-light.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
+    doc.addImage(logoBase64, "PNG", pw - 20, 5, 12, 12);
   } catch { /* sem logo */ }
-  doc.setFontSize(18); doc.setFont("helvetica", "bold"); doc.setTextColor(...ORANGE);
-  doc.text("Consórcio de Verdade", 14, 18);
-  doc.setFontSize(9); doc.setFont("helvetica", "normal"); doc.setTextColor(180, 180, 180);
-  doc.text("Raio-X do Consórcio · Módulo 6: Auto Pagável?", 14, 26);
-  doc.setFontSize(8); doc.setTextColor(140, 140, 140);
-  doc.text("Simulação matemática · Consórcio de Verdade", 14, 33);
-  doc.text(`ID: ${data.simulationId}`, 14, 39);
-  doc.setFontSize(7); doc.setTextColor(100, 100, 100);
-  doc.text(`Gerado em: ${formatDate(data.generatedAt)}`, 14, 45);
-  y = 60;
+  doc.line(14, 22, pw - 14, 22);
+  y = 30;
 
   // Parâmetros
   doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);

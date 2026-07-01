@@ -157,40 +157,25 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
   const pw = doc.internal.pageSize.getWidth();
   let y = 0;
 
-  /* ── CABEÇALHO ── */
-  doc.setFillColor(...INK);
-  doc.rect(0, 0, pw, 52, "F");
+  /* ── CABEÇALHO EDITORIAL ── */
+  // Linha horizontal fina superior
+  doc.setDrawColor(...GRAY);
+  doc.setLineWidth(0.3);
+  doc.line(14, 8, pw - 14, 8);
 
-  // Logomarca oficial no canto superior direito
+  // Logo transparente branca no canto superior direito
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-pdf-v2_dca9a8b9.jpg";
+    const logoUrl = window.location.origin + "/brand/logo-light.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
+    doc.addImage(logoBase64, "PNG", pw - 20, 5, 12, 12);
   } catch {
     // Logo não disponível — continua sem ela
   }
 
-  doc.setFontSize(18);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...ORANGE);
-  doc.text("Consórcio de Verdade", 14, 18);
+  // Linha horizontal fina inferior
+  doc.line(14, 22, pw - 14, 22);
 
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(180, 180, 180);
-  doc.text("Simulação matemática · Consórcio de Verdade", 14, 25);
-
-  doc.setFontSize(22);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...WHITE);
-  doc.text("Contemplação", 14, 40);
-
-  doc.setFontSize(8);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(...ORANGE);
-  doc.text("MÓDULO 2", 14, 47);
-
-  y = 62;
+  y = 30;
 
   /* ── PARÂMETROS ── */
   doc.setFontSize(10);

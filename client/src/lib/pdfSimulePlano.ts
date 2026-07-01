@@ -143,45 +143,25 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   const pw = doc.internal.pageSize.getWidth();
   let y = 0;
 
-  /* ── CAPA / CABEÇALHO ── */
-  // Fundo escuro
-  doc.setFillColor(...INK);
-  doc.rect(0, 0, pw, 52, "F");
+  /* ── CABEÇALHO EDITORIAL ── */
+  // Linha horizontal fina superior
+  doc.setDrawColor(...GRAY);
+  doc.setLineWidth(0.3);
+  doc.line(14, 8, pw - 14, 8);
 
-  // Logomarca oficial no canto superior direito (pré-carregada como base64)
+  // Logo transparente branca no canto superior direito
   try {
-    const logoUrl = window.location.origin + "/manus-storage/logo-pdf-v2_dca9a8b9.jpg";
+    const logoUrl = window.location.origin + "/brand/logo-light.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 22, 9, 14, 14);
+    doc.addImage(logoBase64, "PNG", pw - 20, 5, 12, 12);
   } catch {
     // Logo não disponível — continua sem ela
   }
 
-  // Logomarca textual
-  doc.setFontSize(18);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...ORANGE);
-  doc.text("Consórcio de Verdade", 14, 18);
+  // Linha horizontal fina inferior
+  doc.line(14, 22, pw - 14, 22);
 
-  // Subtítulo
-  doc.setFontSize(9);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(180, 180, 180);
-  doc.text("Simulação matemática · Consórcio de Verdade", 14, 25);
-
-  // Título do relatório
-  doc.setFontSize(22);
-  doc.setFont("helvetica", "bold");
-  doc.setTextColor(...WHITE);
-  doc.text("Raio-X da Parcela", 14, 40);
-
-  // Módulo
-  doc.setFontSize(8);
-  doc.setFont("helvetica", "normal");
-  doc.setTextColor(...ORANGE);
-  doc.text("MÓDULO 1", 14, 47);
-
-  y = 62;
+  y = 30;
 
   /* ── PARÂMETROS ── */
   doc.setFontSize(10);

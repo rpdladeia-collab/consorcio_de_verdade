@@ -12,7 +12,7 @@ import Sobre from "./pages/Sobre";
 import Contato from "./pages/Contato";
 import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
-import SimuladorLanceEmbutido from "./pages/SimuladorLanceEmbutido";
+
 import SimuladorZonaContemplacao from "./pages/SimuladorZonaContemplacao";
 import SimuladorLanceLivre from "./pages/SimuladorLanceLivre";
 import SimuladorSimulePlano from "./pages/SimuladorSimulePlano";
@@ -29,7 +29,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path={"/simuladores"} component={Simuladores} />
-      <Route path={"/simulador/lance-embutido"} component={SimuladorLanceEmbutido} />
+
       <Route path={"/simulador/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
       <Route path={"/simulador/simule-seu-plano"} component={SimuladorSimulePlano} />

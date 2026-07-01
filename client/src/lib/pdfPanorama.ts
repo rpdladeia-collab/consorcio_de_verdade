@@ -505,7 +505,7 @@ export async function gerarPdfPanorama(bloco: string): Promise<void> {
 
   let logoBase64: string | undefined;
   try {
-    logoBase64 = await loadImageAsBase64(LOGO.dark);
+    logoBase64 = await loadImageAsBase64("/brand/logo-light.png");
   } catch {
     logoBase64 = undefined;
   }

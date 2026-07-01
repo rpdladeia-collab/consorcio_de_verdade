@@ -309,3 +309,13 @@
 - [ ] Correção 2: Responsividade dos Formulários (flex-col em mobile)
 - [ ] Correção 3: Remover fundos sólidos das logomarcas (usar apenas transparente)
 - [ ] Correção 4: Deploy e validação em produção
+
+
+## SPRINT: CORREÇÕES PONTUAIS (PROMPT FECHADO - SEM IMPROVISO)
+
+- [x] 1. Auditoria Global de Logomarcas: verificar Header, Footer, Home, Raio-X, Zona, Panorama, r.enatto, Simuladores, PDFs, Modais, Mobile, Desktop
+- [x] 2. Remover "A CONTA ANTES DO CONTRATO" da Home
+- [x] 3. Corrigir posicionamento do ícone INCC (ao lado da palavra, não do campo)
+- [x] 4. Padronizar PDFs: cabeçalho discreto com 2 linhas finas + logo transparente branca
+- [x] 5. Deletar simulador "Lance embutido: vale a pena no seu caso?" (rota, card, link, página)
+- [x] 6. Sincronizar Home Simuladores com Raio-X (mesmos nomes, ordem, quantidade, links)

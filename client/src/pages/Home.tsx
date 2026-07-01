@@ -114,30 +114,7 @@ function ConscienciaSection() {
             </Link>
           </div>
 
-          {/* Diagrama editorial */}
-          <div className="w-full md:w-64 flex-shrink-0">
-            <div className="border border-white/15 rounded-xl p-4">
-              <p className="text-[10px] tracking-widest uppercase text-white/40 mb-3 text-center">
-                A conta antes do contrato
-              </p>
-              <div className="flex flex-wrap gap-2 justify-center mb-3">
-                {nodes.map((n) => (
-                  <span
-                    key={n}
-                    className="text-[10px] border border-[var(--orange)]/40 text-[var(--orange)] px-2 py-1 rounded"
-                  >
-                    {n}
-                  </span>
-                ))}
-              </div>
-              <div className="border-t border-white/10 pt-3 text-center">
-                <span className="text-2xl font-serif font-bold text-white">CONSÓRCIO</span>
-              </div>
-              <p className="text-[10px] text-white/40 text-center mt-2">
-                Quando você olha só a parcela, você enxerga pouco.
-              </p>
-            </div>
-          </div>
+
         </div>
 
         {/* Cards */}
@@ -164,36 +141,30 @@ function RaioXSection() {
       text: "Veja como a parcela pode mudar com o tempo, especialmente quando entram correções, seguros e saldo devedor.",
       href: "/simulador/simule-seu-plano",
     },
+
     {
       num: "02",
-      name: "Raio-X do Lance",
-      call: "Dar lance é fácil. Saber se ele compra chance é outra história.",
-      text: "Entenda se o lance aproxima você da contemplação ou apenas aumenta o esforço financeiro.",
-      href: "/simulador/lance-embutido",
-    },
-    {
-      num: "03",
-      name: "Custo Total",
+      name: "Raio-X do Custo Total",
       call: "Sem juros não significa sem conta.",
       text: "Separe crédito, taxa, seguro, fundo de reserva e correção para entender o custo real da operação.",
       href: "/simulador/custo-operacao",
     },
     {
-      num: "04",
-      name: "Eficiência da Taxa",
+      num: "03",
+      name: "Raio-X da Eficiência da Taxa",
       call: "Crédito contratado é uma coisa. Dinheiro novo é outra.",
       text: "Veja quanto da operação chega de fato até você e quanto fica no caminho.",
       href: "/simulador/proporcao-taxa",
     },
     {
-      num: "05",
-      name: "Correções",
+      num: "04",
+      name: "Raio-X das Correções",
       call: "O juro saiu da conversa. O reajuste ficou.",
       text: "Simule como a correção pode afetar carta, saldo e parcela ao longo do contrato.",
       href: "/simulador/historico-correcoes",
     },
     {
-      num: "06",
+      num: "05",
       name: "Auto pagável?",
       call: "Quando a promessa é bonita, a matemática precisa assinar embaixo.",
       text: "Teste se a carta realmente se paga depois da contemplação ou se a conta só fecha no discurso.",
