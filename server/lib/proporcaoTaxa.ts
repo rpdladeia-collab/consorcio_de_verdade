@@ -184,20 +184,20 @@ export function calcDegradacaoProgressiva(
   if (perdaTotal > 35) {
     alerta = {
       nivel: 'critico',
-      titulo: `🔴 CRÍTICO: Sua eficiência caiu ${perdaTotal.toFixed(1)}%`,
-      mensagem: `VOCÊ ESTÁ PAGANDO UMA TAXA MUITO ALTA SOBRE DINHEIRO NOVO. A operação perdeu eficiência. Considere negociar sua contemplação.`,
+      titulo: `Alerta de eficiência`,
+      mensagem: `A eficiência projetada caiu ao longo do prazo. Isso significa que o custo da operação aumenta proporcionalmente quando comparado ao dinheiro novo utilizado.`,
     };
   } else if (perdaTotal > 20) {
     alerta = {
       nivel: 'alerta',
-      titulo: `⚠️⚠️ ALERTA: Sua eficiência caiu ${perdaTotal.toFixed(1)}%`,
-      mensagem: `Você está pagando taxa de ${isFinite(taxaEfetivaFinal) ? taxaEfetivaFinal.toFixed(1) : '?'}% sobre dinheiro novo. Reavalie sua posição no consórcio.`,
+      titulo: `Alerta de eficiência`,
+      mensagem: `A eficiência projetada caiu ao longo do prazo. Isso significa que o custo da operação aumenta proporcionalmente quando comparado ao dinheiro novo utilizado.`,
     };
   } else if (perdaTotal > 10) {
     alerta = {
       nivel: 'atencao',
-      titulo: `⚠️ ATENÇÃO: Sua eficiência caiu ${perdaTotal.toFixed(1)}%`,
-      mensagem: `A cada parcela paga SEM contemplação, a taxa efetiva aumenta.`,
+      titulo: `Alerta de eficiência`,
+      mensagem: `A eficiência projetada caiu ao longo do prazo. Isso significa que o custo da operação aumenta proporcionalmente quando comparado ao dinheiro novo utilizado.`,
     };
   } else {
     alerta = {

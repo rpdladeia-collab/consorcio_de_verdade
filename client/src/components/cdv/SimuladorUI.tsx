@@ -313,7 +313,7 @@ export function CalcMemory({
       >
         <div className="flex items-center gap-2">
           <FileText className="w-4 h-4 text-[var(--orange)]" />
-          <span className="eyebrow text-white/50">Como chegamos nesse numero?</span>
+          <span className="eyebrow text-white/50">Como essa projeção foi construída</span>
         </div>
         <ChevronDown
           className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}

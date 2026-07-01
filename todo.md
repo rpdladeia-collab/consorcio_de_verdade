@@ -383,3 +383,20 @@
 - [x] 5. Aumentar logomarca 60% no Hero (w-28 md:w-40)
 - [x] 6. Corrigir títulos dos accordions (remover "CUSTO DA OPERAÇÃO" genérico)
 - [x] 7. Melhorar tipografia dos textos de apoio (Hook + Descrição)
+
+
+## 8 ALTERAÇÕES DE TEXTO (MÓDULOS 3 E 4)
+
+### Módulo 3 - Raio-X da Eficiência da Taxa
+
+- [ ] 1. Hook Inicial: "A taxa parece pequena no contrato. Mas quanto ela pesa no dinheiro que você realmente usa?"
+- [ ] 2. Card Taxa Sobre Dinheiro Novo: adicionar linha "O indicador que mostra o custo real da operação."
+- [ ] 3. Bloco Crítico: "Alerta de eficiência" + novo texto explicativo
+- [ ] 4. CTA Final: "Quer interpretar esse resultado?" + "Pedir análise individual"
+
+### Módulo 4 - Raio-X das Correções
+
+- [x] 5. Hook Inicial: "O consórcio não fica parado no tempo. A parcela que parece caber hoje pode contar outra história amanhã."
+- [x] 6. Cards Principais: 4 cards com novos títulos e subtítulos
+- [x] 7. Título Memória de Cálculo: "Como essa projeção foi construída"
+- [x] 8. CTA Final: "Quer interpretar esse resultado?" + "Pedir análise individual"

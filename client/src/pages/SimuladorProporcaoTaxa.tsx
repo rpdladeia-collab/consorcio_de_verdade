@@ -278,7 +278,7 @@ export default function SimuladorProporcaoTaxa() {
         <KpiCard label="Taxa sobre carta líquida" value={pct2(result.kpis.onLiquid)}
           hint="Proporção sobre a carta após embutido" tone="orange" />
         <KpiCard label="Taxa sobre dinheiro novo" value={pct2(result.kpis.onNew)}
-          hint="Proporção sobre o capital efetivamente novo" highlight={true} />
+          hint="O indicador que mostra o custo real da operação." highlight={true} />
         <KpiCard label="Peso adicional da taxa" value={pct2(result.kpis.penalty)}
           hint="Diferença entre taxa real e nominal"
           tone={result.kpis.penalty > 5 ? "negative" : result.kpis.penalty > 2 ? "orange" : "positive"} />
@@ -495,15 +495,16 @@ export default function SimuladorProporcaoTaxa() {
       <div className="flex flex-wrap gap-3">
         <PdfButton onClick={handlePdf} loading={pdfLoading} />
       </div>
-      <ConsultCTA context="a análise de proporção da taxa" />
+      <ConsultCTA context="esse resultado" variant="new" />
     </div>
   ) : null;
 
   return (
     <RaioXLayout
       moduleNumber={4}
-      title="Raio-X da Eficiência da Taxa de Administração"
-      description="A taxa de administração não deve ser analisada apenas pelo percentual contratado. Este raio-x mostra quanto ela pesa, de fato, sobre o dinheiro novo que chega até você depois de parcelas pagas, lance próprio, FGTS e lance embutido. O objetivo é revelar se a operação continua eficiente ou se a taxa, quando medida sobre o crédito líquido recebido, ficou cara demais."
+      title="Raio-X da Eficiência da Taxa"
+      description="A taxa parece pequena no contrato. Mas quanto ela pesa no dinheiro que você realmente usa?"
+      descriptionSupport="Analise quanto da operação representa custo e quanto realmente vira crédito disponível."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

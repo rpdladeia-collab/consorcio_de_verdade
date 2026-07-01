@@ -170,12 +170,12 @@ export default function SimuladorHistoricoCorrecoes() {
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Carta inicial" value={brl(result.kpis.creditInicial)}
           hint="Carta de crédito no início do plano" tone="default" />
-        <KpiCard label="Carta final projetada" value={brl(result.kpis.creditFinal)}
-          hint="Carta após todos os reajustes projetados" tone="positive" />
-        <KpiCard label="Correção acumulada" value={brl(result.kpis.correcaoAcumulada)}
-          hint="Total de reajuste monetário projetado" tone="orange" />
-        <KpiCard label="Total pago projetado" value={brl(result.kpis.totalPago)}
-          hint="Soma de todas as parcelas no prazo" tone="default" />
+        <KpiCard label="Quanto a carta pode chegar" value={brl(result.kpis.creditFinal)}
+          hint="Valor projetado após os reajustes." tone="positive" />
+        <KpiCard label="Impacto dos reajustes" value={brl(result.kpis.correcaoAcumulada)}
+          hint="Quanto a atualização monetária acrescenta ao longo do plano." tone="orange" />
+        <KpiCard label="Total previsto no contrato" value={brl(result.kpis.totalPago)}
+          hint="Soma das parcelas projetadas ao longo do prazo." tone="default" />
       </div>
 
       {/* Warnings */}
@@ -257,7 +257,7 @@ export default function SimuladorHistoricoCorrecoes() {
       <div className="flex flex-wrap gap-3">
         <PdfButton onClick={handlePdf} loading={pdfLoading} />
       </div>
-      <ConsultCTA context="a projeção de correções" />
+      <ConsultCTA context="esse resultado" variant="new" />
     </div>
   ) : null;
 
@@ -265,7 +265,8 @@ export default function SimuladorHistoricoCorrecoes() {
     <RaioXLayout
       moduleNumber={5}
       title="Raio-X das Correções"
-      description="A parcela do consórcio não fica parada no tempo. Este raio-x mostra como a correção da carta, das parcelas e do saldo devedor pode mudar completamente a leitura do contrato. Em vez de olhar apenas para a taxa de administração, o simulador revela o impacto dos reajustes ao longo do plano — antes e depois da contemplação — para você entender o impacto real da operação."
+      description="O consórcio não fica parado no tempo. A parcela que parece caber hoje pode contar outra história amanhã."
+      descriptionSupport="Simule o impacto das correções sobre carta, parcelas e saldo devedor para entender como os reajustes alteram a operação ao longo do contrato."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}
