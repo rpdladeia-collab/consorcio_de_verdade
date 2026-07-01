@@ -7,8 +7,8 @@ import { BRAND } from "@/lib/brand";
 
 export default function Sobre() {
   return (
-    <div className="bg-[var(--ink)] text-white min-h-screen flex items-center overflow-hidden">
-      <main className="w-full px-4 md:px-8 py-6 md:py-8 h-screen md:h-auto flex items-center">
+    <div className="bg-[var(--ink)] text-white min-h-screen flex items-center">
+      <main className="w-full px-4 md:px-8 py-6 md:py-8 flex items-center justify-center">
 
         {/* ── Container principal: 1/3 foto + 2/3 texto ── */}
         <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start w-full max-w-6xl mx-auto">
@@ -22,6 +22,7 @@ export default function Sobre() {
               <video
                 src="/manus-storage/video_sem_logo_38c4444a.mp4"
                 autoPlay
+                muted
                 loop
                 playsInline
                 disablePictureInPicture
