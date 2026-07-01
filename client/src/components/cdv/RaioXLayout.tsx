@@ -71,7 +71,15 @@ export default function RaioXLayout({
 
           <h1 className="text-xl md:text-2xl font-bold mb-1">{title}</h1>
           <p className="text-white/60 max-w-xl leading-relaxed text-xs">
-            {description}
+            {description.startsWith("Parcela baixa vende fácil") ? (
+              <>
+                <strong className="text-[var(--orange)] font-bold">Parcela baixa vende fácil. Conta mal feita cobra caro.</strong>
+                {" "}
+                {description.substring("Parcela baixa vende fácil. Conta mal feita cobra caro.".length)}
+              </>
+            ) : (
+              description
+            )}
           </p>
         </div>
       </section>

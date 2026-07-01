@@ -214,7 +214,7 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
     body: [
       ["1ª parcela", brl(first), "Parcela estimada no mês 1"],
       ["Maior parcela", brl(maxInstallment), "Pressão máxima de caixa"],
-      ["Total pago projetado", brl0(data.paidTotal), "Inclui seguro, se informado"],
+      ["Total pago projetado", brl0(data.paidTotal), "Parcelas mensais + componentes"],
       ["Carta final corrigida", brl0(data.finalCredit), `Após reajustes de ${data.adjRate.toFixed(1)}%`],
       ["Saldo final (residual)", brl(data.residual), data.residual > 1 ? "⚠ Revisar faixas não lineares" : "Plano fecha no prazo ✓"],
       ...(data.insuranceTotal > 0 ? [["Seguro total projetado", brl0(data.insuranceTotal), "Calculado sobre saldo residual mensal"]] : []),
@@ -326,7 +326,7 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
       ["Obrigação inicial total", brl0(data.initialObligation), `Carta + ${data.adminRate.toFixed(1)}% adm + ${data.reserveRate.toFixed(1)}% reserva`],
       ["Parcela linear base (mês 1)", brl(data.initialObligation / data.term), `${brl0(data.initialObligation)} ÷ ${data.term} meses`],
       ["Carta final corrigida", brl0(data.finalCredit), `Após ${adjCount} reajuste(s) de ${data.adjRate.toFixed(1)}%`],
-      ["Correção nominal acumulada", brl0(data.correctionNominal), "Δ fundo comum + Δ taxa adm + Δ fundo reserva"],
+      ["Correção nominal acumulada", brl0(data.correctionNominal), "Fundo comum + taxa adm + fundo de reserva"],
       ...(data.insuranceTotal > 0
         ? [["Seguro total projetado", brl0(data.insuranceTotal), `${data.insuranceRate.toFixed(4)}% × saldo residual mensal`]]
         : []),

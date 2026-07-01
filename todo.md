@@ -328,3 +328,16 @@
 - [x] 3. Verificar vídeo na seção final — funcionando corretamente em /sobre
 - [x] 4. Garantir rolagem horizontal em tabelas/gráficos do Raio-X — já configuradas
 - [x] 5. Validação final e deploy
+
+
+## 9 ALTERAÇÕES OBRIGATÓRIAS (ANEXO)
+
+- [x] 1. Correção na geração do PDF (Backend/Lógica do Relatório) — Strings com caracteres quebrados
+- [x] 2. Hook no Hero Section (Destaque da primeira frase) — "Parcela baixa vende fácil..."
+- [x] 3. Textos explicativos dos Cards de Resultado — 4 cards com novos subtítulos
+- [x] 4. Botão de Ação do Formulário — "Simular plano" → "Abrir análise"
+- [x] 5. Título do Accordion/Seção — "FLUXO DE PARCELAS" → "ESTRUTURA DA PARCELA"
+- [x] 6. Título da Tabela de Dados — "FLUXO MENSAL COMPLETO" → "Evolução das parcelas"
+- [x] 7. Padronização Global de CTAs — Novo padrão duplo com texto de apoio
+- [x] 8. Atualização do Favicon — Substituir por logo "r." com ponto laranja
+- [x] 9. Reposicionamento do Ícone INCC — Mover para helper text

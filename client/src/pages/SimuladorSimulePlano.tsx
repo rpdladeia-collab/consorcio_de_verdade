@@ -236,7 +236,7 @@ export default function SimuladorSimulePlano() {
 
       <button type="submit" disabled={mutation.isPending}
         className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
-        {mutation.isPending ? "Calculando…" : "Simular plano"}
+        {mutation.isPending ? "Calculando…" : "Abrir análise"}
       </button>
     </form>
   );
@@ -260,18 +260,18 @@ export default function SimuladorSimulePlano() {
       {/* KPIs — grid 2×2 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="1ª parcela" value={formatBRLCents(first)}
-          hint="Parcela estimada no mês 1" tone="positive" />
+          hint="É ela que vende o consórcio." tone="positive" />
         <KpiCard label="Maior parcela" value={formatBRLCents(maxInstallment)}
-          hint="Pressão máxima de caixa" tone="orange" />
+          hint="É ela que normalmente ninguém mostra." tone="orange" />
         <KpiCard label="Total pago projetado" value={formatBRL(result.paidTotal)}
-          hint="Inclui seguro, se informado" highlight />
+          hint="Quanto realmente saiu do seu bolso." highlight />
         <KpiCard label="Saldo final" value={formatBRLCents(result.residual)}
-          hint={result.residual > 1 ? "Ajustar faixas não lineares" : "Plano fecha no prazo"}
+          hint="R$ 0 - Plano encerrado."
           tone={result.residual > 1 ? "negative" : "positive"} />
       </div>
 
       {/* Leitura interpretativa */}
-      <MeaningBlock label="Fluxo de Parcelas">
+      <MeaningBlock label="ESTRUTURA DA PARCELA">
         <p>
           A <strong>1ª parcela</strong> é calculada dividindo a obrigação contratual total
           (fundo comum + taxa de administração + fundo de reserva) pelo prazo. Nos meses
@@ -301,7 +301,7 @@ export default function SimuladorSimulePlano() {
       {/* Tabela de fluxo com scroll interno */}
       <div>
         <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
-          Fluxo mensal completo
+          Evolução das parcelas
         </p>
         <ScheduleTable rows={result.rows} />
       </div>
