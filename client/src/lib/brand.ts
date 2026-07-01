@@ -6,23 +6,23 @@
 
 export const LOGO = {
   // Fundo claro (off-white, branco): texto escuro + quadrado laranja (fundo transparente)
-  dark: "/manus-storage/logo-dark-transparent-v2_ddffb323.png",
+  dark: "/brand/logo-dark.png",
   // Fundo escuro (preto, grafite): texto branco + quadrado laranja (fundo transparente)
-  light: "/manus-storage/logo-light-transparent_ad34c0ca.png",
+  light: "/brand/logo-light.png",
   // Ícone oficial: fundo preto + r. branco + quadrado laranja + cantos arredondados
-  icon: "/manus-storage/icon-512-real_5bd00876.png",
+  icon: "/icons/icon-192.png",
   // Aliases para compatibilidade com componentes existentes
-  horizontalDark: "/manus-storage/logo-dark-transparent-v2_ddffb323.png",
-  horizontalLight: "/manus-storage/logo-light-transparent_ad34c0ca.png",
+  horizontalDark: "/brand/logo-dark.png",
+  horizontalLight: "/brand/logo-light.png",
   // PDF: versão JPEG para cabeçalhos dos PDFs
-  official: "/manus-storage/logo-pdf-v2_dca9a8b9.jpg",
+  official: "/brand/logo-dark.png",
   // Favicons
-  favicon: "/manus-storage/favicon-real_1ce8d440.ico",
-  favicon16: "/manus-storage/favicon-16-real_95eabd96.png",
-  favicon32: "/manus-storage/favicon-32-real_73d8be5f.png",
-  appleTouch: "/manus-storage/apple-touch-icon-real_39970f91.png",
-  icon192: "/manus-storage/icon-192-real_f27848d5.png",
-  icon512: "/manus-storage/icon-512-real_5bd00876.png",
+  favicon: "/icons/favicon.svg",
+  favicon16: "/icons/favicon.svg",
+  favicon32: "/icons/favicon.svg",
+  appleTouch: "/icons/icon-192.png",
+  icon192: "/icons/icon-192.png",
+  icon512: "/icons/icon-192.png",
 } as const;
 
 export const BRAND = {
