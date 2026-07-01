@@ -393,13 +393,13 @@ export default function SimuladorZonaContemplacao() {
       </div>
 
       {/* CONTEÚDO */}
-      <div className="container py-8 md:py-12">
+      <div className="container py-4 md:py-6">
 
         {/* ── ABA 1: HISTÓRICO ─────────────────────────────────────────────── */}
         {activeTab === "dados" && (
-          <div className="space-y-8 max-w-5xl mx-auto">
+          <div className="space-y-5 max-w-5xl mx-auto">
             {/* Parâmetros */}
-            <div className="rounded-2xl border border-border bg-card p-6 space-y-5">
+            <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
               <SectionTitle
                 eyebrow="Parâmetros do histórico"
                 title="Configurações do grupo"
@@ -519,13 +519,15 @@ export default function SimuladorZonaContemplacao() {
             {/* Lance a testar + botão */}
             <div className="grid sm:grid-cols-[1fr_auto] gap-4 items-end">
               <div>
-                <label className="text-sm font-medium text-foreground/70 mb-1.5 block">Meu lance a testar (% da carta)</label>
+                <label className="text-sm font-medium text-foreground/70 mb-1.5 block">Média de contemplação (% da carta)</label>
                 <input
                   inputMode="decimal"
+                  placeholder="Ex: 45,5%"
                   value={meuLance}
                   onChange={(e) => setMeuLance(e.target.value)}
                   className="w-full rounded-xl border border-border bg-background px-4 py-3 text-lg data-num font-semibold focus:outline-none focus:border-[var(--orange)] transition-colors"
                 />
+                <p className="text-xs text-foreground/50 mt-1">Insira a média de contemplação em percentual (ex: 45,5%)</p>
               </div>
               <button
                 onClick={runHistorico}
@@ -537,7 +539,7 @@ export default function SimuladorZonaContemplacao() {
             </div>
 
             {/* RESULTADO ABA 1 */}
-            <div id="resultado-hist" className="scroll-mt-24 space-y-6">
+            <div id="resultado-hist" className="scroll-mt-24 space-y-4">
               {!histResult && !calcHist.isPending && (
                 <div className="rounded-2xl border border-dashed border-border bg-secondary/40 p-10 text-center">
                   <BarChart2 className="w-10 h-10 text-foreground/30 mx-auto mb-4" />
@@ -557,7 +559,7 @@ export default function SimuladorZonaContemplacao() {
                 <div className="space-y-6 animate-[fadeIn_0.4s_ease-out]">
                   {/* KPIs — Zona de Contemplação */}
                   <div>
-                    <p className="eyebrow text-foreground/50 mb-3">Zona de Contemplação</p>
+                    <p className="eyebrow text-foreground/50 mb-2">Zona de Contemplação</p>
                     <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                       <KpiCard label="Piso histórico" value={formatPct(histResult.low)} hint="Menor lance vencedor" />
                       <KpiCard label="Referência central" value={formatPct(histResult.mid)} hint="Lance médio" tone="orange" />
@@ -567,7 +569,7 @@ export default function SimuladorZonaContemplacao() {
                   </div>
 
                   {/* Lance testado */}
-                  <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+                  <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                     <p className="eyebrow text-foreground/50">Lance testado</p>
                     <div className="flex flex-wrap gap-2">
                       {histResult.chips.map((c, i) => (
@@ -577,7 +579,7 @@ export default function SimuladorZonaContemplacao() {
                   </div>
 
                   {/* Resumo histórico — Termômetro */}
-                  <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+                  <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                     <p className="eyebrow text-foreground/50">Termômetro do lance testado</p>
                     <Thermometer pos={histResult.position.pos} label={formatPct(parseNum(meuLance))} />
                     <div className="grid grid-cols-3 gap-3 mt-2">
@@ -602,8 +604,8 @@ export default function SimuladorZonaContemplacao() {
 
                   {/* Gráfico da zona */}
                   {chartData.length > 1 && (
-                    <div className="rounded-2xl border border-border bg-card p-6">
-                      <p className="eyebrow text-foreground/50 mb-4">Gráfico da zona</p>
+                    <div className="rounded-2xl border border-border bg-card p-5">
+                      <p className="eyebrow text-foreground/50 mb-3">Gráfico da zona</p>
                       <div className="w-full overflow-x-auto">
                         <div style={{ minWidth: 480 }}>
                           <ResponsiveContainer width="100%" height={280}>
@@ -652,8 +654,8 @@ export default function SimuladorZonaContemplacao() {
 
         {/* ── ABA 2: QUANTITATIVO ──────────────────────────────────────────── */}
         {activeTab === "quant" && (
-          <div className="space-y-8 max-w-6xl mx-auto">
-            <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+          <div className="space-y-5 max-w-6xl mx-auto">
+            <div className="rounded-2xl border border-border bg-card p-5 space-y-4">
               <SectionTitle
                 eyebrow="Quantitativo das contemplações"
                 title="Saúde do grupo"
@@ -800,7 +802,7 @@ export default function SimuladorZonaContemplacao() {
                   </div>
 
                   {/* Pulso do grupo — termômetro */}
-                  <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+                  <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                     <p className="eyebrow text-foreground/50">Pulso do grupo</p>
                     <Thermometer pos={quantResult.hStatus.pin} label={`${quantResult.cob.toFixed(0)}%`} />
                     <div className="text-xs text-foreground/50 space-y-1">
@@ -811,7 +813,7 @@ export default function SimuladorZonaContemplacao() {
                   </div>
 
                   {/* Lance fixo */}
-                  <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+                  <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                     <p className="eyebrow text-foreground/50">Lance fixo</p>
                     <div className="grid sm:grid-cols-2 gap-6">
                       <div className="space-y-2">
@@ -851,7 +853,7 @@ export default function SimuladorZonaContemplacao() {
 
         {/* ── ABA 3: LEITURA TÉCNICA ───────────────────────────────────────── */}
         {activeTab === "leitura" && (
-          <div className="space-y-8 max-w-4xl mx-auto">
+          <div className="space-y-5 max-w-4xl mx-auto">
             <SectionTitle
               eyebrow="Leitura técnica"
               title="Interpretação dos dados"
@@ -867,9 +869,9 @@ export default function SimuladorZonaContemplacao() {
             )}
 
             {histResult && (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <p className="eyebrow text-foreground/50">Leitura técnica — Histórico de lances</p>
-                <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
+                <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                   <div className="grid sm:grid-cols-2 gap-4">
                     <div className="rounded-xl bg-secondary/40 p-4">
                       <p className="text-xs text-foreground/50 mb-1">Tendência dos lances</p>
@@ -893,9 +895,9 @@ export default function SimuladorZonaContemplacao() {
             )}
 
             {quantResult && (
-              <div className="space-y-4">
+              <div className="space-y-3">
                 <p className="eyebrow text-foreground/50">Leitura técnica — Quantitativo</p>
-                <div className="rounded-2xl border border-border bg-card p-6 space-y-3">
+                <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                   <div className="rounded-xl bg-secondary/40 p-4">
                     <p className="text-xs text-foreground/50 mb-1">Diagnóstico do grupo</p>
                     <p className="font-bold">{quantResult.hStatus.title}</p>

@@ -405,27 +405,27 @@
 ## SPRINT CRÍTICA — CORREÇÕES GERAIS, UX/UI E DEPLOY EM PRODUÇÃO
 
 ### Fase 1: Infraestrutura e Deploy
-- [ ] 1. Limpar cache de build do projeto
-- [ ] 2. Fazer novo commit forçado
-- [ ] 3. Garantir que pipeline de deploy seja concluído com sucesso
-- [ ] 4. Validar que site externo reflete as alterações mais recentes
+- [x] 1. Limpar cache de build do projeto
+- [x] 2. Fazer novo commit forçado
+- [x] 3. Garantir que pipeline de deploy seja concluído com sucesso
+- [x] 4. Validar que site externo reflete as alterações mais recentes
 
 ### Fase 2: Correções na Página r.enatto (Perfil)
-- [ ] 1. Bug do Vídeo: verificar caminho, formato, CORS, autoplay/lazy-load em produção
-- [ ] 2. Logo do LinkedIn: remover fundo laranja, deixar apenas ícone branco
-- [ ] 3. Novo Copy (Texto): substituir texto atual pela versão aprovada (6 parágrafos)
-- [ ] 4. Layout sem Rolagem: ajustar CSS para height: 100vh, overflow: hidden no desktop
+- [x] 1. Bug do Vídeo: verificar caminho, formato, CORS, autoplay/lazy-load em produção
+- [x] 2. Logo do LinkedIn: remover fundo laranja, deixar apenas ícone branco
+- [x] 3. Novo Copy (Texto): substituir texto atual pela versão aprovada (6 parágrafos)
+- [x] 4. Layout sem Rolagem: ajustar CSS para height: 100vh, overflow: hidden no desktop
 
 ### Fase 3: Melhorias UX/UI na Zona de Contemplação
-- [ ] 1. Reduzir excesso de espaço vertical (paddings e margens)
-- [ ] 2. Priorizar leitura do resultado (cards como diagnóstico principal)
-- [ ] 3. Melhorar área do termômetro (destaque visual do lance testado)
-- [ ] 4. Melhorar gráfico (diferenças entre lances mais evidentes)
-- [ ] 5. Responsividade: desktop aproveita largura, mobile não fica excessivamente empilhado
-- [ ] 6. Exemplo Fixo no Input: adicionar placeholder/texto de apoio (Ex: 45,5%)
+- [x] 1. Reduzir excesso de espaço vertical (paddings e margens)
+- [x] 2. Priorizar leitura do resultado (cards como diagnóstico principal)
+- [x] 3. Melhorar área do termômetro (destaque visual do lance testado)
+- [x] 4. Melhorar gráfico (diferenças entre lançes mais evidentes)
+- [x] 5. Responsividade: desktop aproveita largura, mobile não fica excessivamente empilhado
+- [x] 6. Exemplo Fixo no Input: adicionar placeholder/texto de apoio (Ex: 45,5%)
 
 ### Fase 4: Validação Final
-- [ ] 1. TypeScript: 0 erros
-- [ ] 2. Build Vite: sucesso
-- [ ] 3. Testes Vitest: todos passando
-- [ ] 4. Checkpoint final e deploy em produção
+- [x] 1. TypeScript: 0 erros
+- [x] 2. Build Vite: sucesso
+- [x] 3. Testes Vitest: todos passando
+- [x] 4. Checkpoint final e deploy em produção
