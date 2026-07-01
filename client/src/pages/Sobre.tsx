@@ -7,20 +7,20 @@ import { BRAND } from "@/lib/brand";
 
 export default function Sobre() {
   return (
-    <div className="bg-[var(--ink)] text-white min-h-screen flex items-center">
-      <main className="w-full px-4 md:px-8 py-6 md:py-8 flex items-center justify-center">
+    <div className="bg-[var(--ink)] text-white min-h-screen max-h-screen overflow-hidden flex flex-col">
+      <main className="flex-1 w-full px-4 md:px-8 py-6 md:py-8 flex items-center justify-center overflow-y-auto">
 
         {/* ── Container principal: 1/3 foto + 2/3 texto ── */}
         <div className="flex flex-col md:flex-row gap-10 md:gap-16 items-start w-full max-w-6xl mx-auto">
 
           {/* Coluna esquerda — Vídeo 4:5 (1/3) */}
           <div
-            className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 rounded-xl overflow-hidden shadow-xl border border-white/10"
+            className="w-full md:w-1/3 lg:w-1/4 flex-shrink-0 rounded-xl overflow-hidden shadow-xl border border-white/10 h-fit"
             onContextMenu={(e) => e.preventDefault()}
           >
             <div className="relative" style={{ aspectRatio: "4/5" }}>
               <video
-                src="/manus-storage/video_sem_logo_38c4444a.mp4"
+                src="/assets/video-perfil.mp4"
                 autoPlay
                 muted
                 loop
@@ -41,7 +41,7 @@ export default function Sobre() {
           </div>
 
           {/* Coluna direita — Texto (2/3) */}
-          <div className="w-full md:w-2/3 lg:w-3/4 flex-1 flex flex-col justify-start gap-4">
+          <div className="w-full md:w-2/3 lg:w-3/4 flex-1 flex flex-col justify-start gap-4 max-h-[calc(100vh-120px)] overflow-y-auto">
 
             {/* Nome + LinkedIn */}
             <div className="flex items-center gap-2.5">
@@ -82,7 +82,7 @@ export default function Sobre() {
             <div className="w-10 h-0.5 bg-[var(--orange)] rounded-full" />
 
             {/* Texto de apresentação — novo copy aprovado */}
-            <div className="space-y-3 text-white/75 text-sm leading-relaxed">
+            <div className="space-y-3 text-white/75 text-sm leading-relaxed flex-1 overflow-y-auto">
               <p>
                 <strong className="text-white">Antes de escolher um consórcio, entenda a decisão.</strong>
               </p>
@@ -116,7 +116,7 @@ export default function Sobre() {
             </div>
 
             {/* Botão CTA */}
-            <div className="pt-1">
+            <div className="pt-1 mt-auto flex-shrink-0">
               <a
                 href={BRAND.whatsapp}
                 target="_blank"

@@ -6,23 +6,23 @@
 
 export const LOGO = {
   // Fundo claro (off-white, branco): texto escuro + quadrado laranja (fundo transparente)
-  dark: "/brand/logo-dark.png",
+  dark: "/assets/logo-dark.png",
   // Fundo escuro (preto, grafite): texto branco + quadrado laranja (fundo transparente)
-  light: "/brand/logo-light.png",
+  light: "/assets/logo-light.png",
   // Ícone oficial: fundo preto + r. branco + quadrado laranja + cantos arredondados
-  icon: "/icons/icon-192.png",
+  icon: "/assets/icon-192.png",
   // Aliases para compatibilidade com componentes existentes
-  horizontalDark: "/brand/logo-dark.png",
-  horizontalLight: "/brand/logo-light.png",
+  horizontalDark: "/assets/logo-dark.png",
+  horizontalLight: "/assets/logo-light.png",
   // PDF: versão JPEG para cabeçalhos dos PDFs
-  official: "/brand/logo-dark.png",
+  official: "/assets/logo-dark.png",
   // Favicons
-  favicon: "/icons/favicon.svg",
-  favicon16: "/icons/favicon.svg",
-  favicon32: "/icons/favicon.svg",
-  appleTouch: "/icons/icon-192.png",
-  icon192: "/icons/icon-192.png",
-  icon512: "/icons/icon-192.png",
+  favicon: "/assets/favicon.svg",
+  favicon16: "/assets/favicon.svg",
+  favicon32: "/assets/favicon.svg",
+  appleTouch: "/assets/icon-192.png",
+  icon192: "/assets/icon-192.png",
+  icon512: "/assets/icon-192.png",
 } as const;
 
 export const BRAND = {

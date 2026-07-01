@@ -11,7 +11,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6">
           {/* Brand */}
           <div className="md:col-span-5">
-            <img src="/manus-storage/logo-renatto_75f2521c.png" alt="r.enatto" className="h-9 w-auto mb-3" />
+            <img src="/assets/logo-renatto.png" alt="r.enatto" className="h-9 w-auto mb-3" />
             <p className="text-xs text-white/60 max-w-sm leading-relaxed">
               Plataforma de simulação e análise de consórcios. Dados, matemática
               e clareza para você decidir com consciência.

@@ -45,7 +45,7 @@ export default function RaioXLayout({
           {/* Logo canto superior direito */}
           <div className="absolute top-0 right-0 flex items-center gap-3">
             <img
-              src="/manus-storage/logo-renatto_75f2521c.png"
+              src="/assets/logo-renatto.png"
               alt="r.enatto"
               className="w-28 md:w-40 h-auto object-contain"
             />
