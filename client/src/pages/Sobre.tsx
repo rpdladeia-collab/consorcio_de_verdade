@@ -22,7 +22,6 @@ export default function Sobre() {
               <video
                 src="/assets/video-perfil.mp4"
                 autoPlay
-                muted
                 loop
                 playsInline
                 disablePictureInPicture
@@ -43,88 +42,45 @@ export default function Sobre() {
           {/* Coluna direita — Texto (2/3) */}
           <div className="w-full md:w-2/3 lg:w-3/4 flex-1 flex flex-col justify-start gap-4 max-h-[calc(100vh-120px)] overflow-y-auto">
 
-            {/* Nome + LinkedIn */}
-            <div className="flex items-center gap-2.5">
-              <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-white">
-                Renato Ladeia
-              </h1>
-              <a
-                href={BRAND.linkedin}
-                target="_blank"
-                rel="noreferrer"
-                aria-label="LinkedIn de Renato Ladeia"
-                className="inline-flex items-center justify-center w-8 h-8 rounded-lg hover:opacity-80 transition-opacity shrink-0"
-              >
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="15"
-                  height="15"
-                  viewBox="0 0 24 24"
-                  fill="currentColor"
-                  className="text-white"
-                >
-                  <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
-                </svg>
-              </a>
+            {/* Logo r.enatto em amarelo */}
+            <div className="mb-2">
+              <p className="text-2xl md:text-3xl font-bold tracking-tight">
+                <span className="text-white">r.</span><span className="text-[#FFD700]">enatto</span>
+              </p>
             </div>
 
-            {/* Credenciais */}
-            <div className="space-y-0.5">
-              <p className="text-white/55 text-xs tracking-wide">
-                Consultor de Investimentos Independente · CVM · Certificação CEA
-              </p>
-              <p className="text-white/65 text-sm leading-snug">
-                Mais de 15 anos de experiência no mercado financeiro
+            {/* Texto centralizado em maiúsculas */}
+            <div className="mb-4">
+              <p className="text-sm md:text-base font-bold uppercase tracking-wide text-white/90 leading-relaxed">
+                O Consórcio de Verdade nasceu de uma pergunta simples: como entender esse produto de verdade?
               </p>
             </div>
 
             {/* Separador */}
             <div className="w-10 h-0.5 bg-[var(--orange)] rounded-full" />
 
-            {/* Texto de apresentação — novo copy aprovado */}
+            {/* Texto de origem do projeto */}
             <div className="space-y-3 text-white/75 text-sm leading-relaxed flex-1 overflow-y-auto">
               <p>
-                <strong className="text-white">Antes de escolher um consórcio, entenda a decisão.</strong>
+                Quando comecei a estudar consórcio, percebi que a maioria das pessoas toma a decisão olhando apenas a parcela. Ninguém fala sobre custo total, correção, lance, contemplação ou capacidade real de pagamento.
               </p>
               <p>
-                O Consórcio de Verdade nasceu de uma inquietação simples: uma operação financeira não deveria ser decidida apenas pela parcela que aparece na frente.
+                Criei esta plataforma para transformar uma promessa comercial em análise. Aqui você simula cenários, entende os números e toma uma decisão com consciência — não com impulso.
               </p>
               <p>
-                Existe uma conta por trás da promessa.
-              </p>
-              <p>
-                Custo total, lance, correção, contemplação, prazo, exclusão e capacidade real de pagamento precisam fazer parte da análise antes da escolha.
-              </p>
-              <p>
-                Eu não trabalho para convencer você a contratar um consórcio.
-              </p>
-              <p>
-                Eu trabalho para mostrar quando ele faz sentido — e quando os números mostram outro caminho.
-              </p>
-              <p>
-                A plataforma organiza os dados.
-              </p>
-              <p>
-                Minha análise individual conecta esses números ao seu cenário real: objetivo, prazo, grupo, carta e capacidade financeira.
-              </p>
-              <p>
-                Porque uma boa decisão não começa pela venda.
-              </p>
-              <p>
-                <strong className="text-white">Começa pela clareza.</strong>
+                Se depois quiser uma leitura individual do seu caso, eu analiso com você. Porque uma boa decisão não começa pela venda. Começa pela clareza.
               </p>
             </div>
 
-            {/* Botão CTA */}
+            {/* Botão discreto */}
             <div className="pt-1 mt-auto flex-shrink-0">
               <a
                 href={BRAND.whatsapp}
                 target="_blank"
                 rel="noreferrer"
-                className="inline-flex items-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-2.5 text-sm font-semibold transition-transform hover:scale-[1.02] active:scale-[0.97]"
+                className="inline-flex items-center gap-2 text-sm text-white/70 hover:text-[var(--orange)] transition-colors"
               >
-                Pedir análise individual
-                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                Conheça quem está por trás desse projeto →
               </a>
             </div>
 

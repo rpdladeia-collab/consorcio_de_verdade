@@ -17,16 +17,10 @@ function HeroSection() {
               <span className="text-[var(--orange)]">faça a conta.</span>
             </h1>
             <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-3 max-w-xl">
-              Eu criei esta plataforma para ajudar você a enxergar o consórcio antes de assinar o
-              contrato.
-            </p>
-            <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-3 max-w-xl">
-              Aqui você simula parcela, lance, custo total, correção, contemplação e capacidade real
-              de pagamento — sem cadastro, sem pressão e sem promessa fácil.
+              Uma decisão de longo prazo não deveria ser tomada olhando apenas a parcela.
             </p>
             <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-6 max-w-xl">
-              Use as ferramentas gratuitamente. Se depois quiser uma leitura individual do seu caso,
-              eu analiso com você.
+              Aqui você simula custos, lance, contemplação, correções e capacidade real de pagamento — antes de assinar o contrato.
             </p>
             <div className="flex flex-wrap gap-3 mb-4">
               <Link href="/simuladores">
@@ -45,7 +39,7 @@ function HeroSection() {
               </a>
             </div>
             <p className="text-xs text-[var(--ink)]/50">
-              Simulações gratuitas. Dados claros. Decisão com menos impulso e mais consciência.
+              Simulações gratuitas. Dados claros. Decisões com mais consciência.
             </p>
           </div>
 
@@ -86,7 +80,7 @@ function ConscienciaSection() {
           Por que simular antes de contratar
         </p>
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
-          Consórcio não é golpe. Mas também não é simples.
+          Consórcio não é golpe. Mas também não é mágica.
         </h2>
 
 
@@ -94,18 +88,16 @@ function ConscienciaSection() {
           {/* Texto */}
           <div className="flex-1">
             <p className="text-sm text-white/75 leading-relaxed mb-3">
-              Consórcio pode ser uma boa estratégia quando existe planejamento, capacidade de
-              pagamento e clareza sobre as regras. Mas ele também pode virar um contrato caro, longo
-              e frustrante quando a decisão é tomada só pela parcela ou pela promessa de
-              contemplação.
+              <strong className="text-white">Quanto realmente vai pagar.</strong> Sem juros não significa sem custo. Taxa de administração, fundo de reserva, seguro e correção mudam completamente a leitura.
             </p>
             <p className="text-sm text-white/75 leading-relaxed mb-3">
-              Antes de contratar, você precisa enxergar quatro coisas: quanto vai pagar, quanto pode
-              corrigir, quanto precisa ofertar de lance e se o seu grupo realmente tem dinâmica para
-              entregar contemplações.
+              <strong className="text-white">Quanto sua parcela pode mudar.</strong> O valor inicial pode parecer confortável, mas a correção da carta e do saldo pode alterar o peso do contrato no tempo.
+            </p>
+            <p className="text-sm text-white/75 leading-relaxed mb-3">
+              <strong className="text-white">Qual a realidade do lance.</strong> Você não dá lance sozinho. O resultado depende do grupo, da assembleia, da modalidade e do caixa disponível.
             </p>
             <p className="text-sm text-white/75 leading-relaxed mb-5">
-              É por isso que esta plataforma existe: para transformar promessa comercial em análise.
+              <strong className="text-white">O que acontece depois da contemplação.</strong> Depois de contemplado, ainda existe saldo, reajuste, capacidade de pagamento e análise da administradora.
             </p>
             <Link href="/simuladores">
               <button className="text-xs border border-white/30 text-white/70 px-4 py-2 rounded-full hover:border-[var(--orange)] hover:text-[var(--orange)] transition-all">
