@@ -39,7 +39,7 @@ function HeroSection() {
               </a>
             </div>
             <p className="text-xs text-[var(--ink)]/50">
-              Simulações gratuitas. Dados claros. Decisões com mais consciência.
+              Simulações gratuitas. Dados claros. Decisão com mais consciência.
             </p>
           </div>
 

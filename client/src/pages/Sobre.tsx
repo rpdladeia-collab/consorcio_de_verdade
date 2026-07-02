@@ -22,6 +22,7 @@ export default function Sobre() {
               <video
                 src="/assets/video-perfil.mp4"
                 autoPlay
+                muted
                 loop
                 playsInline
                 disablePictureInPicture
@@ -52,7 +53,7 @@ export default function Sobre() {
             {/* Texto centralizado em maiúsculas */}
             <div className="mb-4">
               <p className="text-sm md:text-base font-bold uppercase tracking-wide text-white/90 leading-relaxed">
-                O Consórcio de Verdade nasceu de uma pergunta simples: como entender esse produto de verdade?
+                O CONSÓRCIO DE VERDADE NASCEU DE UMA PERGUNTA SIMPLES: COMO ENTENDER ESSE PRODUTO DE VERDADE?
               </p>
             </div>
 
