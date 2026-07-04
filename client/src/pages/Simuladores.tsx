@@ -73,26 +73,24 @@ export default function Simuladores() {
     <div className="bg-[var(--paper)] text-[var(--ink)]">
       {/* ── HERO ─────────────────────────────────────────────────────── */}
       <section className="w-full px-4 md:px-8 lg:px-16 pt-12 pb-8">
-        <div className="max-w-3xl">
-          <p className="text-[var(--orange)] text-xs font-mono uppercase tracking-widest mb-2">
-            Raio-X do Consórcio
-          </p>
-          <h1 className="text-2xl md:text-3xl font-extrabold leading-[1.1] text-[var(--ink)]">
-            Aqui você não analisa apenas os números. Você entende como a operação funciona.
-          </h1>
-          <p className="text-[var(--ink)]/60 text-sm mt-3 max-w-2xl leading-relaxed">
-            Cada análise responde uma dúvida específica da operação. Mais do que calcular valores, ela ajuda a compreender como cada decisão impacta o funcionamento do contrato ao longo do tempo.
-          </p>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-4 text-xs text-[var(--ink)]/70">
-            <span className="inline-flex items-center gap-1.5">
-              <Lock className="w-3.5 h-3.5 text-[var(--orange)]" />
-              Cálculos protegidos
-            </span>
-            <span className="inline-flex items-center gap-1.5">
-              <FileSearch className="w-3.5 h-3.5 text-[var(--orange)]" />
-              Relatório em PDF
-            </span>
-          </div>
+        <p className="text-[var(--orange)] text-xs font-mono uppercase tracking-widest mb-2">
+          Raio-X do Consórcio
+        </p>
+        <h1 className="text-2xl md:text-3xl font-extrabold leading-[1.1] text-[var(--ink)] w-full">
+          Aqui você não analisa apenas os números. Você entende como a operação funciona.
+        </h1>
+        <p className="text-[var(--ink)]/60 text-sm mt-3 w-full leading-relaxed">
+          Cada análise responde uma dúvida específica da operação. Mais do que calcular valores, ela ajuda a compreender como cada decisão impacta o funcionamento do contrato ao longo do tempo.
+        </p>
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-4 text-xs text-[var(--ink)]/70">
+          <span className="inline-flex items-center gap-1.5">
+            <Lock className="w-3.5 h-3.5 text-[var(--orange)]" />
+            Cálculos protegidos
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <FileSearch className="w-3.5 h-3.5 text-[var(--orange)]" />
+            Relatório em PDF
+          </span>
         </div>
       </section>
 

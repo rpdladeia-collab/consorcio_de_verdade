@@ -1,18 +1,3 @@
-/**
- * RaioXLayout — Layout padrão de todos os módulos do Raio-X do Consórcio.
- *
- * Estrutura:
- *   ┌─────────────────────────────────────────────────────┐
- *   │  Hero (título do módulo, badge, descrição)           │
- *   ├──────────────────┬──────────────────────────────────┤
- *   │  Formulário      │  KPIs (grid-cols-2)              │
- *   │  (inputs card)   │  Diagnóstico / leitura técnica   │
- *   │                  │  Tabela (max-h scroll interno)   │
- *   │                  │  Warnings                        │
- *   │                  │  Transparência + PDF + CTA       │
- *   └──────────────────┴──────────────────────────────────┘
- */
-
 import React from "react";
 import { Link } from "wouter";
 import { ArrowLeft } from "lucide-react";
@@ -26,6 +11,7 @@ interface RaioXLayoutProps {
   formPanel: React.ReactNode;
   resultsPanel: React.ReactNode;
   hasResult: boolean;
+  scheduleTable?: React.ReactNode;
 }
 
 export default function RaioXLayout({
@@ -36,73 +22,54 @@ export default function RaioXLayout({
   formPanel,
   resultsPanel,
   hasResult,
+  scheduleTable,
 }: RaioXLayoutProps) {
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="bg-[var(--ink)] text-white py-5 w-full max-w-[100vw] px-4 md:px-5 lg:px-8">
-        <div className="max-w-6xl mx-auto relative">
-          {/* Logo canto superior direito */}
-          <div className="absolute top-0 right-0 flex items-center gap-3">
-            <img
-              src="/assets/logo-renatto.png"
-              alt="r.enatto"
-              className="w-28 md:w-40 h-auto object-contain"
-            />
-            <img
-              src={LOGO.light}
-              alt={BRAND.name}
-              className="h-7 md:h-8 w-auto object-contain"
-            />
-          </div>
-          {/* Botão Voltar */}
-          <Link
-            href="/simuladores"
-            className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-3 transition-colors"
-          >
-            <ArrowLeft className="w-3.5 h-3.5" />
-            Voltar para o Raio-X
-          </Link>
+      <section className="bg-[var(--ink)] text-white py-4 md:py-5 w-full px-4 md:px-5 lg:px-8">
+        {/* Botão Voltar */}
+        <Link
+          href="/simuladores"
+          className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-3 transition-colors"
+        >
+          <ArrowLeft className="w-3.5 h-3.5" />
+          Voltar para o Raio-X
+        </Link>
 
-          {/* Badge + Módulo */}
-          <div className="flex items-center gap-3 mb-2">
-            <span className="inline-flex items-center gap-1.5 bg-[var(--orange)]/20 text-[var(--orange)] text-xs font-semibold px-3 py-1 rounded-full border border-[var(--orange)]/30">
-              Raio-X do Consórcio
-            </span>
-          </div>
+        {/* Breadcrumb */}
+        <p className="text-xs font-semibold uppercase tracking-widest text-[var(--orange)] mb-2">
+          Raio-X do Consórcio
+        </p>
 
-          {/* Número do módulo com marca-texto amarelo */}
-          <p className="mono text-xs uppercase tracking-widest text-white/40 mb-0.5 flex items-center gap-2">
-            <span className="bg-yellow-400 text-black px-2 py-0.5 rounded font-bold text-[11px]">
-              Módulo {moduleNumber}
-            </span>
-          </p>
+        {/* Título */}
+        <h1 className="text-3xl md:text-4xl font-bold mb-4 w-full">{title}</h1>
 
-          <h1 className="text-xl md:text-2xl font-bold mb-3">{title}</h1>
-          <p className="text-white font-bold text-base md:text-lg max-w-xl leading-relaxed">
-            {description.startsWith("Parcela baixa vende fácil") ? (
-              <>
-                <span className="text-[var(--orange)]">Parcela baixa vende fácil. Conta mal feita cobra caro.</span>
-                {" "}
-                {description.substring("Parcela baixa vende fácil. Conta mal feita cobra caro.".length)}
-              </>
-            ) : (
-              description
-            )}
-          </p>
-          {descriptionSupport && (
-            <p className="text-gray-300 max-w-xl leading-relaxed text-base md:text-lg mt-4 font-medium">
-              {descriptionSupport}
-            </p>
+        {/* Descrição em full width */}
+        <p className="text-white text-base md:text-lg w-full leading-relaxed">
+          {description.startsWith("Parcela baixa vende fácil") ? (
+            <>
+              <span className="font-bold text-[var(--orange)]">Parcela baixa vende fácil. Conta mal feita cobra caro.</span>
+              <span className="font-normal"> {description.substring("Parcela baixa vende fácil. Conta mal feita cobra caro.".length)}</span>
+            </>
+          ) : (
+            description
           )}
-        </div>
+        </p>
+
+        {/* Suporte descritivo */}
+        {descriptionSupport && (
+          <p className="text-gray-400 w-full leading-relaxed text-base md:text-lg mt-3 font-normal">
+            {descriptionSupport}
+          </p>
+        )}
       </section>
 
       {/* ── Grid principal ── */}
-      <section className="w-full max-w-6xl mx-auto px-4 lg:px-8 py-5">
-        <div className="flex flex-col lg:flex-row gap-6 items-start">
+      <section className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-6">
+        <div className="flex flex-col lg:flex-row gap-8 items-start">
           {/* Coluna esquerda — Formulário */}
-          <div className="w-full lg:w-[380px] lg:shrink-0">
+          <div className="w-full lg:w-[45%] lg:shrink-0">
             <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-2xl p-4 md:p-5 shadow-sm">
               {formPanel}
             </div>
@@ -126,6 +93,13 @@ export default function RaioXLayout({
           </div>
         </div>
       </section>
+
+      {/* ── Tabela de Evolução (Full-width) ── */}
+      {hasResult && scheduleTable && (
+        <section className="w-full px-4 md:px-5 lg:px-8 py-6">
+          {scheduleTable}
+        </section>
+      )}
     </div>
   );
 }

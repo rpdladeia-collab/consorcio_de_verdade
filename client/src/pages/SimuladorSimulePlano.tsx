@@ -6,7 +6,7 @@
 
 import { useState } from "react";
 import { useSimuladorStore } from "@/stores/simuladorStore";
-import { AlertTriangle, ChevronDown } from "lucide-react";
+import { AlertTriangle, ChevronDown, Download } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import {
@@ -73,13 +73,12 @@ function TextInput({ value, onChange, placeholder, suffix }: {
 /* ─── Tabela de fluxo ────────────────────────────────────────────────────────── */
 function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
   const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? rows : rows.slice(0, 24);
+  const visible = expanded ? rows : rows.slice(0, 13);
 
   return (
     <div className="rounded-xl border border-border">
       <div className="w-full overflow-x-auto">
-        <div className="max-h-[480px] overflow-y-auto">
-        <table className="w-full text-xs min-w-[760px]">
+        <table className="w-full text-xs">
           <thead className="sticky top-0 bg-[var(--ink)] text-white">
             <tr>
               {["Mês","Carta","Saldo inicial","F. Comum","T. Adm.","F. Reserva","Seguro","Parcela","Pago acum.","Saldo final","Eventos"].map((h) => (
@@ -95,7 +94,7 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
               const isExcess = r.tags.includes("Excesso");
               return (
                 <tr key={r.month} className={`border-t border-border transition-colors ${
-                  isAdj ? "bg-amber-50/70" : "hover:bg-secondary/40"
+                  isAdj ? "bg-amber-200/90" : "hover:bg-secondary/40"
                 }`}>
                   <td className="px-2.5 py-2 font-mono font-medium">{r.month}</td>
                   <td className="px-2.5 py-2 font-mono">{formatBRL(r.credit)}</td>
@@ -116,9 +115,8 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
             })}
           </tbody>
         </table>
-        </div>
       </div>
-      {rows.length > 24 && (
+      {rows.length > 13 && (
         <button onClick={() => setExpanded(!expanded)}
           className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-foreground/50 hover:text-[var(--orange)] border-t border-border transition-colors">
           <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
@@ -180,7 +178,7 @@ export default function SimuladorSimulePlano() {
         Parâmetros do plano
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <FieldRow label="Carta de crédito (R$)" hint="Valor nominal contratado">
           <TextInput value={form.credit} onChange={set("credit")} placeholder="300000" suffix="R$" />
         </FieldRow>
@@ -204,27 +202,29 @@ export default function SimuladorSimulePlano() {
         </FieldRow>
       </div>
 
-      <FieldRow label="Periodicidade do reajuste">
-        <select value={form.adjEvery} onChange={(e) => set("adjEvery")(e.target.value as AdjEvery)}
-          className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--orange)]">
-          <option value="12">Anual (1º reajuste no mês 13)</option>
-          <option value="6">Semestral (1º reajuste no mês 7)</option>
-          <option value="0">Sem reajuste</option>
-        </select>
-      </FieldRow>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <FieldRow label="Periodicidade do reajuste">
+          <select value={form.adjEvery} onChange={(e) => set("adjEvery")(e.target.value as AdjEvery)}
+            className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--orange)]">
+            <option value="12">Anual (1º reajuste no mês 13)</option>
+            <option value="6">Semestral (1º reajuste no mês 7)</option>
+            <option value="0">Sem reajuste</option>
+          </select>
+        </FieldRow>
 
-      <FieldRow label="Modelo de parcela">
-        <div className="flex rounded-xl border border-border overflow-hidden">
-          {(["linear", "nonlinear"] as Mode[]).map((m) => (
-            <button key={m} type="button" onClick={() => set("mode")(m)}
-              className={`flex-1 py-2 text-xs font-medium transition-colors ${
-                form.mode === m ? "bg-[var(--orange)] text-white" : "bg-background hover:bg-secondary/60"
-              }`}>
-              {m === "linear" ? "Linear" : "Não linear"}
-            </button>
-          ))}
-        </div>
-      </FieldRow>
+        <FieldRow label="Modelo de parcela">
+          <div className="flex rounded-xl border border-border overflow-hidden">
+            {(["linear", "nonlinear"] as Mode[]).map((m) => (
+              <button key={m} type="button" onClick={() => set("mode")(m)}
+                className={`flex-1 py-2 text-xs font-medium transition-colors ${
+                  form.mode === m ? "bg-[var(--orange)] text-white" : "bg-background hover:bg-secondary/60"
+                }`}>
+                {m === "linear" ? "Linear" : "Não linear"}
+              </button>
+            ))}
+          </div>
+        </FieldRow>
+      </div>
 
       {form.mode === "nonlinear" && (
         <FieldRow label="Faixas não lineares" hint='Ex: "1-12: 2500". Uma por linha.'>
@@ -238,6 +238,37 @@ export default function SimuladorSimulePlano() {
         className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Abrir análise"}
       </button>
+
+      {/* PDF e CTA — aparecem após análise */}
+      {result && (
+        <div className="space-y-3 pt-3 border-t border-border/50">
+          <button onClick={() => {
+            import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
+              generatePdfSimulePlano({
+                credit: num(form.credit), term: Math.round(num(form.term)),
+                adminRate: num(form.adminRate), reserveRate: num(form.reserveRate),
+                insuranceRate: num(form.insuranceRate), adjRate: num(form.adjRate),
+                adjEvery: form.adjEvery, mode: form.mode, ranges: form.ranges,
+                rows: result.rows, paidTotal: result.paidTotal, residual: result.residual,
+                finalCredit: result.finalCredit, initialObligation: result.initialObligation,
+                insuranceTotal: result.insuranceTotal, correctionNominal: result.correctionNominal,
+                warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
+              }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
+            });
+          }} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-background hover:bg-secondary/60 text-sm font-medium transition-colors">
+            <Download className="w-4 h-4" />
+            Baixar Relatório de Auditoria (PDF)
+          </button>
+
+          <div className="rounded-xl border border-border p-3 space-y-2">
+            <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">Quer validar o fluxo do seu plano com um especialista?</p>
+            <p className="text-xs text-foreground/60">Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso.</p>
+            <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--orange)] text-white text-xs font-bold hover:opacity-90 transition-opacity">
+              Falar com o especialista
+            </a>
+          </div>
+        </div>
+      )}
     </form>
   );
 
@@ -298,14 +329,6 @@ export default function SimuladorSimulePlano() {
           formula: result.residual < 1 ? "Plano fecha no prazo ✓" : "Revisar faixas não lineares" },
       ]} />
 
-      {/* Tabela de fluxo com scroll interno */}
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
-          Evolução das parcelas
-        </p>
-        <ScheduleTable rows={result.rows} />
-      </div>
-
       {/* Metodologia */}
       <MethodologyBlock sources={[
         "Lógica extraída do HTML original Raio-X do Consórcio (buildSchedule).",
@@ -318,25 +341,17 @@ export default function SimuladorSimulePlano() {
       {/* Transparência */}
       <TransparencyBlock />
 
-      {/* PDF */}
-      <PdfButton onClick={() => {
-        if (!result) return;
-        import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
-          generatePdfSimulePlano({
-            credit: num(form.credit), term: Math.round(num(form.term)),
-            adminRate: num(form.adminRate), reserveRate: num(form.reserveRate),
-            insuranceRate: num(form.insuranceRate), adjRate: num(form.adjRate),
-            adjEvery: form.adjEvery, mode: form.mode, ranges: form.ranges,
-            rows: result.rows, paidTotal: result.paidTotal, residual: result.residual,
-            finalCredit: result.finalCredit, initialObligation: result.initialObligation,
-            insuranceTotal: result.insuranceTotal, correctionNominal: result.correctionNominal,
-            warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
-          }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
-        });
-      }} />
 
-      {/* CTA */}
-      <ConsultCTA context="o fluxo do seu plano" variant="old" />
+    </div>
+  ) : null;
+
+  // ── Tabela de Evolução (fora do painel de resultados)
+  const scheduleTablePanel = result ? (
+    <div className="-mx-4 lg:-mx-8 px-4 lg:px-8">
+      <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
+        Evolução das parcelas
+      </p>
+      <ScheduleTable rows={result.rows} />
     </div>
   ) : null;
 
@@ -348,6 +363,7 @@ export default function SimuladorSimulePlano() {
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}
+      scheduleTable={scheduleTablePanel}
     />
   );
 }
