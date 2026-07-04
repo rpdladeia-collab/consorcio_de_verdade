@@ -25,11 +25,7 @@ export default function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 transition-all duration-300 w-full max-w-[100vw] ${
-        scrolled
-          ? "bg-[var(--paper)]/90 backdrop-blur-md border-b border-border"
-          : "bg-transparent border-b border-transparent"
-      }`}
+      className="sticky top-0 z-50 transition-all duration-300 w-full max-w-[100vw] bg-[var(--paper)] border-b border-border shadow-sm"
     >
       <div className="w-full px-4 md:px-5 lg:px-6 max-w-[100vw]">
         <div className="flex items-center justify-between h-12 md:h-14">

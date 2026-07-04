@@ -6,12 +6,12 @@ export default function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="dark bg-[var(--ink)] text-[var(--paper)] w-full max-w-[100vw]">
-      <div className="w-full px-4 md:px-5 lg:px-8 py-8">
+    <footer className="dark bg-[var(--ink)] text-[var(--paper)] w-full max-w-[100vw] m-0 p-0 block">
+      <div className="w-full px-4 md:px-5 lg:px-8 py-8 pb-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-12 gap-6">
           {/* Brand */}
           <div className="md:col-span-5">
-            <img src="/assets/logo-renatto.png" alt="r.enatto" className="h-9 w-auto mb-3" />
+            <img src="/assets/logo-renatto.png" alt="r.enatto" className="w-[120px] sm:w-[140px] md:w-[160px] h-auto mb-3" />
             <p className="text-xs text-white/60 max-w-sm leading-relaxed">
               Plataforma de simulação e análise de consórcios. Dados, matemática
               e clareza para você decidir com consciência.
@@ -49,14 +49,10 @@ export default function Footer() {
                 className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
                 <Instagram className="w-4 h-4" />
               </a>
-              <a href={BRAND.linkedin} target="_blank" rel="noreferrer" aria-label="LinkedIn"
-                className="w-8 h-8 rounded-full border border-white/15 flex items-center justify-center text-white/75 hover:text-[var(--orange)] hover:border-[var(--orange)] transition-colors">
-                <Linkedin className="w-4 h-4" />
-              </a>
             </div>
             <a href={BRAND.whatsapp} target="_blank" rel="noreferrer"
               className="inline-flex items-center gap-1.5 text-sm font-medium text-white/90 hover:text-[var(--orange)] transition-colors">
-              Falar com o especialista
+              Falar com Renatto
               <ArrowUpRight className="w-4 h-4" />
             </a>
           </div>

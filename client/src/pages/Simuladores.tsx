@@ -20,74 +20,77 @@ import { BRAND } from "@/lib/brand";
 const MODULOS = [
   {
     num: 1,
-    icon: <Calculator className="w-4 h-4" />,
-    title: "Raio-X da Parcela",
+    icon: <Calculator className="w-5 h-5" />,
+    title: "Essa parcela continua cabendo daqui a alguns anos?",
     desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
     slug: "simule-seu-plano",
+    btn: "Simular parcela"
   },
   {
     num: 2,
-    icon: <Scale className="w-4 h-4" />,
-    title: "Raio-X do Lance",
+    icon: <Scale className="w-5 h-5" />,
+    title: "Esse lance realmente aumenta minhas chances?",
     desc: "Projeta o impacto financeiro da contemplação em diferentes momentos do plano.",
     slug: "raio-x-do-lance",
+    btn: "Simular lance"
   },
   {
     num: 3,
-    icon: <FileSearch className="w-4 h-4" />,
-    title: "Raio-X do Custo Total",
+    icon: <FileSearch className="w-5 h-5" />,
+    title: "Quanto esse consórcio realmente vai me custar?",
     desc: "Calcula o custo real do consórcio: taxa de administração, seguro e fundo de reserva.",
     slug: "custo-operacao",
+    btn: "Simular custo"
   },
   {
     num: 4,
-    icon: <Gauge className="w-4 h-4" />,
-    title: "Raio-X da Eficiência da Taxa",
+    icon: <Gauge className="w-5 h-5" />,
+    title: "Quanto do crédito contratado realmente chega até você?",
     desc: "Mostra quanto da parcela é taxa e como isso degrada a eficiência ao longo do tempo.",
     slug: "proporcao-taxa",
+    btn: "Simular eficiência"
   },
   {
     num: 5,
-    icon: <Activity className="w-4 h-4" />,
-    title: "Raio-X das Correções",
+    icon: <Activity className="w-5 h-5" />,
+    title: "Quanto a correção pode aumentar sua dívida?",
     desc: "Analisa o impacto dos reajustes históricos sobre o saldo devedor e a carta de crédito.",
     slug: "historico-correcoes",
+    btn: "Simular correções"
   },
   {
     num: 6,
-    icon: <Zap className="w-4 h-4" />,
-    title: "Auto pagável?",
+    icon: <Zap className="w-5 h-5" />,
+    title: "Essa operação realmente se paga?",
     desc: "Verifica se a carta de crédito é capaz de se pagar com rendimento após a contemplação.",
     slug: "auto-pagavel",
+    btn: "Testar operação"
   },
 ];
 
 export default function Simuladores() {
   return (
-    <div className="bg-[#111] text-white">
+    <div className="bg-[var(--paper)] text-[var(--ink)]">
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pt-8 pb-5">
+      <section className="w-full px-4 md:px-8 lg:px-16 pt-12 pb-8">
         <div className="max-w-3xl">
           <p className="text-[var(--orange)] text-xs font-mono uppercase tracking-widest mb-2">
             Raio-X do Consórcio
           </p>
-          <h1 className="text-2xl md:text-3xl font-extrabold leading-[1.1] text-white">
-            Se você não entende estes pontos,{" "}
-            <span className="text-[var(--orange)]">não contrate ainda.</span>
+          <h1 className="text-2xl md:text-3xl font-extrabold leading-[1.1] text-[var(--ink)]">
+            Antes de assinar um contrato, responda estas seis perguntas.
           </h1>
-          <p className="text-white/55 text-sm mt-3 max-w-2xl leading-relaxed">
-            Cada módulo abaixo mostra uma parte essencial da decisão. Antes de
-            contratar, entenda fluxo de parcelas, contemplação, custo da
-            operação, proporção da taxa, correções e viabilidade.
+          <p className="text-[var(--ink)]/60 text-sm mt-3 max-w-2xl leading-relaxed">
+            Cada simulador foi criado para responder uma decisão que normalmente só aparece depois da contratação.
           </p>
           <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-4 text-xs text-white/40">
             <span className="inline-flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-[var(--orange)]" />
-              Cálculo protegido no servidor
+              Cálculo protegido
             </span>
             <span className="inline-flex items-center gap-1.5">
               <FileSearch className="w-3.5 h-3.5 text-[var(--orange)]" />
-              Relatório de auditoria em PDF
+              Relatório em PDF
             </span>
           </div>
         </div>
@@ -106,23 +109,23 @@ export default function Simuladores() {
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-[var(--orange)]">{m.icon}</span>
                 <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--orange)]">
-                  Módulo {m.num}
+                  Raio-X #{m.num < 10 ? `0${m.num}` : m.num}
                 </span>
               </div>
 
               {/* Título */}
-              <h2 className="text-white font-bold text-base leading-snug mb-1.5">
+              <h2 className="text-white font-bold text-base leading-snug mb-2">
                 {m.title}
               </h2>
 
               {/* Descrição */}
-              <p className="text-white/50 text-xs leading-snug flex-1">
+              <p className="text-white/70 text-sm leading-relaxed flex-1">
                 {m.desc}
               </p>
 
               {/* CTA */}
-              <div className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-[var(--orange)] group-hover:gap-2.5 transition-all duration-200">
-                Abrir simulador
+              <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-[var(--orange)] group-hover:gap-2.5 transition-all duration-200">
+                {m.btn}
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </Link>
@@ -131,24 +134,23 @@ export default function Simuladores() {
       </section>
 
       {/* ── CTA FINAL ────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pb-8">
-        <div className="rounded-2xl border border-white/10 bg-[#1c1b15] py-6 px-8 flex flex-col md:flex-row items-center gap-5">
+      <section className="w-full px-4 md:px-8 lg:px-16 pb-10">
+        <div className="rounded-2xl border border-white/10 bg-[#1c1b15] py-10 px-10 flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-white text-xl font-extrabold leading-tight">
-              Já simulou e quer uma leitura humana do resultado?
+            <h2 className="text-white text-xl md:text-2xl font-extrabold leading-tight">
+              Os simuladores mostram os números. Eu ajudo a interpretar a decisão.
             </h2>
-            <p className="text-white/50 mt-2 max-w-xl text-sm">
-              Traga sua simulação ou proposta. Damos uma segunda opinião
-              técnica, com quem joga limpo.
+            <p className="text-white/60 mt-3 max-w-xl text-sm md:text-base">
+              Se depois da simulação você quiser uma análise independente para o seu caso, solicite uma análise individual.
             </p>
           </div>
           <a
             href={BRAND.whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-6 py-2.5 text-sm font-semibold whitespace-nowrap transition-transform hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3 text-sm md:text-base font-bold whitespace-nowrap transition-transform hover:scale-[1.02] active:scale-[0.98]"
           >
-            Falar com especialista
+            Solicitar análise individual
           </a>
         </div>
       </section>
