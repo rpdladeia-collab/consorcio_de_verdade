@@ -78,15 +78,15 @@ export default function Simuladores() {
             Raio-X do Consórcio
           </p>
           <h1 className="text-2xl md:text-3xl font-extrabold leading-[1.1] text-[var(--ink)]">
-            Antes de assinar um contrato, responda estas seis perguntas.
+            Aqui você não analisa apenas os números. Você entende como a operação funciona.
           </h1>
           <p className="text-[var(--ink)]/60 text-sm mt-3 max-w-2xl leading-relaxed">
-            Cada simulador foi criado para responder uma decisão que normalmente só aparece depois da contratação.
+            Cada análise responde uma dúvida específica da operação. Mais do que calcular valores, ela ajuda a compreender como cada decisão impacta o funcionamento do contrato ao longo do tempo.
           </p>
-          <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-4 text-xs text-white/40">
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-4 text-xs text-[var(--ink)]/70">
             <span className="inline-flex items-center gap-1.5">
               <Lock className="w-3.5 h-3.5 text-[var(--orange)]" />
-              Cálculo protegido
+              Cálculos protegidos
             </span>
             <span className="inline-flex items-center gap-1.5">
               <FileSearch className="w-3.5 h-3.5 text-[var(--orange)]" />
@@ -135,12 +135,12 @@ export default function Simuladores() {
 
       {/* ── CTA FINAL ────────────────────────────────────────────────── */}
       <section className="w-full px-4 md:px-8 lg:px-16 pb-10">
-        <div className="rounded-2xl border border-white/10 bg-[#1c1b15] py-10 px-10 flex flex-col md:flex-row items-center gap-8">
+        <div className="rounded-2xl bg-[var(--orange)] py-10 px-10 flex flex-col md:flex-row items-center gap-8">
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-white text-xl md:text-2xl font-extrabold leading-tight">
+            <h2 className="text-black text-xl md:text-2xl font-extrabold leading-tight">
               Os simuladores mostram os números. Eu ajudo a interpretar a decisão.
             </h2>
-            <p className="text-white/60 mt-3 max-w-xl text-sm md:text-base">
+            <p className="text-black/70 mt-3 max-w-xl text-sm md:text-base">
               Se depois da simulação você quiser uma análise independente para o seu caso, solicite uma análise individual.
             </p>
           </div>
