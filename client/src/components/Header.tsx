@@ -34,7 +34,7 @@ export default function Header() {
             <img
               src={LOGO.dark}
               alt={BRAND.name}
-              className="h-10 md:h-12 w-auto"
+              className="h-12 md:h-16 w-auto object-contain"
             />
           </Link>
 
