@@ -3,6 +3,7 @@ import { publicProcedure, router } from '../_core/trpc';
 import { calcLanceEmbutido } from '../lib/lanceEmbutido';
 import { calcZonaContemplacao } from '../lib/zonaContemplacao';
 import { calcLanceLivre } from '../lib/lanceLivre';
+import { calcLanceCartaXCategoria } from '../lib/lanceCartaXCategoria';
 
 // Validação de inputs do Lance Embutido — modo simples usa apenas credit + embeddedPct,
 // os demais campos têm defaults sensatos para o modo avançado.
@@ -61,5 +62,15 @@ export const simuladoresRouter = router({
     .input(lanceLivreSchema)
     .mutation(({ input }) => {
       return calcLanceLivre(input);
+    }),
+
+  lanceCartaXCategoria: publicProcedure
+    .input(z.object({
+      credit: z.number().positive(),
+      adminRate: z.number().min(0).max(100),
+      bidPct: z.number().min(0).max(100),
+    }))
+    .mutation(({ input }) => {
+      return calcLanceCartaXCategoria(input);
     }),
 });

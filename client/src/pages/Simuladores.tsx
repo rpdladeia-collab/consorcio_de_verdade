@@ -66,6 +66,15 @@ const MODULOS = [
     slug: "auto-pagavel",
     btn: "Testar operação"
   },
+  {
+    num: 7,
+    icon: <Scale className="w-5 h-5" />,
+    title: "Lance sobre Carta vs Categoria",
+    desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).",
+    slug: "lance-carta-x-categoria",
+    btn: "Comparar bases",
+    theme: "yellow"
+  },
 ];
 
 export default function Simuladores() {
@@ -101,12 +110,14 @@ export default function Simuladores() {
             <Link
               key={m.slug}
               href={`/simulador/${m.slug}`}
-              className="group flex flex-col rounded-xl border border-white/10 bg-[#1c1b15] p-4 transition-colors duration-200 hover:border-orange-500"
+              className={`group flex flex-col rounded-xl border border-white/10 bg-[#1c1b15] p-4 transition-colors duration-200 ${
+                (m as any).theme === 'yellow' ? 'hover:border-yellow-400 hover:shadow-[0_0_15px_rgba(250,204,21,0.1)]' : 'hover:border-orange-500'
+              }`}
             >
               {/* Label */}
               <div className="flex items-center gap-2 mb-2">
                 <span className="text-[var(--orange)]">{m.icon}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--orange)]">
+                <span className={`font-mono text-[10px] uppercase tracking-widest ${(m as any).theme === 'yellow' ? 'text-yellow-400' : 'text-[var(--orange)]'}`}>
                   Raio-X #{m.num < 10 ? `0${m.num}` : m.num}
                 </span>
               </div>
@@ -122,7 +133,7 @@ export default function Simuladores() {
               </p>
 
               {/* CTA */}
-              <div className="mt-2 flex items-center gap-1.5 text-[10px] font-semibold text-[var(--orange)] group-hover:gap-2.5 transition-all duration-200">
+              <div className={`mt-2 flex items-center gap-1.5 text-[10px] font-semibold ${(m as any).theme === 'yellow' ? 'text-yellow-400' : 'text-[var(--orange)]'} group-hover:gap-2.5 transition-all duration-200`}>
                 {m.btn}
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>

@@ -21,6 +21,7 @@ import SimuladorCustoOperacao from "./pages/SimuladorCustoOperacao";
 import SimuladorProporcaoTaxa from "./pages/SimuladorProporcaoTaxa";
 import SimuladorHistoricoCorrecoes from "./pages/SimuladorHistoricoCorrecoes";
 import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
+import SimuladorLanceCartaXCategoria from "./pages/SimuladorLanceCartaXCategoria";
 import Panorama from "./pages/Panorama";
 // ZonaContemplacao antiga substituída pela versão nativa (SimuladorZonaContemplacao)
 
@@ -39,6 +40,7 @@ function Router() {
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simulador/historico-correcoes"} component={SimuladorHistoricoCorrecoes} />
       <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
+      <Route path={"/simulador/lance-carta-x-categoria"} component={SimuladorLanceCartaXCategoria} />
       <Route path={"/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/panorama"} component={Panorama} />
       <Route path={"/sobre"} component={Sobre} />
