@@ -1,4 +1,4 @@
-/**
+/*
  * Módulo 2 — Contemplação
  * Layout: RaioXLayout (grid 2 colunas — inputs esquerda / KPIs+resultados direita)
  * Matemática: fiel ao HTML original (runContemplation + buildContemplationProjection)
@@ -247,6 +247,8 @@ export default function SimuladorContemplacao() {
         className="w-full rounded-full bg-[var(--orange)] text-white py-2 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Analisar contemplação"}
       </button>
+
+
     </form>
   );
 
@@ -265,7 +267,7 @@ export default function SimuladorContemplacao() {
           hint="1ª parcela aproximada após o lance" tone="default" />
       </div>
 
-      {/* Diagnóstico do Lance */}
+      {/* Card Diagnóstico do Lance — ACIMA DA TABELA */}
       <div className="rounded-xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-4">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5">
@@ -282,136 +284,108 @@ export default function SimuladorContemplacao() {
         </div>
       </div>
 
+      {/* Tabela de Evolução — REDIMENSIONADA PARA COLUNA DIREITA */}
+      {result && (
+        <div className="space-y-2">
+          <div className="flex items-center justify-between px-1">
+            <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Evolução das parcelas</h3>
+          </div>
+          <div className="rounded-lg border border-border overflow-hidden bg-white shadow-sm">
+            <div className="w-full overflow-x-auto">
+              <table className="w-full text-[10.8px]">
+                <thead className="bg-[var(--ink)] text-white">
+                  <tr>
+                    <th className="px-2 py-2 text-left font-semibold uppercase tracking-wider text-white/70 flex-1">Mês</th>
+                    <th className="px-2 py-2 text-left font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Carta</th>
+                    <th className="px-2 py-2 text-left font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Evento</th>
+                    <th className="px-2 py-2 text-right font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-none w-8">Lance</th>
+                    <th className="px-2 py-2 text-right font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Parcela</th>
+                    <th className="px-2 py-2 text-right font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Saldo</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-border/30">
+                  {(expanded ? result.projection.rows : []).map((r) => (
+                    <tr key={r.month} className={`transition-colors hover:bg-secondary/10 ${r.event === "Lance aplicado" ? "bg-orange-50 font-bold border-y border-[var(--orange)]/40" : ""}`}>
+                      <td className="px-2 py-1.5 font-mono text-foreground/60 text-[10px] flex-1">{r.month}</td>
+                      <td className="px-2 py-1.5 font-mono text-[10px] flex-1">{brl(r.credit)}</td>
+                      <td className="px-2 py-1.5 font-medium text-[10px] flex-1">
+                        {r.event === "Lance aplicado" ? (
+                          <span className="text-[var(--orange)] flex items-center gap-0.5">
+                            <ArrowUpRight className="w-2.5 h-2.5" />
+                            {r.event}
+                          </span>
+                        ) : r.event}
+                      </td>
+                      <td className="px-2 py-1.5 text-right font-mono text-[10px] text-foreground/80 flex-none w-8 truncate">{r.lance > 0 ? brl(r.lance) : "—"}</td>
+                      <td className={`px-2 py-1.5 text-right font-mono font-bold text-[10px] flex-1 ${r.event === "Lance aplicado" ? "text-[var(--orange)]" : "text-foreground"}`}>
+                        {r.projected > 0 ? brl(r.projected) : "—"}
+                      </td>
+                      <td className="px-2 py-1.5 text-right font-mono text-foreground/70 text-[10px] flex-1">{brl(r.balance)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {result.projection.rows.length > 0 && (
+              <button onClick={() => setExpanded(!expanded)}
+                className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-bold text-[var(--orange)] bg-secondary/5 hover:bg-secondary/20 border-t border-border transition-all">
+                <ChevronDown className={`w-3 h-3 transition-transform ${expanded ? "rotate-180" : ""}`} />
+                {expanded ? "Recolher" : `Ver todas (${result.projection.rows.length})`}
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* Card de interpretação — NA COLUNA DIREITA */}
+      <div className="rounded-xl border border-border bg-card py-3 px-4">
+        <p className="font-semibold text-xs">Quer interpretar esses números?</p>
+        <p className="text-[11px] text-foreground/60 mt-0.5">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
+        <button className="mt-3 w-full rounded-full bg-[var(--orange)] text-white py-2 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all">
+          Pedir uma análise individual
+        </button>
+      </div>
+
+      {/* Botão PDF — NA COLUNA DIREITA */}
+      <button 
+        onClick={handlePdf}
+        disabled={pdfLoading}
+        className="w-full flex items-center justify-center gap-2.5 px-4 py-3 rounded-full border border-border bg-white hover:bg-secondary/20 text-[12px] font-bold transition-all shadow-sm active:scale-95 disabled:opacity-50"
+      >
+        <ArrowUpRight className="w-4 h-4" />
+        {pdfLoading ? "Gerando..." : "Baixar Relatório de Auditoria (PDF)"}
+      </button>
+
       {/* Leitura técnica */}
       <div className="space-y-3">
-        <MeaningBlock title="ESTRUTURA DA OPERAÇÃO">
-          <CalcMemory title="RESUMO DA OPERAÇÃO">
-            <table className="w-full text-[10px]">
-              <thead className="text-foreground/40 border-b border-border">
-                <tr>
-                  <th className="pb-1 text-left font-semibold uppercase tracking-wider">Item</th>
-                  <th className="pb-1 text-right font-semibold uppercase tracking-wider">Valor</th>
-                  <th className="pb-1 text-left font-semibold uppercase tracking-wider pl-4">Leitura</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border/50">
-                {result.summaryRows.map((r, i) => (
-                  <tr key={i}>
-                    <td className="py-1.5 font-bold text-foreground/80">{r.item}</td>
-                    <td className="py-1.5 text-right font-mono font-bold">{r.value}</td>
-                    <td className="py-1.5 pl-4 text-foreground/50 leading-snug">{r.read}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </CalcMemory>
-        </MeaningBlock>
-
-        <Collapsible title="Como essa projeção foi construída" open={false}>
-          <MethodologyBlock title="METODOLOGIA">
-            <p className="text-[11px] text-foreground/70 leading-relaxed">
-              Esta simulação considera o lance aplicado exatamente no mês {form.paidMonths}, com reajuste de {form.adjRate}% {form.adjEvery === "6" ? "semestral" : "anual"}. O saldo devedor é recalculado imediatamente após o abatimento do lance, e a nova parcela é projetada com base no prazo remanescente.
-            </p>
-          </MethodologyBlock>
-        </Collapsible>
-
         <TransparencyBlock />
-
-        {/* CTAs Lado a Lado - Alinhados à Direita */}
-        <div className="flex flex-col sm:flex-row-reverse items-center justify-start gap-4 pt-4">
-          {/* CTA Especialista */}
-          <div className="w-full sm:w-[320px] bg-white rounded-2xl border border-border p-4 flex flex-col gap-3 shadow-sm relative overflow-hidden group">
-            <div className="absolute top-0 right-0 p-2 opacity-10 group-hover:opacity-20 transition-opacity">
-              <Instagram className="w-12 h-12" />
-            </div>
-            <div className="flex flex-col gap-1.5 relative z-10">
-              <h4 className="text-[13px] font-bold text-foreground leading-tight">Quer interpretar esses números?</h4>
-              <p className="text-[11px] text-foreground/50 leading-relaxed">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
-            </div>
-            <a href={BRAND.whatsapp} target="_blank" rel="noreferrer" 
-              className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-[var(--orange)] text-white text-[11px] font-bold hover:opacity-90 transition-all shadow-lg active:scale-95 relative z-10">
-              <Instagram className="w-3.5 h-3.5" />
-              Pedir uma análise individual
-            </a>
-          </div>
-
-          {/* Botão PDF */}
-          <button 
-            onClick={handlePdf}
-            disabled={pdfLoading}
-            className="w-full sm:w-auto flex items-center justify-center gap-2.5 px-8 py-5 rounded-full border border-border bg-white hover:bg-secondary/20 text-[12px] font-bold transition-all shadow-sm active:scale-95 disabled:opacity-50"
-          >
-            <ArrowUpRight className="w-4 h-4" />
-            {pdfLoading ? "Gerando..." : "Baixar Relatório de Auditoria (PDF)"}
-          </button>
-        </div>
       </div>
     </div>
   ) : null;
 
-  // ── Tabela de Evolução Centralizada e Otimizada ──
-  const scheduleTable = result ? (
-    <div className="space-y-4 max-w-5xl mx-auto px-4">
-      <div className="flex items-center justify-between px-1">
-        <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Evolução das parcelas</h3>
-      </div>
-      <div className="rounded-2xl border border-border overflow-hidden bg-white shadow-md">
-        <div className="w-full overflow-x-auto">
-          <table className="w-full text-[11px]">
-            <thead className="bg-[var(--ink)] text-white">
-              <tr>
-                <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider text-white/70 w-16">Mês</th>
-                <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider text-white/70">Carta</th>
-                <th className="px-4 py-3 text-left font-semibold uppercase tracking-wider text-white/70">Evento</th>
-                <th className="px-4 py-3 text-right font-semibold uppercase tracking-wider text-white/70 w-24">Lance</th>
-                <th className="px-4 py-3 text-right font-semibold uppercase tracking-wider text-white/70">Parcela</th>
-                <th className="px-4 py-3 text-right font-semibold uppercase tracking-wider text-white/70">Saldo</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-border/30">
-              {(expanded ? result.projection.rows : result.projection.rows.slice(0, 13)).map((r) => (
-                <tr key={r.month} className={`transition-colors hover:bg-secondary/10 ${r.event === "Lance aplicado" ? "bg-orange-50 font-bold border-y-2 border-[var(--orange)]/40" : ""}`}>
-                  <td className="px-4 py-2.5 font-mono text-foreground/60">{r.month}</td>
-                  <td className="px-4 py-2.5 font-mono">{brl(r.credit)}</td>
-                  <td className="px-4 py-2.5 font-medium">
-                    {r.event === "Lance aplicado" ? (
-                      <span className="text-[var(--orange)] flex items-center gap-1.5">
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                        {r.event}
-                      </span>
-                    ) : r.event}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono w-24 text-foreground/80">{r.lance > 0 ? brl(r.lance) : "—"}</td>
-                  <td className={`px-4 py-2.5 text-right font-mono font-bold ${r.event === "Lance aplicado" ? "text-[var(--orange)] text-[12px]" : "text-foreground"}`}>
-                    {r.projected > 0 ? brl(r.projected) : "—"}
-                  </td>
-                  <td className="px-4 py-2.5 text-right font-mono text-foreground/70">{brl(r.balance)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {result.projection.rows.length > 13 && (
-          <button onClick={() => setExpanded(!expanded)}
-            className="w-full flex items-center justify-center gap-2 py-3.5 text-[11px] font-bold text-[var(--orange)] bg-secondary/5 hover:bg-secondary/20 border-t border-border transition-all">
-            <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
-            {expanded ? "Recolher parcelas" : `Ver todas as ${result.projection.rows.length} parcelas`}
-          </button>
-        )}
-      </div>
-    </div>
-  ) : null;
+  // ── Tabela de Evolução — MOVIDA PARA COLUNA DIREITA ──
+  const scheduleTable = null;
 
   return (
     <RaioXLayout
       moduleNumber={2}
       title="Raio-X do Lance"
-      description="Seu lance compra contemplação. Ou compra frustração."
+      description={<span className="text-[var(--orange)]">Seu lance compra contemplação. Ou compra frustração.</span>}
       descriptionSupport="Antes de colocar dinheiro na mesa, descubra quanto ele realmente aumenta sua chance de contemplação, quanto reduz seu crédito e qual será o impacto financeiro depois da assembleia."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}
       scheduleTable={scheduleTable}
     />
+  );
+}
+
+function Field({ label, value, onChange, big }: { label: string; value: string; onChange: (v: string) => void; big?: boolean }) {
+  return (
+    <label className="block">
+      <span className={`font-medium text-foreground/70 mb-1.5 block ${big ? "text-sm" : "text-xs"}`}>{label}</span>
+      <input inputMode="decimal" value={value} onChange={(e) => onChange(e.target.value)}
+        className={`w-full rounded-xl border border-border bg-background px-4 py-3 focus:outline-none focus:border-[var(--orange)] transition-colors ${big ? "text-lg font-semibold" : "text-sm"}`} />
+    </label>
   );
 }

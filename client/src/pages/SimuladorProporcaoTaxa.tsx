@@ -208,45 +208,45 @@ export default function SimuladorProporcaoTaxa() {
 
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3">
       <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
-      <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <p className="font-semibold text-xs text-foreground/70 uppercase tracking-wider mb-2">
         Dados do plano
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <input type="number" min="0" step="1000" className="input mt-0.5 w-full"
             value={form.credit} onChange={(e) => set("credit", e.target.value)} />
         </label>
         <label className="block">
           <span className="text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <input type="number" min="0" step="0.01" className="input mt-0.5 w-full"
             value={form.adminPct} onChange={(e) => set("adminPct", e.target.value)} />
         </label>
         <label className="block">
           <span className="text-xs font-medium text-foreground/60">Parcelas pagas</span>
-          <input type="number" min="0" className="input mt-1 w-full"
+          <input type="number" min="0" className="input mt-0.5 w-full"
             value={form.paid} onChange={(e) => set("paid", e.target.value)} />
         </label>
         <label className="block">
           <span className="text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <input type="number" min="0" step="1000" className="input mt-0.5 w-full"
             value={form.own} onChange={(e) => set("own", e.target.value)} />
         </label>
         <label className="block">
           <span className="text-xs font-medium text-foreground/60">FGTS (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <input type="number" min="0" step="1000" className="input mt-0.5 w-full"
             value={form.fgts} onChange={(e) => set("fgts", e.target.value)} />
         </label>
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Lance embutido (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <input type="number" min="0" step="1000" className="input mt-0.5 w-full"
             value={form.embedded} onChange={(e) => set("embedded", e.target.value)} />
         </label>
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Base de cálculo da taxa</span>
-          <select className="input mt-1 w-full" value={form.basis}
+          <select className="input mt-0.5 w-full" value={form.basis}
             onChange={(e) => set("basis", e.target.value as Basis)}>
             <option value="newMoney">Dinheiro novo (padrão)</option>
             <option value="liquidCredit">Carta líquida</option>
@@ -254,7 +254,7 @@ export default function SimuladorProporcaoTaxa() {
         </label>
         <label className="block col-span-2">
           <span className="text-xs font-medium text-foreground/60">Total de parcelas do grupo</span>
-          <input type="number" min="1" max="360" step="1" className="input mt-1 w-full"
+          <input type="number" min="1" max="360" step="1" className="input mt-0.5 w-full"
             placeholder="Ex: 120"
             value={form.totalParcelas} onChange={(e) => set("totalParcelas", e.target.value)} />
           <span className="text-xs text-foreground/40 mt-0.5 block">Necessário para análise de degradação progressiva</span>
@@ -262,7 +262,7 @@ export default function SimuladorProporcaoTaxa() {
       </div>
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2.5 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Calcular proporção da taxa"}
       </button>
     </form>
@@ -500,14 +500,16 @@ export default function SimuladorProporcaoTaxa() {
   ) : null;
 
   return (
-    <RaioXLayout
-      moduleNumber={4}
-      title="Raio-X da Eficiência da Taxa"
-      description="A taxa parece pequena no contrato. Mas quanto ela pesa no dinheiro que você realmente usa?"
-      descriptionSupport="Analise quanto da operação representa custo e quanto realmente vira crédito disponível."
-      formPanel={formPanel}
-      resultsPanel={resultsPanel}
-      hasResult={!!result}
-    />
+    <div className="min-h-screen flex flex-col">
+      <RaioXLayout
+        moduleNumber={4}
+        title="Raio-X da Eficiência da Taxa"
+        description={<span className="text-[var(--orange)]">A taxa parece pequena no contrato. Mas quanto ela pesa no dinheiro que você realmente usa?</span>}
+        descriptionSupport="Analise quanto da operação representa custo e quanto realmente vira crédito disponível."
+        formPanel={formPanel}
+        resultsPanel={resultsPanel}
+        hasResult={!!result}
+      />
+    </div>
   );
 }

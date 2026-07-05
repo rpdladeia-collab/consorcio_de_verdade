@@ -6,7 +6,7 @@ import { LOGO, BRAND } from "@/lib/brand";
 interface RaioXLayoutProps {
   moduleNumber: number;
   title: string;
-  description: string;
+  description: string | React.ReactNode;
   descriptionSupport?: string;
   formPanel: React.ReactNode;
   resultsPanel: React.ReactNode;
@@ -42,7 +42,7 @@ export default function RaioXLayout({
 
         {/* Descrição em full width */}
         <p className="text-white text-[13px] w-full leading-snug">
-          {description.startsWith("Parcela baixa vende fácil") ? (
+          {typeof description === "string" && description.startsWith("Parcela baixa vende fácil") ? (
             <>
               <span className="font-bold text-[var(--orange)]">Parcela baixa vende fácil. Conta mal feita cobra caro.</span>
               <span className="font-normal"> {description.substring("Parcela baixa vende fácil. Conta mal feita cobra caro.".length)}</span>

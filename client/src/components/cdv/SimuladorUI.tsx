@@ -300,9 +300,9 @@ export function PointsList({
    Memória de cálculo (linhas)
 ---------------------------------------------------------------------------- */
 export function CalcMemory({
-  rows,
+  rows = [],
 }: {
-  rows: { label: string; value: string; formula?: string }[];
+  rows?: { label: string; value: string; formula?: string }[];
 }) {
   const [open, setOpen] = React.useState(false);
   return (
@@ -321,19 +321,25 @@ export function CalcMemory({
       </button>
       {open && (
         <div className="divide-y divide-white/8">
-          {rows.map((r, i) => (
-            <div key={i} className="px-5 py-3 flex items-start justify-between gap-4">
-              <div className="min-w-0">
-                <p className="text-sm text-white/80">{r.label}</p>
-                {r.formula && (
-                  <p className="mono text-xs text-white/40 mt-0.5">{r.formula}</p>
-                )}
+          {rows?.length > 0 ? (
+            rows.map((r, i) => (
+              <div key={i} className="px-5 py-3 flex items-start justify-between gap-4">
+                <div className="min-w-0">
+                  <p className="text-sm text-white/80">{r.label}</p>
+                  {r.formula && (
+                    <p className="mono text-xs text-white/40 mt-0.5">{r.formula}</p>
+                  )}
+                </div>
+                <span className="data-num text-sm font-semibold text-[var(--orange)] shrink-0">
+                  {r.value}
+                </span>
               </div>
-              <span className="data-num text-sm font-semibold text-[var(--orange)] shrink-0">
-                {r.value}
-              </span>
+            ))
+          ) : (
+            <div className="px-5 py-4 text-center text-white/30 text-xs italic">
+              Nenhuma memória de cálculo disponível para esta simulação.
             </div>
-          ))}
+          )}
         </div>
       )}
     </div>

@@ -98,9 +98,9 @@ export default function SimuladorCustoOperacao() {
   }
 
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-2.5">
       <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
-      <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <p className="font-semibold text-xs text-foreground/70 uppercase tracking-wider mb-2">
         Dados do plano
       </p>
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -169,14 +169,60 @@ export default function SimuladorCustoOperacao() {
       </Collapsible>
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2.5 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Analisar custo da operação"}
       </button>
+
+      {/* Botões explicativos — aparecem após análise */}
+      {result && (
+        <div className="space-y-2 pt-2 border-t border-border/50">
+          {result.readboxes.map((rb, i) => (
+            <div key={i} className="rounded-xl overflow-hidden border border-white/10">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.preventDefault();
+                  const content = e.currentTarget.nextElementSibling;
+                  if (content) {
+                    content.style.display = content.style.display === 'none' ? 'block' : 'none';
+                  }
+                }}
+                className="w-full flex items-center justify-between bg-[var(--ink)] px-5 py-3.5 text-left hover:bg-[var(--ink)]/90 transition-colors"
+              >
+                <div className="flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-yellow-400 shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
+                  <span className="text-[11px] font-bold uppercase tracking-widest text-yellow-400">{rb.title}</span>
+                </div>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white/40 transition-transform duration-200"><path d="m6 9 6 6 6-6"></path></svg>
+              </button>
+              <div style={{display: 'none'}} className="bg-[var(--ink)] px-5 pb-5 pt-1 text-white/70 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
+                <p className="whitespace-pre-line">{rb.body}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* Card de interpretação — aparece após análise */}
+      {result && (
+        <div className="space-y-2 pt-2">
+          <div className="rounded-xl border border-border bg-card py-3 px-4">
+            <p className="font-semibold text-xs">Quer interpretar esses números?</p>
+            <p className="text-[11px] text-foreground/60 mt-0.5">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
+            <button className="mt-3 w-full rounded-full bg-[var(--orange)] text-white py-2 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all">
+              Pedir uma análise individual
+            </button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <PdfButton onClick={handlePdf} loading={pdfLoading} />
+          </div>
+        </div>
+      )}
     </form>
   );
 
   const resultsPanel = result ? (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {result.warnings.length > 0 && (
         <div className="rounded-xl border border-orange-200 bg-orange-50 p-4 space-y-1">
           <p className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
@@ -189,7 +235,7 @@ export default function SimuladorCustoOperacao() {
       )}
 
       {/* KPIs — grid 2×2 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <KpiCard label="Taxa adm. contratual" value={brl(result.kpis.contractualAdmin)}
           hint="16% sobre a carta inicial" tone="default" />
         <KpiCard label="Adm. sobre correções" value={brl(result.kpis.adminCorrection)}
@@ -200,19 +246,10 @@ export default function SimuladorCustoOperacao() {
           hint="Adm. projetada + seguro" highlight={true} />
       </div>
 
-      {/* Leitura técnica — readboxes do HTML */}
-      <div className="space-y-3">
-        {result.readboxes.map((rb, i) => (
-          <MeaningBlock key={i} label={rb.title}>
-            <p className="whitespace-pre-line">{rb.body}</p>
-          </MeaningBlock>
-        ))}
-      </div>
-
       {/* Frase de impacto */}
-      <div className="mb-6">
-        <h3 className="text-lg font-bold text-foreground mb-2">O número que quase ninguém mostra</h3>
-        <p className="text-sm text-foreground/70">A parcela mensal pode parecer simples. O custo acumulado conta outra história.</p>
+      <div className="mb-2">
+        <h3 className="text-sm font-bold text-foreground mb-1">O número que quase ninguém mostra</h3>
+        <p className="text-xs text-foreground/70">A parcela mensal pode parecer simples. O custo acumulado conta outra história.</p>
       </div>
 
       {/* Tabela de classificação econômica */}
@@ -234,10 +271,10 @@ export default function SimuladorCustoOperacao() {
             <tbody>
               {result.classificationTable.map((row, i) => (
                 <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
-                  <td className="px-3 py-2 font-medium text-sm">{row.item}</td>
-                  <td className="px-3 py-2 text-right font-mono text-sm font-semibold">{row.value}</td>
-                  <td className="px-3 py-2 text-foreground/55 text-xs hidden lg:table-cell">{row.classification}</td>
-                  <td className="px-3 py-2 text-foreground/45 text-xs hidden xl:table-cell">{row.reading}</td>
+                  <td className="px-2 py-1 font-medium text-xs">{row.item}</td>
+                  <td className="px-2 py-1 text-right font-mono text-xs font-semibold">{row.value}</td>
+                  <td className="px-2 py-1 text-foreground/55 text-[10px] hidden lg:table-cell">{row.classification}</td>
+                  <td className="px-2 py-1 text-foreground/45 text-[10px] hidden xl:table-cell">{row.reading}</td>
                 </tr>
               ))}
             </tbody>
@@ -247,26 +284,26 @@ export default function SimuladorCustoOperacao() {
       </div>
 
       {/* Tabela de fluxo mensal — accordion com scroll interno */}
-      <div className="rounded-xl border border-border">
+      <div className="rounded-lg border border-border">
         <button
           type="button"
           onClick={() => setTableOpen(!tableOpen)}
-          className="w-full flex items-center justify-between px-4 py-3 bg-card hover:bg-secondary/30 transition-colors text-sm font-semibold"
+          className="w-full flex items-center justify-between px-3 py-2 bg-card hover:bg-secondary/30 transition-colors text-xs font-semibold"
         >
           <span>Ver fluxo mensal completo</span>
           <ChevronDown className={`w-4 h-4 transition-transform ${tableOpen ? "rotate-180" : ""}`} />
         </button>
         {tableOpen && (
-          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
-            <table className="w-full text-xs min-w-[700px]">
+          <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
+            <table className="w-full text-[10px] min-w-[700px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
-                  <th className="px-3 py-2.5 text-left">Mês</th>
-                  <th className="px-3 py-2.5 text-right">Carta</th>
-                  <th className="px-3 py-2.5 text-right">Parcela</th>
-                  <th className="px-3 py-2.5 text-right">Seguro</th>
-                  <th className="px-3 py-2.5 text-right">Saldo</th>
-                  <th className="px-3 py-2.5 text-left">Evento</th>
+                  <th className="px-2 py-1.5 text-left">Mês</th>
+                  <th className="px-2 py-1.5 text-right">Carta</th>
+                  <th className="px-2 py-1.5 text-right">Parcela</th>
+                  <th className="px-2 py-1.5 text-right">Seguro</th>
+                  <th className="px-2 py-1.5 text-right">Saldo</th>
+                  <th className="px-2 py-1.5 text-left">Evento</th>
                 </tr>
               </thead>
               <tbody>
@@ -277,12 +314,12 @@ export default function SimuladorCustoOperacao() {
                       isAdj ? "bg-amber-50/60"
                         : i % 2 === 0 ? "bg-card" : "bg-secondary/20"
                     }>
-                      <td className="px-3 py-1.5 font-mono">{row.month}</td>
-                      <td className="px-3 py-1.5 text-right font-mono">{brl(row.credit)}</td>
-                      <td className="px-3 py-1.5 text-right font-mono font-bold">{brlc(row.installment)}</td>
-                      <td className="px-3 py-1.5 text-right font-mono">{brlc(row.insurance)}</td>
-                      <td className="px-3 py-1.5 text-right font-mono">{brl(row.balance)}</td>
-                      <td className="px-3 py-1.5 text-foreground/55">{row.tags?.join(", ") || ""}</td>
+                      <td className="px-2 py-1 font-mono">{row.month}</td>
+                      <td className="px-2 py-1 text-right font-mono">{brl(row.credit)}</td>
+                      <td className="px-2 py-1 text-right font-mono font-bold">{brlc(row.installment)}</td>
+                      <td className="px-2 py-1 text-right font-mono">{brlc(row.insurance)}</td>
+                      <td className="px-2 py-1 text-right font-mono">{brl(row.balance)}</td>
+                      <td className="px-2 py-1 text-foreground/55 text-[9px]">{row.tags?.join(", ") || ""}</td>
                     </tr>
                   );
                 })}
@@ -292,36 +329,8 @@ export default function SimuladorCustoOperacao() {
         )}
       </div>
 
-      {/* Memória de cálculo */}
-      <CalcMemory rows={[
-        { label: "Taxa adm. contratual", value: brl(result.kpis.contractualAdmin),
-          formula: `${brl(result.rows[0]?.credit ?? 0)} × taxa adm.` },
-        { label: "Adm. sobre correções", value: brl(result.kpis.adminCorrection),
-          formula: "taxa adm. aplicada sobre a correção do fundo comum" },
-        { label: "Seguro projetado", value: brl(result.kpis.projectedInsurance),
-          formula: "% seguro × saldo pós-parcela, acumulado no prazo" },
-        { label: "Custo explícito total", value: brl(result.kpis.explicitCost),
-          formula: "adm. projetada + seguro projetado" },
-        { label: "Total pago nominal", value: brl(result.totalPaidNominal),
-          formula: "soma de todas as parcelas projetadas" },
-      ]} />
-
-      <MethodologyBlock sources={[
-        "Lógica extraída do HTML original Raio-X do Consórcio (runOperationCost).",
-        "Custo explícito: taxa de administração projetada + seguro informado separadamente.",
-        "Correção do fundo comum não é tratada como custo isolado (atualiza carta e obrigação).",
-        "Motor Matemático v1.0 · Cálculo executado no servidor (tRPC), não acessível ao navegador.",
-      ]} />
-
-      <TransparencyBlock />
-
-      <div className="flex flex-wrap gap-3">
-        <PdfButton onClick={handlePdf} loading={pdfLoading} />
-      </div>
-      <ConsultCTA context="esses números" />
-      <div className="rounded-2xl border border-border bg-card py-4 px-5">
-        <p className="font-semibold text-sm">Quer interpretar esses números?</p>
-        <p className="text-xs text-foreground/60 mt-1">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
+      <div className="w-full">
+        <TransparencyBlock />
       </div>
     </div>
   ) : null;
@@ -330,7 +339,7 @@ export default function SimuladorCustoOperacao() {
     <RaioXLayout
       moduleNumber={3}
       title="Raio-X do Custo Total"
-      description="Consórcio não tem juros, mas tem correção e isso muda tudo !!"
+      description={<span className="text-[var(--orange)]">Consórcio não tem juros, mas tem correção e isso muda tudo !!</span>}
       descriptionSupport="Veja o custo real da operação, separando taxa, seguro, fundo de reserva e correções para entender o que você está pagando e o que é apenas atualização monetária."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
