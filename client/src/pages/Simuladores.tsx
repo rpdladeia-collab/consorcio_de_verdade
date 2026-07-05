@@ -114,16 +114,10 @@ export default function Simuladores() {
                 (m as any).theme === 'yellow' ? 'hover:border-yellow-400 hover:shadow-[0_0_15px_rgba(250,204,21,0.1)]' : 'hover:border-orange-500'
               }`}
             >
-              {/* Label */}
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[var(--orange)]">{m.icon}</span>
-                <span className={`font-mono text-[10px] uppercase tracking-widest ${(m as any).theme === 'yellow' ? 'text-yellow-400' : 'text-[var(--orange)]'}`}>
-                  Raio-X #{m.num < 10 ? `0${m.num}` : m.num}
-                </span>
-              </div>
-
               {/* Título */}
-              <h2 className="text-white font-bold text-sm leading-snug mb-1">
+              <h2 className={`font-bold text-sm leading-snug mb-1 ${
+                m.num <= 6 ? 'text-[var(--orange)]' : 'text-white'
+              }`}>
                 {m.title}
               </h2>
 
@@ -133,7 +127,7 @@ export default function Simuladores() {
               </p>
 
               {/* CTA */}
-              <div className={`mt-2 flex items-center gap-1.5 text-[10px] font-semibold ${(m as any).theme === 'yellow' ? 'text-yellow-400' : 'text-[var(--orange)]'} group-hover:gap-2.5 transition-all duration-200`}>
+              <div className={`mt-auto flex items-center gap-1.5 text-[10px] font-semibold ${(m as any).theme === 'yellow' ? 'text-yellow-400' : 'text-[var(--orange)]'} group-hover:gap-2.5 transition-all duration-200`}>
                 {m.btn}
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>

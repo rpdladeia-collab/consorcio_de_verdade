@@ -182,10 +182,7 @@ function RaioXSection() {
           {cards.map((c) => (
             <Link key={c.num} href={c.href}>
               <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-4 hover:border-[var(--orange)] hover:shadow-sm transition-all cursor-pointer h-full">
-                <p className="text-[10px] tracking-widest uppercase text-[var(--orange)]/60 mb-1 font-semibold">
-                  {c.num === "06" ? "O QUE VOCÊ PRECISA SABER #06" : c.num}
-                </p>
-                <p className="text-sm font-bold text-[var(--ink)] mb-1">{c.name}</p>
+                <p className="text-sm font-bold text-[var(--orange)] mb-1">{c.name}</p>
                 <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
                   {c.call}
                 </p>
