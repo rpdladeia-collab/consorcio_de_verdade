@@ -23,9 +23,10 @@ const FONTE_TEXTO =
   "Seção de reclamações: Consumidor.gov.br (painel público). " +
   "O Consórcio de Verdade não tem a ABAC como fonte de dados.";
 const TRANSPARENCY_TEXT =
-  "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação. " +
-  "Os dados apresentados são de fontes oficiais públicas. Nenhuma informação deste relatório " +
-  "constitui recomendação de compra ou venda de consórcio.";
+  "Transparência e Metodologia: Este relatório apresenta uma projeção matemática baseada em parâmetros fornecidos pelo usuário, " +
+  "destinada exclusivamente à compreensão da dinâmica financeira do produto. Esta análise é uma projeção independente para apoio " +
+  "à decisão e não substitui o contrato oficial. Toda e qualquer informação deve ser validada diretamente com a Administradora " +
+  "de Consórcios antes de qualquer decisão.";
 
 /* ─── Cores (RGB) ─── */
 const INK: [number, number, number] = [21, 20, 15];

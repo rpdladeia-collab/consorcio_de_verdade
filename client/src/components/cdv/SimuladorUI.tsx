@@ -124,21 +124,21 @@ export function KpiCard({
       : "text-foreground";
   return (
     <div
-      className={`rounded-2xl p-5 border ${
+      className={`rounded-lg p-3 border shadow-sm ${
         highlight
           ? "bg-[var(--ink)] text-[var(--paper)] border-transparent"
           : "bg-card border-border"
       }`}
     >
       <p
-        className={`text-xs font-medium uppercase tracking-wide ${
-          highlight ? "text-white/55" : "text-foreground/50"
+        className={`text-xs font-normal uppercase tracking-wide ${
+          highlight ? "text-white/50" : "text-foreground/40"
         }`}
       >
         {label}
       </p>
       <p
-        className={`data-num text-2xl md:text-3xl font-bold mt-2 ${
+        className={`data-num text-lg font-medium mt-1.5 ${
           highlight ? "text-[var(--orange)]" : toneColor
         }`}
       >
@@ -146,8 +146,8 @@ export function KpiCard({
       </p>
       {hint && (
         <p
-          className={`text-xs mt-1.5 ${
-            highlight ? "text-white/45" : "text-foreground/45"
+          className={`text-xs mt-1 ${
+            highlight ? "text-white/40" : "text-foreground/35"
           }`}
         >
           {hint}

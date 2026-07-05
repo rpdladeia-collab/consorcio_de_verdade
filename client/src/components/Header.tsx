@@ -28,13 +28,13 @@ export default function Header() {
       className="sticky top-0 z-50 transition-all duration-300 w-full max-w-[100vw] bg-[var(--paper)] border-b border-border shadow-sm"
     >
       <div className="w-full px-4 md:px-5 lg:px-6 max-w-[100vw]">
-        <div className="flex items-center justify-between h-12 md:h-14">
+        <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center shrink-0">
             <img
               src={LOGO.dark}
               alt={BRAND.name}
-              className="h-9 md:h-10 w-auto"
+              className="h-10 md:h-12 w-auto"
             />
           </Link>
 

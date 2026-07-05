@@ -62,7 +62,7 @@ function AppLayout() {
     <div className="flex flex-col min-h-screen">
       <Header />
       <main
-        className="flex-1"
+        className="flex-1 m-0 p-0"
         style={isDark ? { backgroundColor: 'var(--ink)' } : undefined}
       >
         <Router />

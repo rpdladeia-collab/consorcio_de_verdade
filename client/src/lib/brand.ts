@@ -10,7 +10,7 @@ export const LOGO = {
   // Fundo escuro (preto, grafite): texto branco + quadrado laranja (fundo transparente)
   light: "/assets/logo-light.png",
   // Ícone oficial: fundo preto + r. branco + quadrado laranja + cantos arredondados
-  icon: "/assets/icon-192.png",
+  icon: "/assets/logo-dark.png",
   // Aliases para compatibilidade com componentes existentes
   horizontalDark: "/assets/logo-dark.png",
   horizontalLight: "/assets/logo-light.png",

@@ -120,41 +120,43 @@ export default function SimuladorContemplacao() {
 
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
-      <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+    <form onSubmit={handleSubmit} className="space-y-1">
+      <div className="scale-75 origin-left -mb-4">
+        <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
+      </div>
+      <p className="font-semibold text-[9px] text-foreground/50 uppercase tracking-wider mb-0.5">
         Dados do plano
       </p>
 
       {/* Grid 2 colunas dentro do card */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5">
         <label className="block col-span-2">
-          <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <span className="text-[9px] font-medium text-foreground/50">Carta de crédito (R$)</span>
+          <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
             value={form.credit} onChange={(e) => set("credit", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Prazo (meses)</span>
-          <input type="number" min="1" max="240" className="input mt-1 w-full"
+          <span className="text-[9px] font-medium text-foreground/50">Prazo (meses)</span>
+          <input type="number" min="1" max="240" className="input py-0.5 mt-0 w-full text-xs h-7"
             value={form.term} onChange={(e) => set("term", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Parcelas pagas</span>
-          <input type="number" min="0" className="input mt-1 w-full"
+          <span className="text-[9px] font-medium text-foreground/50">Parcelas pagas</span>
+          <input type="number" min="0" className="input py-0.5 mt-0 w-full text-xs h-7"
             value={form.paidMonths} onChange={(e) => set("paidMonths", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <span className="text-[9px] font-medium text-foreground/50">Taxa adm. (%)</span>
+          <input type="number" min="0" step="0.01" className="input py-0.5 mt-0 w-full text-xs h-7"
             value={form.adminRate} onChange={(e) => set("adminRate", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Fundo reserva (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <span className="text-[9px] font-medium text-foreground/50">Fundo reserva (%)</span>
+          <input type="number" min="0" step="0.01" className="input py-0.5 mt-0 w-full text-xs h-7"
             value={form.reserveRate} onChange={(e) => set("reserveRate", e.target.value)} />
         </label>
         <label className="block col-span-2">
-          <span className="text-xs font-medium text-foreground/60 flex items-center gap-1.5">
+          <span className="text-[10px] font-medium text-foreground/60 flex items-center gap-1.5">
             Base do lance
             <span className="relative group">
               <span className="cursor-help text-[var(--orange)] text-[11px] font-bold">?</span>
@@ -172,34 +174,34 @@ export default function SimuladorContemplacao() {
         </label>
       </div>
 
-      <div className="border-t border-[#DDD6C8] pt-3">
-        <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <div className="border-t border-[#DDD6C8] pt-1.5">
+        <p className="font-semibold text-[9px] text-foreground/50 uppercase tracking-wider mb-1">
           Composição do lance
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5">
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
-            <input type="number" min="0" step="1000" className="input mt-1 w-full"
+            <span className="text-[9px] font-medium text-foreground/50">Lance próprio (R$)</span>
+            <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
               value={form.own} onChange={(e) => set("own", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60 flex items-center gap-1.5">
+            <span className="text-[9px] font-medium text-foreground/50 flex items-center gap-1">
               FGTS (R$)
               <span className="relative group">
-                <span className="cursor-help text-[var(--orange)] text-[11px] font-bold">?</span>
+                <span className="cursor-help text-[var(--orange)] text-[9px] font-bold">?</span>
                 <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-64 rounded-lg bg-[var(--ink)] text-white text-[11px] leading-relaxed p-3 shadow-xl opacity-0 group-hover:opacity-100 pointer-events-none transition-opacity z-50">
                   As regras para uso do FGTS variam. Consulte sua administradora para confirmar se o seu grupo permite essa modalidade.
                 </span>
               </span>
             </span>
-            <input type="number" min="0" step="1000" className="input mt-1 w-full"
+            <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
               value={form.fgts} onChange={(e) => set("fgts", e.target.value)} />
           </label>
           <label className="block col-span-2">
-            <span className="text-xs font-medium text-foreground/60">Lance embutido (R$)</span>
-            <input type="number" min="0" step="1000" className="input mt-1 w-full"
+            <span className="text-[9px] font-medium text-foreground/50">Lance embutido (R$)</span>
+            <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
               value={form.embedded} onChange={(e) => set("embedded", e.target.value)} />
-            <span className="text-[10px] text-foreground/40 mt-0.5 block">Reduz a carta líquida</span>
+            <span className="text-[8px] text-foreground/30 mt-0 block leading-none">Reduz a carta líquida</span>
           </label>
         </div>
       </div>
@@ -242,7 +244,7 @@ export default function SimuladorContemplacao() {
       </Collapsible>
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Analisar contemplação"}
       </button>
     </form>

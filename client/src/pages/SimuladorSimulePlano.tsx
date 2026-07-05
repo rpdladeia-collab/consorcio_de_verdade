@@ -173,12 +173,12 @@ export default function SimuladorSimulePlano() {
 
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-3.5">
-      <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <p className="font-semibold text-xs text-foreground/70 uppercase tracking-wider mb-2">
         Parâmetros do plano
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
         <FieldRow label="Carta de crédito (R$)" hint="Valor nominal contratado">
           <TextInput value={form.credit} onChange={set("credit")} placeholder="300000" suffix="R$" />
         </FieldRow>
@@ -202,7 +202,7 @@ export default function SimuladorSimulePlano() {
         </FieldRow>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <FieldRow label="Periodicidade do reajuste">
           <select value={form.adjEvery} onChange={(e) => set("adjEvery")(e.target.value as AdjEvery)}
             className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[var(--orange)]">
@@ -235,13 +235,13 @@ export default function SimuladorSimulePlano() {
       )}
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 mt-1">
         {mutation.isPending ? "Calculando…" : "Abrir análise"}
       </button>
 
       {/* PDF e CTA — aparecem após análise */}
       {result && (
-        <div className="space-y-3 pt-3 border-t border-border/50">
+        <div className="space-y-2 pt-2 border-t border-border/50">
           <button onClick={() => {
             import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
               generatePdfSimulePlano({

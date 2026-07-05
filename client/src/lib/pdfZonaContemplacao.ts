@@ -10,11 +10,10 @@ import autoTable from "jspdf-autotable";
 const MOTOR_VERSION = "v1.0";
 const DOMAIN = "consorciodeverdade.com.br";
 const TRANSPARENCY_TEXT =
-  "Transparência e Metodologia: Este simulador apresenta uma leitura histórica de lances e " +
-  "quantitativo de contemplações com base nos dados informados pelo usuário. O resultado é " +
-  "educativo e não garante contemplação futura. Consulte sempre o contrato, regulamento, " +
-  "regras da administradora, caixa do grupo e critérios de desempate. " +
-  "Essa é uma simulação baseada em dados incluídos pelo usuário - apenas com finalidade de conhecer a dinâmica do mercado de consórcio - não deve ser vista como recomendação financeira ou promessa de contemplação.";
+  "Transparência e Metodologia: Este relatório apresenta uma projeção matemática baseada em parâmetros fornecidos pelo usuário, " +
+  "destinada exclusivamente à compreensão da dinâmica financeira do produto. Esta análise é uma projeção independente para apoio " +
+  "à decisão e não substitui o contrato oficial. Toda e qualquer informação deve ser validada diretamente com a Administradora " +
+  "de Consórcios antes de qualquer decisão.";
 
 /* ─── Cores (RGB) ─── */
 const INK: [number, number, number] = [17, 17, 17];

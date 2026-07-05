@@ -72,17 +72,17 @@ export default function Simuladores() {
   return (
     <div className="bg-[var(--paper)] text-[var(--ink)]">
       {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pt-12 pb-8">
+      <section className="w-full px-4 md:px-8 lg:px-16 pt-6 pb-4">
         <p className="text-[var(--orange)] text-xs font-mono uppercase tracking-widest mb-2">
           Raio-X do Consórcio
         </p>
-        <h1 className="text-2xl md:text-3xl font-extrabold leading-[1.1] text-[var(--ink)] w-full">
+        <h1 className="text-xl md:text-2xl font-extrabold leading-[1.1] text-[var(--ink)] w-full">
           Aqui você não analisa apenas os números. Você entende como a operação funciona.
         </h1>
-        <p className="text-[var(--ink)]/60 text-sm mt-3 w-full leading-relaxed">
+        <p className="text-[var(--ink)]/60 text-xs mt-2 w-full leading-relaxed">
           Cada análise responde uma dúvida específica da operação. Mais do que calcular valores, ela ajuda a compreender como cada decisão impacta o funcionamento do contrato ao longo do tempo.
         </p>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-4 text-xs text-[var(--ink)]/70">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-2 text-[10px] text-[var(--ink)]/70">
           <span className="inline-flex items-center gap-1.5">
             <Lock className="w-3.5 h-3.5 text-[var(--orange)]" />
             Cálculos protegidos
@@ -95,8 +95,8 @@ export default function Simuladores() {
       </section>
 
       {/* ── GRID 3×2 ─────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pb-6">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
+      <section className="w-full px-4 md:px-8 lg:px-16 pb-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
           {MODULOS.map((m) => (
             <Link
               key={m.slug}
@@ -112,17 +112,17 @@ export default function Simuladores() {
               </div>
 
               {/* Título */}
-              <h2 className="text-white font-bold text-base leading-snug mb-2">
+              <h2 className="text-white font-bold text-sm leading-snug mb-1">
                 {m.title}
               </h2>
 
               {/* Descrição */}
-              <p className="text-white/70 text-sm leading-relaxed flex-1">
+              <p className="text-white/70 text-xs leading-relaxed flex-1">
                 {m.desc}
               </p>
 
               {/* CTA */}
-              <div className="mt-4 flex items-center gap-1.5 text-xs font-semibold text-[var(--orange)] group-hover:gap-2.5 transition-all duration-200">
+              <div className="mt-2 flex items-center gap-1.5 text-[10px] font-semibold text-[var(--orange)] group-hover:gap-2.5 transition-all duration-200">
                 {m.btn}
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
@@ -132,13 +132,13 @@ export default function Simuladores() {
       </section>
 
       {/* ── CTA FINAL ────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pb-10">
-        <div className="rounded-2xl bg-[var(--orange)] py-10 px-10 flex flex-col md:flex-row items-center gap-8">
+      <section className="w-full px-4 md:px-8 lg:px-16 pb-0">
+        <div className="rounded-xl bg-[var(--orange)] py-6 px-8 flex flex-col md:flex-row items-center gap-6">
           <div className="flex-1 text-center md:text-left">
-            <h2 className="text-black text-xl md:text-2xl font-extrabold leading-tight">
+            <h2 className="text-black text-lg md:text-xl font-extrabold leading-tight">
               Os simuladores mostram os números. Eu ajudo a interpretar a decisão.
             </h2>
-            <p className="text-black/70 mt-3 max-w-xl text-sm md:text-base">
+            <p className="text-black/70 mt-1 max-w-xl text-xs md:text-sm">
               Se depois da simulação você quiser uma análise independente para o seu caso, solicite uma análise individual.
             </p>
           </div>
@@ -146,7 +146,7 @@ export default function Simuladores() {
             href={BRAND.whatsapp}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3 text-sm md:text-base font-bold whitespace-nowrap transition-transform hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white px-6 py-2 text-xs md:text-sm font-bold whitespace-nowrap transition-transform hover:scale-[1.02] active:scale-[0.98]"
           >
             Solicitar análise individual
           </a>

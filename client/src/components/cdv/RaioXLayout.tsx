@@ -27,26 +27,21 @@ export default function RaioXLayout({
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="bg-[var(--ink)] text-white py-4 md:py-5 w-full px-4 md:px-5 lg:px-8">
+      <section className="bg-[var(--ink)] text-white py-1 w-full px-4 md:px-5 lg:px-8">
         {/* Botão Voltar */}
         <Link
           href="/simuladores"
-          className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs mb-3 transition-colors"
+          className="inline-flex items-center gap-1 text-white/50 hover:text-white text-[14px] mb-1 transition-colors"
         >
-          <ArrowLeft className="w-3.5 h-3.5" />
-          Voltar para o Raio-X
+          <ArrowLeft className="w-3 h-3" />
+          Voltar
         </Link>
 
-        {/* Breadcrumb */}
-        <p className="text-xs font-semibold uppercase tracking-widest text-[var(--orange)] mb-2">
-          Raio-X do Consórcio
-        </p>
-
-        {/* Título */}
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 w-full">{title}</h1>
+        {/* Título Reduzido */}
+        <h1 className="text-[16px] font-bold mb-0.5 w-full leading-tight">{title}</h1>
 
         {/* Descrição em full width */}
-        <p className="text-white text-base md:text-lg w-full leading-relaxed">
+        <p className="text-white text-[13px] w-full leading-snug">
           {description.startsWith("Parcela baixa vende fácil") ? (
             <>
               <span className="font-bold text-[var(--orange)]">Parcela baixa vende fácil. Conta mal feita cobra caro.</span>
@@ -59,18 +54,18 @@ export default function RaioXLayout({
 
         {/* Suporte descritivo */}
         {descriptionSupport && (
-          <p className="text-gray-400 w-full leading-relaxed text-base md:text-lg mt-3 font-normal">
+          <p className="text-gray-400 w-full leading-snug text-[13px] mt-0.5 font-normal">
             {descriptionSupport}
           </p>
         )}
       </section>
 
       {/* ── Grid principal ── */}
-      <section className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-6">
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+      <section className="w-full max-w-7xl mx-auto px-4 lg:px-8 py-2">
+        <div className="flex flex-col lg:flex-row gap-4 items-start">
           {/* Coluna esquerda — Formulário */}
-          <div className="w-full lg:w-[45%] lg:shrink-0">
-            <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-2xl p-4 md:p-5 shadow-sm">
+          <div className="w-full lg:w-[40%] lg:shrink-0">
+            <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-xl p-2 md:px-3 md:py-2 shadow-sm">
               {formPanel}
             </div>
           </div>
