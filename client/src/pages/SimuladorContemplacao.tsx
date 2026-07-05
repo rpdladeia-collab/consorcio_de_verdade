@@ -22,7 +22,7 @@ import {
   formatPct,
 } from "@/components/cdv/SimuladorUI";
 import RaioXLayout from "@/components/cdv/RaioXLayout";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ArrowUpRight } from "lucide-react";
 
 // ─── Helpers ────────────────────────────────────────────────────────────────
 function brl(v: number) { return formatBRL(v); }
@@ -51,6 +51,7 @@ export default function SimuladorContemplacao() {
   const [form, setForm] = useState<FormState>(DEFAULT);
   const [advancedOpen, setAdvancedOpen] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+  const [expanded, setExpanded] = useState(false);
 
   const { baseParams, hasData } = useSimuladorStore();
   const [importEnabled, setImportEnabled] = useState(hasData);
@@ -315,43 +316,68 @@ export default function SimuladorContemplacao() {
 
         <TransparencyBlock />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-          <PdfButton loading={pdfLoading} onClick={handlePdf} />
-          <ConsultCTA
-            title="Quer validar com um especialista?"
-            text="Fale diretamente com o especialista para uma leitura humana da sua proposta."
-          />
+        {/* CTAs Lado a Lado - Alinhados à Direita */}
+        <div className="flex flex-col sm:flex-row-reverse items-center justify-start gap-3 pt-2">
+          {/* CTA Especialista */}
+          <div className="w-full sm:w-[280px] bg-white rounded-xl border border-border p-3 flex flex-col gap-2 shadow-sm">
+            <div className="flex flex-col gap-1">
+              <h4 className="text-[11px] font-bold text-foreground leading-tight">Quer interpretar esses números?</h4>
+              <p className="text-[10px] text-foreground/50 leading-tight">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
+            </div>
+            <a href={BRAND.whatsapp} target="_blank" rel="noreferrer" 
+              className="w-full flex items-center justify-center gap-1.5 px-3 py-2 rounded-full bg-[var(--orange)] text-white text-[10px] font-bold hover:opacity-90 transition-all shadow-md active:scale-95">
+              <Instagram className="w-3 h-3" />
+              Pedir uma análise individual
+            </a>
+          </div>
+
+          {/* Botão PDF */}
+          <button 
+            onClick={handlePdf}
+            disabled={pdfLoading}
+            className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-border bg-white hover:bg-secondary/20 text-[11px] font-bold transition-all shadow-sm active:scale-95 disabled:opacity-50"
+          >
+            <ArrowUpRight className="w-3.5 h-3.5" />
+            {pdfLoading ? "Gerando..." : "Baixar Relatório de Auditoria (PDF)"}
+          </button>
         </div>
       </div>
     </div>
   ) : null;
 
-  // ── Tabela de Evolução Full-Width ──
+  // ── Tabela de Evolução Centralizada ──
   const scheduleTable = result ? (
-    <div className="space-y-3">
+    <div className="space-y-3 max-w-5xl mx-auto">
       <div className="flex items-center justify-between px-1">
         <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Evolução das parcelas</h3>
       </div>
-      <div className="rounded-xl border border-border overflow-hidden">
+      <div className="rounded-xl border border-border overflow-hidden bg-white shadow-sm">
         <div className="w-full overflow-x-auto">
           <table className="w-full text-[10px]">
             <thead className="bg-[var(--ink)] text-white">
               <tr>
-                <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70">Mês</th>
+                <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70 w-16">Mês</th>
                 <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70">Carta</th>
                 <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70">Evento</th>
-                <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70">Lance</th>
+                <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70 w-24">Lance</th>
                 <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70">Parcela</th>
                 <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70">Saldo</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/30">
-              {result.projection.rows.map((r) => (
-                <tr key={r.month} className={`transition-colors hover:bg-secondary/20 ${r.event === "Lance aplicado" ? "bg-orange-50/80" : ""}`}>
+              {(expanded ? result.projection.rows : result.projection.rows.slice(0, 13)).map((r) => (
+                <tr key={r.month} className={`transition-colors hover:bg-secondary/20 ${r.event === "Lance aplicado" ? "bg-orange-100/90 font-bold border-y-2 border-[var(--orange)]/30" : ""}`}>
                   <td className="px-3 py-2 font-mono">{r.month}</td>
                   <td className="px-3 py-2 font-mono">{brl(r.credit)}</td>
-                  <td className="px-3 py-2 font-medium">{r.event}</td>
-                  <td className="px-3 py-2 text-right font-mono">{r.lance > 0 ? brl(r.lance) : "—"}</td>
+                  <td className="px-3 py-2 font-medium">
+                    {r.event === "Lance aplicado" ? (
+                      <span className="text-[var(--orange)] flex items-center gap-1">
+                        <ArrowUpRight className="w-3 h-3" />
+                        {r.event}
+                      </span>
+                    ) : r.event}
+                  </td>
+                  <td className="px-3 py-2 text-right font-mono w-24">{r.lance > 0 ? brl(r.lance) : "—"}</td>
                   <td className="px-3 py-2 text-right font-mono font-bold text-[var(--orange)]">{r.projected > 0 ? brl(r.projected) : "—"}</td>
                   <td className="px-3 py-2 text-right font-mono">{brl(r.balance)}</td>
                 </tr>
@@ -359,6 +385,13 @@ export default function SimuladorContemplacao() {
             </tbody>
           </table>
         </div>
+        {result.projection.rows.length > 13 && (
+          <button onClick={() => setExpanded(!expanded)}
+            className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-bold text-[var(--orange)] bg-secondary/10 hover:bg-secondary/30 border-t border-border transition-all">
+            <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
+            {expanded ? "Recolher parcelas" : `Ver todas as ${result.projection.rows.length} parcelas`}
+          </button>
+        )}
       </div>
     </div>
   ) : null;
