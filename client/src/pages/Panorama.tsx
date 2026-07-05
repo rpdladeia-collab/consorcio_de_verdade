@@ -32,11 +32,12 @@ import { gerarPdfPanorama } from "@/lib/pdfPanorama";
 // ─── Paleta alinhada ao design system ────────────────────────────────────────
 const C = {
   orange: "#f97316",
+  yellow: "#fbbf24", // Amarelo solicitado
   ink: "#15140f",
   terra: "#c2410c",
   olive: "#2f5233",
-  muted: "#9e9890",
-  grid: "#e5e0d8",
+  muted: "#4b4843", // Escurecido em mais 30% para contraste máximo
+  grid: "#bfb8af",  // Escurecido para maior nitidez das linhas
 };
 const SEG_COLORS: Record<string, string> = {
   "Imóveis": "#c2410c",
@@ -53,39 +54,39 @@ function fmtN(v: number) { return v.toLocaleString("pt-BR"); }
 // ─── Componentes base ─────────────────────────────────────────────────────────
 function Verdict({ tag, children }: { tag: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-lg border-l-4 border-[#c2410c] bg-white border border-[#e5e0d8] p-5 mb-6 shadow-sm">
-      <span className="block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] mb-2 font-mono">{tag}</span>
-      <p className="m-0 text-base leading-relaxed font-medium text-[#15140f]">{children}</p>
+    <div className="rounded-lg border-l-4 border-[#c2410c] bg-white border border-[#d1ccc5] p-3 mb-4 shadow-sm">
+      <span className="block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] mb-1 font-mono">{tag}</span>
+      <p className="m-0 text-sm leading-relaxed font-bold text-[#15140f]">{children}</p>
     </div>
   );
 }
 
 function KpiCard({ num, label, note, accent = false }: { num: string; label: string; note?: string; accent?: boolean }) {
   return (
-    <div className={`rounded-xl p-5 border shadow-sm ${accent ? "bg-orange-50 border-orange-200" : "bg-white border-[#e5e0d8]"}`}>
-      <span className="block text-[11px] uppercase tracking-wider font-bold text-[#9e9890] mb-2">{label}</span>
-      <div className={`font-mono text-3xl font-semibold tracking-tight ${accent ? "text-[#c2410c]" : "text-[#15140f]"}`}>{num}</div>
-      {note && <p className="mt-2 text-sm text-[#9e9890] leading-snug">{note}</p>}
+    <div className={`rounded-lg p-3 border shadow-sm ${accent ? "bg-orange-50 border-orange-200" : "bg-white border-[#d1ccc5]"}`}>
+      <span className="block text-[9px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">{label}</span>
+      <div className={`font-mono text-xl font-bold tracking-tight ${accent ? "text-[#c2410c]" : "text-[#15140f]"}`}>{num}</div>
+      {note && <p className="mt-1 text-[10px] text-[#4b4843] leading-snug font-bold">{note}</p>}
     </div>
   );
 }
 
 function SectionHead({ kicker, title, desc, id }: { kicker: string; title: string; desc?: string; id?: string }) {
   return (
-    <div className="mb-8" id={id}>
-      <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">{kicker}</span>
-      <h2 className="text-3xl md:text-4xl font-bold text-[#15140f] leading-tight mb-3">{title}</h2>
-      {desc && <p className="text-[#716b60] text-base leading-relaxed max-w-2xl">{desc}</p>}
+    <div className="mb-4" id={id}>
+      <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">{kicker}</span>
+      <h2 className="text-xl md:text-2xl font-bold text-[#15140f] leading-tight mb-2 tracking-tight">{title}</h2>
+      {desc && <p className="text-[#2d2b27] text-sm leading-relaxed max-w-2xl font-bold">{desc}</p>}
     </div>
   );
 }
 
 function ChapterDivider({ num, title }: { num: string; title: string }) {
   return (
-    <div className="flex items-center gap-4 py-3 mb-2">
-      <span className="font-mono text-xs font-bold text-[#c2410c] shrink-0">{num}</span>
-      <div className="flex-1 h-px bg-[#e5e0d8]" />
-      <span className="text-xs uppercase tracking-widest font-bold text-[#9e9890] shrink-0">{title}</span>
+    <div className="flex items-center gap-4 py-2 mb-1">
+      <span className="font-mono text-[10px] font-bold text-[#c2410c] shrink-0">{num}</span>
+      <div className="flex-1 h-px bg-[#bfb8af]" />
+      <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#f97316] bg-[#15140f] px-3 py-1 rounded shrink-0">{title}</span>
     </div>
   );
 }
@@ -170,29 +171,29 @@ const EXEC_CARDS = [
 
 function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
   return (
-    <section className="mb-12">
-      <div className="mb-5 border-b border-[#e5e0d8] pb-3">
-        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">
+    <section className="mb-8">
+      <div className="mb-3 border-b border-[#e5e0d8] pb-2">
+        <span className="inline-block text-[9px] uppercase tracking-[0.2em] font-bold text-[#c2410c] font-mono mb-0.5">
           Leitura rápida
         </span>
-        <h2 className="text-xl font-bold text-[#15140f]">O que você vai encontrar neste painel</h2>
+        <h2 className="text-lg font-bold text-[#15140f] tracking-tight">O que você vai encontrar neste painel</h2>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-[#e5e0d8] border border-[#e5e0d8] overflow-hidden">
         {EXEC_CARDS.map((card) => (
           <button
             key={card.id}
             onClick={() => onScrollTo(card.id)}
-            className="text-left bg-white border border-[#e5e0d8] rounded-lg p-4 hover:border-[#c2410c] transition-all group"
+            className="text-left bg-white p-3 hover:bg-[#f6f3ec] transition-all group"
           >
-            <span className="block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">
-              Capítulo {card.num}
+            <span className="block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
+              Cap. {card.num}
             </span>
-            <h3 className="font-bold text-[#15140f] text-sm mb-1 group-hover:text-[#c2410c] transition-colors leading-snug">
+            <h3 className="font-bold text-[#15140f] text-xs mb-1 group-hover:text-[#c2410c] transition-colors leading-tight">
               {card.title}
             </h3>
-            <p className="text-xs text-[#9e9890] leading-relaxed mb-3">{card.desc}</p>
-            <span className="text-[10px] font-semibold text-[#c2410c] border-b border-[#c2410c]/30 pb-px">
-              Ver capítulo →
+            <p className="text-[10px] text-[#4b4843] leading-snug mb-2 font-bold">{card.desc}</p>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-[#c2410c] border-b border-[#c2410c]/20 pb-0.5">
+              Acessar →
             </span>
           </button>
         ))}
@@ -515,7 +516,7 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
                 return [`${v}%`, name];
               }} />
               <Legend />
-              <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.4} radius={[2, 2, 0, 0]} />
+              <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.5} radius={[2, 2, 0, 0]} />
               <Line yAxisId="pct" type="monotone" dataKey="selic" name="Selic" stroke={C.terra} strokeWidth={2} dot={{ r: 3 }}>
                 <LabelList dataKey="selic" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.terra, fontWeight: 700 }} />
               </Line>
@@ -525,11 +526,11 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
             </ComposedChart>
           </ResponsiveContainer>
         </ScrollChart>
-        <div className="mt-4 space-y-2">
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-3 border-t border-[#d1ccc5] pt-4">
           {macroChartData.map((d) => (
-            <div key={d.ano} className="flex items-start gap-3 text-sm">
-              <span className="font-mono font-bold text-[#c2410c] w-10 shrink-0">{d.ano}</span>
-              <span className="text-[#9e9890]">{d.evento}</span>
+            <div key={d.ano} className="flex flex-col gap-0.5">
+              <span className="text-[10px] font-bold text-[#c2410c] font-mono">{d.ano}</span>
+              <span className="text-[10px] text-[#4b4843] leading-tight font-bold">{d.evento}</span>
             </div>
           ))}
         </div>
@@ -538,52 +539,91 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
   );
 }
 
-// ─── Seção 6: Base de dados colapsável ────────────────────────────────────────
-function SecaoBase({ onPdf }: { onPdf: () => void }) {
-  const [open, setOpen] = useState(false);
+// ─── Encerramento: Base e Fontes ─────────────────────────────────────────────
+function SecaoFinal({ onPdf }: { onPdf: () => void }) {
+  const [showBase, setShowBase] = useState(false);
+  const [showSources, setShowSources] = useState(false);
 
   return (
     <div id="base" className="scroll-mt-28">
-      <div className="flex items-center justify-between gap-4 mb-4 flex-wrap">
-        <h2 className="text-xl font-bold text-[#15140f]">Base de dados completa</h2>
-        <div className="flex items-center gap-3">
-          <PdfButton label="Gerar PDF da base" onClick={onPdf} />
-          <button
-            onClick={() => setOpen((v) => !v)}
-            className="inline-flex items-center gap-2 text-sm font-semibold text-[#15140f] border border-[#e5e0d8] rounded-full px-4 py-2 hover:border-[#15140f] transition-colors bg-white"
-          >
-            <span className={`transition-transform duration-200 ${open ? "rotate-90" : ""}`}>▶</span>
-            {open ? "Recolher base de dados" : "Ver base de dados completa"}
-          </button>
-        </div>
+      <div className="flex flex-wrap items-center gap-3 mb-4">
+        <button
+          onClick={() => { setShowBase(!showBase); setShowSources(false); }}
+          className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border rounded-full px-5 py-2.5 transition-all ${
+            showBase ? "bg-[#15140f] text-white border-[#15140f]" : "bg-white text-[#15140f] border-[#d1ccc5] hover:border-[#15140f]"
+          }`}
+        >
+          <span>{showBase ? "▼" : "▶"}</span>
+          Base de dados completa
+        </button>
+
+        <button
+          onClick={() => { setShowSources(!showSources); setShowBase(false); }}
+          className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border rounded-full px-5 py-2.5 transition-all ${
+            showSources ? "bg-[#15140f] text-white border-[#15140f]" : "bg-white text-[#15140f] border-[#d1ccc5] hover:border-[#15140f]"
+          }`}
+        >
+          <span>{showSources ? "▼" : "▶"}</span>
+          Fontes e métodos de análise
+        </button>
+        
+        {showBase && <PdfButton label="Gerar PDF da base" onClick={onPdf} />}
       </div>
-      {open && (
-        <div className="w-full overflow-x-auto rounded-xl border border-[#e5e0d8] shadow-sm">
+
+      {showBase && (
+        <div className="w-full overflow-x-auto rounded-xl border border-[#d1ccc5] shadow-sm mb-8">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-[#15140f] text-white">
                 {["Ano", "Segmento", "Vendidas", "Ativas", "Excluídas", "IE", "Status"].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-xs font-bold uppercase tracking-wider whitespace-nowrap">{h}</th>
+                  <th key={h} className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {segmentData.map((row, i) => (
                 <tr key={`${row.ano}-${row.segmento}`} className={i % 2 === 0 ? "bg-white" : "bg-[#faf8f4]"}>
-                  <td className="px-4 py-2.5 font-mono font-bold text-[#15140f]">{row.ano}</td>
-                  <td className="px-4 py-2.5 text-[#15140f]">
-                    <span className="inline-block w-2.5 h-2.5 rounded-full mr-2" style={{ background: SEG_COLORS[row.segmento] }} />
+                  <td className="px-4 py-2 font-mono font-bold text-[#15140f]">{row.ano}</td>
+                  <td className="px-4 py-2 text-[#15140f] text-xs">
+                    <span className="inline-block w-2 h-2 rounded-full mr-2" style={{ background: SEG_COLORS[row.segmento] }} />
                     {row.segmento}
                   </td>
-                  <td className="px-4 py-2.5 font-mono text-right">{mi(row.vendidas)}</td>
-                  <td className="px-4 py-2.5 font-mono text-right">{mi(row.ativas)}</td>
-                  <td className="px-4 py-2.5 font-mono text-right">{mi(row.excluidas)}</td>
-                  <td className="px-4 py-2.5 font-mono text-right font-bold text-[#c2410c]">{pct(row.ie)}</td>
-                  <td className="px-4 py-2.5 text-[#9e9890] text-xs">{row.status}</td>
+                  <td className="px-4 py-2 font-mono text-right text-xs">{mi(row.vendidas)}</td>
+                  <td className="px-4 py-2 font-mono text-right text-xs">{mi(row.ativas)}</td>
+                  <td className="px-4 py-2 font-mono text-right text-xs">{mi(row.excluidas)}</td>
+                  <td className="px-4 py-2 font-mono text-right font-bold text-[#c2410c] text-xs">{pct(row.ie)}</td>
+                  <td className="px-4 py-2 text-[#4b4843] text-[10px] font-bold">{row.status}</td>
                 </tr>
               ))}
             </tbody>
           </table>
+        </div>
+      )}
+
+      {showSources && (
+        <div className="space-y-4 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+            {[
+              { title: "Panorama BCB 2016–2024", body: "Cotas vendidas, ativas, excluídas, índice de exclusão, contemplações, recursos e taxa média de administração.", note: "Nota: As análises anuais de 2025 do Banco Central ainda não foram incorporadas ao painel." },
+              { title: "Consumidor.gov.br", body: "Base pública de indicadores. Registros de administradoras de consórcios consolidados por ano, volume de reclamações e principais motivos." },
+              { title: "Macro (Selic / financiamento imobiliário)", body: "Mantidos em seção separada para não misturar dado macroeconômico com dado operacional do consórcio." },
+            ].map((s) => (
+              <div key={s.title} className="bg-white border border-[#d1ccc5] rounded-xl p-4 shadow-sm">
+                <h3 className="text-xs font-bold text-[#15140f] mb-2 uppercase tracking-tight">{s.title}</h3>
+                <p className="text-[11px] text-[#4b4843] leading-relaxed font-bold">{s.body}</p>
+                {"note" in s && s.note && <p className="mt-2 text-[10px] text-[#4b4843] italic font-bold">{s.note}</p>}
+              </div>
+            ))}
+          </div>
+          <div className="bg-[#fff8f5] border border-[#fcd9c9] rounded-xl p-4 flex items-start gap-3">
+            <span className="text-[#c2410c] text-base shrink-0">ℹ</span>
+            <p className="text-xs text-[#c2410c] font-bold leading-relaxed">
+              O Consórcio de Verdade não tem a ABAC como fonte de dados.
+            </p>
+          </div>
+          <div className="bg-white border border-[#d1ccc5] rounded-xl p-4 text-[11px] text-[#4b4843] leading-relaxed font-bold">
+            <strong className="text-[#15140f] uppercase text-[10px]">Metodologia:</strong> A base principal é oficial, do Banco Central. Os dados são divulgados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
+          </div>
         </div>
       )}
     </div>
@@ -632,33 +672,32 @@ export default function Panorama() {
   return (
     <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
       {/* ── Hero ── */}
-      <header className="bg-[#15140f] text-white pt-16 pb-12 px-6">
+      <header className="bg-[#15140f] text-white pt-10 pb-8 px-6">
         <div className="max-w-5xl mx-auto">
-          <div className="flex items-center justify-between mb-6">
-            <span className="inline-block text-[11px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
+          <div className="mb-3">
+            <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
               Panorama: Dados Oficiais BCB 2016–2024
             </span>
-            <img src={LOGO.light} alt="r.enatto Consórcio de Verdade" className="h-9 object-contain" />
           </div>
-          <h1 className="text-4xl md:text-6xl font-bold leading-tight mb-4 tracking-tight">
+          <h1 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-3 tracking-tight">
             Não é opinião.{" "}
             <em className="not-italic text-[#f97316]">São os dados oficiais.</em>
           </h1>
-          <p className="text-white/70 text-lg max-w-2xl leading-relaxed mb-8">
+          <p className="text-white/60 text-base max-w-2xl leading-relaxed mb-6 font-medium">
             Este painel organiza, sem arredondar a favor de ninguém, os números que o próprio Banco
             Central publica sobre vendas, cotas ativas, exclusão e reclamações no sistema de
             consórcios brasileiro.
           </p>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/10 rounded-xl overflow-hidden">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5 overflow-hidden">
             {[
               { num: "4,53 mi", label: "cotas comercializadas em 2024" },
               { num: "11,4 mi", label: "cotas ativas em dez/2024" },
               { num: "48,6%",   label: "índice de exclusão geral em 2024" },
               { num: "78,3%",   label: "contemplações por lance em 2024" },
             ].map((c) => (
-              <div key={c.label} className="bg-[#1c1b15] px-5 py-4">
-                <b className="block font-mono text-2xl font-semibold tracking-tight text-white">{c.num}</b>
-                <span className="block text-white/55 text-xs font-medium mt-1 leading-snug">{c.label}</span>
+              <div key={c.label} className="bg-[#1c1b15]/50 px-4 py-3">
+                <b className="block font-mono text-xl font-bold tracking-tight text-white">{c.num}</b>
+                <span className="block text-white/45 text-[10px] font-medium mt-0.5 leading-snug">{c.label}</span>
               </div>
             ))}
           </div>
@@ -674,7 +713,7 @@ export default function Panorama() {
                 className={`shrink-0 px-4 py-4 text-sm font-semibold border-b-2 transition-colors whitespace-nowrap ${
                   activeTab === tab.id
                     ? "border-[#f97316] text-[#c2410c]"
-                    : "border-transparent text-[#9e9890] hover:text-[#15140f]"
+                    : "border-transparent text-[#4b4843] hover:text-[#15140f]"
                 }`}
               >{tab.label}</button>
             ))}
@@ -683,12 +722,12 @@ export default function Panorama() {
       </nav>
 
       {/* ── Conteúdo ── */}
-      <main className="max-w-5xl mx-auto px-4 py-12">
+      <main className="max-w-5xl mx-auto px-4 py-8">
 
         {/* Resumo executivo */}
         <ResumoExecutivo onScrollTo={scrollTo} />
 
-        <div className="space-y-20">
+        <div className="space-y-12">
           {/* Cap 1 */}
           <div>
             <ChapterDivider num="01" title="Mercado de consórcios" />
@@ -727,44 +766,9 @@ export default function Panorama() {
             <SecaoMacro onPdf={() => handlePdf("macro")} />
           </div>
 
-          <hr className="border-[#e5e0d8]" />
-
-          {/* Cap 6 — Base de dados colapsável */}
-          <SecaoBase onPdf={() => handlePdf("base")} />
-
-          {/* Fontes */}
-          <div id="fontes" className="pt-4">
-            <details className="group">
-              <summary className="cursor-pointer flex items-center gap-2 font-bold text-lg text-[#15140f] py-3 list-none">
-                <span className="text-[#c2410c] group-open:rotate-90 transition-transform">▶</span>
-                De onde vêm os dados deste painel
-              </summary>
-              <div className="pt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
-                {[
-                  { title: "Panorama BCB 2016–2024", body: "Cotas vendidas, ativas, excluídas, índice de exclusão, contemplações, recursos e taxa média de administração.", note: "Nota: As análises anuais de 2025 do Banco Central ainda não foram incorporadas ao painel." },
-                  { title: "Consumidor.gov.br", body: "Base pública de indicadores. Registros de administradoras de consórcios consolidados por ano, volume de reclamações e principais motivos." },
-                  { title: "Macro (Selic / financiamento imobiliário)", body: "Mantidos em seção separada para não misturar dado macroeconômico com dado operacional do consórcio." },
-                ].map((s) => (
-                  <div key={s.title} className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
-                    <h3 className="font-bold text-[#15140f] mb-2">{s.title}</h3>
-                    <p className="text-sm text-[#9e9890] leading-relaxed">{s.body}</p>
-                    {"note" in s && s.note && <p className="mt-2 text-xs text-[#9e9890] italic">{s.note}</p>}
-                  </div>
-                ))}
-              </div>
-
-              {/* Observação sobre ABAC — destacada */}
-              <div className="mt-4 bg-[#fff8f5] border border-[#fcd9c9] rounded-xl p-5 flex items-start gap-3">
-                <span className="text-[#c2410c] text-lg shrink-0 mt-0.5">ℹ</span>
-                <p className="text-sm text-[#c2410c] font-semibold leading-relaxed">
-                  O Consórcio de Verdade não tem a ABAC como fonte de dados.
-                </p>
-              </div>
-
-              <div className="mt-4 bg-white border border-[#e5e0d8] rounded-xl p-5 text-sm text-[#9e9890] leading-relaxed">
-                <strong className="text-[#15140f]">Metodologia:</strong> A base principal é oficial, do Banco Central. Os dados são divulgados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
-              </div>
-            </details>
+          {/* Encerramento Simplificado */}
+          <div className="pt-4 border-t border-[#bfb8af]">
+            <SecaoFinal onPdf={() => handlePdf("base")} />
           </div>
         </div>
       </main>

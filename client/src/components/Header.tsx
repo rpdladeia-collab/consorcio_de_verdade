@@ -74,7 +74,7 @@ export default function Header() {
                   panoramaActive ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
-                Panorama: Dados Oficiais
+                Panorama: BC
               </Link>
 
               <Link
@@ -83,7 +83,10 @@ export default function Header() {
                   location === "/sobre" ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
-                r.enatto
+                <span className="flex items-center gap-0.5">
+                  <span className="text-xl font-bold leading-none">r</span>
+                  <span className="w-1.5 h-1.5 bg-[var(--orange)] mt-2"></span>
+                </span>
               </Link>
             </nav>
 
@@ -140,14 +143,17 @@ export default function Header() {
                 href="/panorama"
                 className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
               >
-                Panorama: Dados Oficiais
+                Panorama: BC
               </Link>
 
               <Link
                 href="/sobre"
                 className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
               >
-                r.enatto
+                <span className="flex items-center gap-0.5">
+                  <span className="text-2xl font-bold leading-none">r</span>
+                  <span className="w-2 h-2 bg-[var(--orange)] mt-2"></span>
+                </span>
               </Link>
 
               <div className="flex items-center gap-5 mt-4 pb-2">
