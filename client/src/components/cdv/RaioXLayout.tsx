@@ -91,7 +91,7 @@ export default function RaioXLayout({
 
       {/* ── Tabela de Evolução (Full-width) ── */}
       {hasResult && scheduleTable && (
-        <section className="w-full px-4 md:px-5 lg:px-8 py-6">
+        <section className="w-full px-4 md:px-5 lg:px-8 pt-4 pb-0">
           {scheduleTable}
         </section>
       )}

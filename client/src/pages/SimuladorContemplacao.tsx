@@ -50,7 +50,6 @@ const DEFAULT: FormState = {
 export default function SimuladorContemplacao() {
   const [form, setForm] = useState<FormState>(DEFAULT);
   const [advancedOpen, setAdvancedOpen] = useState(false);
-  const [projOpen, setProjOpen] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
 
   const { baseParams, hasData } = useSimuladorStore();
@@ -128,7 +127,6 @@ export default function SimuladorContemplacao() {
         Dados do plano
       </p>
 
-      {/* Grid 2 colunas dentro do card */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5">
         <label className="block col-span-2">
           <span className="text-[9px] font-medium text-foreground/50">Carta de crédito (R$)</span>
@@ -252,19 +250,7 @@ export default function SimuladorContemplacao() {
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
-    <div className="space-y-6">
-      {/* Warnings */}
-      {result.warnings.length > 0 && (
-        <div className="rounded-xl border border-orange-200 bg-orange-50 p-4 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
-            Avisos do motor de cálculo
-          </p>
-          {result.warnings.map((w, i) => (
-            <p key={i} className="text-sm text-orange-800">⚠ {w}</p>
-          ))}
-        </div>
-      )}
-
+    <div className="space-y-4">
       {/* KPIs — grid 2×2 */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <KpiCard label="Força de lance" value={formatPct(result.forcePct)}
@@ -278,16 +264,16 @@ export default function SimuladorContemplacao() {
       </div>
 
       {/* Diagnóstico do Lance */}
-      <div className="rounded-2xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-5">
+      <div className="rounded-xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-4">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5">
-            <svg className="w-5 h-5 text-[var(--orange)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <svg className="w-4 h-4 text-[var(--orange)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-sm mb-2">Diagnóstico do lance</h3>
-            <p className="text-xs leading-relaxed text-foreground/70">
+            <h3 className="font-semibold text-xs mb-1">Diagnóstico do lance</h3>
+            <p className="text-[11px] leading-relaxed text-foreground/70">
               Seu lance representa {formatPct(result.forcePct)} da carta. Desse total, {brl(result.own + result.fgts)} saem do seu patrimônio e {brl(result.embedded)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {brlc(result.postLanceInstallment)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
             </p>
           </div>
@@ -295,121 +281,85 @@ export default function SimuladorContemplacao() {
       </div>
 
       {/* Leitura técnica */}
-      <MeaningBlock label="Contemplação e Lance">
-        <p>
-          O lance embutido aumenta a força para contemplar, mas reduz o crédito
-          disponível para compra em <strong>{brl(result.embedded)}</strong>.
-          A tabela projeta as parcelas restantes com as correções futuras do índice.
-        </p>
-      </MeaningBlock>
+      <div className="space-y-3">
+        <MeaningBlock title="ESTRUTURA DA OPERAÇÃO">
+          <CalcMemory title="RESUMO DA OPERAÇÃO">
+            <table className="w-full text-[10px]">
+              <thead className="text-foreground/40 border-b border-border">
+                <tr>
+                  <th className="pb-1 text-left font-semibold uppercase tracking-wider">Item</th>
+                  <th className="pb-1 text-right font-semibold uppercase tracking-wider">Valor</th>
+                  <th className="pb-1 text-left font-semibold uppercase tracking-wider pl-4">Leitura</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border/50">
+                {result.summaryRows.map((r, i) => (
+                  <tr key={i}>
+                    <td className="py-1.5 font-bold text-foreground/80">{r.item}</td>
+                    <td className="py-1.5 text-right font-mono font-bold">{r.value}</td>
+                    <td className="py-1.5 pl-4 text-foreground/50 leading-snug">{r.read}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </CalcMemory>
+        </MeaningBlock>
 
-      {/* Tabela de resumo */}
-      <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
-          Resumo da operação
-        </p>
-        <div className="rounded-xl border border-border">
-          <div className="w-full overflow-x-auto">
-          <table className="w-full text-sm min-w-[480px]">
-            <thead>
-              <tr className="bg-[var(--ink)] text-white">
-                <th className="px-3 py-2.5 text-left font-semibold whitespace-nowrap">Item</th>
-                <th className="px-3 py-2.5 text-right font-semibold">Valor</th>
-                <th className="px-3 py-2.5 text-left font-semibold hidden lg:table-cell">Leitura</th>
+        <Collapsible title="Como essa projeção foi construída" open={false}>
+          <MethodologyBlock title="METODOLOGIA">
+            <p className="text-[11px] text-foreground/70 leading-relaxed">
+              Esta simulação considera o lance aplicado exatamente no mês {form.paidMonths}, com reajuste de {form.adjRate}% {form.adjEvery === "6" ? "semestral" : "anual"}. O saldo devedor é recalculado imediatamente após o abatimento do lance, e a nova parcela é projetada com base no prazo remanescente.
+            </p>
+          </MethodologyBlock>
+        </Collapsible>
+
+        <TransparencyBlock />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+          <PdfButton loading={pdfLoading} onClick={handlePdf} />
+          <ConsultCTA
+            title="Quer validar com um especialista?"
+            text="Fale diretamente com o especialista para uma leitura humana da sua proposta."
+          />
+        </div>
+      </div>
+    </div>
+  ) : null;
+
+  // ── Tabela de Evolução Full-Width ──
+  const scheduleTable = result ? (
+    <div className="space-y-3">
+      <div className="flex items-center justify-between px-1">
+        <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Evolução das parcelas</h3>
+      </div>
+      <div className="rounded-xl border border-border overflow-hidden">
+        <div className="w-full overflow-x-auto">
+          <table className="w-full text-[10px]">
+            <thead className="bg-[var(--ink)] text-white">
+              <tr>
+                <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70">Mês</th>
+                <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70">Carta</th>
+                <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider text-white/70">Evento</th>
+                <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70">Lance</th>
+                <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70">Parcela</th>
+                <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider text-white/70">Saldo</th>
               </tr>
             </thead>
-            <tbody>
-              {result.summaryRows.map((row, i) => (
-                <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
-                  <td className="px-3 py-2 font-medium text-sm">{row.item}</td>
-                  <td className="px-3 py-2 text-right font-mono text-sm font-semibold">{row.value}</td>
-                  <td className="px-3 py-2 text-foreground/55 text-xs hidden lg:table-cell">{row.read}</td>
+            <tbody className="divide-y divide-border/30">
+              {result.projection.rows.map((r) => (
+                <tr key={r.month} className={`transition-colors hover:bg-secondary/20 ${r.event === "Lance aplicado" ? "bg-orange-50/80" : ""}`}>
+                  <td className="px-3 py-2 font-mono">{r.month}</td>
+                  <td className="px-3 py-2 font-mono">{brl(r.credit)}</td>
+                  <td className="px-3 py-2 font-medium">{r.event}</td>
+                  <td className="px-3 py-2 text-right font-mono">{r.lance > 0 ? brl(r.lance) : "—"}</td>
+                  <td className="px-3 py-2 text-right font-mono font-bold text-[var(--orange)]">{r.projected > 0 ? brl(r.projected) : "—"}</td>
+                  <td className="px-3 py-2 text-right font-mono">{brl(r.balance)}</td>
                 </tr>
               ))}
             </tbody>
-            </table>
-          </div>
+          </table>
         </div>
       </div>
-
-      {/* Tabela de projeção — accordion com scroll interno */}
-      <div className="rounded-xl border border-border">
-        <button
-          type="button"
-          onClick={() => setProjOpen(!projOpen)}
-          className="w-full flex items-center justify-between px-4 py-3 bg-card hover:bg-secondary/30 transition-colors text-sm font-semibold"
-        >
-          <span>Como ficam todas as parcelas?</span>
-          <ChevronDown className={`w-4 h-4 transition-transform ${projOpen ? "rotate-180" : ""}`} />
-        </button>
-        {projOpen && (
-          <div className="max-h-[480px] overflow-x-auto overflow-y-auto">
-            <table className="w-full text-xs min-w-[600px]">
-              <thead className="sticky top-0 bg-[var(--ink)] text-white">
-                <tr>
-                  <th className="px-3 py-2.5 text-left">Mês</th>
-                  <th className="px-3 py-2.5 text-right">Carta</th>
-                  <th className="px-3 py-2.5 text-left">Evento</th>
-                  <th className="px-3 py-2.5 text-right">Lance</th>
-                  <th className="px-3 py-2.5 text-right font-bold">Parcela</th>
-                  <th className="px-3 py-2.5 text-right">Saldo</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.projection.rows.map((row, i) => {
-                  const isLance = row.event === "Lance aplicado";
-                  const isAdj = row.tags?.includes("Reajuste");
-                  return (
-                    <tr key={i} className={
-                      isLance ? "bg-orange-50 font-semibold"
-                        : isAdj ? "bg-amber-50/60"
-                        : i % 2 === 0 ? "bg-card" : "bg-secondary/20"
-                    }>
-                      <td className="px-3 py-1.5 font-mono">{row.month}</td>
-                      <td className="px-3 py-1.5 text-right font-mono">{brl(row.credit)}</td>
-                      <td className="px-3 py-1.5 text-foreground/60">{row.event}</td>
-                      <td className="px-3 py-1.5 text-right font-mono">{row.lance > 0 ? brl(row.lance) : "—"}</td>
-                      <td className="px-3 py-1.5 text-right font-mono font-bold">{row.projected > 0 ? brlc(row.projected) : "—"}</td>
-                      <td className="px-3 py-1.5 text-right font-mono">{brl(row.balance)}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
-        )}
-      </div>
-
-      {/* Memória de cálculo */}
-      <CalcMemory rows={[
-        { label: "Lance total", value: brl(result.totalLance),
-          formula: `próprio ${brl(result.own)} + FGTS ${brl(result.fgts)} + embutido ${brl(result.embedded)}` },
-        { label: "Força de lance", value: formatPct(result.forcePct),
-          formula: `${brl(result.totalLance)} ÷ base × 100` },
-        { label: "Carta líquida", value: brl(result.creditLiquid),
-          formula: `carta − embutido = ${brl(result.credit)} − ${brl(result.embedded)}` },
-        { label: "Amortização aplicada", value: brl(result.applied),
-          formula: "min(lance total, capacidade amortizável)" },
-        { label: "Parcela pós-lance", value: brlc(result.postLanceInstallment),
-          formula: "1ª parcela projetada após o lance" },
-      ]} />
-
-      {/* Metodologia */}
-      <MethodologyBlock sources={[
-        "Lógica extraída do HTML original Raio-X do Consórcio (runContemplation + buildContemplationProjection).",
-        "Lance: amortização prioritária no fundo comum; excedente distribuído proporcionalmente.",
-        "Parcela pós-lance: saldo residual ÷ meses restantes, recalculada a cada reajuste.",
-        "Motor Matemático v1.0 · Cálculo executado no servidor (tRPC), não acessível ao navegador.",
-      ]} />
-
-      {/* Transparência */}
-      <TransparencyBlock />
-
-      {/* PDF + CTA */}
-      <div className="flex flex-wrap gap-3">
-        <PdfButton onClick={handlePdf} loading={pdfLoading} />
-      </div>
-      <ConsultCTA context="a análise de contemplação" />
     </div>
   ) : null;
 
@@ -422,6 +372,7 @@ export default function SimuladorContemplacao() {
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}
+      scheduleTable={scheduleTable}
     />
   );
 }
