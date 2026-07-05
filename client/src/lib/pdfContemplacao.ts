@@ -168,8 +168,6 @@ export async function generatePdfContemplacao(data: PdfContemplacao): Promise<vo
     const logoBase64 = await loadImageAsBase64(logoUrl);
     doc.addImage(logoBase64, "PNG", pw - 30, 5, 20, 15);
   } catch {
-    // Logo não disponível
-  } catch {
     // Logo não disponível — continua sem ela
   }
 
