@@ -11,10 +11,10 @@ export default function Sobre() {
       <main className="flex-1 w-full px-4 md:px-8 py-8 md:py-12 flex items-center justify-center">
 
         {/* ── Container principal: 1/3 foto + 2/3 texto ── */}
-        <div className="flex flex-col md:flex-row gap-8 md:gap-12 items-start w-full max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row gap-6 md:gap-10 items-start w-full max-w-6xl mx-auto">
 
           {/* Coluna esquerda — Vídeo 4:5 (1/3) + Social */}
-          <div className="w-full md:w-1/3 flex-shrink-0 flex flex-col gap-6">
+          <div className="w-full md:w-1/4 flex-shrink-0 flex flex-col gap-4">
             <div
               className="w-full rounded-xl overflow-hidden shadow-xl border border-[var(--ink)]/10 h-fit"
               onContextMenu={(e) => e.preventDefault()}
@@ -72,7 +72,7 @@ export default function Sobre() {
           </div>
 
           {/* Coluna direita — Texto (2/3) */}
-          <div className="w-full md:w-2/3 lg:w-3/4 flex-1 flex flex-col justify-start gap-6">
+          <div className="w-full md:w-3/4 flex-1 flex flex-col justify-start gap-5">
 
             {/* Cabeçalho: Nome + LinkedIn */}
             <div className="flex items-center gap-4">

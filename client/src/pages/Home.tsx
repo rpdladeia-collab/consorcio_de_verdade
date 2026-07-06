@@ -205,59 +205,7 @@ function RaioXSection() {
   );
 }
 
-// ─── Seção Extra: Nova Remessa de Simuladores (Yellow/Black) ───────────────────
-function NewSimulatorsSection() {
-  const cards = [
-    {
-      num: "07",
-      name: "Lance sobre Carta vs Categoria",
-      call: "O mesmo percentual. Valores diferentes.",
-      text: "Entenda a diferença matemática entre ofertar sobre o crédito ou sobre a categoria (crédito + taxas).",
-      href: "/simulador/lance-carta-x-categoria",
-    },
-  ];
 
-  return (
-    <section className="bg-black py-10 md:py-12 border-t border-yellow-400/20">
-      <div className="max-w-5xl mx-auto px-4">
-        <p className="text-[10px] tracking-widest uppercase text-yellow-400 mb-3 font-semibold">
-          Nova Remessa de Simuladores
-        </p>
-        <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-2 leading-tight">
-          Matemática Avançada e Transparência
-        </h2>
-        <p className="text-sm text-white/60 mb-8 max-w-2xl">
-          Novas ferramentas com foco em detalhes técnicos que impactam diretamente o seu desembolso e a estratégia de contemplação.
-        </p>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
-          {cards.map((c) => (
-            <Link key={c.num} href={c.href}>
-              <div className="group bg-white/5 border border-white/10 rounded-lg p-4 hover:border-yellow-400 hover:shadow-[0_0_15px_rgba(250,204,21,0.1)] transition-all cursor-pointer h-full">
-                <p className="text-[10px] tracking-widest uppercase text-yellow-400/60 mb-1 font-semibold font-mono">
-                  SIMULADOR #{c.num}
-                </p>
-                <p className="text-sm font-bold text-white mb-1">{c.name}</p>
-                <p className="text-xs text-yellow-400 font-medium mb-2 leading-snug font-mono uppercase tracking-tighter">
-                  {c.call}
-                </p>
-                <p className="text-xs text-white/50 leading-snug">{c.text}</p>
-              </div>
-            </Link>
-          ))}
-          
-          {/* Placeholder para futuros simuladores desta remessa */}
-          <div className="bg-white/5 border border-dashed border-white/10 rounded-lg p-4 flex flex-col items-center justify-center text-center opacity-40">
-            <p className="text-[10px] tracking-widest uppercase text-white/40 mb-1 font-semibold font-mono">
-              SIMULADOR #08
-            </p>
-            <p className="text-xs font-bold text-white/60">Em breve</p>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
 
 // ─── Seção 4: Zona de Contemplação ───────────────────────────────────────────
 function ZonaSection() {
@@ -517,7 +465,6 @@ export default function Home() {
       <HeroSection />
       <ConscienciaSection />
       <RaioXSection />
-      <NewSimulatorsSection />
       <ZonaSection />
       <PanoramaSection />
       <RenatoSection />

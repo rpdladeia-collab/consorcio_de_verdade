@@ -169,15 +169,11 @@ export default defineConfig({
     emptyOutDir: true,
   },
   server: {
-    host: true,
+    host: '0.0.0.0',
     allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
-      "localhost",
-      "127.0.0.1",
+      '5173-ikfpew33uew55up0s4sa9-cb7448c2.us2.manus.computer',
+      '5174-ikfpew33uew55up0s4sa9-cb7448c2.us2.manus.computer',
+      '.manus.computer'
     ],
     fs: {
       strict: true,
