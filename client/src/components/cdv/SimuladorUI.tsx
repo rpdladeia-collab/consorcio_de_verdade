@@ -124,29 +124,29 @@ export function KpiCard({
       : "text-foreground";
   return (
     <div
-      className={`rounded-lg p-3 border shadow-sm ${
+      className={`rounded-lg sm:rounded-xl p-2 sm:p-3 border shadow-sm ${
         highlight
           ? "bg-[var(--ink)] text-[var(--paper)] border-transparent"
           : "bg-card border-border"
       }`}
     >
       <p
-        className={`text-xs font-normal uppercase tracking-wide ${
+        className={`text-[8px] sm:text-xs font-normal uppercase tracking-wide ${
           highlight ? "text-white/50" : "text-foreground/40"
         }`}
       >
         {label}
       </p>
       <p
-        className={`data-num text-lg font-medium mt-1.5 ${
+        className={`data-num text-sm sm:text-lg font-medium mt-1.5 break-words ${
           highlight ? "text-[var(--orange)]" : toneColor
-        }`}
+        } text-sm sm:text-base`}
       >
         {value}
       </p>
       {hint && (
         <p
-          className={`text-xs mt-1 ${
+          className={`text-[8px] sm:text-xs mt-1 ${
             highlight ? "text-white/40" : "text-foreground/35"
           }`}
         >
@@ -233,7 +233,7 @@ export function MeaningBlock({
     <div className="rounded-xl overflow-hidden border border-white/10">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between bg-[var(--ink)] px-5 py-3.5 text-left"
+        className="w-full flex items-center justify-between bg-[var(--ink)] px-3 py-2.5 sm:px-5 sm:py-3.5 text-left"
       >
         <div className="flex items-center gap-2">
           <Info className="w-3.5 h-3.5 text-yellow-400 shrink-0" />
@@ -246,7 +246,7 @@ export function MeaningBlock({
         />
       </button>
       {open && (
-        <div className="bg-[var(--ink)] px-5 pb-5 pt-1 text-white/70 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
+        <div className="bg-[var(--ink)] px-3 pb-3 pt-1 sm:px-5 sm:pb-5 sm:pt-1 text-white/70 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
           {children}
         </div>
       )}
@@ -265,7 +265,7 @@ export function PointsList({
   attentions: string[];
 }) {
   return (
-    <div className="grid md:grid-cols-2 gap-4">
+    <div className="grid md:grid-cols-2 gap-4 overflow-x-auto">
       <div className="rounded-2xl border border-[color-mix(in_oklch,var(--positive)_30%,transparent)] bg-[color-mix(in_oklch,var(--positive)_8%,transparent)] p-5">
         <p className="eyebrow text-[var(--positive)] mb-3 flex items-center gap-1.5">
           <Check className="w-4 h-4" /> Pontos positivos
@@ -320,17 +320,17 @@ export function CalcMemory({
         />
       </button>
       {open && (
-        <div className="divide-y divide-white/8">
+        <div className="divide-y divide-white/8 overflow-x-auto min-w-full">
           {rows?.length > 0 ? (
             rows.map((r, i) => (
               <div key={i} className="px-5 py-3 flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="text-sm text-white/80">{r.label}</p>
+                  <p className="text-sm text-white/80 whitespace-nowrap">{r.label}</p>
                   {r.formula && (
                     <p className="mono text-xs text-white/40 mt-0.5">{r.formula}</p>
                   )}
                 </div>
-                <span className="data-num text-sm font-semibold text-[var(--orange)] shrink-0">
+                <span className="data-num text-sm font-semibold text-[var(--orange)] shrink-0 whitespace-nowrap">
                   {r.value}
                 </span>
               </div>

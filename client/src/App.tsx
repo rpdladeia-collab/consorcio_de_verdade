@@ -35,14 +35,23 @@ function Router() {
       <Route path={"/simulador/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
       <Route path={"/simulador/simule-seu-plano"} component={SimuladorSimulePlano} />
+      <Route path={"/simuladores/1"} component={SimuladorSimulePlano} />
       <Route path={"/simulador/contemplacao"} component={SimuladorContemplacao} />
+      <Route path={"/simuladores/2"} component={SimuladorContemplacao} />
       <Route path={"/simulador/raio-x-do-lance"} component={SimuladorContemplacao} />
+      <Route path={"/simuladores/2"} component={SimuladorContemplacao} />
       <Route path={"/simulador/custo-operacao"} component={SimuladorCustoOperacao} />
+      <Route path={"/simuladores/3"} component={SimuladorCustoOperacao} />
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
+      <Route path={"/simuladores/4"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simulador/historico-correcoes"} component={SimuladorHistoricoCorrecoes} />
+      <Route path={"/simuladores/5"} component={SimuladorHistoricoCorrecoes} />
       <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
+      <Route path={"/simuladores/6"} component={SimuladorAutoPagavel} />
       <Route path={"/simulador/lance-carta-x-categoria"} component={SimuladorLanceCartaXCategoria} />
+      <Route path={"/simuladores/7"} component={SimuladorLanceCartaXCategoria} />
       <Route path={"/simulador/venda-carta-contemplada"} component={SimuladorVendaCartaContemplada} />
+      <Route path={"/simuladores/8"} component={SimuladorVendaCartaContemplada} />
       <Route path={"/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/panorama"} component={Panorama} />
       <Route path={"/sobre"} component={Sobre} />

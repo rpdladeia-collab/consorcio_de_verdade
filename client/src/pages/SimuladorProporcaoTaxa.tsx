@@ -270,9 +270,9 @@ export default function SimuladorProporcaoTaxa() {
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
       {/* KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
         <KpiCard label="Taxa nominal (contratual)" value={pct2(result.kpis.nominal)}
           hint="Taxa de administração contratual" tone="default" />
         <KpiCard label="Taxa sobre carta líquida" value={pct2(result.kpis.onLiquid)}
@@ -285,8 +285,8 @@ export default function SimuladorProporcaoTaxa() {
       </div>
 
       {/* Termômetro visual */}
-      <div className="bg-[#F5F0E8] rounded-xl border border-[#DDD6C8] p-4">
-        <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-3">
+      <div className="bg-[#F5F0E8] rounded-lg sm:rounded-xl border border-[#DDD6C8] p-2 sm:p-3">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
           Termômetro de proporção
         </p>
         <div className="relative h-4 rounded-full bg-gray-200 overflow-hidden mb-2">
@@ -295,12 +295,12 @@ export default function SimuladorProporcaoTaxa() {
             style={{ width: `${Math.min(100, result.meter.widthPct)}%` }}
           />
         </div>
-        <p className="font-bold text-sm text-foreground mb-1">{result.meter.label}</p>
-        <p className="text-sm text-foreground/70 leading-relaxed">{result.meter.text}</p>
+        <p className="font-bold text-xs sm:text-sm text-foreground mb-1">{result.meter.label}</p>
+        <p className="text-xs sm:text-sm text-foreground/70 leading-relaxed">{result.meter.text}</p>
       </div>
 
       {/* Readboxes */}
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {result.readboxes.map((rb, i) => (
           <MeaningBlock key={i} label="Eficiência da Taxa">
             <p className="font-semibold text-sm mb-1">{rb.title}</p>
@@ -316,7 +316,7 @@ export default function SimuladorProporcaoTaxa() {
 
       {/* Tabela de indicadores */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
           Tabela de indicadores
         </p>
         <div className="rounded-xl border border-border">
@@ -325,17 +325,17 @@ export default function SimuladorProporcaoTaxa() {
             <table className="w-full text-sm min-w-[480px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
-                  <th className="px-3 py-2.5 text-left font-semibold whitespace-nowrap">Indicador</th>
-                  <th className="px-3 py-2.5 text-right font-semibold">Valor</th>
-                  <th className="px-3 py-2.5 text-left font-semibold">Leitura</th>
+                  <th className="px-1.5 py-1.5 text-left font-semibold whitespace-nowrap text-[8px] sm:text-[10px]">Indicador</th>
+                  <th className="px-1.5 py-1.5 text-right font-semibold text-[8px] sm:text-[10px]">Valor</th>
+                  <th className="px-1.5 py-1.5 text-left font-semibold text-[8px] sm:text-[10px]">Leitura</th>
                 </tr>
               </thead>
               <tbody>
                 {result.table.map((row, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
-                    <td className="px-3 py-2 font-medium text-sm">{row.indicator}</td>
-                    <td className="px-3 py-2 text-right font-mono font-semibold">{row.value}</td>
-                    <td className="px-3 py-2 text-foreground/55 text-xs">{row.reading}</td>
+                    <td className="px-1.5 py-1 text-medium text-[8px] sm:text-xs">{row.indicator}</td>
+                    <td className="px-1.5 py-1 text-right font-mono font-semibold text-[8px] sm:text-xs">{row.value}</td>
+                    <td className="px-1.5 py-1 text-foreground/55 text-[8px] sm:text-xs">{row.reading}</td>
                   </tr>
                 ))}
               </tbody>
@@ -385,7 +385,7 @@ export default function SimuladorProporcaoTaxa() {
 
             {/* Gráfico Canvas */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Gráfico de Degradação Progressiva</p>
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Gráfico de Degradação Progressiva</p>
               <div className="w-full overflow-x-auto">
                 <div className="min-w-[560px]">
                   <canvas
@@ -401,7 +401,7 @@ export default function SimuladorProporcaoTaxa() {
 
             {/* Tabela progressiva */}
             <div>
-              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Progressão por Parcela</p>
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Progressão por Parcela</p>
               <div className="rounded-xl border border-border">
                 <div className="w-full overflow-x-auto">
                   <div className="max-h-[400px] overflow-y-auto">
@@ -454,22 +454,22 @@ export default function SimuladorProporcaoTaxa() {
 
             {/* Relatório final — Cenário Sem Contemplação */}
             <div className="bg-[#F5F0E8] rounded-xl border border-[#DDD6C8] p-4 space-y-2">
-              <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Relatório Final — Cenário Sem Contemplação</p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                <div className="bg-white/70 rounded-lg p-3">
-                  <p className="text-xs text-foreground/50 mb-0.5">Eficiência inicial</p>
-                  <p className="font-bold text-lg text-green-600">{pct2(deg.eficienciaInicial)}</p>
+              <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">Relatório Final — Cenário Sem Contemplação</p>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+                <div className="bg-white/70 rounded-md p-2 sm:p-3">
+                  <p className="text-[10px] sm:text-xs text-foreground/50 mb-0.5">Eficiência inicial</p>
+                  <p className="font-bold text-base sm:text-lg text-green-600">{pct2(deg.eficienciaInicial)}</p>
                 </div>
-                <div className="bg-white/70 rounded-lg p-3">
-                  <p className="text-xs text-foreground/50 mb-0.5">Eficiência na parcela {deg.rows[deg.rows.length-1]?.parcela}</p>
+                <div className="bg-white/70 rounded-md p-2 sm:p-3">
+                  <p className="text-[10px] sm:text-xs text-foreground/50 mb-0.5">Eficiência na parcela {deg.rows[deg.rows.length-1]?.parcela}</p>
                   <p className={`font-bold text-lg ${deg.eficienciaFinal < 50 ? "text-red-500" : deg.eficienciaFinal < 70 ? "text-amber-500" : "text-green-600"}`}>{pct2(deg.eficienciaFinal)}</p>
                 </div>
-                <div className="bg-white/70 rounded-lg p-3">
-                  <p className="text-xs text-foreground/50 mb-0.5">Perda total de eficiência</p>
-                  <p className="font-bold text-lg text-red-500">{pct2(deg.perdaTotal)}</p>
+                <div className="bg-white/70 rounded-md p-2 sm:p-3">
+                  <p className="text-[10px] sm:text-xs text-foreground/50 mb-0.5">Perda total de eficiência</p>
+                  <p className="font-bold text-base sm:text-lg text-red-600">{pct2(deg.perdaTotal)}</p>
                 </div>
-                <div className="bg-white/70 rounded-lg p-3">
-                  <p className="text-xs text-foreground/50 mb-0.5">Impacto em R$</p>
+                <div className="bg-white/70 rounded-md p-2 sm:p-3">
+                  <p className="text-[10px] sm:text-xs text-foreground/50 mb-0.5">Impacto em R$</p>
                   <p className="font-bold text-lg text-foreground">
                     {deg.impactoReais.toLocaleString("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 })}
                   </p>

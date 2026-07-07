@@ -473,7 +473,7 @@ export default function SimuladorVendaCartaContemplada() {
               <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Contemplação por Sorteio (Prazos Fixos)</p>
               <p className="text-[9px] sm:text-[10px] text-foreground/70 mt-0.5">Projeção de ganhos para contemplação em prazos fixos (12, 24, 36, 48, 60, 72), independente do mês de contemplação informado.</p>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <table className="w-full text-[8px] sm:text-[10px]">
                 <thead className="bg-[var(--ink)] text-white">
                   <tr>
@@ -505,7 +505,7 @@ export default function SimuladorVendaCartaContemplada() {
               <p className="text-[10px] sm:text-xs font-bold uppercase tracking-wider">Evolução do consórcio</p>
               <p className="text-[9px] sm:text-[10px] text-foreground/70 mt-0.5">Tabela: mês → corr./ano → carta → parcela → total acumulado pago</p>
             </div>
-            <div className="overflow-x-auto">
+            <div className="overflow-x-auto w-full">
               <table className="w-full text-[8px] sm:text-[10px]">
                 <thead className="bg-[var(--ink)] text-white">
                   <tr>

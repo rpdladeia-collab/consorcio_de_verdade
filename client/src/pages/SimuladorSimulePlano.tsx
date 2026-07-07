@@ -82,7 +82,7 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
           <thead className="sticky top-0 bg-[var(--ink)] text-white">
             <tr>
               {["Mês","Carta","Saldo inicial","F. Comum","T. Adm.","F. Reserva","Seguro","Parcela","Pago acum.","Saldo final","Eventos"].map((h) => (
-                <th key={h} className="px-2.5 py-2.5 text-left text-[10px] font-semibold uppercase tracking-wide whitespace-nowrap text-white/70">
+                <th key={h} className="px-1.5 py-1 text-left text-[8px] font-semibold uppercase tracking-wide whitespace-nowrap text-white/70">
                   {h}
                 </th>
               ))}
@@ -96,17 +96,17 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
                 <tr key={r.month} className={`border-t border-border transition-colors ${
                   isAdj ? "bg-amber-200/90" : "hover:bg-secondary/40"
                 }`}>
-                  <td className="px-2.5 py-2 font-mono font-medium">{r.month}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRL(r.credit)}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRL(r.opening)}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRLCents(r.fc)}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRLCents(r.ta)}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px] font-medium">{r.month}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.credit)}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.opening)}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRLCents(r.fc)}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRLCents(r.ta)}</td>
                   <td className="px-2.5 py-2 font-mono">{formatBRLCents(r.fr)}</td>
-                  <td className="px-2.5 py-2 font-mono">{r.insurance > 0.005 ? formatBRLCents(r.insurance) : "—"}</td>
-                  <td className="px-2.5 py-2 font-mono font-bold text-[var(--orange)]">{formatBRLCents(r.installment)}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRL(r.paidTotal)}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRL(r.balance)}</td>
-                  <td className="px-2.5 py-2">
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{r.insurance > 0.005 ? formatBRLCents(r.insurance) : "—"}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px] font-bold text-[var(--orange)]">{formatBRLCents(r.installment)}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.paidTotal)}</td>
+                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.balance)}</td>
+                  <td className="px-1.5 py-1">
                     {isAdj && <span className="text-[var(--orange)] font-medium">● Reajuste</span>}
                     {isExcess && <span className="text-destructive font-medium flex items-center gap-1"><AlertTriangle className="w-3 h-3" />Excesso</span>}
                   </td>
@@ -118,7 +118,7 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
       </div>
       {rows.length > 13 && (
         <button onClick={() => setExpanded(!expanded)}
-          className="w-full flex items-center justify-center gap-2 py-2.5 text-xs font-medium text-foreground/50 hover:text-[var(--orange)] border-t border-border transition-colors">
+          className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-medium text-foreground/50 hover:text-[var(--orange)] border-t border-border transition-colors">
           <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
           {expanded ? "Recolher" : `Ver todos os ${rows.length} meses`}
         </button>
@@ -274,16 +274,16 @@ export default function SimuladorSimulePlano() {
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
-    <div className="space-y-6">
+    <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
       {/* Warnings */}
       {result.warnings.length > 0 && (
-        <div className="rounded-xl border border-orange-200 bg-orange-50 p-4 space-y-1">
-          <p className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
+        <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-3 sm:p-4 space-y-1 sm:space-y-2">
+          <p className="flex items-center gap-2 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1.5">
             <AlertTriangle className="w-3.5 h-3.5" />
             {result.warnings.length === 1 ? "Aviso" : "Avisos"}
           </p>
           {result.warnings.map((w, i) => (
-            <p key={i} className="text-sm text-orange-800">· {w}</p>
+            <p key={i} className="text-[13px] sm:text-sm text-orange-800">· {w}</p>
           ))}
         </div>
       )}

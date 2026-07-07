@@ -121,42 +121,42 @@ export default function SimuladorContemplacao() {
 
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-1">
-      <div className="scale-75 origin-left -mb-4">
+    <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-3">
+      <div className="scale-90 sm:scale-100 origin-left -mb-2 sm:-mb-4">
         <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
       </div>
-      <p className="font-semibold text-[9px] text-foreground/50 uppercase tracking-wider mb-0.5">
+      <p className="font-semibold text-[10px] sm:text-xs text-foreground/70 uppercase tracking-wider mb-1 sm:mb-2">
         Dados do plano
       </p>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-2 sm:gap-y-3">
         <label className="block col-span-2">
-          <span className="text-[9px] font-medium text-foreground/50">Carta de crédito (R$)</span>
-          <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
+          <input type="number" min="0" step="1000" className="input mt-0.5 w-full text-sm sm:text-base"
             value={form.credit} onChange={(e) => set("credit", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-[9px] font-medium text-foreground/50">Prazo (meses)</span>
-          <input type="number" min="1" max="240" className="input py-0.5 mt-0 w-full text-xs h-7"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Prazo (meses)</span>
+          <input type="number" min="1" max="240" className="input mt-0.5 w-full text-sm sm:text-base"
             value={form.term} onChange={(e) => set("term", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-[9px] font-medium text-foreground/50">Parcelas pagas</span>
-          <input type="number" min="0" className="input py-0.5 mt-0 w-full text-xs h-7"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Parcelas pagas</span>
+          <input type="number" min="0" className="input mt-0.5 w-full text-sm sm:text-base"
             value={form.paidMonths} onChange={(e) => set("paidMonths", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-[9px] font-medium text-foreground/50">Taxa adm. (%)</span>
-          <input type="number" min="0" step="0.01" className="input py-0.5 mt-0 w-full text-xs h-7"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
+          <input type="number" min="0" step="0.01" className="input mt-0.5 w-full text-sm sm:text-base"
             value={form.adminRate} onChange={(e) => set("adminRate", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-[9px] font-medium text-foreground/50">Fundo reserva (%)</span>
-          <input type="number" min="0" step="0.01" className="input py-0.5 mt-0 w-full text-xs h-7"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Fundo reserva (%)</span>
+          <input type="number" min="0" step="0.01" className="input mt-0.5 w-full text-sm sm:text-base"
             value={form.reserveRate} onChange={(e) => set("reserveRate", e.target.value)} />
         </label>
         <label className="block col-span-2">
-          <span className="text-[10px] font-medium text-foreground/60 flex items-center gap-1.5">
+          <span className="text-xs font-medium text-foreground/60 flex items-center gap-1.5">
             Base do lance
             <span className="relative group">
               <span className="cursor-help text-[var(--orange)] text-[11px] font-bold">?</span>
@@ -166,7 +166,7 @@ export default function SimuladorContemplacao() {
               </span>
             </span>
           </span>
-          <select className="input mt-1 w-full" value={form.base}
+          <select className="input mt-0.5 w-full text-sm sm:text-base" value={form.base}
             onChange={(e) => set("base", e.target.value as Base)}>
             <option value="credit">Carta de crédito</option>
             <option value="category">Categoria (carta + adm)</option>
@@ -175,17 +175,17 @@ export default function SimuladorContemplacao() {
       </div>
 
       <div className="border-t border-[#DDD6C8] pt-1.5">
-        <p className="font-semibold text-[9px] text-foreground/50 uppercase tracking-wider mb-1">
+        <p className="font-semibold text-[10px] sm:text-xs text-foreground/70 uppercase tracking-wider mb-1 sm:mb-2">
           Composição do lance
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-0.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-2 gap-y-2 sm:gap-y-3">
           <label className="block">
-            <span className="text-[9px] font-medium text-foreground/50">Lance próprio (R$)</span>
-            <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
+            <input type="number" min="0" step="1000" className="input mt-0.5 w-full text-sm sm:text-base"
               value={form.own} onChange={(e) => set("own", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-[9px] font-medium text-foreground/50 flex items-center gap-1">
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60 flex items-center gap-1">
               FGTS (R$)
               <span className="relative group">
                 <span className="cursor-help text-[var(--orange)] text-[9px] font-bold">?</span>
@@ -194,14 +194,14 @@ export default function SimuladorContemplacao() {
                 </span>
               </span>
             </span>
-            <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
+            <input type="number" min="0" step="1000" className="input mt-0.5 w-full text-sm sm:text-base"
               value={form.fgts} onChange={(e) => set("fgts", e.target.value)} />
           </label>
           <label className="block col-span-2">
-            <span className="text-[9px] font-medium text-foreground/50">Lance embutido (R$)</span>
-            <input type="number" min="0" step="1000" className="input py-0.5 mt-0 w-full text-xs h-7"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Lance embutido (R$)</span>
+            <input type="number" min="0" step="1000" className="input mt-0.5 w-full text-sm sm:text-base"
               value={form.embedded} onChange={(e) => set("embedded", e.target.value)} />
-            <span className="text-[8px] text-foreground/30 mt-0 block leading-none">Reduz a carta líquida</span>
+            <span className="text-[9px] sm:text-xs text-foreground/40 mt-0.5 block">Reduz a carta líquida</span>
           </label>
         </div>
       </div>
@@ -209,15 +209,15 @@ export default function SimuladorContemplacao() {
       {/* Avançado colapsável */}
       <Collapsible title="Parâmetros avançados" subtitle="Correção e modelo de parcela"
         open={advancedOpen} onToggle={() => setAdvancedOpen(!advancedOpen)}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 pt-2">
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Correção (% a.a.)</span>
-            <input type="number" min="0" step="0.1" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Correção (% a.a.)</span>
+            <input type="number" min="0" step="0.1" className="input mt-0.5 w-full text-sm sm:text-base"
               value={form.adjRate} onChange={(e) => set("adjRate", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Periodicidade</span>
-            <select className="input mt-1 w-full" value={form.adjEvery}
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Periodicidade</span>
+            <select className="input mt-0.5 w-full text-sm sm:text-base" value={form.adjEvery}
               onChange={(e) => set("adjEvery", e.target.value as AdjEvery)}>
               <option value="0">Sem correção</option>
               <option value="6">Semestral</option>
@@ -225,8 +225,8 @@ export default function SimuladorContemplacao() {
             </select>
           </label>
           <label className="block col-span-2">
-            <span className="text-xs font-medium text-foreground/60">Modelo de parcela</span>
-            <select className="input mt-1 w-full" value={form.mode}
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Modelo de parcela</span>
+            <select className="input mt-0.5 w-full text-sm sm:text-base" value={form.mode}
               onChange={(e) => set("mode", e.target.value as Mode)}>
               <option value="linear">Linear (padrão)</option>
               <option value="nonlinear">Não linear (faixas)</option>
@@ -234,8 +234,8 @@ export default function SimuladorContemplacao() {
           </label>
           {form.mode === "nonlinear" && (
             <label className="block col-span-2">
-              <span className="text-xs font-medium text-foreground/60">Faixas</span>
-              <textarea className="input mt-1 w-full h-20 font-mono text-xs"
+              <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Faixas</span>
+              <textarea className="input mt-0.5 w-full h-20 font-mono text-xs sm:text-sm"
                 placeholder={"1-12: 2500\n13-60: 3200"} value={form.ranges}
                 onChange={(e) => set("ranges", e.target.value)} />
             </label>
@@ -244,7 +244,7 @@ export default function SimuladorContemplacao() {
       </Collapsible>
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-2 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Analisar contemplação"}
       </button>
 
@@ -254,9 +254,9 @@ export default function SimuladorContemplacao() {
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
-    <div className="space-y-4">
+    <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
       {/* KPIs — grid 2×2 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
         <KpiCard label="Força de lance" value={formatPct(result.forcePct)}
           hint="Base: carta atualizada" tone={forceTone(result.forcePct)} />
         <KpiCard label="Lance total" value={brl(result.totalLance)}
@@ -268,7 +268,7 @@ export default function SimuladorContemplacao() {
       </div>
 
       {/* Card Diagnóstico do Lance — ACIMA DA TABELA */}
-      <div className="rounded-xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-4">
+      <div className="rounded-lg sm:rounded-xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-3 sm:p-4">
         <div className="flex items-start gap-3">
           <div className="flex-shrink-0 mt-0.5">
             <svg className="w-4 h-4 text-[var(--orange)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -276,8 +276,8 @@ export default function SimuladorContemplacao() {
             </svg>
           </div>
           <div className="flex-1 min-w-0">
-            <h3 className="font-semibold text-xs mb-1">Diagnóstico do lance</h3>
-            <p className="text-[11px] leading-relaxed text-foreground/70">
+            <h3 className="font-semibold text-[11px] sm:text-xs mb-1">Diagnóstico do lance</h3>
+            <p className="text-[11px] sm:text-xs leading-relaxed text-foreground/70">
               Seu lance representa {formatPct(result.forcePct)} da carta. Desse total, {brl(result.own + result.fgts)} saem do seu patrimônio e {brl(result.embedded)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {brlc(result.postLanceInstallment)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
             </p>
           </div>
@@ -286,29 +286,30 @@ export default function SimuladorContemplacao() {
 
       {/* Tabela de Evolução — REDIMENSIONADA PARA COLUNA DIREITA */}
       {result && (
-        <div className="space-y-2">
+        <div className="space-y-2 sm:space-y-3">
           <div className="flex items-center justify-between px-1">
-            <h3 className="text-xs font-bold text-foreground/40 uppercase tracking-widest">Evolução das parcelas</h3>
+            <h3 className="text-[10px] sm:text-xs font-bold text-foreground/40 uppercase tracking-widest">Evolução das parcelas</h3>
           </div>
-          <div className="rounded-lg border border-border overflow-hidden bg-white shadow-sm">
-            <div className="w-full overflow-x-auto">
-              <table className="w-full text-[10.8px]">
+          <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden bg-white shadow-sm overflow-x-auto overflow-x-auto">
+            <div className="w-full">
+              <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
+                <table className="w-full text-sm min-w-[600px]">
                 <thead className="bg-[var(--ink)] text-white">
                   <tr>
-                    <th className="px-2 py-2 text-left font-semibold uppercase tracking-wider text-white/70 flex-1">Mês</th>
-                    <th className="px-2 py-2 text-left font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Carta</th>
-                    <th className="px-2 py-2 text-left font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Evento</th>
-                    <th className="px-2 py-2 text-right font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-none w-8">Lance</th>
-                    <th className="px-2 py-2 text-right font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Parcela</th>
-                    <th className="px-2 py-2 text-right font-semibold uppercase tracking-wider text-white/70 text-[9px] flex-1">Saldo</th>
+                    <th className="px-1.5 py-1 text-left font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Mês</th>
+                    <th className="px-1.5 py-1 text-left font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Carta</th>
+                    <th className="px-1.5 py-1 text-left font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Evento</th>
+                    <th className="px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Lance</th>
+                    <th className="px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Parcela</th>
+                    <th className="px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Saldo</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-border/30">
                   {(expanded ? result.projection.rows : []).map((r) => (
                     <tr key={r.month} className={`transition-colors hover:bg-secondary/10 ${r.event === "Lance aplicado" ? "bg-orange-50 font-bold border-y border-[var(--orange)]/40" : ""}`}>
-                      <td className="px-2 py-1.5 font-mono text-foreground/60 text-[10px] flex-1">{r.month}</td>
-                      <td className="px-2 py-1.5 font-mono text-[10px] flex-1">{brl(r.credit)}</td>
-                      <td className="px-2 py-1.5 font-medium text-[10px] flex-1">
+                      <td className="px-1.5 py-1 font-mono text-foreground/60 text-[7px] sm:text-[9px]">{r.month}</td>
+                      <td className="px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{brl(r.credit)}</td>
+                      <td className="px-1.5 py-1 font-medium text-[7px] sm:text-[9px]">
                         {r.event === "Lance aplicado" ? (
                           <span className="text-[var(--orange)] flex items-center gap-0.5">
                             <ArrowUpRight className="w-2.5 h-2.5" />
@@ -316,15 +317,16 @@ export default function SimuladorContemplacao() {
                           </span>
                         ) : r.event}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-[10px] text-foreground/80 flex-none w-8 truncate">{r.lance > 0 ? brl(r.lance) : "—"}</td>
-                      <td className={`px-2 py-1.5 text-right font-mono font-bold text-[10px] flex-1 ${r.event === "Lance aplicado" ? "text-[var(--orange)]" : "text-foreground"}`}>
+                      <td className="px-1.5 py-1 text-right font-mono text-[7px] sm:text-[9px] text-foreground/80 flex-none w-8 truncate">{r.lance > 0 ? brl(r.lance) : "—"}</td>
+                      <td className={`px-1.5 py-1 text-right font-mono font-bold text-[7px] sm:text-[9px] flex-1 ${r.event === "Lance aplicado" ? "text-[var(--orange)]" : "text-foreground"}`}>
                         {r.projected > 0 ? brl(r.projected) : "—"}
                       </td>
-                      <td className="px-2 py-1.5 text-right font-mono text-foreground/70 text-[10px] flex-1">{brl(r.balance)}</td>
+                      <td className="px-1.5 py-1 text-right font-mono text-foreground/70 text-[7px] sm:text-[9px] flex-1">{brl(r.balance)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
+              </div>
             </div>
             {result.projection.rows.length > 0 && (
               <button onClick={() => setExpanded(!expanded)}
@@ -338,7 +340,7 @@ export default function SimuladorContemplacao() {
       )}
 
       {/* Card de interpretação — NA COLUNA DIREITA */}
-      <div className="rounded-xl border border-border bg-card py-3 px-4">
+      <div className="rounded-xl border border-border bg-card py-3 px-4 overflow-x-auto">
         <p className="font-semibold text-xs">Quer interpretar esses números?</p>
         <p className="text-[11px] text-foreground/60 mt-0.5">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
         <button className="mt-3 w-full rounded-full bg-[var(--orange)] text-white py-2 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all">

@@ -118,42 +118,42 @@ function ConscienciaSection() {
 function RaioXSection() {
   const cards = [
     {
-      num: "01",
+      num: "1",
       name: "Essa parcela continua cabendo daqui a alguns anos?",
       call: "Cabe hoje. Amanhã a gente confere.",
       text: "Veja como a parcela pode mudar com o tempo, especialmente quando entram correções, seguros e saldo devedor.",
       href: "/simulador/simule-seu-plano",
     },
     {
-      num: "02",
+      num: "2",
       name: "Esse lance realmente aumenta minhas chances?",
       call: "Dar lance é fácil. Saber se ele compra chance é outra história.",
       text: "Entenda se o lance aproxima você da contemplação ou apenas aumenta o esforço financeiro.",
       href: "/simulador/raio-x-do-lance",
     },
     {
-      num: "03",
+      num: "3",
       name: "Quanto esse consórcio realmente vai me custar?",
       call: "Sem juros não significa sem conta.",
       text: "Separe crédito, taxa, seguro, fundo de reserva e correção para entender o custo real da operação.",
       href: "/simulador/custo-operacao",
     },
     {
-      num: "04",
+      num: "4",
       name: "Quanto do crédito contratado realmente chega até você?",
       call: "Crédito contratado é uma coisa. Dinheiro novo é outra.",
       text: "Veja quanto da operação chega de fato até você e quanto fica no caminho.",
       href: "/simulador/proporcao-taxa",
     },
     {
-      num: "05",
+      num: "5",
       name: "Quanto a correção pode aumentar sua dívida?",
       call: "O juro saiu da conversa. O reajuste ficou.",
       text: "Simule como a correção pode afetar carta, saldo e parcela ao longo do contrato.",
       href: "/simulador/historico-correcoes",
     },
     {
-      num: "06",
+      num: "6",
       name: "Essa operação realmente se paga?",
       call: "Quando a promessa é bonita, a matemática precisa assinar embaixo.",
       text: "Teste se a carta realmente se paga depois da contemplação ou se a conta só fecha no discurso.",
@@ -183,7 +183,7 @@ function RaioXSection() {
             <Link key={c.num} href={c.href}>
               <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-4 hover:border-[var(--orange)] hover:shadow-sm transition-all cursor-pointer h-full">
                 <p className="text-[10px] tracking-widest uppercase text-[var(--orange)]/60 mb-1 font-semibold">
-                  {c.num === "06" ? "O QUE VOCÊ PRECISA SABER #06" : c.num}
+                  {c.num}
                 </p>
                 <p className="text-sm font-bold text-[var(--ink)] mb-1">{c.name}</p>
                 <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
@@ -196,7 +196,7 @@ function RaioXSection() {
         </div>
 
         <Link href="/simuladores">
-          <button className="bg-[var(--ink)] text-white text-sm font-semibold px-5 py-2.5 rounded-full hover:opacity-80 active:scale-95 transition-all">
+          <button className="bg-[var(--ink)] text-white text-[15.4px] font-semibold px-[22px] py-[11px] rounded-full hover:opacity-80 active:scale-95 transition-all">
             Abrir simuladores →
           </button>
         </Link>
@@ -383,19 +383,19 @@ function RenatoSection() {
               r.enatto
             </p>
             <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-3 leading-tight">
-              Os simuladores mostram os números. Eu ajudo a interpretar a decisão.
+              Os simuladores mostram os números. A estratégia depende do seu contexto.
             </h2>
             <p className="text-sm text-white/60 mb-4 max-w-xl">
-              Criei o Consórcio de Verdade porque percebi que muita gente contratava um consórcio entendendo apenas a parcela. Reuni ferramentas, dados e análises para que qualquer pessoa possa tomar uma decisão mais consciente antes de assinar um contrato.
+              Os simuladores ajudam a entender o consórcio. A consultoria ajuda a decidir se ele realmente faz sentido para o seu caso.
             </p>
-            <blockquote className="border-l-2 border-[var(--orange)] pl-4 mb-4">
-              <p className="text-sm text-white font-medium italic">
-                "Quando fizer sentido, eu ajudo a estruturar. Quando não fizer, eu prefiro te
-                mostrar antes."
-              </p>
-            </blockquote>
+            <p className="text-sm text-white font-medium mb-4">
+              Nem toda boa estratégia inclui um consórcio.
+            </p>
+            <p className="text-sm text-white/60 mb-4 max-w-xl">
+              Minha análise compara diferentes alternativas para recomendar a solução mais adequada aos seus objetivos, sempre com base em dados, evidências e matemática financeira.
+            </p>
             <p className="text-sm text-white/60 mb-5 max-w-xl">
-              Os simuladores ajudam você a entender os números. A análise individual transforma essas informações em uma estratégia para o seu caso, considerando objetivo, prazo, renda, patrimônio e perfil.
+              Não vendo produtos apenas. Construo estratégias.
             </p>
             <div className="flex flex-wrap gap-3">
               <a

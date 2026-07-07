@@ -102,86 +102,86 @@ export default function SimuladorAutoPagavel() {
 
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
       <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
-      <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <p className="font-semibold text-[13px] sm:text-sm text-foreground/70 uppercase tracking-wider mb-2 sm:mb-3">
         Dados do plano
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
         <label className="block col-span-2">
-          <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
+          <input type="number" min="0" step="1000" className="input mt-1 w-full text-sm sm:text-base"
             value={form.credit} onChange={(e) => set("credit", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Prazo (meses)</span>
-          <input type="number" min="1" max="240" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Prazo (meses)</span>
+          <input type="number" min="1" max="240" className="input mt-1 w-full text-sm sm:text-base"
             value={form.term} onChange={(e) => set("term", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
+          <input type="number" min="0" step="0.01" className="input mt-1 w-full text-sm sm:text-base"
             value={form.adminRate} onChange={(e) => set("adminRate", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Fundo reserva (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Fundo reserva (%)</span>
+          <input type="number" min="0" step="0.01" className="input mt-1 w-full text-sm sm:text-base"
             value={form.reserveRate} onChange={(e) => set("reserveRate", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Mês de contemplação</span>
-          <input type="number" min="1" max="240" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Mês de contemplação</span>
+          <input type="number" min="1" max="240" className="input mt-1 w-full text-sm sm:text-base"
             value={form.contMonth} onChange={(e) => set("contMonth", e.target.value)} />
         </label>
       </div>
 
-      <div className="border-t border-[#DDD6C8] pt-3">
-        <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <div className="border-t border-[#DDD6C8] pt-2 sm:pt-3">
+        <p className="font-semibold text-[13px] sm:text-sm text-foreground/70 uppercase tracking-wider mb-2 sm:mb-3">
           Lance e renda do bem
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
-            <input type="number" min="0" step="1000" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Lance próprio (R$)</span>
+            <input type="number" min="0" step="1000" className="input mt-1 w-full text-sm sm:text-base"
               value={form.own} onChange={(e) => set("own", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Lance embutido (R$)</span>
-            <input type="number" min="0" step="1000" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Lance embutido (R$)</span>
+            <input type="number" min="0" step="1000" className="input mt-1 w-full text-sm sm:text-base"
               value={form.embedded} onChange={(e) => set("embedded", e.target.value)} />
           </label>
           <label className="block col-span-2">
-            <span className="text-xs font-medium text-foreground/60">Renda mensal do bem (R$)</span>
-            <input type="number" min="0" step="100" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Renda mensal do bem (R$)</span>
+            <input type="number" min="0" step="100" className="input mt-1 w-full text-sm sm:text-base"
               value={form.rent} onChange={(e) => set("rent", e.target.value)} />
-            <span className="text-[10px] text-foreground/40 mt-0.5 block">Aluguel ou renda gerada pelo bem após contemplação</span>
+            <span className="text-[9px] sm:text-[10px] text-foreground/40 mt-0.5 block">Aluguel ou renda gerada pelo bem após contemplação</span>
           </label>
         </div>
       </div>
 
-      <div className="border-t border-[#DDD6C8] pt-3">
-        <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <div className="border-t border-[#DDD6C8] pt-2 sm:pt-3">
+        <p className="font-semibold text-[13px] sm:text-sm text-foreground/70 uppercase tracking-wider mb-2 sm:mb-3">
           Cenário de investimento
         </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Capital inicial (R$)</span>
-            <input type="number" min="0" step="1000" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Capital inicial (R$)</span>
+            <input type="number" min="0" step="1000" className="input mt-1 w-full text-sm sm:text-base"
               value={form.initial} onChange={(e) => set("initial", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Aporte mensal (R$)</span>
-            <input type="number" min="0" step="100" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Aporte mensal (R$)</span>
+            <input type="number" min="0" step="100" className="input mt-1 w-full text-sm sm:text-base"
               value={form.budget} onChange={(e) => set("budget", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Rentabilidade (% a.a.)</span>
-            <input type="number" min="0" step="0.1" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Rentabilidade (% a.a.)</span>
+            <input type="number" min="0" step="0.1" className="input mt-1 w-full text-sm sm:text-base"
               value={form.annualReturn} onChange={(e) => set("annualReturn", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Valorização do bem (% a.a.)</span>
-            <input type="number" min="0" step="0.1" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Valorização do bem (% a.a.)</span>
+            <input type="number" min="0" step="0.1" className="input mt-1 w-full text-sm sm:text-base"
               value={form.appreciation} onChange={(e) => set("appreciation", e.target.value)} />
           </label>
         </div>
@@ -191,8 +191,8 @@ export default function SimuladorAutoPagavel() {
         open={advancedOpen} onToggle={() => setAdvancedOpen(!advancedOpen)}>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <label className="block col-span-2">
-            <span className="text-xs font-medium text-foreground/60">Modelo de parcela</span>
-            <select className="input mt-1 w-full" value={form.mode}
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Modelo de parcela</span>
+            <select className="input mt-1 w-full text-sm sm:text-base" value={form.mode}
               onChange={(e) => set("mode", e.target.value as Mode)}>
               <option value="linear">Linear (padrão)</option>
               <option value="nonlinear">Não linear (faixas)</option>
@@ -200,7 +200,7 @@ export default function SimuladorAutoPagavel() {
           </label>
           {form.mode === "nonlinear" && (
             <label className="block col-span-2">
-              <span className="text-xs font-medium text-foreground/60">Faixas</span>
+              <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Faixas</span>
               <textarea className="input mt-1 w-full h-20 font-mono text-xs"
                 placeholder={"1-12: 2500\n13-60: 3200"} value={form.ranges}
                 onChange={(e) => set("ranges", e.target.value)} />
@@ -210,7 +210,7 @@ export default function SimuladorAutoPagavel() {
       </Collapsible>
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2.5 sm:py-3 text-[13px] sm:text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Analisar auto pagável"}
       </button>
     </form>
@@ -218,9 +218,9 @@ export default function SimuladorAutoPagavel() {
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6 px-2 sm:px-0">
       {/* KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
         <KpiCard label="Cobertura da parcela" value={pct2(result.kpis.coverage)}
           hint="Renda do bem / parcela média pós-contemplação"
           tone={result.kpis.coverageCls === "green" ? "positive" : result.kpis.coverageCls === "yellow" ? "orange" : "negative"} />
@@ -238,18 +238,18 @@ export default function SimuladorAutoPagavel() {
 
       {/* Warnings */}
       {result.warnings.length > 0 && (
-        <div className="rounded-xl border border-orange-200 bg-orange-50 p-4 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
+        <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-2 sm:p-3 space-y-1">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
             Avisos do motor de cálculo
           </p>
           {result.warnings.map((w, i) => (
-            <p key={i} className="text-sm text-orange-800">⚠ {w}</p>
+            <p key={i} className="text-[10px] sm:text-xs text-orange-800">⚠ {w}</p>
           ))}
         </div>
       )}
 
       {/* Readboxes */}
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {result.readboxes.map((rb, i) => (
           <MeaningBlock key={i} label={rb.title}>
             <p className="whitespace-pre-line">{rb.body}</p>
@@ -258,44 +258,44 @@ export default function SimuladorAutoPagavel() {
       </div>
 
       {/* Tabela de comparação de patrimônio */}
-      <div className="rounded-xl border border-border">
+      <div className="rounded-lg sm:rounded-xl border border-border">
         <button
           type="button"
           onClick={() => setTableOpen(!tableOpen)}
-          className="w-full flex items-center justify-between px-4 py-3 bg-card hover:bg-secondary/30 transition-colors text-sm font-semibold"
+          className="w-full flex items-center justify-between px-3 sm:px-4 py-2 sm:py-3 bg-card hover:bg-secondary/30 transition-colors text-[13px] sm:text-sm font-semibold"
         >
           <span>Ver tabela de patrimônio ({result.table.length} meses)</span>
           <span className={`transition-transform duration-200 ${tableOpen ? "rotate-180" : ""}`}>▼</span>
         </button>
         {tableOpen && (
-          <div className="w-full overflow-x-auto">
-            <div className="max-h-[480px] overflow-y-auto">
-            <table className="w-full text-xs min-w-[900px]">
+          <div className="w-full overflow-x-auto -mx-3 px-3">
+            <div className="max-h-[480px] overflow-y-auto -mx-3 px-3">
+            <table className="w-full text-[8px] sm:text-xs min-w-[900px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
-                  <th className="px-2 py-2.5 text-left">Mês</th>
-                  <th className="px-2 py-2.5 text-right">Objetivo</th>
-                  <th className="px-2 py-2.5 text-right">Parcela</th>
-                  <th className="px-2 py-2.5 text-right">Renda bem</th>
-                  <th className="px-2 py-2.5 text-right">Reserva cons.</th>
-                  <th className="px-2 py-2.5 text-right">Extra acum.</th>
-                  <th className="px-2 py-2.5 text-right">Bem (inv.)</th>
-                  <th className="px-2 py-2.5 text-right">Patrim. inv.</th>
-                  <th className="px-2 py-2.5 text-right">Patrim. cons.</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-left font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Mês</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Objetivo</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Parcela</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Renda bem</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Reserva cons.</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Extra acum.</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Bem (inv.)</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Patrim. inv.</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Patrim. cons.</th>
                 </tr>
               </thead>
               <tbody>
                 {result.table.map((row, i) => (
                   <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/20"}>
-                    <td className="px-2 py-1.5 font-mono">{row.month}</td>
-                    <td className="px-2 py-1.5 text-right font-mono">{row.objective}</td>
-                    <td className="px-2 py-1.5 text-right font-mono">{row.parcel}</td>
-                    <td className="px-2 py-1.5 text-right font-mono">{row.income}</td>
-                    <td className="px-2 py-1.5 text-right font-mono">{row.consReserve}</td>
-                    <td className="px-2 py-1.5 text-right font-mono">{row.extras}</td>
-                    <td className="px-2 py-1.5 text-right font-mono">{row.invAsset}</td>
-                    <td className="px-2 py-1.5 text-right font-mono font-bold">{row.patrimonioInv}</td>
-                    <td className="px-2 py-1.5 text-right font-mono font-bold">{row.patrimonioCons}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 font-mono text-[10px] sm:text-xs">{row.month}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[10px] sm:text-xs">{row.objective}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[10px] sm:text-xs">{row.parcel}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[10px] sm:text-xs">{row.income}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[10px] sm:text-xs">{row.consReserve}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[10px] sm:text-xs">{row.extras}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[10px] sm:text-xs">{row.invAsset}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono font-bold text-[10px] sm:text-xs">{row.patrimonioInv}</td>
+                    <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono font-bold text-[10px] sm:text-xs">{row.patrimonioCons}</td>
                   </tr>
                 ))}
               </tbody>

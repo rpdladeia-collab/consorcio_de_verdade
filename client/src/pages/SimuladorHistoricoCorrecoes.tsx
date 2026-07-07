@@ -87,50 +87,50 @@ export default function SimuladorHistoricoCorrecoes() {
 
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-3">
       <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
-      <p className="font-semibold text-sm text-foreground/70 uppercase tracking-wider mb-3">
+      <p className="font-semibold text-[13px] sm:text-sm text-foreground/70 uppercase tracking-wider mb-2 sm:mb-3">
         Dados do plano
       </p>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
         <label className="block col-span-2">
-          <span className="text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
-          <input type="number" min="0" step="1000" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Carta de crédito (R$)</span>
+          <input type="number" min="0" step="1000" className="input mt-1 w-full text-sm sm:text-base"
             value={form.credit} onChange={(e) => set("credit", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Prazo (meses)</span>
-          <input type="number" min="1" max="240" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Prazo (meses)</span>
+          <input type="number" min="1" max="240" className="input mt-1 w-full text-sm sm:text-base"
             value={form.term} onChange={(e) => set("term", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Taxa adm. (%)</span>
+          <input type="number" min="0" step="0.01" className="input mt-1 w-full text-sm sm:text-base"
             value={form.adminRate} onChange={(e) => set("adminRate", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Fundo reserva (%)</span>
-          <input type="number" min="0" step="0.01" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Fundo reserva (%)</span>
+          <input type="number" min="0" step="0.01" className="input mt-1 w-full text-sm sm:text-base"
             value={form.reserveRate} onChange={(e) => set("reserveRate", e.target.value)} />
         </label>
         <label className="block">
-          <span className="text-xs font-medium text-foreground/60">Seguro (% saldo/mês)</span>
-          <input type="number" min="0" step="0.001" className="input mt-1 w-full"
+          <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Seguro (% saldo/mês)</span>
+          <input type="number" min="0" step="0.001" className="input mt-1 w-full text-sm sm:text-base"
             value={form.insuranceRate} onChange={(e) => set("insuranceRate", e.target.value)} />
         </label>
       </div>
 
       <Collapsible title="Parâmetros de correção" subtitle="Índice e periodicidade"
         open={advancedOpen} onToggle={() => setAdvancedOpen(!advancedOpen)}>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+        <div className="grid grid-cols-2 gap-1.5 sm:gap-2 pt-2">
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Correção (% a.a.)</span>
-            <input type="number" min="0" step="0.1" className="input mt-1 w-full"
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Correção (% a.a.)</span>
+            <input type="number" min="0" step="0.1" className="input mt-1 w-full text-sm sm:text-base"
               value={form.adjRate} onChange={(e) => set("adjRate", e.target.value)} />
           </label>
           <label className="block">
-            <span className="text-xs font-medium text-foreground/60">Periodicidade</span>
-            <select className="input mt-1 w-full" value={form.adjEvery}
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Periodicidade</span>
+            <select className="input mt-1 w-full text-sm sm:text-base" value={form.adjEvery}
               onChange={(e) => set("adjEvery", e.target.value as AdjEvery)}>
               <option value="0">Sem correção</option>
               <option value="6">Semestral</option>
@@ -138,8 +138,8 @@ export default function SimuladorHistoricoCorrecoes() {
             </select>
           </label>
           <label className="block col-span-2">
-            <span className="text-xs font-medium text-foreground/60">Modelo de parcela</span>
-            <select className="input mt-1 w-full" value={form.mode}
+            <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Modelo de parcela</span>
+            <select className="input mt-1 w-full text-sm sm:text-base" value={form.mode}
               onChange={(e) => set("mode", e.target.value as Mode)}>
               <option value="linear">Linear (padrão)</option>
               <option value="nonlinear">Não linear (faixas)</option>
@@ -147,8 +147,8 @@ export default function SimuladorHistoricoCorrecoes() {
           </label>
           {form.mode === "nonlinear" && (
             <label className="block col-span-2">
-              <span className="text-xs font-medium text-foreground/60">Faixas</span>
-              <textarea className="input mt-1 w-full h-20 font-mono text-xs"
+              <span className="text-[11px] sm:text-xs font-medium text-foreground/60">Faixas</span>
+              <textarea className="input mt-1 w-full h-20 font-mono text-[10px] sm:text-xs"
                 placeholder={"1-12: 2500\n13-60: 3200"} value={form.ranges}
                 onChange={(e) => set("ranges", e.target.value)} />
             </label>
@@ -157,7 +157,7 @@ export default function SimuladorHistoricoCorrecoes() {
       </Collapsible>
 
       <button type="submit" disabled={mutation.isPending}
-        className="w-full rounded-full bg-[var(--orange)] text-white py-3 text-sm font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
+        className="w-full rounded-full bg-[var(--orange)] text-white py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Projetar histórico de correções"}
       </button>
     </form>
@@ -165,9 +165,9 @@ export default function SimuladorHistoricoCorrecoes() {
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
-    <div className="space-y-6">
+    <div className="space-y-2 sm:space-y-3 px-2 sm:px-0">
       {/* KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-1.5 sm:gap-2">
         <KpiCard label="Carta inicial" value={brl(result.kpis.creditInicial)}
           hint="Carta de crédito no início do plano" tone="default" />
         <KpiCard label="Quanto a carta pode chegar" value={brl(result.kpis.creditFinal)}
@@ -180,35 +180,35 @@ export default function SimuladorHistoricoCorrecoes() {
 
       {/* Warnings */}
       {result.warnings.length > 0 && (
-        <div className="rounded-xl border border-orange-200 bg-orange-50 p-4 space-y-1">
-          <p className="text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
+        <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-2 sm:p-3 space-y-1">
+          <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
             Avisos do motor de cálculo
           </p>
           {result.warnings.map((w, i) => (
-            <p key={i} className="text-sm text-orange-800">⚠ {w}</p>
+            <p key={i} className="text-[13px] sm:text-sm text-orange-800">⚠ {w}</p>
           ))}
         </div>
       )}
 
       {/* Tabela anual */}
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
+        <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
           Tabela anual de correções
         </p>
-        <div className="rounded-xl border border-border">
+        <div className="rounded-lg sm:rounded-xl border border-border">
           <div className="w-full overflow-x-auto">
             <div className="max-h-[480px] overflow-y-auto">
-            <table className="w-full text-xs min-w-[700px]">
+            <table className="w-full text-[8px] sm:text-xs min-w-[700px]">
               <thead className="sticky top-0 bg-[var(--ink)] text-white">
                 <tr>
-                  <th className="px-3 py-2.5 text-left">Ano</th>
-                  <th className="px-3 py-2.5 text-right">Carta final</th>
-                  <th className="px-3 py-2.5 text-right">Saldo final</th>
-                  <th className="px-3 py-2.5 text-right">Correção no ano</th>
-                  <th className="px-3 py-2.5 text-right">Correção acum.</th>
-                  <th className="px-3 py-2.5 text-right">Pago no ano</th>
-                  <th className="px-3 py-2.5 text-right">Parcela média</th>
-                  <th className="px-3 py-2.5 text-left">Eventos</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-left font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Ano</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Carta final</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Saldo final</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Correção no ano</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Correção acum.</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Pago no ano</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-right font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Parcela média</th>
+                  <th className="px-1 sm:px-1.5 py-1 text-left font-semibold uppercase tracking-wider text-white/70 text-[8px] sm:text-[9px]">Eventos</th>
                 </tr>
               </thead>
               <tbody>
@@ -216,14 +216,14 @@ export default function SimuladorHistoricoCorrecoes() {
                   <tr key={i} className={
                     row.events ? "bg-amber-50/60" : i % 2 === 0 ? "bg-card" : "bg-secondary/20"
                   }>
-                    <td className="px-3 py-1.5 font-mono font-bold">{row.year}</td>
-                    <td className="px-3 py-1.5 text-right font-mono">{row.creditEndOfYear}</td>
-                    <td className="px-3 py-1.5 text-right font-mono">{row.balanceEndOfYear}</td>
-                    <td className="px-3 py-1.5 text-right font-mono">{row.correctionInYear}</td>
-                    <td className="px-3 py-1.5 text-right font-mono">{row.correctionAccum}</td>
-                    <td className="px-3 py-1.5 text-right font-mono">{row.paidInYear}</td>
-                    <td className="px-3 py-1.5 text-right font-mono">{row.avgInstallment}</td>
-                    <td className="px-3 py-1.5 text-foreground/55">{row.events}</td>
+                    <td className="px-1 sm:px-1.5 py-1 font-mono text-foreground/60 text-[7px] sm:text-[9px]">{row.year}</td>
+                    <td className="px-1 sm:px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{row.creditEndOfYear}</td>
+                    <td className="px-1 sm:px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{row.balanceEndOfYear}</td>
+                    <td className="px-1 sm:px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{row.correctionInYear}</td>
+                    <td className="px-1 sm:px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{row.correctionAccum}</td>
+                    <td className="px-1 sm:px-1.5 py-1 text-right font-mono text-[7px] sm:text-[9px]">{row.paidInYear}</td>
+                    <td className="px-1 sm:px-1.5 py-1 text-right font-mono text-[7px] sm:text-[9px]">{row.avgInstallment}</td>
+                    <td className="px-1 sm:px-1.5 py-1 text-foreground/55 text-[7px] sm:text-[9px]">{row.events}</td>
                   </tr>
                 ))}
               </tbody>
@@ -254,7 +254,7 @@ export default function SimuladorHistoricoCorrecoes() {
 
       <TransparencyBlock />
 
-      <div className="flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-2 sm:gap-3">
         <PdfButton onClick={handlePdf} loading={pdfLoading} />
       </div>
       <ConsultCTA context="esse resultado" variant="new" />

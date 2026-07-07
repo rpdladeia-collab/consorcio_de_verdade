@@ -167,7 +167,7 @@ export default function SimuladorLanceCartaXCategoria() {
 
   // ─── RESULTS PANEL (Direita) ───
   const resultsPanel = (
-    <div className="space-y-2 sm:space-y-3">
+    <div className="space-y-2 sm:space-y-3 px-2 sm:px-0">
       {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2">
         <div className="rounded-lg sm:rounded-xl border border-green-200 bg-green-50 p-2 sm:p-3">
