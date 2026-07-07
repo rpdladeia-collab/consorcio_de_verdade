@@ -14,6 +14,7 @@ import {
   Zap,
   ArrowRight,
   Lock,
+  DollarSign,
 } from "lucide-react";
 import { BRAND } from "@/lib/brand";
 
@@ -73,6 +74,14 @@ const MODULOS = [
     desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).",
     slug: "lance-carta-x-categoria",
     btn: "Comparar bases"
+  },
+  {
+    num: 8,
+    icon: <DollarSign className="w-5 h-5" />,
+    title: "Venda de Carta Contemplada",
+    desc: "Simule o valor de venda de uma carta de crédito contemplada, considerando o saldo devedor, taxa de repasse e outros fatores.",
+    slug: "venda-carta-contemplada",
+    btn: "Simular venda"
   },
 ];
 

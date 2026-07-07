@@ -3,6 +3,7 @@ import { publicProcedure, router } from '../_core/trpc';
 import { calcZonaContemplacao } from '../lib/zonaContemplacao';
 import { calcLanceLivre } from '../lib/lanceLivre';
 import { calcLanceCartaXCategoria } from '../lib/lanceCartaXCategoria';
+import { calcVendaCartaContemplada, calculateFixedTermContemplation } from '../lib/vendaCartaContemplada';
 
 const zonaContemplacaoSchema = z.object({
   rows: z
@@ -51,5 +52,53 @@ export const simuladoresRouter = router({
     }))
     .mutation(({ input }) => {
       return calcLanceCartaXCategoria(input);
+    }),
+
+  vendaCartaContemplada: publicProcedure
+    .input(z.object({
+      valorInicial: z.number().positive(),
+      parcelaInicial: z.number().positive(),
+      indiceAnualPct: z.number().min(0),
+      parcelaContemplacao: z.number().int().min(1),
+      prazoTotal: z.number().int().min(1),
+      taxaRepasseMensalRaw: z.string(),
+      taxaFormato: z.enum(["auto", "percent", "factor"]),
+      lanceEmbutido: z.number().min(0),
+      lanceRealizado: z.number().min(0),
+    }))
+    .mutation(({ input }) => {
+      return calcVendaCartaContemplada(
+        input.valorInicial,
+        input.parcelaInicial,
+        input.indiceAnualPct,
+        input.parcelaContemplacao,
+        input.prazoTotal,
+        input.taxaRepasseMensalRaw,
+        input.taxaFormato,
+        input.lanceEmbutido,
+        input.lanceRealizado
+      );
+    }),
+
+  vendaCartaContempladaFixedTerm: publicProcedure
+    .input(z.object({
+      valorInicial: z.number().positive(),
+      parcelaInicial: z.number().positive(),
+      indiceAnualPct: z.number().min(0),
+      prazoTotal: z.number().int().min(1),
+      lanceRealizado: z.number().min(0),
+      taxaRepasseMensalRaw: z.string(),
+      taxaFormato: z.enum(["auto", "percent", "factor"]),
+    }))
+    .mutation(({ input }) => {
+      return calculateFixedTermContemplation(
+        input.valorInicial,
+        input.parcelaInicial,
+        input.indiceAnualPct,
+        input.prazoTotal,
+        input.lanceRealizado,
+        input.taxaRepasseMensalRaw,
+        input.taxaFormato
+      );
     }),
 });
