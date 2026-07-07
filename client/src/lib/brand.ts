@@ -27,6 +27,7 @@ export const LOGO = {
 
 export const BRAND = {
   name: "Consórcio de Verdade",
+  logoTextSize: "text-lg md:text-xl",
   domain: "consorciodeverdade.com.br",
   tagline: "Dados. Matemática. Clareza.",
   instagram: "https://instagram.com/consorcio.deverdade",
@@ -35,5 +36,5 @@ export const BRAND = {
   email: "contato@consorciodeverdade.com.br",
   founder: "Renato",
   disclaimer:
-    "Essa é uma simulação baseada em dados incluídos pelo usuário — apenas com finalidade de conhecer a dinâmica do mercado de consórcio — não deve ser vista como recomendação financeira ou promessa de contemplação.",
+    "As informações, análises e ferramentas disponibilizadas neste site possuem caráter exclusivamente informativo e educacional. Os cálculos são baseados em premissas estatísticas e dados históricos informados pelo usuário, não constituindo recomendação financeira, oferta de investimento ou garantia de contemplação futura.",
 } as const;

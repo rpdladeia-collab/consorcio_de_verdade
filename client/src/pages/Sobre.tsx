@@ -9,6 +9,10 @@ export default function Sobre() {
   const toggleMute = () => {
     if (videoRef.current) {
       videoRef.current.muted = !videoRef.current.muted;
+      // Define o volume para 50% quando o áudio é ativado
+      if (!videoRef.current.muted) {
+        videoRef.current.volume = 0.5;
+      }
       setIsMuted(videoRef.current.muted);
     }
   };

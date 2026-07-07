@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Instagram } from "lucide-react";
+import IconR from "../assets/icon_r.png";
 import { LOGO, BRAND } from "@/lib/brand";
 
 export default function Header() {
@@ -35,7 +36,7 @@ export default function Header() {
               <img
                 src={LOGO.dark}
                 alt={BRAND.name}
-                className="h-12 md:h-16 w-auto object-contain"
+                className="h-14 md:h-20 w-auto object-contain"
               />
             </Link>
 
@@ -83,10 +84,7 @@ export default function Header() {
                   location === "/sobre" ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
-                <span className="flex items-center gap-0.5">
-                  <span className="text-xl font-bold leading-none">r</span>
-                  <span className="w-1.5 h-1.5 bg-[var(--orange)] mt-2"></span>
-                </span>
+                  <img src={IconR} alt="r." className="h-5 w-auto" />
               </Link>
             </nav>
 
@@ -150,10 +148,7 @@ export default function Header() {
                 href="/sobre"
                 className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
               >
-                <span className="flex items-center gap-0.5">
-                  <span className="text-2xl font-bold leading-none">r</span>
-                  <span className="w-2 h-2 bg-[var(--orange)] mt-2"></span>
-                </span>
+                  <img src={IconR} alt="r." className="h-6 w-auto" />
               </Link>
 
               <div className="flex items-center gap-5 mt-4 pb-2">

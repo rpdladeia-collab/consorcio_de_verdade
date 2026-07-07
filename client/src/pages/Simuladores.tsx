@@ -1,174 +1,144 @@
-/**
- * Página Central do Raio-X do Consórcio
- * Grid escuro 3×2 — fundo #111, cards #1c1b15, borda laranja no hover
- * Compressão visual: modo dashboard editorial
- */
+import React from 'react';
+import { Link } from 'wouter';
+import { 
+  ArrowRight, 
+  HelpCircle, 
+  TrendingUp, 
+  BarChart3, 
+  Calculator, 
+  Clock, 
+  ShieldCheck, 
+  PieChart, 
+  Scale, 
+  DollarSign 
+} from 'lucide-react';
+import { BRAND } from '../lib/brand';
 
-import { Link } from "wouter";
-import {
-  Calculator,
-  Scale,
-  FileSearch,
-  Gauge,
-  Activity,
-  Zap,
-  ArrowRight,
-  Lock,
-  DollarSign,
-} from "lucide-react";
-import { BRAND } from "@/lib/brand";
-
-const MODULOS = [
+const CATEGORIAS = [
   {
-    num: 1,
-    icon: <Calculator className="w-5 h-5" />,
-    title: "Essa parcela continua cabendo daqui a alguns anos?",
-    desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.",
-    slug: "simule-seu-plano",
-    btn: "Simular parcela"
+    pergunta: "Essa operação cabe no meu planejamento?",
+    modulos: [
+      { num: 1, slug: "simule-seu-plano", title: "Essa parcela continua cabendo daqui a alguns anos?", desc: "Gera o fluxo mensal completo com parcela linear ou não linear, reajustes e seguro.", icon: <Clock />, btn: "Responder essa dúvida", destaque: true },
+      { num: 6, slug: "auto-pagavel", title: "Essa operação realmente se paga?", desc: "Verifica se a carta de crédito é capaz de se pagar com rendimento após a contemplação.", icon: <ShieldCheck />, btn: "Descobrir resposta" }
+    ]
   },
   {
-    num: 2,
-    icon: <Scale className="w-5 h-5" />,
-    title: "Esse lance realmente aumenta minhas chances?",
-    desc: "Projeta o impacto financeiro da contemplação em diferentes momentos do plano.",
-    slug: "raio-x-do-lance",
-    btn: "Simular lance"
+    pergunta: "Quanto essa operação realmente vai custar?",
+    modulos: [
+      { num: 3, slug: "custo-operacao", title: "Quanto esse consórcio realmente vai me custar?", desc: "Calcula o custo real do consórcio: taxa de administração, seguro e fundo de reserva.", icon: <Calculator />, btn: "Fazer esta análise", destaque: true },
+      { num: 4, slug: "proporcao-taxa", title: "Quanto do crédito contratado realmente chega até você?", desc: "Mostra quanto da parcela é taxa e como isso degrada a eficiência ao longo do tempo.", icon: <PieChart />, btn: "Descobrir resposta" },
+      { num: 5, slug: "historico-correcoes", title: "Quanto a correção pode aumentar sua dívida?", desc: "Analisa o impacto dos reajustes históricos sobre o saldo devedor e a carta de crédito.", icon: <TrendingUp />, btn: "Fazer esta análise" }
+    ]
   },
   {
-    num: 3,
-    icon: <FileSearch className="w-5 h-5" />,
-    title: "Quanto esse consórcio realmente vai me custar?",
-    desc: "Calcula o custo real do consórcio: taxa de administração, seguro e fundo de reserva.",
-    slug: "custo-operacao",
-    btn: "Simular custo"
+    pergunta: "Qual é minha chance real de contemplação?",
+    modulos: [
+      { num: 2, slug: "raio-x-do-lance", title: "Esse lance realmente aumenta minhas chances?", desc: "Projeta o impacto financeiro da contemplação em diferentes momentos do plano.", icon: <BarChart3 />, btn: "Fazer esta análise", destaque: true },
+      { num: 7, slug: "lance-carta-x-categoria", title: "Lance sobre Carta vs Categoria", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", icon: <Scale />, btn: "Descobrir resposta" }
+    ]
   },
   {
-    num: 4,
-    icon: <Gauge className="w-5 h-5" />,
-    title: "Quanto do crédito contratado realmente chega até você?",
-    desc: "Mostra quanto da parcela é taxa e como isso degrada a eficiência ao longo do tempo.",
-    slug: "proporcao-taxa",
-    btn: "Simular eficiência"
-  },
-  {
-    num: 5,
-    icon: <Activity className="w-5 h-5" />,
-    title: "Quanto a correção pode aumentar sua dívida?",
-    desc: "Analisa o impacto dos reajustes históricos sobre o saldo devedor e a carta de crédito.",
-    slug: "historico-correcoes",
-    btn: "Simular correções"
-  },
-  {
-    num: 6,
-    icon: <Zap className="w-5 h-5" />,
-    title: "Essa operação realmente se paga?",
-    desc: "Verifica se a carta de crédito é capaz de se pagar com rendimento após a contemplação.",
-    slug: "auto-pagavel",
-    btn: "Testar operação"
-  },
-  {
-    num: 7,
-    icon: <Scale className="w-5 h-5" />,
-    title: "Lance sobre Carta vs Categoria",
-    desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).",
-    slug: "lance-carta-x-categoria",
-    btn: "Comparar bases"
-  },
-  {
-    num: 8,
-    icon: <DollarSign className="w-5 h-5" />,
-    title: "Venda de Carta Contemplada",
-    desc: "Simule o valor de venda de uma carta de crédito contemplada, considerando o saldo devedor, taxa de repasse e outros fatores.",
-    slug: "venda-carta-contemplada",
-    btn: "Simular venda"
-  },
+    pergunta: "Mercado secundário",
+    modulos: [
+      { num: 8, slug: "venda-carta-contemplada", title: "Venda de Carta Contemplada", desc: "Simule o valor de venda de uma carta de crédito contemplada, considerando o saldo devedor, taxa de repasse e outros fatores.", icon: <DollarSign />, btn: "Fazer esta análise" }
+    ]
+  }
 ];
 
 export default function Simuladores() {
   return (
-    <div className="bg-[var(--paper)] text-[var(--ink)]">
-      {/* ── HERO ─────────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pt-6 pb-4">
-        <p className="text-[var(--orange)] text-xs font-mono uppercase tracking-widest mb-2">
-          Raio-X do Consórcio
-        </p>
-        <h1 className="text-xl md:text-2xl font-extrabold leading-[1.1] text-[var(--ink)] w-full">
-          Aqui você não analisa apenas os números. Você entende como a operação funciona.
-        </h1>
-        <p className="text-[var(--ink)]/60 text-xs mt-2 w-full leading-relaxed">
-          Cada análise responde uma dúvida específica da operação. Mais do que calcular valores, ela ajuda a compreender como cada decisão impacta o funcionamento do contrato ao longo do tempo.
-        </p>
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 mt-2 text-[10px] text-[var(--ink)]/70">
-          <span className="inline-flex items-center gap-1.5">
-            <Lock className="w-3.5 h-3.5 text-[var(--orange)]" />
-            Cálculos protegidos
+    <div className="min-h-screen bg-[#FDFCFB] text-[var(--ink)]">
+      {/* ── HERO ULTRA COMPACTO ────────────────────────────────────── */}
+      <header className="pt-6 pb-4 px-4">
+        <div className="max-w-4xl mx-auto text-center">
+          <span className="inline-block px-2 py-0.5 rounded-full bg-[var(--orange)]/10 text-[var(--orange)] text-[9px] font-bold uppercase tracking-widest mb-3 border border-[var(--orange)]/20">
+            8 perguntas fundamentais
           </span>
-          <span className="inline-flex items-center gap-1.5">
-            <FileSearch className="w-3.5 h-3.5 text-[var(--orange)]" />
-            Relatório em PDF
-          </span>
+          <h1 className="font-serif text-2xl md:text-4xl font-bold tracking-tight mb-2 leading-tight">
+            As decisões mais caras normalmente começam com <br className="hidden md:block" />
+            <span className="text-[var(--orange)]">perguntas que ninguém fez.</span>
+          </h1>
+          <p className="text-xs md:text-sm text-[var(--ink)]/60 max-w-xl mx-auto font-medium">
+            Antes de assinar, descubra o que pode dar errado. Cada análise abaixo responde uma dúvida real.
+          </p>
         </div>
-      </section>
+      </header>
 
-      {/* ── GRID 3×2 ─────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pb-4">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-2.5">
-          {MODULOS.map((m) => (
-            <Link
-              key={m.slug}
-              href={`/simulador/${m.slug}`}
-              className="group flex flex-col rounded-xl border border-white/10 bg-[#1c1b15] p-4 transition-colors duration-200 hover:border-orange-500"
-            >
-              {/* Label */}
-              <div className="flex items-center gap-2 mb-2">
-                <span className="text-[var(--orange)]">{m.icon}</span>
-                <span className="font-mono text-[10px] uppercase tracking-widest text-[var(--orange)]">
-                  Raio-X #{m.num < 10 ? `0${m.num}` : m.num}
-                </span>
-              </div>
 
-              {/* Título */}
-              <h2 className="text-white font-bold text-sm leading-snug mb-1">
-                {m.title}
-              </h2>
 
-              {/* Descrição */}
-              <p className="text-white/70 text-xs leading-relaxed flex-1">
-                {m.desc}
-              </p>
+      {/* ── GRUPOS DE ANÁLISE ULTRA COMPACTOS ───────────────────────── */}
+      <div className="max-w-5xl mx-auto px-4 pb-8 space-y-8">
+        {CATEGORIAS.map((cat, idx) => (
+          <section key={idx} className="animate-fade-in">
+            <h3 className="font-serif text-lg md:text-xl font-bold text-[var(--ink)] mb-4 pl-3 border-l-4 border-[var(--orange)] flex items-center min-h-[30px]">
+              {cat.pergunta}
+            </h3>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {cat.modulos.map((m) => (
+                <Link
+                  key={m.slug}
+                  href={`/simulador/${m.slug}`}
+                  id={`simulador-${m.num}`}
+                  className={`group flex flex-col rounded-xl border border-[var(--orange)]/30 transition-all p-4 ${
+                    m.destaque 
+                    ? "bg-white shadow-md z-10 border-[var(--orange)]/50" 
+                    : "bg-white/50 hover:bg-white hover:border-[var(--orange)]/60"
+                  }`}
+                >
+                  <div className="flex items-center justify-between mb-3">
+                    <div className={`p-2 rounded-lg ${m.destaque ? "bg-[var(--orange)] text-white" : "bg-[var(--orange)]/5 text-[var(--orange)]"}`}>
+                      {React.cloneElement(m.icon as React.ReactElement, { className: "w-4 h-4" })}
+                    </div>
+                    <span className="text-[7px] font-bold uppercase tracking-[0.2em] text-[var(--ink)]/30">
+                      Análise {m.num < 10 ? `0${m.num}` : m.num}
+                    </span>
+                  </div>
 
-              {/* CTA */}
-              <div className="mt-2 flex items-center gap-1.5 text-[10px] font-semibold text-[var(--orange)] group-hover:gap-2.5 transition-all duration-200">
-                {m.btn}
-                <ArrowRight className="w-3.5 h-3.5" />
-              </div>
-            </Link>
-          ))}
-        </div>
-      </section>
+                  <h4 className="font-serif text-sm md:text-base font-bold leading-tight mb-2 text-[var(--ink)]">
+                    {m.title}
+                  </h4>
 
-      {/* ── CTA FINAL ────────────────────────────────────────────────── */}
-      <section className="w-full px-4 md:px-8 lg:px-16 pb-0">
-        <div className="rounded-xl bg-[var(--orange)] py-6 px-8 flex flex-col md:flex-row items-center gap-6">
-          <div className="flex-1 text-center md:text-left">
-            <h2 className="text-black text-lg md:text-xl font-extrabold leading-tight">
-              Os simuladores mostram os números. Eu ajudo a interpretar a decisão.
-            </h2>
-            <p className="text-black/70 mt-1 max-w-xl text-xs md:text-sm">
-              Se depois da simulação você quiser uma análise independente para o seu caso, solicite uma análise individual.
-            </p>
-          </div>
+                  <p className="text-[11px] text-[var(--ink)]/60 leading-relaxed mb-4 flex-1 font-medium">
+                    {m.desc}
+                  </p>
+
+                  <div className="mt-auto inline-flex items-center gap-2 text-[9px] font-black uppercase tracking-widest text-[var(--orange)]">
+                    {m.btn}
+                    <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      {/* ── CTA FINAL FULL-WIDTH LARANJA ────────────────────────────── */}
+      <section className="w-full bg-[var(--orange)] py-12 px-4 text-center text-white mt-10">
+        <div className="max-w-4xl mx-auto">
+          <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">Ainda ficou em dúvida?</h2>
+          <p className="text-white/90 text-sm md:text-base mb-8 max-w-2xl mx-auto font-medium">
+            Os simuladores ajudam a entender a operação. Uma análise individual independente ajuda a decidir se ela realmente faz sentido para o seu caso.
+          </p>
           <a
-            href={BRAND.whatsapp}
+            href={`https://wa.me/${BRAND.whatsapp.replace(/\D/g, "")}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-black text-white px-6 py-2 text-xs md:text-sm font-bold whitespace-nowrap transition-transform hover:scale-[1.02] active:scale-[0.98]"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[var(--orange)] px-8 py-3.5 text-[10px] font-black uppercase tracking-widest hover:bg-opacity-90 transition-all shadow-lg"
           >
-            Solicitar análise individual
+            Solicitar análise estratégica
           </a>
+          
+          <div className="mt-12 pt-8 border-t border-white/20">
+            <p className="text-white font-serif italic text-sm md:text-base leading-relaxed font-black opacity-100">
+              "O melhor produto financeiro não é aquele que vende mais.<br />
+              É aquele que faz mais sentido para você."
+            </p>
+          </div>
         </div>
       </section>
+
     </div>
   );
 }

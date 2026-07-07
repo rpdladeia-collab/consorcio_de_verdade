@@ -578,29 +578,7 @@ export default function SimuladorZonaContemplacao() {
                     </div>
                   </div>
 
-                  {/* Resumo histórico — Termômetro */}
-                  <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
-                    <p className="eyebrow text-foreground/50">Termômetro do lance testado</p>
-                    <Thermometer pos={histResult.position.pos} label={formatPct(parseNum(meuLance))} />
-                    <div className="grid grid-cols-3 gap-3 mt-2">
-                      <div className="text-center">
-                        <p className="text-xs text-foreground/45">Piso</p>
-                        <p className="font-bold data-num">{formatPct(histResult.low)}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-foreground/45">Referência</p>
-                        <p className="font-bold data-num text-[var(--orange)]">{formatPct(histResult.mid)}</p>
-                      </div>
-                      <div className="text-center">
-                        <p className="text-xs text-foreground/45">Teto</p>
-                        <p className="font-bold data-num">{formatPct(histResult.high)}</p>
-                      </div>
-                    </div>
-                    <div className="pt-2 border-t border-border">
-                      <p className="text-sm font-semibold">{histResult.position.title}</p>
-                      <p className="text-sm text-foreground/60 mt-0.5">{histResult.position.detail}</p>
-                    </div>
-                  </div>
+
 
                   {/* Gráfico da zona */}
                   {chartData.length > 1 && (
@@ -801,16 +779,7 @@ export default function SimuladorZonaContemplacao() {
                     </div>
                   </div>
 
-                  {/* Pulso do grupo — termômetro */}
-                  <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
-                    <p className="eyebrow text-foreground/50">Pulso do grupo</p>
-                    <Thermometer pos={quantResult.hStatus.pin} label={`${quantResult.cob.toFixed(0)}%`} />
-                    <div className="text-xs text-foreground/50 space-y-1">
-                      <p>{quantResult.distribText}</p>
-                      <p>{quantResult.restanteText}</p>
-                      <p>{quantResult.trendText}</p>
-                    </div>
-                  </div>
+
 
                   {/* Lance fixo */}
                   <div className="rounded-2xl border border-border bg-card p-5 space-y-3">

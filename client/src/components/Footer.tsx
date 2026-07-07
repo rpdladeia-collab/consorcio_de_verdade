@@ -13,7 +13,7 @@ export default function Footer() {
           
           {/* Left Side: Logo + Acompanhe */}
           <div className="flex items-center gap-5 shrink-0">
-            <img src="/assets/footer-logo-new.png" alt="Consórcio de Verdade" className="w-[77px] md:w-[86px] h-auto" />
+            <img src="/assets/footer-logo-new.png" alt="Consórcio de Verdade" className="w-[100px] md:w-[120px] h-auto" />
             
             <div className="h-7 w-px bg-white/10 hidden md:block"></div>
             
