@@ -146,23 +146,22 @@ export default function Sobre() {
             Como uma estratégia é construída.
           </h3>
           
-          <div className="relative flex flex-col md:flex-row items-center justify-between gap-8 md:gap-4 max-w-5xl mx-auto px-4">
-            {/* Linha conectora Desktop */}
-            <div className="hidden md:block absolute top-1/2 left-0 w-full h-[1px] bg-[var(--ink)]/10 -translate-y-1/2 z-0" />
-            
-            {[
-              "Objetivo", "Patrimônio", "Prazo", "Fluxo de caixa", "Perfil", "Comparação", "Estratégia", "Produto recomendado"
-            ].map((step, i) => (
-              <div key={step} className="relative z-10 flex flex-col items-center gap-3 px-1 md:px-0">
-                <div className="w-2.5 h-2.5 rounded-full bg-[var(--orange)] shadow-[0_0_0_4px_rgba(255,107,0,0.05)]" />
-                <span className="text-[10px] md:text-[14px] uppercase tracking-widest font-bold text-[var(--ink)]/80 whitespace-nowrap text-center max-w-[90px] md:max-w-none">
-                  {step}
-                </span>
-                {i < 7 && (
-                  <span className="md:hidden text-[var(--ink)]/20 text-sm">↓</span>
-                )}
-              </div>
-            ))}
+          <div className="relative max-w-5xl mx-auto px-4 overflow-x-auto pb-4 scrollbar-hide">
+            <div className="relative flex items-center justify-between min-w-[800px] md:min-w-0 py-4">
+              {/* Linha conectora (sempre horizontal) */}
+              <div className="absolute top-1/2 left-0 w-full h-[1px] bg-[var(--ink)]/10 -translate-y-1/2 z-0" />
+              
+              {[
+                "Objetivo", "Patrimônio", "Prazo", "Fluxo de caixa", "Perfil", "Comparação", "Estratégia", "Produto recomendado"
+              ].map((step) => (
+                <div key={step} className="relative z-10 flex flex-col items-center gap-3 px-2">
+                  <div className="w-2.5 h-2.5 rounded-full bg-[var(--orange)] shadow-[0_0_0_4px_rgba(255,107,0,0.05)]" />
+                  <span className="text-[10px] md:text-[12px] uppercase tracking-widest font-bold text-[var(--ink)]/80 whitespace-nowrap text-center">
+                    {step}
+                  </span>
+                </div>
+              ))}
+            </div>
           </div>
           
           <div className="mt-12 text-center">
