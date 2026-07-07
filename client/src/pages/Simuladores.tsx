@@ -114,24 +114,24 @@ export default function Simuladores() {
         ))}
       </div>
 
-      {/* ── CTA FINAL FULL-WIDTH LARANJA ────────────────────────────── */}
-      <section className="w-full bg-[var(--orange)] py-12 px-4 text-center text-white mt-10">
+      {/* ── CTA FINAL EDITORIAL OFF-WHITE ────────────────────────────── */}
+      <section className="w-full bg-[var(--paper)] py-12 px-4 text-center text-[var(--ink)] mt-10 border-t border-[var(--ink)]/5">
         <div className="max-w-4xl mx-auto">
           <h2 className="font-serif text-2xl md:text-3xl font-bold mb-3">Ainda ficou em dúvida?</h2>
-          <p className="text-white/90 text-sm md:text-base mb-8 max-w-2xl mx-auto font-medium">
+          <p className="text-[var(--ink)]/60 text-sm md:text-base mb-8 max-w-2xl mx-auto font-medium">
             Os simuladores ajudam a entender a operação. Uma análise individual independente ajuda a decidir se ela realmente faz sentido para o seu caso.
           </p>
           <a
             href={`https://wa.me/${BRAND.whatsapp.replace(/\D/g, "")}`}
             target="_blank"
             rel="noreferrer"
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-white text-[var(--orange)] px-8 py-3.5 text-[10px] font-black uppercase tracking-widest hover:bg-opacity-90 transition-all shadow-lg"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-8 py-3.5 text-[10px] font-black uppercase tracking-widest hover:bg-opacity-90 transition-all shadow-lg"
           >
             Solicitar análise estratégica
           </a>
           
-          <div className="mt-12 pt-8 border-t border-white/20">
-            <p className="text-white font-serif italic text-sm md:text-base leading-relaxed font-black opacity-100">
+          <div className="mt-12 pt-8 border-t border-[var(--ink)]/10">
+            <p className="text-[var(--ink)]/40 font-serif italic text-sm md:text-base leading-relaxed font-medium">
               "O melhor produto financeiro não é aquele que vende mais.<br />
               É aquele que faz mais sentido para você."
             </p>

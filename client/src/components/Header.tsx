@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Instagram } from "lucide-react";
-import IconR from "../assets/icon_r.png";
+import IconR from "../assets/icon_r_clean.png";
 import { LOGO, BRAND } from "@/lib/brand";
 
 export default function Header() {
