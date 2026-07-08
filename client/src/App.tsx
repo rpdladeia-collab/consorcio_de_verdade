@@ -23,6 +23,8 @@ import SimuladorHistoricoCorrecoes from "./pages/SimuladorHistoricoCorrecoes";
 import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
 import SimuladorLanceCartaXCategoria from "./pages/SimuladorLanceCartaXCategoria";
 import SimuladorVendaCartaContemplada from "./pages/SimuladorVendaCartaContemplada";
+import SimuladorCancelamento from "./pages/SimuladorCancelamento";
+
 import Panorama from "./pages/Panorama";
 // ZonaContemplacao antiga substituída pela versão nativa (SimuladorZonaContemplacao)
 
@@ -52,6 +54,9 @@ function Router() {
       <Route path={"/simuladores/7"} component={SimuladorLanceCartaXCategoria} />
       <Route path={"/simulador/venda-carta-contemplada"} component={SimuladorVendaCartaContemplada} />
       <Route path={"/simuladores/8"} component={SimuladorVendaCartaContemplada} />
+      <Route path={"/simulador/custo-cancelamento"} component={SimuladorCancelamento} />
+      <Route path={"/simuladores/9"} component={SimuladorCancelamento} />
+
       <Route path={"/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/panorama"} component={Panorama} />
       <Route path={"/sobre"} component={Sobre} />

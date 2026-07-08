@@ -115,10 +115,10 @@ function drawFooter(doc: jsPDF, data: PdfInput) {
   const pageCount = (doc as unknown as { internal: { getNumberOfPages(): number } }).internal.getNumberOfPages();
   const footerText = `${DOMAIN}  |  Gerado em: ${formatDate(data.generatedAt)}  |  Motor Matemático ${MOTOR_VERSION}  |  ID: ${data.simulationId}`;
 
+  const ph = doc.internal.pageSize.getHeight();
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
     const pw = doc.internal.pageSize.getWidth();
-    const ph = doc.internal.pageSize.getHeight();
 
     // Linha separadora
     doc.setDrawColor(...ORANGE);
@@ -140,27 +140,26 @@ function drawFooter(doc: jsPDF, data: PdfInput) {
 export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const pw = doc.internal.pageSize.getWidth();
+  const ph = doc.internal.pageSize.getHeight();
   let y = 0;
 
   /* ── CABEÇALHO EDITORIAL ── */
-  // Linha horizontal fina superior
-  doc.setDrawColor(...GRAY);
-  doc.setLineWidth(0.3);
-  doc.line(14, 8, pw - 14, 8);
-
-  // Logo oficial em preto no canto superior direito
+  // Logo oficial em preto no canto superior esquerdo (reduzida em 30%)
   try {
     const logoUrl = window.location.origin + "/assets/logo-dark.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 30, 5, 20, 15);
+    doc.addImage(logoBase64, "PNG", 14, 5, 14, 10.5);
   } catch {
     // Logo não disponível — continua sem ela
   }
 
-  // Linha horizontal fina inferior
-  doc.line(14, 22, pw - 14, 22);
+  // Título do simulador centralizado (reduzido em 40% de 14 para 8.4)
+  doc.setFontSize(8.4);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...INK);
+  doc.text("RAIO-X DA PARCELA", pw / 2, 11, { align: "center" });
 
-  y = 30;
+  y = 25;
 
   /* ── PARÂMETROS ── */
   doc.setFontSize(10);
@@ -213,9 +212,9 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
     body: [
       ["1ª parcela", brl(first), "Parcela estimada no mês 1"],
       ["Maior parcela", brl(maxInstallment), "Pressão máxima de caixa"],
-      ["Total pago projetado", brl0(data.paidTotal), "Parcelas mensais + componentes"],
+      ["Total pago projetado", brl0(data.paidTotal), "Parcelas mensais (componentes: fundo comum + taxa adm + fundo reserva + seguro)"],
       ["Carta final corrigida", brl0(data.finalCredit), `Após reajustes de ${data.adjRate.toFixed(1)}%`],
-      ["Saldo final (residual)", brl(data.residual), data.residual > 1 ? "⚠ Revisar faixas não lineares" : "Plano fecha no prazo ✓"],
+      ["Saldo final (residual)", brl(data.residual), data.residual > 1 ? "⚠ Revisar faixas não lineares" : "Plano fecha integralmente dentro do prazo contratado"],
       ...(data.insuranceTotal > 0 ? [["Seguro total projetado", brl0(data.insuranceTotal), "Calculado sobre saldo residual mensal"]] : []),
     ],
     styles: { fontSize: 9, cellPadding: 3 },
@@ -329,8 +328,8 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
       ...(data.insuranceTotal > 0
         ? [["Seguro total projetado", brl0(data.insuranceTotal), `${data.insuranceRate.toFixed(4)}% × saldo residual mensal`]]
         : []),
-      ["Total pago projetado", brl0(data.paidTotal), "Σ parcelas mensais (componentes + seguro)"],
-      ["Saldo final (residual)", brl(data.residual), data.residual < 1 ? "Plano fecha no prazo ✓" : "Revisar faixas não lineares"],
+      ["Total pago projetado", brl0(data.paidTotal), "Parcelas mensais (componentes: fundo comum + taxa adm + fundo reserva + seguro)"],
+      ["Saldo final (residual)", brl(data.residual), data.residual < 1 ? "Plano fecha integralmente dentro do prazo contratado" : "Revisar faixas não lineares"],
     ],
     styles: { fontSize: 9, cellPadding: 3 },
     headStyles: { fillColor: INK, textColor: WHITE, fontStyle: "bold" },
@@ -338,6 +337,36 @@ export async function generatePdfSimulePlano(data: PdfInput): Promise<void> {
     columnStyles: { 0: { fontStyle: "bold", cellWidth: 65 }, 1: { cellWidth: 45 } },
     margin: { left: 14, right: 14 },
   });
+
+  /* ── AVISO LEGAL E ASSINATURA ── */
+  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 15;
+  
+  if (y > ph - 60) {
+    doc.addPage();
+    y = 20;
+  }
+
+  doc.setFontSize(7.5);
+  doc.setFont("helvetica", "normal");
+  doc.setTextColor(...GRAY);
+  const legalText = 
+    "Aviso importante: esta é uma projeção matemática do fluxo de pagamentos em cenário de prazo integral " +
+    "(sem contemplação antecipada por sorteio ou lance), calculada com base em parâmetros informados pelo " +
+    "usuário e em índice de correção estimado — não real. Os valores apresentados (parcelas, saldo, carta " +
+    "corrigida) podem variar conforme decisões de assembleia, política de reajuste da administradora e " +
+    "momento efetivo de contemplação. Esta simulação não constitui garantia de rentabilidade, vantagem " +
+    "econômica sobre outras modalidades de crédito, nem substitui o contrato de adesão. Consulte sempre a " +
+    "Administradora de Consórcios antes de tomar qualquer decisão financeira.";
+  
+  const legalLines = doc.splitTextToSize(legalText, pw - 28);
+  doc.text(legalLines, 14, y);
+  
+  y += (legalLines.length * 4) + 8;
+  
+  doc.setFontSize(9);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...INK);
+  doc.text("Consórcio de Verdade", pw - 14, y, { align: "right" });
 
   /* ── RODAPÉ OBRIGATÓRIO (todas as páginas) ── */
   drawFooter(doc, data);

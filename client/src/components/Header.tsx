@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram } from "lucide-react";
+import { Menu, X, Instagram, Youtube } from "lucide-react";
 import IconR from "../assets/icon_r_clean.png";
 import { LOGO, BRAND } from "@/lib/brand";
 
@@ -36,7 +36,7 @@ export default function Header() {
               <img
                 src={LOGO.dark}
                 alt={BRAND.name}
-                className="h-14 md:h-20 w-auto object-contain"
+                className="h-8 md:h-12 w-auto object-contain"
               />
             </Link>
 
@@ -44,7 +44,7 @@ export default function Header() {
             <nav className="hidden lg:flex items-center gap-5">
               <Link
                 href="/"
-                className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                className={`text-sm font-normal transition-colors hover:text-[var(--orange)] ${
                   location === "/" ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
@@ -53,7 +53,7 @@ export default function Header() {
 
               <Link
                 href="/simuladores"
-                className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                className={`text-sm font-normal transition-colors hover:text-[var(--orange)] ${
                   raioxActive ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
@@ -62,7 +62,7 @@ export default function Header() {
 
               <Link
                 href="/zona-contemplacao"
-                className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                className={`text-sm font-normal transition-colors hover:text-[var(--orange)] ${
                   zonaActive ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
@@ -71,7 +71,7 @@ export default function Header() {
 
               <Link
                 href="/panorama"
-                className={`text-sm font-medium transition-colors hover:text-[var(--orange)] ${
+                className={`text-sm font-normal transition-colors hover:text-[var(--orange)] ${
                   panoramaActive ? "text-[var(--orange)]" : "text-foreground/80"
                 }`}
               >
@@ -88,7 +88,7 @@ export default function Header() {
               </Link>
             </nav>
 
-            {/* Ações desktop — apenas Instagram */}
+            {/* Ações desktop — Redes Sociais */}
             <div className="hidden lg:flex items-center gap-4">
               <a
                 href={BRAND.instagram}
@@ -98,6 +98,15 @@ export default function Header() {
                 className="text-foreground/60 hover:text-[var(--orange)] transition-colors"
               >
                 <Instagram className="w-5 h-5" />
+              </a>
+              <a
+                href={BRAND.youtube}
+                target="_blank"
+                rel="noreferrer"
+                aria-label="YouTube"
+                className="text-foreground/60 hover:text-[var(--orange)] transition-colors"
+              >
+                <Youtube className="w-5 h-5" />
               </a>
             </div>
 
@@ -154,6 +163,9 @@ export default function Header() {
               <div className="flex items-center gap-5 mt-4 pb-2">
                 <a href={BRAND.instagram} target="_blank" rel="noreferrer" className="text-foreground/60 hover:text-[var(--orange)] transition-colors">
                   <Instagram className="w-5 h-5" />
+                </a>
+                <a href={BRAND.youtube} target="_blank" rel="noreferrer" className="text-foreground/60 hover:text-[var(--orange)] transition-colors">
+                  <Youtube className="w-5 h-5" />
                 </a>
               </div>
             </nav>

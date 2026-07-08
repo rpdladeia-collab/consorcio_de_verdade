@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { BRAND } from "@/lib/brand";
 import { useState, useRef } from "react";
+import { Linkedin } from "lucide-react";
 
 export default function Sobre() {
   const [isMuted, setIsMuted] = useState(true);
@@ -63,24 +64,25 @@ export default function Sobre() {
                 />
               </div>
               
-              <div className="flex flex-wrap gap-x-4 gap-y-1">
-                <a href={BRAND.linkedin} target="_blank" rel="noreferrer" className="text-[9px] uppercase tracking-[0.2em] text-[var(--ink)]/40 hover:text-[var(--orange)] transition-colors">
-                  LinkedIn
-                </a>
-                <a href="https://instagram.com/consorcio.deverdade" target="_blank" rel="noreferrer" className="text-[9px] uppercase tracking-[0.2em] text-[var(--ink)]/40 hover:text-[var(--orange)] transition-colors">
-                  Instagram
-                </a>
-                <a href={`https://wa.me/${BRAND.whatsapp.replace(/\D/g, "")}`} target="_blank" rel="noreferrer" className="text-[9px] uppercase tracking-[0.2em] text-[var(--ink)]/40 hover:text-[var(--orange)] transition-colors">
-                  WhatsApp
-                </a>
-              </div>
+              {/* Links removidos conforme solicitado */}
             </div>
 
             {/* Direita (Conteúdo aproximado) */}
             <div className="w-full md:w-[72%]">
-              <h1 className="font-serif text-3xl md:text-4xl font-bold text-[var(--ink)] mb-1 tracking-tight">
-                Renato Ladeia
-              </h1>
+              <div className="flex items-center gap-3 mb-1">
+                <h1 className="font-serif text-3xl md:text-4xl font-bold text-[var(--ink)] tracking-tight">
+                  Renato Ladeia
+                </h1>
+                <a 
+                  href={BRAND.linkedin} 
+                  target="_blank" 
+                  rel="noreferrer" 
+                  className="text-foreground/40 hover:text-[var(--orange)] transition-colors"
+                  title="LinkedIn"
+                >
+                  <Linkedin className="w-5 h-5 md:w-6 md:h-6" />
+                </a>
+              </div>
               
               <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-[var(--ink)]/50 mb-6 uppercase tracking-wider">
                 <span>Consultor de Investimentos Independente</span>

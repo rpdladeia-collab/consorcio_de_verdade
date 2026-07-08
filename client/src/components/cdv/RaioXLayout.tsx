@@ -27,7 +27,21 @@ export default function RaioXLayout({
   return (
     <div>
       {/* ── Hero ── */}
-      <section className="bg-[var(--ink)] text-white py-2 sm:py-4 w-full px-4 md:px-5 lg:px-8">
+      <section className="bg-[var(--ink)] text-white py-2 sm:py-4 w-full px-4 md:px-5 lg:px-8 print:bg-white print:text-black print:p-0 print:border-none">
+        {/* Cabeçalho de Impressão (PDF) */}
+        <div className="hidden print:flex items-center justify-between w-full mb-6 pb-4 border-none">
+          <div className="flex flex-col">
+            <img src={LOGO.dark} alt="Logo" className="max-h-[35px] w-auto mb-2" />
+          </div>
+          <div className="text-right">
+            <h1 className="text-xl font-bold text-black uppercase tracking-tight">Relatório de Simulação: {title}</h1>
+            <p className="text-[10px] text-gray-600 uppercase tracking-widest mt-1">
+              {new Date().toLocaleDateString('pt-BR')} • Consórcio de Verdade
+            </p>
+          </div>
+        </div>
+
+        <div className="print:hidden">
         {/* Botão Voltar */}
         <Link
           href="/simuladores"
@@ -58,13 +72,14 @@ export default function RaioXLayout({
             {descriptionSupport}
           </p>
         )}
+        </div>
       </section>
 
       {/* ── Grid principal ── */}
-      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-2 sm:py-4">
+      <section className="w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-2 sm:py-4 print:p-0">
         <div className="flex flex-col lg:flex-row gap-4 items-start">
           {/* Coluna esquerda — Formulário */}
-          <div className="w-full lg:w-[40%] lg:shrink-0">
+          <div className="w-full lg:w-[40%] lg:shrink-0 print:hidden">
             <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-lg sm:rounded-xl p-2 sm:p-3 shadow-sm">
               {formPanel}
             </div>

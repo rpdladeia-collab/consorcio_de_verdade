@@ -7,6 +7,8 @@ import { runOperationCost } from '../lib/custoOperacao';
 import { runEfficiency } from '../lib/proporcaoTaxa';
 import { runCorrections } from '../lib/historicoCorrecoes';
 import { runAutoPayable } from '../lib/autoPagavel';
+import { runCancelamento } from '../lib/cancelamento';
+
 
 export const raioxRouter = router({
   /**
@@ -218,4 +220,29 @@ export const raioxRouter = router({
         ranges: input.ranges,
       });
     }),
+
+  /**
+   * Módulo 9 — Custo de Cancelamento
+   */
+  cancelamento: publicProcedure
+    .input(
+      z.object({
+        credit: z.number().min(0),
+        totalMonths: z.number().int().min(1).max(360),
+        canceledMonth: z.number().int().min(1).max(360),
+        insurancePct: z.number().min(0),
+        adminRatePct: z.number().min(0),
+        reserveRatePct: z.number().min(0),
+        reajustPct: z.number().min(0),
+        reajustPeriod: z.number().int().min(1),
+        reserveReturnable: z.boolean(),
+        penaltyRatePct: z.number().min(0),
+        correctionPct: z.number().min(0),
+        cdiAnnualPct: z.number().min(0),
+      })
+    )
+    .mutation(({ input }) => {
+      return runCancelamento(input);
+    }),
+
 });

@@ -31,10 +31,11 @@ export const BRAND = {
   domain: "consorciodeverdade.com.br",
   tagline: "Dados. Matemática. Clareza.",
   instagram: "https://instagram.com/consorcio.deverdade",
+  youtube: "https://youtube.com/@consorciodeverdade?si=LdNv-k12LI6pzUep",
   linkedin: "https://www.linkedin.com/in/renatoladeia/",
   whatsapp: "https://wa.me/5531996952204",
   email: "contato@consorciodeverdade.com.br",
   founder: "Renato",
   disclaimer:
-    "As informações, análises e ferramentas disponibilizadas neste site possuem caráter exclusivamente informativo e educacional. Os cálculos são baseados em premissas estatísticas e dados históricos informados pelo usuário, não constituindo recomendação financeira, oferta de investimento ou garantia de contemplação futura.",
+    "As informações, análises e ferramentas disponibilizadas neste site possuem caráter exclusivamente informativo e educacional. Os cálculos são baseados em parâmetros informados pelo usuário, não constituindo recomendação financeira, oferta de investimento ou garantia de contemplação futura.",
 } as const;

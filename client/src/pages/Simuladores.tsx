@@ -40,7 +40,8 @@ const CATEGORIAS = [
   {
     pergunta: "Mercado secundário",
     modulos: [
-      { num: 8, slug: "venda-carta-contemplada", title: "Venda de Carta Contemplada", desc: "Simule o valor de venda de uma carta de crédito contemplada, considerando o saldo devedor, taxa de repasse e outros fatores.", icon: <DollarSign />, btn: "Fazer esta análise" }
+      { num: 8, slug: "venda-carta-contemplada", title: "Venda de Carta Contemplada", desc: "Simule o valor de venda de uma carta de crédito contemplada, considerando o saldo devedor, taxa de repasse e outros fatores.", icon: <DollarSign />, btn: "Fazer esta análise" },
+      { num: 9, slug: "custo-cancelamento", title: "Custo de Cancelamento", desc: "Descubra quanto você realmente perde ao desistir da sua cota e o custo de oportunidade do dinheiro parado.", icon: <TrendingUp />, btn: "Fazer esta análise" }
     ]
   }
 ];

@@ -132,7 +132,7 @@ export function KpiCard({
     >
       <p
         className={`text-[8px] sm:text-xs font-normal uppercase tracking-wide ${
-          highlight ? "text-white/50" : "text-foreground/40"
+          highlight ? "text-white/50" : "text-gray-700"
         }`}
       >
         {label}
@@ -147,7 +147,7 @@ export function KpiCard({
       {hint && (
         <p
           className={`text-[8px] sm:text-xs mt-1 ${
-            highlight ? "text-white/40" : "text-foreground/35"
+            highlight ? "text-white/40" : "text-gray-600"
           }`}
         >
           {hint}
@@ -179,7 +179,7 @@ export function DiagnosticCard({
       <h3 className="text-xl md:text-2xl font-extrabold mb-3 leading-tight">
         {headline}
       </h3>
-      <div className="text-foreground/75 leading-relaxed space-y-3 text-[15px]">
+      <div className="text-gray-800 leading-relaxed space-y-3 text-[15px]">
         {narrative}
       </div>
     </div>
@@ -204,7 +204,7 @@ export function BeforeAfterBar({
   return (
     <div>
       <div className="flex justify-between text-sm mb-1.5">
-        <span className="text-foreground/70">{label}</span>
+        <span className="text-gray-700 font-medium">{label}</span>
         <span className="data-num font-semibold">{formatBRL(value)}</span>
       </div>
       <div className="h-3 rounded-full bg-secondary overflow-hidden">
@@ -213,7 +213,7 @@ export function BeforeAfterBar({
           style={{ width: `${pct}%`, transitionTimingFunction: "var(--ease-out)" }}
         />
       </div>
-      {caption && <p className="text-xs text-foreground/45 mt-1">{caption}</p>}
+      {caption && <p className="text-xs text-gray-600 mt-1">{caption}</p>}
     </div>
   );
 }
@@ -246,7 +246,7 @@ export function MeaningBlock({
         />
       </button>
       {open && (
-        <div className="bg-[var(--ink)] px-3 pb-3 pt-1 sm:px-5 sm:pb-5 sm:pt-1 text-white/70 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
+        <div className="bg-[var(--ink)] px-3 pb-3 pt-1 sm:px-5 sm:pb-5 sm:pt-1 text-white/80 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
           {children}
         </div>
       )}
@@ -272,7 +272,7 @@ export function PointsList({
         </p>
         <ul className="space-y-2.5">
           {positives.map((p, i) => (
-            <li key={i} className="flex gap-2 text-sm text-foreground/80">
+            <li key={i} className="flex gap-2 text-sm text-gray-800">
               <Check className="w-4 h-4 text-[var(--positive)] shrink-0 mt-0.5" />
               <span>{p}</span>
             </li>
@@ -285,7 +285,7 @@ export function PointsList({
         </p>
         <ul className="space-y-2.5">
           {attentions.map((p, i) => (
-            <li key={i} className="flex gap-2 text-sm text-foreground/80">
+            <li key={i} className="flex gap-2 text-sm text-gray-800">
               <AlertTriangle className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
               <span>{p}</span>
             </li>
@@ -370,7 +370,7 @@ export function Collapsible({
       >
         <div>
           <p className="font-semibold text-base">{title}</p>
-          {subtitle && <p className="text-sm text-foreground/55 mt-0.5">{subtitle}</p>}
+          {subtitle && <p className="text-sm text-gray-700 mt-0.5">{subtitle}</p>}
         </div>
         <ChevronDown
           className={`w-5 h-5 text-foreground/50 transition-transform duration-300 ${

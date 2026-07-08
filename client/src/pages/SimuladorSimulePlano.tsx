@@ -5,6 +5,7 @@
  */
 
 import { useState } from "react";
+import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useSimuladorStore } from "@/stores/simuladorStore";
 import { AlertTriangle, ChevronDown, Download } from "lucide-react";
 import { toast } from "sonner";
@@ -45,7 +46,7 @@ function num(s: string): number {
 function FieldRow({ label, hint, children }: { label: React.ReactNode; hint?: React.ReactNode; children: React.ReactNode }) {
   return (
     <div>
-      <label className="block text-xs font-medium text-foreground/60 mb-1">{label}</label>
+      <label className="block text-xs font-bold text-gray-800 mb-1">{label}</label>
       {children}
       {hint && <p className="text-[10px] text-foreground/40 mt-0.5">{hint}</p>}
     </div>
@@ -72,56 +73,61 @@ function TextInput({ value, onChange, placeholder, suffix }: {
 
 /* ─── Tabela de fluxo ────────────────────────────────────────────────────────── */
 function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
-  const [expanded, setExpanded] = useState(false);
-  const visible = expanded ? rows : rows.slice(0, 13);
-
+  const [open, setOpen] = useState(false);
   return (
-    <div className="rounded-xl border border-border">
-      <div className="w-full overflow-x-auto">
-        <table className="w-full text-xs">
-          <thead className="sticky top-0 bg-[var(--ink)] text-white">
-            <tr>
-              {["Mês","Carta","Saldo inicial","F. Comum","T. Adm.","F. Reserva","Seguro","Parcela","Pago acum.","Saldo final","Eventos"].map((h) => (
-                <th key={h} className="px-1.5 py-1 text-left text-[8px] font-semibold uppercase tracking-wide whitespace-nowrap text-white/70">
-                  {h}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {visible.map((r) => {
-              const isAdj = r.tags.includes("Reajuste");
-              const isExcess = r.tags.includes("Excesso");
-              return (
-                <tr key={r.month} className={`border-t border-border transition-colors ${
-                  isAdj ? "bg-amber-200/90" : "hover:bg-secondary/40"
-                }`}>
-                  <td className="px-1.5 py-1 font-mono text-[8px] font-medium">{r.month}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.credit)}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.opening)}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRLCents(r.fc)}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRLCents(r.ta)}</td>
-                  <td className="px-2.5 py-2 font-mono">{formatBRLCents(r.fr)}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{r.insurance > 0.005 ? formatBRLCents(r.insurance) : "—"}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px] font-bold text-[var(--orange)]">{formatBRLCents(r.installment)}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.paidTotal)}</td>
-                  <td className="px-1.5 py-1 font-mono text-[8px]">{formatBRL(r.balance)}</td>
-                  <td className="px-1.5 py-1">
-                    {isAdj && <span className="text-[var(--orange)] font-medium">● Reajuste</span>}
-                    {isExcess && <span className="text-destructive font-medium flex items-center gap-1"><AlertTriangle className="w-3 h-3" />Excesso</span>}
-                  </td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-      {rows.length > 13 && (
-        <button onClick={() => setExpanded(!expanded)}
-          className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-medium text-foreground/50 hover:text-[var(--orange)] border-t border-border transition-colors">
-          <ChevronDown className={`w-4 h-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
-          {expanded ? "Recolher" : `Ver todos os ${rows.length} meses`}
-        </button>
+    <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] overflow-hidden shadow-sm">
+      <button
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between px-5 py-3.5 text-left"
+      >
+        <div className="flex items-center gap-2">
+          <Download className="w-4 h-4 text-[var(--orange)]" />
+          <span className="eyebrow text-white/50">Evolução das parcelas (mês a mês)</span>
+        </div>
+        <ChevronDown
+          className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+        />
+      </button>
+      {open && (
+        <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 bg-white border-t border-white/10">
+          <table className="w-full min-w-[1000px]">
+            <thead className="bg-[var(--ink)] text-white">
+              <tr>
+                {["Mês","Carta","Saldo inicial","F. Comum","T. Adm.","F. Reserva","Seguro","Parcela","Pago acum.","Saldo final","Eventos"].map((h) => (
+                  <th key={h} className="px-2 py-3 text-left text-[10px] font-bold uppercase tracking-wider whitespace-nowrap text-white/80">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody className="text-[11px] sm:text-[13px]">
+              {rows.map((r) => {
+                const isAdj = r.tags.includes("Reajuste");
+                const isExcess = r.tags.includes("Excesso");
+                return (
+                  <tr key={r.month} className={`border-t border-border transition-colors ${
+                    isAdj ? "bg-amber-100" : "hover:bg-gray-50 text-gray-900"
+                  }`}>
+                    <td className="px-2 py-2 font-bold">{r.month}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRL(r.credit)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRL(r.opening)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRLCents(r.fc)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRLCents(r.ta)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRLCents(r.fr)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{r.insurance > 0.005 ? formatBRLCents(r.insurance) : "—"}</td>
+                    <td className="px-2 py-2 font-mono font-bold text-[var(--orange)]">{formatBRLCents(r.installment)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRL(r.paidTotal)}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{formatBRL(r.balance)}</td>
+                    <td className="px-2 py-2">
+                      {isAdj && <span className="text-[var(--orange)] font-bold text-[10px] uppercase">● Reajuste</span>}
+                      {isExcess && <span className="text-destructive font-bold text-[10px] uppercase flex items-center gap-1"><AlertTriangle className="w-3 h-3" />Excesso</span>}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
@@ -129,7 +135,7 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
 
 /* ─── Página principal ───────────────────────────────────────────────────────── */
 export default function SimuladorSimulePlano() {
-  const [form, setForm] = useState<FormState>({
+  const [form, setForm] = useSessionStorage<FormState>("simulador-plano", {
     credit: "300000", term: "120", adminRate: "16", reserveRate: "2",
     insuranceRate: "0", adjRate: "5", adjEvery: "12", mode: "linear", ranges: "",
   });
@@ -174,7 +180,7 @@ export default function SimuladorSimulePlano() {
   // ── Painel esquerdo: formulário ──────────────────────────────────────────
   const formPanel = (
     <form onSubmit={handleSubmit} className="space-y-2">
-      <p className="font-semibold text-xs text-foreground/70 uppercase tracking-wider mb-2">
+      <p className="font-bold text-xs text-gray-800 uppercase tracking-wider mb-2">
         Parâmetros do plano
       </p>
 
@@ -239,42 +245,44 @@ export default function SimuladorSimulePlano() {
         {mutation.isPending ? "Calculando…" : "Abrir análise"}
       </button>
 
-      {/* PDF e CTA — aparecem após análise */}
-      {result && (
-        <div className="space-y-2 pt-2 border-t border-border/50">
-          <button onClick={() => {
-            import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
-              generatePdfSimulePlano({
-                credit: num(form.credit), term: Math.round(num(form.term)),
-                adminRate: num(form.adminRate), reserveRate: num(form.reserveRate),
-                insuranceRate: num(form.insuranceRate), adjRate: num(form.adjRate),
-                adjEvery: form.adjEvery, mode: form.mode, ranges: form.ranges,
-                rows: result.rows, paidTotal: result.paidTotal, residual: result.residual,
-                finalCredit: result.finalCredit, initialObligation: result.initialObligation,
-                insuranceTotal: result.insuranceTotal, correctionNominal: result.correctionNominal,
-                warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
-              }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
-            });
-          }} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-background hover:bg-secondary/60 text-sm font-medium transition-colors">
-            <Download className="w-4 h-4" />
-            Baixar Relatório de Auditoria (PDF)
-          </button>
 
-          <div className="rounded-xl border border-border p-3 space-y-2">
-            <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">Quer validar o fluxo do seu plano com um especialista?</p>
-            <p className="text-xs text-foreground/60">Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso.</p>
-            <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--orange)] text-white text-xs font-bold hover:opacity-90 transition-opacity">
-              Falar com o especialista
-            </a>
-          </div>
-        </div>
-      )}
     </form>
   );
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
     <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
+      <div className="lg:hidden">
+        {result && (
+          <div className="space-y-2 pt-2 border-t border-border/50">
+            <button onClick={() => {
+              import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
+                generatePdfSimulePlano({
+                  credit: num(form.credit), term: Math.round(num(form.term)),
+                  adminRate: num(form.adminRate), reserveRate: num(form.reserveRate),
+                  insuranceRate: num(form.insuranceRate), adjRate: num(form.adjRate),
+                  adjEvery: form.adjEvery, mode: form.mode, ranges: form.ranges,
+                  rows: result.rows, paidTotal: result.paidTotal, residual: result.residual,
+                  finalCredit: result.finalCredit, initialObligation: result.initialObligation,
+                  insuranceTotal: result.insuranceTotal, correctionNominal: result.correctionNominal,
+                  warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
+                }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
+              });
+            }} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-background hover:bg-secondary/60 text-sm font-medium transition-colors">
+              <Download className="w-4 h-4" />
+              Baixar Relatório de Auditoria (PDF)
+            </button>
+
+            <div className="rounded-xl border border-border p-3 space-y-2">
+              <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">Quer validar o fluxo do seu plano com um especialista?</p>
+              <p className="text-xs text-foreground/60">Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso.</p>
+              <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--orange)] text-white text-xs font-bold hover:opacity-90 transition-opacity">
+                Falar com o especialista
+              </a>
+            </div>
+          </div>
+        )}
+      </div>
       {/* Warnings */}
       {result.warnings.length > 0 && (
         <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-3 sm:p-4 space-y-1 sm:space-y-2">
@@ -329,17 +337,7 @@ export default function SimuladorSimulePlano() {
           formula: result.residual < 1 ? "Plano fecha no prazo ✓" : "Revisar faixas não lineares" },
       ]} />
 
-      {/* Metodologia */}
-      <MethodologyBlock sources={[
-        "Lógica extraída do HTML original Raio-X do Consórcio (buildSchedule).",
-        "Parcela linear: obrigação total ÷ meses restantes, recalculada a cada reajuste.",
-        "Parcela não linear: valor da faixa × fator de correção acumulado.",
-        "Seguro: calculado sobre o saldo residual após o pagamento da parcela.",
-        "Motor Matemático v1.0 · Cálculo executado no servidor (tRPC), não acessível ao navegador.",
-      ]} />
 
-      {/* Transparência */}
-      <TransparencyBlock />
 
 
     </div>
@@ -347,11 +345,42 @@ export default function SimuladorSimulePlano() {
 
   // ── Tabela de Evolução (fora do painel de resultados)
   const scheduleTablePanel = result ? (
-    <div className="-mx-4 lg:-mx-8 px-4 lg:px-8">
-      <p className="text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-2">
-        Evolução das parcelas
-      </p>
-      <ScheduleTable rows={result.rows} />
+    <div className="-mx-4 lg:-mx-8 px-4 lg:px-8 space-y-8">
+      <div>
+        <ScheduleTable rows={result.rows} />
+      </div>
+
+      <div className="max-w-2xl mx-auto space-y-4 pb-12">
+        <button onClick={() => {
+          import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
+            generatePdfSimulePlano({
+              credit: num(form.credit), term: Math.round(num(form.term)),
+              adminRate: num(form.adminRate), reserveRate: num(form.reserveRate),
+              insuranceRate: num(form.insuranceRate), adjRate: num(form.adjRate),
+              adjEvery: form.adjEvery, mode: form.mode, ranges: form.ranges,
+              rows: result.rows, paidTotal: result.paidTotal, residual: result.residual,
+              finalCredit: result.finalCredit, initialObligation: result.initialObligation,
+              insuranceTotal: result.insuranceTotal, correctionNominal: result.correctionNominal,
+              warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
+            }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
+          });
+        }} className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl border border-border bg-white hover:bg-gray-50 text-sm font-bold shadow-sm transition-all active:scale-[0.98]">
+          <Download className="w-5 h-5 text-[var(--orange)]" />
+          Baixar Relatório de Auditoria (PDF)
+        </button>
+
+        <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-2xl p-6 shadow-sm space-y-4">
+          <div className="space-y-2">
+            <p className="text-sm font-bold text-gray-900 uppercase tracking-wider">Quer validar o fluxo do seu plano com um especialista?</p>
+            <p className="text-sm text-gray-600 leading-relaxed">Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso.</p>
+          </div>
+          <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-[var(--orange)] text-white text-sm font-bold hover:opacity-90 transition-all shadow-md active:scale-[0.98]">
+            Falar com o especialista
+          </a>
+        </div>
+
+        <TransparencyBlock />
+      </div>
     </div>
   ) : null;
 

@@ -16,10 +16,10 @@ function HeroSection() {
               Antes de contratar um consórcio,{" "}
               <span className="text-[var(--orange)]">faça a conta.</span>
             </h1>
-            <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-3 max-w-xl">
+            <p className="text-sm text-gray-800 leading-relaxed mb-3 max-w-xl">
               <strong>Os simuladores mostram os números. A análise individual responde uma pergunta ainda mais importante: o consórcio é realmente a melhor estratégia para o seu caso?</strong>
             </p>
-            <p className="text-sm text-[var(--ink)]/75 leading-relaxed mb-6 max-w-xl">
+            <p className="text-sm text-gray-800 leading-relaxed mb-6 max-w-xl">
               Aqui você simula custos, lance, contemplação, correções e capacidade real de pagamento — antes de assinar o contrato.
             </p>
             <div className="flex flex-wrap gap-3 mb-4">
@@ -38,7 +38,7 @@ function HeroSection() {
                 </button>
               </a>
             </div>
-            <p className="text-xs text-[var(--ink)]/50">
+            <p className="text-xs text-gray-700 font-medium">
               Simulações gratuitas. Dados claros. Decisão com mais consciência.
             </p>
           </div>
@@ -87,7 +87,7 @@ function ConscienciaSection() {
         <div className="flex flex-col md:flex-row gap-8 mb-8">
           {/* Texto */}
           <div className="flex-1">
-            <p className="text-sm text-white/75 leading-relaxed mb-6 max-w-2xl">
+            <p className="text-sm text-white/85 leading-relaxed mb-6 max-w-2xl">
               Antes de contratar, existem quatro perguntas que mudam completamente a decisão. A maioria das pessoas nunca faz nenhuma delas.
             </p>
             <Link href="/simuladores">
@@ -105,7 +105,7 @@ function ConscienciaSection() {
           {cards.map((c) => (
             <div key={c.title} className="bg-white/5 border border-white/10 rounded-lg p-4">
               <p className="text-xs font-bold text-[var(--orange)] mb-1">{c.title}</p>
-              <p className="text-xs text-white/60 leading-snug">{c.text}</p>
+              <p className="text-xs text-white/80 leading-snug">{c.text}</p>
             </div>
           ))}
         </div>
@@ -170,7 +170,7 @@ function RaioXSection() {
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-2 leading-tight">
           A proposta cabe no bolso. Mas o contrato cabe na vida?
         </h2>
-        <p className="text-sm text-[var(--ink)]/60 mb-8 max-w-2xl">
+        <p className="text-sm text-gray-800 mb-8 max-w-2xl">
           Cada simulador responde uma pergunta que normalmente só aparece depois da assinatura do contrato. Descubra essas respostas antes de decidir.
         </p>
 
@@ -189,7 +189,7 @@ function RaioXSection() {
                 <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
                   {c.call}
                 </p>
-                <p className="text-xs text-[var(--ink)]/55 leading-snug">{c.text}</p>
+                <p className="text-xs text-gray-700 leading-snug font-medium">{c.text}</p>
               </div>
             </Link>
           ))}
@@ -334,7 +334,7 @@ function PanoramaSection() {
                 <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
                   {c.call}
                 </p>
-                <p className="text-xs text-[var(--ink)]/55 leading-snug">{c.text}</p>
+                <p className="text-xs text-gray-700 leading-snug font-medium">{c.text}</p>
               </div>
             ))}
           </div>
