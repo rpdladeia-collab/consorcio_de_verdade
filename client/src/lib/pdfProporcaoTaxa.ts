@@ -1,11 +1,11 @@
 /**
  * Gerador de PDF — Módulo 4: Proporção da Taxa
- * Padrão aprovado: logo no canto superior direito, rodapé obrigatório, bloco de transparência.
+ * Padrão aprovado: logo no canto superior direito, sem linhas no cabeçalho, título no cabeçalho.
  */
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 
-const MOTOR_VERSION = "v1.0";
+const MOTOR_VERSION = "v2.0";
 const DOMAIN = "consorciodeverdade.com.br";
 const TRANSPARENCY_TEXT =
   "Transparência e Metodologia: Este relatório apresenta uma projeção matemática baseada em parâmetros fornecidos pelo usuário, " +
@@ -79,18 +79,18 @@ function drawFooter(doc: jsPDF, data: PdfProporcaoTaxaData) {
 export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Promise<void> {
   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
   const pw = doc.internal.pageSize.getWidth();
-  let y = 0;
+  let y = 15;
 
-  // Cabeçalho editorial
-  doc.setDrawColor(...GRAY);
-  doc.setLineWidth(0.3);
-  doc.line(14, 8, pw - 14, 8);
+  // Cabeçalho Editorial (Sem linhas, Logo à direita, Título à esquerda)
+  doc.setFontSize(14); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
+  doc.text("Raio-X da Eficiência da Taxa", 14, y);
+  
   try {
     const logoUrl = window.location.origin + "/brand/logo-light.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 20, 5, 12, 12);
+    doc.addImage(logoBase64, "PNG", pw - 30, 8, 16, 16);
   } catch { /* sem logo */ }
-  doc.line(14, 22, pw - 14, 22);
+  
   y = 30;
 
   // Parâmetros
@@ -137,16 +137,9 @@ export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Prom
   });
   y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
 
-  // Termômetro (texto)
-  doc.setFontSize(9); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
-  doc.text(`Termômetro: ${data.meter.label}`, 14, y); y += 5;
-  doc.setFontSize(8); doc.setFont("helvetica", "normal"); doc.setTextColor(60, 60, 60);
-  const mLines = doc.splitTextToSize(data.meter.text, pw - 28);
-  doc.text(mLines, 14, y); y += mLines.length * 4.5 + 6;
-
   // Readboxes
   data.readboxes.forEach((rb) => {
-    if (y > 240) { doc.addPage(); y = 20; }
+    if (y > 250) { doc.addPage(); y = 20; }
     doc.setFontSize(9); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
     doc.text(rb.title, 14, y); y += 5;
     doc.setFontSize(8); doc.setFont("helvetica", "normal"); doc.setTextColor(60, 60, 60);
@@ -160,7 +153,7 @@ export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Prom
   });
 
   // Tabela de indicadores
-  if (y > 200) { doc.addPage(); y = 20; }
+  if (y > 220) { doc.addPage(); y = 20; }
   doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
   doc.text("Tabela de indicadores", 14, y); y += 6;
   autoTable(doc, {
@@ -176,7 +169,7 @@ export async function generatePdfProporcaoTaxa(data: PdfProporcaoTaxaData): Prom
   y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
 
   // Transparência
-  if (y > 220) { doc.addPage(); y = 20; }
+  if (y > 240) { doc.addPage(); y = 20; }
   doc.setFontSize(9); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
   doc.text("Transparência e Metodologia", 14, y); y += 6;
   doc.setFontSize(8); doc.setFont("helvetica", "normal"); doc.setTextColor(80, 80, 80);
