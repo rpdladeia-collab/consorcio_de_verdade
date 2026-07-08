@@ -11,15 +11,11 @@ import { ImportToggle } from "@/components/cdv/ImportToggle";
 import {
   KpiCard,
   TransparencyBlock,
-  ConsultCTA,
   PdfButton,
-  CalcMemory,
-  MethodologyBlock,
   MeaningBlock,
   Collapsible,
   formatBRL,
   formatBRLCents,
-  formatPct,
 } from "@/components/cdv/SimuladorUI";
 import RaioXLayout from "@/components/cdv/RaioXLayout";
 import { ChevronDown } from "lucide-react";
@@ -66,8 +62,7 @@ export default function SimuladorCustoOperacao() {
     } else if (!importEnabled) {
       setForm(DEFAULT);
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [importEnabled]);
+  }, [importEnabled, baseParams]);
 
   const mutation = trpc.raiox.custoOperacao.useMutation();
   const result = mutation.data;
@@ -98,7 +93,7 @@ export default function SimuladorCustoOperacao() {
   }
 
   const formPanel = (
-    <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-2.5">
+    <form onSubmit={handleSubmit} className="space-y-2 sm:space-y-2.5 print:hidden">
       <ImportToggle hasData={hasData} enabled={importEnabled} onChange={setImportEnabled} />
       <p className="font-semibold text-xs text-foreground/70 uppercase tracking-wider mb-2">
         Dados do plano
@@ -172,59 +167,19 @@ export default function SimuladorCustoOperacao() {
         className="w-full rounded-full bg-[var(--orange)] text-white py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50">
         {mutation.isPending ? "Calculando…" : "Analisar custo da operação"}
       </button>
-
-      {/* Botões explicativos — aparecem após análise */}
-      {result && (
-        <div className="space-y-2 sm:space-y-2.5 pt-2 border-t border-border/50">
-          {result.readboxes.map((rb, i) => (
-            <div key={i} className="rounded-lg sm:rounded-xl overflow-hidden border border-white/10">
-              <button
-                type="button"
-                onClick={(e) => {
-                  e.preventDefault();
-                  const content = e.currentTarget.nextElementSibling;
-                  if (content) {
-                    content.style.display = content.style.display === 'none' ? 'block' : 'none';
-                  }
-                }}
-                className="w-full flex items-center justify-between bg-[var(--ink)] px-5 py-3.5 text-left hover:bg-[var(--ink)]/90 transition-colors"
-              >
-                <div className="flex items-center gap-2">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-yellow-400 shrink-0"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-                  <span className="text-[10px] sm:text-[11px] font-bold uppercase tracking-widest text-yellow-400">{rb.title}</span>
-                </div>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-white/40 transition-transform duration-200"><path d="m6 9 6 6 6-6"></path></svg>
-              </button>
-              <div style={{display: 'none'}} className="bg-[var(--ink)] px-4 sm:px-5 pb-4 sm:pb-5 pt-1 text-white/70 leading-relaxed text-[13px] space-y-2 border-t border-white/10">
-                <p className="whitespace-pre-line">{rb.body}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {/* Card de interpretação — aparece após análise */}
-      {result && (
-        <div className="space-y-2 pt-2">
-          <div className="rounded-lg sm:rounded-xl border border-border bg-card py-2 sm:py-3 px-3 sm:px-4">
-            <p className="font-semibold text-[11px] sm:text-xs">Quer interpretar esses números?</p>
-            <p className="text-[10px] sm:text-[11px] text-foreground/60 mt-0.5">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
-            <button className="mt-2 sm:mt-3 w-full rounded-full bg-[var(--orange)] text-white py-2 sm:py-2.5 text-[11px] sm:text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all">
-              Pedir uma análise individual
-            </button>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            <PdfButton onClick={handlePdf} loading={pdfLoading} />
-          </div>
-        </div>
-      )}
     </form>
   );
 
   const resultsPanel = result ? (
-    <div className="space-y-3 sm:space-y-6">
+    <div className="space-y-3 sm:space-y-6 print:p-0 print:m-0">
+      {/* Cabeçalho de Impressão — Visível apenas no PDF/Print */}
+      <div className="hidden print:flex justify-between items-center border-b pb-4 mb-6">
+        <img src="/brand/logo-light.png" alt="r.enatto" style={{ height: '40px' }} className="h-10 w-auto object-contain" />
+        <h1 className="text-xl font-bold uppercase tracking-tight">Raio-X do Custo Total</h1>
+      </div>
+
       {result.warnings.length > 0 && (
-        <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-3 sm:p-4 space-y-1">
+        <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-3 sm:p-4 space-y-1 print:break-inside-avoid">
           <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1">
             Avisos do motor de cálculo
           </p>
@@ -235,9 +190,9 @@ export default function SimuladorCustoOperacao() {
       )}
 
       {/* KPIs — grid 2×2 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3 print:break-inside-avoid">
         <KpiCard label="Taxa adm. contratual" value={brl(result.kpis.contractualAdmin)}
-          hint="16% sobre a carta inicial" tone="default" />
+          hint={`${form.adminRate}% sobre a carta inicial`} tone="default" />
         <KpiCard label="Adm. sobre correções" value={brl(result.kpis.adminCorrection)}
           hint="Custo adicional projetado" tone="orange" />
         <KpiCard label="Seguro projetado" value={brl(result.kpis.projectedInsurance)}
@@ -246,64 +201,67 @@ export default function SimuladorCustoOperacao() {
           hint="Adm. projetada + seguro" highlight={true} />
       </div>
 
-      {/* Frase de impacto */}
-      <div className="mb-1.5 sm:mb-2">
-        <h3 className="text-[13px] sm:text-sm font-bold text-foreground mb-1">O número que quase ninguém mostra</h3>
-        <p className="text-[11px] sm:text-xs text-foreground/70">A parcela mensal pode parecer simples. O custo acumulado conta outra história.</p>
+      {/* Accordions explicativos (Readboxes) */}
+      <div className="space-y-2 sm:space-y-2.5 print:break-inside-avoid">
+        {result.readboxes.map((rb, i) => (
+          <MeaningBlock key={i} label={rb.title}>
+            <p className="whitespace-pre-line">{rb.body}</p>
+          </MeaningBlock>
+        ))}
       </div>
 
       {/* Tabela de classificação econômica */}
-      <div>
+      <div className="print:break-inside-avoid">
         <p className="text-[10px] sm:text-xs font-semibold uppercase tracking-wider text-foreground/40 mb-1.5 sm:mb-2">
           Classificação econômica dos componentes
         </p>
-        <div className="rounded-lg sm:rounded-xl border border-border">
+        <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden">
           <div className="w-full overflow-x-auto">
-          <table className="w-full text-[8px] sm:text-[10px] min-w-[480px]">
-            <thead>
-              <tr className="bg-[var(--ink)] text-white">
-                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-left font-semibold whitespace-nowrap text-[7px] sm:text-[10px]">Componente</th>
-                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-semibold text-[7px] sm:text-[10px]">Valor</th>
-                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-left font-semibold hidden lg:table-cell text-[7px] sm:text-[10px]">Classificação</th>
-                <th className="px-3 py-2.5 text-left font-semibold hidden xl:table-cell text-[7px] sm:text-[10px]">Leitura</th>
-              </tr>
-            </thead>
-            <tbody>
-              {result.classificationTable.map((row, i) => (
-                <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
-                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 font-medium text-[8px] sm:text-xs">{row.item}</td>
-                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-mono text-[8px] sm:text-xs font-semibold">{row.value}</td>
-                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-foreground/55 text-[8px] sm:text-[10px] hidden lg:table-cell">{row.classification}</td>
-                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-foreground/45 text-[8px] sm:text-[10px] hidden xl:table-cell">{row.reading}</td>
+            <table className="w-full text-[10px] sm:text-xs min-w-[480px]">
+              <thead>
+                <tr className="bg-[var(--ink)] text-white">
+                  <th className="px-3 py-2 text-left font-semibold uppercase tracking-wider">Componente</th>
+                  <th className="px-3 py-2 text-right font-semibold uppercase tracking-wider">Valor</th>
+                  <th className="px-3 py-2 text-left font-semibold hidden lg:table-cell uppercase tracking-wider">Classificação</th>
+                  <th className="px-3 py-2 text-left font-semibold hidden xl:table-cell uppercase tracking-wider">Leitura</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {result.classificationTable.map((row, i) => (
+                  <tr key={i} className={i % 2 === 0 ? "bg-card" : "bg-secondary/30"}>
+                    <td className="px-3 py-2 font-medium">{row.item}</td>
+                    <td className="px-3 py-2 text-right font-mono font-semibold">{row.value}</td>
+                    <td className="px-3 py-2 text-foreground/55 hidden lg:table-cell">{row.classification}</td>
+                    <td className="px-3 py-2 text-foreground/45 hidden xl:table-cell">{row.reading}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
 
       {/* Tabela de fluxo mensal — accordion com scroll interno */}
-      <div className="rounded-lg sm:rounded-xl border border-border">
+      <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden print:break-inside-avoid">
         <button
           type="button"
           onClick={() => setTableOpen(!tableOpen)}
-          className="w-full flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 bg-card hover:bg-secondary/30 transition-colors text-[11px] sm:text-xs font-semibold"
+          className="w-full flex items-center justify-between px-3 py-2.5 bg-card hover:bg-secondary/30 transition-colors text-xs font-semibold print:hidden"
         >
           <span>Ver fluxo mensal completo</span>
           <ChevronDown className={`w-4 h-4 transition-transform ${tableOpen ? "rotate-180" : ""}`} />
         </button>
-        {tableOpen && (
-          <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
-            <table className="w-full text-[8px] sm:text-[10px] min-w-[700px]">
-              <thead className="sticky top-0 bg-[var(--ink)] text-white">
+        <div className={`${tableOpen ? "block" : "hidden"} print:block`}>
+          <div className="max-h-[500px] overflow-x-auto overflow-y-auto">
+            <table className="w-full text-[11px] sm:text-[13px] min-w-[700px]">
+              <thead className="sticky top-0 bg-[#003366] text-white z-10">
                 <tr>
-                  <th className="px-1 sm:px-1.5 py-1 text-left text-[7px] sm:text-[9px]">Mês</th>
-                  <th className="px-1 sm:px-1.5 py-1 text-right text-[7px] sm:text-[9px]">Carta</th>
-                  <th className="px-1 sm:px-1.5 py-1 text-right text-[7px] sm:text-[9px]">Parcela</th>
-                  <th className="px-1 sm:px-1.5 py-1 text-right text-[7px] sm:text-[9px]">Seguro</th>
-                  <th className="px-1 sm:px-1.5 py-1 text-right text-[7px] sm:text-[9px]">Saldo</th>
-                  <th className="px-1 sm:px-1.5 py-1 text-left text-[7px] sm:text-[9px]">Evento</th>
+                  <th className="px-2 py-2 text-left font-bold uppercase tracking-wider">Mês</th>
+                  <th className="px-2 py-2 text-right font-bold uppercase tracking-wider">Carta</th>
+                  <th className="px-2 py-2 text-right font-bold uppercase tracking-wider">Parcela</th>
+                  <th className="px-2 py-2 text-right font-bold uppercase tracking-wider">Seguro</th>
+                  <th className="px-2 py-2 text-right font-bold uppercase tracking-wider">Saldo</th>
+                  <th className="px-2 py-2 text-left font-bold uppercase tracking-wider">Evento</th>
                 </tr>
               </thead>
               <tbody>
@@ -311,36 +269,55 @@ export default function SimuladorCustoOperacao() {
                   const isAdj = row.tags?.includes("Reajuste");
                   return (
                     <tr key={i} className={
-                      isAdj ? "bg-amber-50/60"
+                      isAdj ? "bg-amber-100/80 font-semibold"
                         : i % 2 === 0 ? "bg-card" : "bg-secondary/20"
                     }>
-                      <td className="px-1 sm:px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{row.month}</td>
-                      <td className="px-1 sm:px-1.5 py-1 text-right font-mono text-[7px] sm:text-[9px]">{brl(row.credit)}</td>
-                      <td className="px-1 sm:px-1.5 py-1 text-right font-mono font-bold text-[7px] sm:text-[9px]">{brlc(row.installment)}</td>
-                      <td className="px-1 sm:px-1.5 py-1 text-right font-mono text-[7px] sm:text-[9px]">{brlc(row.insurance)}</td>
-                      <td className="px-1 sm:px-1.5 py-1 text-right font-mono text-[7px] sm:text-[9px]">{brl(row.balance)}</td>
-                      <td className="px-1 sm:px-1.5 py-1 text-left text-[7px] sm:text-[9px] text-foreground/55">{row.tags?.join(", ") || ""}</td>
+                      <td className="px-2 py-1.5 font-mono">{row.month}</td>
+                      <td className="px-2 py-1.5 text-right font-mono">{brl(row.credit)}</td>
+                      <td className="px-2 py-1.5 text-right font-mono font-bold text-[#003366]">{brlc(row.installment)}</td>
+                      <td className="px-2 py-1.5 text-right font-mono">{brlc(row.insurance)}</td>
+                      <td className="px-2 py-1.5 text-right font-mono">{brl(row.balance)}</td>
+                      <td className="px-2 py-1.5 text-left text-foreground/70">{row.tags?.join(", ") || ""}</td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
           </div>
-        )}
+        </div>
       </div>
 
-      <div className="w-full">
-        <TransparencyBlock />
+      {/* Botões de ação — movidos para baixo da tabela conforme solicitado */}
+      <div className="space-y-3 pt-4 print:hidden">
+        <div className="rounded-lg sm:rounded-xl border border-border bg-card p-4">
+          <p className="font-bold text-sm">Quer interpretar esses números?</p>
+          <p className="text-xs text-foreground/60 mt-1">Eu posso analisar sua proposta com você e mostrar onde estão os principais impactos.</p>
+          <button className="mt-4 w-full rounded-full bg-[var(--orange)] text-white py-3 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all">
+            Pedir uma análise individual
+          </button>
+        </div>
+      </div>
+
+      <TransparencyBlock className="print:break-inside-avoid" />
+    </div>
+  ) : (
+    <div className="h-full flex flex-col items-center justify-center text-center p-8 space-y-4">
+      <div className="w-16 h-16 rounded-full bg-secondary/30 flex items-center justify-center">
+        <ChevronDown className="w-8 h-8 text-foreground/20" />
+      </div>
+      <div>
+        <p className="font-semibold text-foreground/40">Aguardando parâmetros</p>
+        <p className="text-xs text-foreground/30 mt-1">Preencha os dados ao lado para iniciar o Raio-X</p>
       </div>
     </div>
-  ) : null;
+  );
 
   return (
     <RaioXLayout
-      moduleNumber={3}
+      moduleNumber="03"
       title="Raio-X do Custo Total"
-      description={<span className="text-[var(--orange)]">Consórcio não tem juros, mas tem correção e isso muda tudo !!</span>}
-      descriptionSupport="Veja o custo real da operação, separando taxa, seguro, fundo de reserva e correções para entender o que você está pagando e o que é apenas atualização monetária."
+      subtitle="Consórcio não tem juros, mas tem correção e isso muda tudo !!"
+      description="Veja o custo real da operação, separando taxa, seguro, fundo de reserva e correções para entender o que você está pagando e o que é apenas atualização monetária."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

@@ -25,9 +25,6 @@ function brl(v: number): string {
 function brl0(v: number): string {
   return new Intl.NumberFormat("pt-BR", { style: "currency", currency: "BRL", maximumFractionDigits: 0 }).format(isFinite(v) ? v : 0);
 }
-function pct(v: number): string {
-  return `${(isFinite(v) ? v : 0).toFixed(1).replace(".", ",")}%`;
-}
 function formatDate(iso: string): string {
   try {
     return new Date(iso).toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", year: "numeric", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZone: "America/Sao_Paulo" });
@@ -64,7 +61,7 @@ export interface PdfCustoOperacaoData {
 }
 
 function drawFooter(doc: jsPDF, data: PdfCustoOperacaoData) {
-  const pageCount = (doc as unknown as { internal: { getNumberOfPages(): number } }).internal.getNumberOfPages();
+  const pageCount = (doc as any).internal.getNumberOfPages();
   const footerText = `${DOMAIN}  |  Gerado em: ${formatDate(data.generatedAt)}  |  Motor Matemático ${MOTOR_VERSION}  |  ID: ${data.simulationId}`;
   for (let i = 1; i <= pageCount; i++) {
     doc.setPage(i);
@@ -87,11 +84,20 @@ export async function generatePdfCustoOperacao(data: PdfCustoOperacaoData): Prom
   doc.setDrawColor(...GRAY);
   doc.setLineWidth(0.3);
   doc.line(14, 8, pw - 14, 8);
+  
+  // Título Centralizado
+  doc.setFontSize(12);
+  doc.setFont("helvetica", "bold");
+  doc.setTextColor(...INK);
+  doc.text("RAIO-X DO CUSTO TOTAL", pw / 2, 16, { align: "center" });
+
   try {
     const logoUrl = window.location.origin + "/brand/logo-light.png";
     const logoBase64 = await loadImageAsBase64(logoUrl);
-    doc.addImage(logoBase64, "PNG", pw - 20, 5, 12, 12);
+    // Logo r.enatto redimensionada (h-10 equivalente em mm é ~3.5mm, mas vamos usar 8mm para visibilidade profissional)
+    doc.addImage(logoBase64, "PNG", pw - 35, 11, 21, 8);
   } catch { /* sem logo */ }
+
   doc.line(14, 22, pw - 14, 22);
   y = 30;
 
@@ -116,9 +122,9 @@ export async function generatePdfCustoOperacao(data: PdfCustoOperacaoData): Prom
     alternateRowStyles: { fillColor: LIGHT },
     margin: { left: 14, right: 14 },
   });
-  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
+  y = (doc as any).lastAutoTable.finalY + 8;
 
-  // KPIs
+  // Indicadores
   doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
   doc.text("Indicadores principais", 14, y); y += 6;
   autoTable(doc, {
@@ -136,9 +142,9 @@ export async function generatePdfCustoOperacao(data: PdfCustoOperacaoData): Prom
     alternateRowStyles: { fillColor: LIGHT },
     margin: { left: 14, right: 14 },
   });
-  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
+  y = (doc as any).lastAutoTable.finalY + 8;
 
-  // Warnings
+  // Avisos
   if (data.warnings.length > 0) {
     doc.setFontSize(9); doc.setFont("helvetica", "bold"); doc.setTextColor(200, 80, 0);
     doc.text("Avisos do motor de cálculo", 14, y); y += 5;
@@ -174,23 +180,7 @@ export async function generatePdfCustoOperacao(data: PdfCustoOperacaoData): Prom
     columnStyles: { 3: { cellWidth: 55 } },
     margin: { left: 14, right: 14 },
   });
-  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
-
-  // Tabela de fluxo mensal (primeiros 24 meses + resumo)
-  doc.setFontSize(10); doc.setFont("helvetica", "bold"); doc.setTextColor(...INK);
-  doc.text("Fluxo mensal (primeiros 24 meses)", 14, y); y += 6;
-  autoTable(doc, {
-    startY: y,
-    head: [["Mês", "Carta (R$)", "Parcela (R$)", "Seguro (R$)", "Saldo (R$)", "Eventos"]],
-    body: data.rows.slice(0, 24).map((r) => [
-      r.month, brl0(r.credit), brl(r.installment), brl(r.insurance), brl0(r.balance), r.tags?.join(", ") || "",
-    ]),
-    headStyles: { fillColor: INK, textColor: WHITE, fontStyle: "bold", fontSize: 7 },
-    bodyStyles: { fontSize: 7 },
-    alternateRowStyles: { fillColor: LIGHT },
-    margin: { left: 14, right: 14 },
-  });
-  y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 8;
+  y = (doc as any).lastAutoTable.finalY + 8;
 
   // Transparência
   doc.addPage(); y = 20;
@@ -201,5 +191,5 @@ export async function generatePdfCustoOperacao(data: PdfCustoOperacaoData): Prom
   doc.text(tLines, 14, y);
 
   drawFooter(doc, data);
-  doc.save(`raio-x-custo-operacao-${data.simulationId}.pdf`);
+  doc.save(`raio-x-custo-total-${data.simulationId}.pdf`);
 }
