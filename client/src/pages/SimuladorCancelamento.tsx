@@ -142,33 +142,10 @@ export default function SimuladorCancelamento() {
       <div className="space-y-3">
         <p className="font-bold text-[10px] uppercase tracking-widest text-gray-500 border-b border-border pb-2">Multa e Correção</p>
         <div className="grid grid-cols-2 gap-3">
-          <label className="block">
-            <span className="text-[11px] font-bold text-gray-800 uppercase">Multa (%)</span>
+          <label className="block col-span-2">
+            <span className="text-[11px] font-bold text-gray-800 uppercase">Multa de Cancelamento (%)</span>
             <input type="number" className="input mt-1 w-full" value={form.penaltyRatePct} onChange={(e) => set("penaltyRatePct", e.target.value)} />
           </label>
-          <label className="block">
-            <span className="text-[11px] font-bold text-gray-800 uppercase">CDI (% a.a.)</span>
-            <input type="number" className="input mt-1 w-full" value={form.cdiAnnualPct} onChange={(e) => set("cdiAnnualPct", e.target.value)} />
-          </label>
-        </div>
-      </div>
-
-      <div className="bg-gray-50 border border-border rounded-xl p-4 space-y-3">
-        <div className="flex items-center gap-2 text-[var(--orange)] font-bold text-[10px] uppercase tracking-widest">
-          <Scale className="w-3 h-3" /> Base Legal e Súmulas
-        </div>
-        <div className="space-y-2">
-          <div>
-            <p className="text-[10px] font-bold text-gray-800 uppercase">Lei 11.795/2008</p>
-            <p className="text-[10px] text-gray-600 leading-tight">Art. 30 — Garante a devolução ao desistente mediante sorteio ou encerramento do grupo.</p>
-          </div>
-          <div className="pt-2 border-t border-gray-200">
-            <p className="text-[10px] font-bold text-gray-800 uppercase">STJ — Temas e Súmulas</p>
-            <ul className="list-disc pl-3 space-y-1 text-[10px] text-gray-600">
-              <li><strong>Tema 312:</strong> Devolução em até 30 dias após o encerramento do grupo.</li>
-              <li><strong>Súmula 35:</strong> A correção monetária das parcelas devolvidas é obrigatória.</li>
-            </ul>
-          </div>
         </div>
       </div>
 
@@ -197,7 +174,6 @@ export default function SimuladorCancelamento() {
         <div className="space-y-3 text-xs text-amber-900 leading-relaxed font-medium">
           <p><strong>Atenção:</strong> O cancelamento de uma cota não contemplada não gera devolução imediata do dinheiro. Você continuará participando dos sorteios mensais na categoria de "excluídos" ou receberá ao final do grupo.</p>
           <p><strong>Fundo de Reserva:</strong> {form.reserveReturnable ? 'Você indicou que seu contrato devolve o fundo de reserva.' : 'Você indicou que NÃO devolve o fundo de reserva. Vale conferir se há jurisprudência no seu estado para contestar esta retenção.'}</p>
-          <p><strong>Taxas Retidas:</strong> A administradora tem o direito legal de reter a taxa de administração e o seguro proporcional ao tempo em que você esteve ativo, pois o serviço de gestão foi prestado.</p>
         </div>
       </div>
 
@@ -228,59 +204,86 @@ export default function SimuladorCancelamento() {
       </div>
 
       <div className="bg-white border border-border rounded-xl p-4 space-y-3 shadow-sm">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-gray-800 border-b border-border pb-2">Sua perda direta</h3>
+        <h3 className="text-xs font-bold uppercase tracking-widest text-gray-800 border-b border-border pb-2">Cálculo da Devolução Líquida</h3>
         <div className="space-y-2 text-sm">
-          <div className="flex justify-between text-green-700 font-medium">
-            <span>Fundo comum (devolução base)</span>
-            <span className="font-bold">+ {formatBRL(result.breakdown.return.common)}</span>
+          <div className="flex justify-between text-gray-800 font-bold">
+            <span>Total Investido (Pago)</span>
+            <span className="">{formatBRL(result.breakdown.paid.total)}</span>
           </div>
           <div className="flex justify-between text-red-700 font-medium">
-            <span>Taxa adm. (retida)</span>
+            <span>Taxa adm. (serviço prestado)</span>
             <span className="font-bold">− {formatBRL(result.breakdown.return.adminRetained)}</span>
           </div>
           <div className="flex justify-between text-red-700 font-medium">
-            <span>Seguro (não devolvido)</span>
+            <span>Seguro (proteção utilizada)</span>
             <span className="font-bold">− {formatBRL(result.breakdown.return.insuranceRetained)}</span>
           </div>
-          <div className="flex justify-between text-red-700 font-medium">
-            <span>Fundo reserva ({result.breakdown.return.reserveReturnable ? 'devolvido' : 'retido'})</span>
-            <span className="font-bold">{result.breakdown.return.reserveReturnable ? '+' : '−'} {formatBRL(result.breakdown.return.reserve)}</span>
-          </div>
+          {!result.breakdown.return.reserveReturnable && (
+            <div className="flex justify-between text-red-700 font-medium">
+              <span>Fundo reserva (retido)</span>
+              <span className="font-bold">− {formatBRL(result.breakdown.return.reserve)}</span>
+            </div>
+          )}
           <div className="flex justify-between text-red-700 font-medium">
             <span>Multa de cancelamento ({result.breakdown.return.penaltyPct}%)</span>
             <span className="font-bold">− {formatBRL(result.breakdown.return.penaltyValue)}</span>
           </div>
-          <div className="flex justify-between pt-2 border-t border-dashed border-border font-bold text-gray-900">
-            <span>Base líquida a receber</span>
+          <div className="flex justify-between pt-2 border-t border-dashed border-border font-bold text-[var(--orange)] text-base">
+            <span>Valor Líquido a Receber</span>
             <span>{formatBRL(result.breakdown.return.baseAposMulta)}</span>
           </div>
+          <p className="text-[10px] text-gray-500 italic mt-2">
+            * O valor líquido é calculado subtraindo as taxas retidas e multas do total que você pagou.
+          </p>
         </div>
       </div>
 
-      <div className="bg-white border border-border rounded-xl p-4 space-y-3 shadow-sm">
-        <h3 className="text-xs font-bold uppercase tracking-widest text-gray-800 border-b border-border pb-2">Custo de oportunidade</h3>
-        <div className="space-y-3">
-          <p className="text-xs text-gray-700 leading-relaxed font-medium">
-            Seu dinheiro fica parado na administradora enquanto aguarda sorteio ou encerramento do grupo. Esse é o custo financeiro real.
-          </p>
-          <div className="p-3 bg-red-50 border border-red-100 rounded-lg">
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-bold text-red-800 uppercase">Perda vs CDI ({form.cdiAnnualPct}%)</span>
-              <span className="text-lg font-black text-red-700">{formatBRL(result.kpis.custoOportunidade)}</span>
+      <div className="bg-[#0A0A08] text-white border border-border rounded-xl p-6 space-y-5 shadow-lg">
+        <div className="flex items-center gap-2 text-[var(--orange)] font-bold text-xs uppercase tracking-widest">
+          <Scale className="w-4 h-4" /> Base Legal e Estratégias de Saída
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-[11px] font-bold text-[var(--orange)] uppercase tracking-wider mb-2">Direitos do Consumidor</h4>
+              <ul className="space-y-2 text-[11px] text-gray-300 leading-relaxed">
+                <li><strong className="text-white">Arrependimento:</strong> Até 7 dias após a assinatura, o cancelamento deve ser integral e sem custos (Art. 49 CDC).</li>
+                <li><strong className="text-white">Lei 11.795/08:</strong> A devolução ocorre por sorteio mensal ou em até 30 dias após o encerramento do grupo.</li>
+                <li><strong className="text-white">Súmula 35 STJ:</strong> A correção monetária sobre os valores devolvidos é obrigatória e inquestionável.</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="text-[11px] font-bold text-[var(--orange)] uppercase tracking-wider mb-2">Jurisprudência sobre Multas</h4>
+              <p className="text-[11px] text-gray-300 leading-relaxed">
+                Tribunais frequentemente consideram abusivas multas que somadas (cláusula penal + prejuízo ao grupo) ultrapassam <strong className="text-white">10% a 15%</strong> do valor pago. Se sua retenção for maior, há espaço para contestação judicial.
+              </p>
+            </div>
+          </div>
+
+          <div className="space-y-4">
+            <div className="bg-white/5 p-4 rounded-lg border border-white/10">
+              <h4 className="text-[11px] font-bold text-[var(--orange)] uppercase tracking-wider mb-2">Estratégia: Mercado Secundário</h4>
+              <p className="text-[11px] text-gray-300 leading-relaxed mb-3">
+                Antes de cancelar, considere <strong className="text-white">vender sua cota</strong> para investidores. No mercado secundário, você pode recuperar uma porcentagem maior do que a devolução da administradora, pois o comprador assume o plano.
+              </p>
+              <div className="flex items-center gap-3">
+                <button className="text-[10px] font-bold text-white bg-white/10 px-3 py-2 rounded uppercase tracking-tighter hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed">
+                  Simular venda de cota
+                </button>
+                <span className="bg-[#FFD700] text-black text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter">
+                  Em Breve
+                </span>
+              </div>
+            </div>
+            <div className="p-1">
+              <p className="text-[10px] text-gray-400 leading-tight italic">
+                * Importante: Cada administradora possui um contrato específico. Este simulador utiliza os parâmetros mais comuns do mercado. Consulte sempre o seu regulamento oficial.
+              </p>
             </div>
           </div>
         </div>
       </div>
-
-      <TransparencyBlock 
-        headline="O que diz a regra do jogo?"
-        narrative={
-          <>
-            <p>A devolução não contempla o valor total pago porque o consórcio é uma prestação de serviço. A taxa de administração remunera a gestão do grupo, e o seguro protege a coletividade.</p>
-            <p>O simulador utiliza a <strong>Súmula 35 do STJ</strong> como premissa para a correção monetária, garantindo que o seu fundo comum não perca poder de compra até o recebimento.</p>
-          </>
-        }
-      />
     </div>
   );
 
@@ -349,14 +352,13 @@ export default function SimuladorCancelamento() {
   return (
     <RaioXLayout
       moduleNumber={9}
-      title="Custo de Cancelamento"
-      description="Descubra quanto você realmente recebe de volta e qual o seu prejuízo real ao cancelar a cota."
-      descriptionSupport="Cálculo preciso considerando reajustes periódicos do contrato e custo de oportunidade."
+      title="ANTES DE CANCELAR, DESCUBRA QUANTO ESSA DECISÃO VAI CUSTAR."
+      description={<span className="text-white">Nem sempre o valor devolvido representa o impacto financeiro da desistência. Esta análise calcula quanto você recupera e quanto patrimônio deixa pelo caminho.</span>}
+      descriptionSupport="Simule o impacto real do cancelamento e descubra se a conta fecha antes de desistir."
       formPanel={formPanel}
-      hasResult={true} // Forçado para garantir que os cards apareçam
+      hasResult={!!result}
+      resultsPanel={resultsPanel}
       scheduleTable={scheduleTable}
-    >
-      {resultsPanel}
-    </RaioXLayout>
+    />
   );
 }

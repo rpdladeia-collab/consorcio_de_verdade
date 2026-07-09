@@ -306,7 +306,7 @@ export default function SimuladorContemplacao() {
                 </thead>
                 <tbody className="divide-y divide-border/30">
                   {(expanded ? result.projection.rows : []).map((r) => (
-                    <tr key={r.month} className={`transition-colors hover:bg-secondary/10 ${r.event === "Lance aplicado" ? "bg-orange-50 font-bold border-y border-[var(--orange)]/40" : ""}`}>
+                    <tr key={r.month} className={`transition-colors hover:bg-secondary/10 ${r.event === "Lance aplicado" ? "bg-orange-50 font-bold border-y border-[var(--orange)]/40" : (r.event && r.event !== "—") ? "bg-amber-50/50 font-semibold" : ""}`}>
                       <td className="px-1.5 py-1 font-mono text-foreground/60 text-[7px] sm:text-[9px]">{r.month}</td>
                       <td className="px-1.5 py-1 font-mono text-[7px] sm:text-[9px]">{brl(r.credit)}</td>
                       <td className="px-1.5 py-1 font-medium text-[7px] sm:text-[9px]">
@@ -371,9 +371,9 @@ export default function SimuladorContemplacao() {
   return (
     <RaioXLayout
       moduleNumber={2}
-      title="Raio-X do Lance"
-      description={<span className="text-[var(--orange)]">Seu lance compra contemplação. Ou compra frustração.</span>}
-      descriptionSupport="Antes de colocar dinheiro na mesa, descubra quanto ele realmente aumenta sua chance de contemplação, quanto reduz seu crédito e qual será o impacto financeiro depois da assembleia."
+      title="O LANCE PODE COMPRAR UMA CONTEMPLAÇÃO. OU UMA DECISÃO CARA."
+      description={<span className="text-white">Compare o ganho real de probabilidade com o impacto financeiro da oferta e descubra se vale a pena colocar mais dinheiro na mesa.</span>}
+      descriptionSupport="Simule o impacto real do seu lance e descubra se a conta fecha antes de ofertar."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}

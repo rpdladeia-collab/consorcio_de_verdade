@@ -7,7 +7,7 @@
 import { useState } from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { useSimuladorStore } from "@/stores/simuladorStore";
-import { AlertTriangle, ChevronDown, Download } from "lucide-react";
+import { AlertTriangle, ChevronDown, Download, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import {
@@ -72,22 +72,29 @@ function TextInput({ value, onChange, placeholder, suffix }: {
 }
 
 /* ─── Tabela de fluxo ────────────────────────────────────────────────────────── */
-function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
+function ScheduleTable({ rows, onOpenRacional }: { rows: ScheduleRow[], onOpenRacional: () => void }) {
   const [open, setOpen] = useState(false);
   return (
     <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] overflow-hidden shadow-sm">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="w-full flex items-center justify-between px-5 py-3.5 text-left"
-      >
-        <div className="flex items-center gap-2">
+      <div className="flex items-center justify-between px-5 py-3.5 border-b border-white/5">
+        <button
+          onClick={() => setOpen((v) => !v)}
+          className="flex items-center gap-2 text-left"
+        >
           <Download className="w-4 h-4 text-[var(--orange)]" />
           <span className="eyebrow text-white/50">Evolução das parcelas (mês a mês)</span>
-        </div>
-        <ChevronDown
-          className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
-        />
-      </button>
+          <ChevronDown
+            className={`w-4 h-4 text-white/40 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          />
+        </button>
+        <button 
+          onClick={(e) => { e.stopPropagation(); onOpenRacional(); }}
+          className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFC93C] text-[#0A0A08] text-[10px] font-bold uppercase rounded-full hover:bg-[#FFD700] transition-colors shadow-sm"
+        >
+          <HelpCircle className="w-3 h-3" />
+          Racional
+        </button>
+      </div>
       {open && (
         <div className="w-full overflow-x-auto scrollbar-thin scrollbar-thumb-gray-300 bg-white border-t border-white/10">
           <table className="w-full min-w-[1000px]">
@@ -135,6 +142,7 @@ function ScheduleTable({ rows }: { rows: ScheduleRow[] }) {
 
 /* ─── Página principal ───────────────────────────────────────────────────────── */
 export default function SimuladorSimulePlano() {
+  const [showRacional, setShowRacional] = useState(false);
   const [form, setForm] = useSessionStorage<FormState>("simulador-plano", {
     credit: "300000", term: "120", adminRate: "16", reserveRate: "2",
     insuranceRate: "0", adjRate: "5", adjEvery: "12", mode: "linear", ranges: "",
@@ -244,114 +252,43 @@ export default function SimuladorSimulePlano() {
         className="w-full rounded-full bg-[var(--orange)] text-white py-2 text-xs font-bold tracking-wide hover:opacity-90 active:scale-[0.98] transition-all disabled:opacity-50 mt-1">
         {mutation.isPending ? "Calculando…" : "Abrir análise"}
       </button>
-
-
     </form>
   );
 
   // ── Painel direito: resultados ───────────────────────────────────────────
   const resultsPanel = result ? (
     <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
-      <div className="lg:hidden">
-        {result && (
-          <div className="space-y-2 pt-2 border-t border-border/50">
-            <button onClick={() => {
-              import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
-                generatePdfSimulePlano({
-                  credit: num(form.credit), term: Math.round(num(form.term)),
-                  adminRate: num(form.adminRate), reserveRate: num(form.reserveRate),
-                  insuranceRate: num(form.insuranceRate), adjRate: num(form.adjRate),
-                  adjEvery: form.adjEvery, mode: form.mode, ranges: form.ranges,
-                  rows: result.rows, paidTotal: result.paidTotal, residual: result.residual,
-                  finalCredit: result.finalCredit, initialObligation: result.initialObligation,
-                  insuranceTotal: result.insuranceTotal, correctionNominal: result.correctionNominal,
-                  warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
-                }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
-              });
-            }} className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-background hover:bg-secondary/60 text-sm font-medium transition-colors">
-              <Download className="w-4 h-4" />
-              Baixar Relatório de Auditoria (PDF)
-            </button>
-
-            <div className="rounded-xl border border-border p-3 space-y-2">
-              <p className="text-xs font-semibold text-foreground/70 uppercase tracking-wider">Quer validar o fluxo do seu plano com um especialista?</p>
-              <p className="text-xs text-foreground/60">Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso.</p>
-              <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-full bg-[var(--orange)] text-white text-xs font-bold hover:opacity-90 transition-opacity">
-                Falar com o especialista
-              </a>
-            </div>
-          </div>
-        )}
-      </div>
-      {/* Warnings */}
-      {result.warnings.length > 0 && (
-        <div className="rounded-lg sm:rounded-xl border border-orange-200 bg-orange-50 p-3 sm:p-4 space-y-1 sm:space-y-2">
-          <p className="flex items-center gap-2 text-[11px] sm:text-xs font-semibold uppercase tracking-wider text-orange-600 mb-1.5">
-            <AlertTriangle className="w-3.5 h-3.5" />
-            {result.warnings.length === 1 ? "Aviso" : "Avisos"}
-          </p>
-          {result.warnings.map((w, i) => (
-            <p key={i} className="text-[13px] sm:text-sm text-orange-800">· {w}</p>
-          ))}
-        </div>
-      )}
-
-      {/* KPIs — grid 2×2 */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <KpiCard label="1ª parcela" value={formatBRLCents(first)}
-          hint="É ela que vende o consórcio." tone="positive" />
-        <KpiCard label="Maior parcela" value={formatBRLCents(maxInstallment)}
-          hint="É ela que normalmente ninguém mostra." tone="orange" />
-        <KpiCard label="Total pago projetado" value={formatBRL(result.paidTotal)}
-          hint="Quanto realmente saiu do seu bolso." highlight />
-        <KpiCard label="Saldo final" value={formatBRLCents(result.residual)}
-          hint="R$ 0 - Plano encerrado."
-          tone={result.residual > 1 ? "negative" : "positive"} />
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+        <KpiCard label="Primeira parcela" value={formatBRLCents(first)}
+          hint="Valor sem reajustes" color="orange" />
+        <KpiCard label="Maior parcela projetada" value={formatBRLCents(maxInstallment)}
+          hint="Considerando reajustes" />
+        <KpiCard label="Total pago" value={formatBRL(result.paidTotal)}
+          hint="Ao final do prazo" />
+        <KpiCard label="Carta final" value={formatBRL(result.finalCredit)}
+          hint="Valor atualizado" />
       </div>
 
-      {/* Leitura interpretativa */}
-      <MeaningBlock label="ESTRUTURA DA PARCELA">
-        <p>
-          A <strong>1ª parcela</strong> é calculada dividindo a obrigação contratual total
-          (fundo comum + taxa de administração + fundo de reserva) pelo prazo. Nos meses
-          de reajuste, a carta e os saldos são corrigidos pelo índice informado.
-        </p>
-        {result.insuranceTotal > 0 && (
-          <p>O <strong>seguro</strong> é calculado mensalmente sobre o saldo residual após
-          o pagamento da parcela. Total projetado: <strong>{formatBRL(result.insuranceTotal)}</strong>.</p>
-        )}
-      </MeaningBlock>
+      <ConsultCTA />
 
-      {/* Memória de cálculo */}
-      <CalcMemory rows={[
-        { label: "Carta de crédito", value: formatBRL(result.credit), formula: "Valor nominal contratado" },
-        { label: "Obrigação inicial total", value: formatBRL(result.initialObligation),
-          formula: `Carta + ${result.adminRate.toFixed(1)}% adm + ${result.reserveRate.toFixed(1)}% reserva` },
-        { label: "Parcela linear base (mês 1)", value: formatBRLCents(result.initialObligation / result.term),
-          formula: `${formatBRL(result.initialObligation)} ÷ ${result.term} meses` },
-        { label: "Carta final corrigida", value: formatBRL(result.finalCredit),
-          formula: `Após ${result.rows.filter((r) => r.tags.includes("Reajuste")).length} reajuste(s)` },
-        { label: "Total pago projetado", value: formatBRL(result.paidTotal),
-          formula: "Σ parcelas mensais (componentes + seguro)" },
-        { label: "Saldo final (residual)", value: formatBRLCents(result.residual),
-          formula: result.residual < 1 ? "Plano fecha no prazo ✓" : "Revisar faixas não lineares" },
+      <CalcMemory items={[
+        { label: "Obrigação inicial", value: formatBRL(result.initialObligation) },
+        { label: "Seguro total (est.)", value: formatBRL(result.insuranceTotal) },
+        { label: "Custo nominal", value: formatBRL(result.correctionNominal), isRed: true },
       ]} />
 
-
-
-
+      <MeaningBlock />
+      <TransparencyBlock />
     </div>
   ) : null;
 
-  // ── Tabela de Evolução (fora do painel de resultados)
+  // ── Tabela de Evolução
   const scheduleTablePanel = result ? (
-    <div className="-mx-4 lg:-mx-8 px-4 lg:px-8 space-y-8">
-      <div>
-        <ScheduleTable rows={result.rows} />
-      </div>
-
+    <div className="space-y-8">
+      <ScheduleTable rows={result.rows} onOpenRacional={() => setShowRacional(true)} />
+      <MethodologyBlock />
       <div className="max-w-2xl mx-auto space-y-4 pb-12">
-        <button onClick={() => {
+        <PdfButton loading={false} onClick={() => {
           import("@/lib/pdfSimulePlano").then(({ generatePdfSimulePlano }) => {
             generatePdfSimulePlano({
               credit: num(form.credit), term: Math.round(num(form.term)),
@@ -364,35 +301,87 @@ export default function SimuladorSimulePlano() {
               warnings: result.warnings, simulationId: result.simulationId, generatedAt: result.generatedAt,
             }).catch((e) => { toast.error("Erro ao gerar PDF."); console.error(e); });
           });
-        }} className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-xl border border-border bg-white hover:bg-gray-50 text-sm font-bold shadow-sm transition-all active:scale-[0.98]">
-          <Download className="w-5 h-5 text-[var(--orange)]" />
-          Baixar Relatório de Auditoria (PDF)
-        </button>
-
-        <div className="bg-[#FFFEFA] border border-[#DDD6C8] rounded-2xl p-6 shadow-sm space-y-4">
-          <div className="space-y-2">
-            <p className="text-sm font-bold text-gray-900 uppercase tracking-wider">Quer validar o fluxo do seu plano com um especialista?</p>
-            <p className="text-sm text-gray-600 leading-relaxed">Você pode usar todos os simuladores gratuitamente. Se preferir uma leitura humana e personalizada da sua proposta, fale diretamente com o especialista — sem compromisso.</p>
-          </div>
-          <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-full bg-[var(--orange)] text-white text-sm font-bold hover:opacity-90 transition-all shadow-md active:scale-[0.98]">
-            Falar com o especialista
-          </a>
-        </div>
-
-        <TransparencyBlock />
+        }} />
       </div>
     </div>
   ) : null;
 
+  const racionalModal = showRacional && (
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+      <div className="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+        <div className="bg-[#0A0A08] p-6 text-white flex justify-between items-center">
+          <div>
+            <h3 className="font-display text-lg uppercase tracking-tight">Racional do Cálculo</h3>
+            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Metodologia e Premissas Financeiras</p>
+          </div>
+          <button onClick={() => setShowRacional(false)} className="text-white/60 hover:text-white transition-colors">
+            <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        
+        <div className="p-8 max-h-[70vh] overflow-y-auto space-y-6 text-sm text-[#1C1A16] leading-relaxed">
+          <section>
+            <h4 className="font-bold text-[#FF4E1F] uppercase text-xs mb-2">1. Reajustes Periódicos</h4>
+            <p>
+              O simulador projeta a atualização da <strong>Carta de Crédito</strong> com base na taxa de correção anual informada. Quando ocorre o reajuste (ex: a cada 12 meses), o valor da carta sobe e, consequentemente, os componentes da parcela (Fundo Comum, Taxa Adm e Reserva) são recalculados proporcionalmente ao novo crédito.
+            </p>
+          </section>
+
+          <section>
+            <h4 className="font-bold text-[#FF4E1F] uppercase text-xs mb-2">2. Seguro Prestamista</h4>
+            <p>
+              O seguro é calculado mensalmente sobre o <strong>Saldo Devedor Atualizado</strong>. À medida que você paga as parcelas, o saldo devedor diminui (amortização), mas quando ocorre o reajuste anual, o saldo devedor também é corrigido pelo índice, o que pode elevar o custo do seguro naquele período.
+            </p>
+          </section>
+
+          <section>
+            <h4 className="font-bold text-[#FF4E1F] uppercase text-xs mb-2">3. Composição da Parcela</h4>
+            <p>
+              Cada linha da tabela representa o custo real total, somando:
+              <ul className="list-disc pl-5 mt-2 space-y-1">
+                <li><strong>Fundo Comum:</strong> Destinado à compra do bem.</li>
+                <li><strong>Taxa de Administração:</strong> Remuneração da administradora.</li>
+                <li><strong>Fundo de Reserva:</strong> Garantia para a saúde financeira do grupo.</li>
+                <li><strong>Seguro:</strong> Proteção para o grupo e para o consorciado.</li>
+              </ul>
+            </p>
+          </section>
+
+          <section>
+            <h4 className="font-bold text-[#FF4E1F] uppercase text-xs mb-2">4. Saldo Final</h4>
+            <p>
+              Representa quanto você ainda deve à administradora em termos nominais. Este valor é crucial para entender o impacto dos reajustes: você verá que, em alguns meses, mesmo pagando a parcela, o saldo devedor pode subir devido à correção monetária da carta.
+            </p>
+          </section>
+        </div>
+
+        <div className="p-6 bg-gray-50 border-t border-border flex justify-end">
+          <button 
+            onClick={() => setShowRacional(false)}
+            className="px-8 py-3 bg-[#0A0A08] text-white text-xs font-bold uppercase tracking-widest rounded-full hover:bg-[#1C1A16] transition-all"
+          >
+            Entendido
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+
   return (
+    <>
+    {racionalModal}
     <RaioXLayout
       moduleNumber={1}
-      title="Raio-X da Parcela"
-      description="Parcela baixa vende fácil. Conta mal feita cobra caro. Antes de olhar só o valor do boleto, veja como essa parcela se comporta mês a mês: taxa, correção, seguro, reajustes e custo acumulado. A pergunta não é só se cabe hoje. É se continua fazendo sentido até o fim."
+      title="A pergunta não é só se cabe hoje. É se continua fazendo sentido até o fim."
+      description={<span className="text-white">Antes de olhar só o valor do boleto, veja como essa parcela se comporta mês a mês: taxa, correção, seguro, reajustes e custo acumulado.</span>}
+      descriptionSupport="Simule o comportamento real do seu plano e descubra o custo acumulado invisível."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}
       scheduleTable={scheduleTablePanel}
     />
+    </>
   );
 }

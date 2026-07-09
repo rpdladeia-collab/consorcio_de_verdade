@@ -74,18 +74,20 @@ export default function SimuladorLanceLivre() {
 
   return (
     <div className="min-h-screen">
-      <section className="dark bg-[var(--ink)] text-[var(--paper)]">
-        <div className="container py-8 sm:py-12">
-          <Link to="/simuladores" className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8">
-            <ArrowLeft className="w-4 h-4" /> Central de Simuladores
+      <section className="bg-[#0A0A08] text-white pt-8 pb-16 w-full px-4 md:px-5 lg:px-8">
+        <div className="max-w-7xl mx-auto">
+          <Link
+            to="/simuladores"
+            className="inline-flex items-center gap-2 text-[#FF4E1F] font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-widest hover:text-[#FFC93C] transition-colors mb-6"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Voltar
           </Link>
           <div className="max-w-3xl">
-            <AuditSeal className="mb-5" />
-            <p className="eyebrow text-[var(--orange)] mb-3">Lances · Análise independente</p>
-            <h1 className="text-2xl sm:text-3xl font-extrabold leading-[1.05] tracking-tight">
+            <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight text-white uppercase">
               Quanto de lance livre você precisa para competir?
             </h1>
-            <p className="text-sm sm:text-base text-white/65 mt-3 leading-relaxed">
+            <p className="text-[#C9C4B8] text-sm md:text-base max-w-3xl leading-relaxed">
               O lance livre usa recurso próprio para antecipar a contemplação.
               Veja quanto você desembolsa, o quão competitivo é frente ao histórico
               e o efeito do lance sobre suas parcelas ou prazo.

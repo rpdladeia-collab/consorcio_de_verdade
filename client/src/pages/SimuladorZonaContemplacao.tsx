@@ -338,36 +338,24 @@ export default function SimuladorZonaContemplacao() {
   return (
     <div className="min-h-screen bg-[var(--paper)]">
       {/* HERO */}
-      <section className="dark bg-[var(--ink)] text-[var(--paper)]">
-        <div className="container py-10 md:py-14">
+      <section className="bg-[#0A0A08] text-white pt-8 pb-16 w-full px-4 md:px-5 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <Link
             to="/simuladores"
-            className="inline-flex items-center gap-2 text-sm text-white/60 hover:text-white transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-[#FF4E1F] font-['IBM_Plex_Mono'] text-xs font-semibold uppercase tracking-widest hover:text-[#FFC93C] transition-colors mb-6"
           >
             <ArrowLeft className="w-4 h-4" />
-            Central de Simuladores
+            Voltar
           </Link>
-          <div className="flex items-start justify-between gap-4">
-          <div className="max-w-3xl flex-1">
-            {/* Selo */}
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-[var(--orange)]/50 bg-[var(--orange)]/10 px-3 py-1 text-xs font-semibold text-[var(--orange)] mb-5">
-              Zona de Contemplação
-            </span>
-            <h1 className="text-3xl md:text-4xl font-extrabold leading-[1.05] tracking-tight">
-              O movimento das contemplações
+          <div className="max-w-3xl">
+            <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight text-white uppercase">
+              Onde seu lance se encaixa no grupo?
             </h1>
-            {/* Aviso legal — texto formal, letras menores */}
-            <div className="mt-5 max-w-3xl">
-              <p className="text-[11px] font-bold tracking-wide uppercase mb-1" style={{ color: '#F5C518' }}>Aviso importante</p>
-              <p className="text-[11px] text-white/55 leading-relaxed">
-                Este simulador tem finalidade exclusivamente educativa e analítica. Em consórcio, há prazo de duração do grupo, mas não existe prazo individual garantido para contemplação. A contemplação depende das regras do contrato, dos sorteios, dos lances, da concorrência entre participantes, do caixa do grupo e de outros fatores definidos pela administradora. O histórico apresentado serve apenas para observar o comportamento do grupo em assembleias anteriores. Nenhum dado histórico, média ou faixa de lance deve ser interpretado como promessa, previsão ou garantia de contemplação futura.
-              </p>
-                        </div>
-          </div>
-          {/* Logo no canto superior direito */}
-          <div className="hidden md:block shrink-0 mt-1">
-            <img src={LOGO.light} alt="r.enatto" className="h-10 w-auto opacity-90" />
-          </div>
+            <p className="text-[#C9C4B8] text-sm md:text-base max-w-3xl leading-relaxed">
+              O lance não é apenas um valor. É uma posição frente à concorrência.
+              Analise o histórico, o quantitativo de vagas e a pressão do grupo para
+              identificar a sua real zona de contemplação.
+            </p>
           </div>
         </div>
       </section>

@@ -47,15 +47,13 @@ export function runCancelamento(input: CancelamentoInput) {
     cdiAnnualPct,
   } = input;
 
-  // --- Totais ---
-  const totalAdminAmount = credit * adminRatePct / 100;
-  const totalReserveAmount = credit * reserveRatePct / 100;
-  const monthlyCommonFund = credit / totalMonths;
-  const monthlyAdminDiluted = totalAdminAmount / totalMonths;
-  const monthlyReserveDiluted = totalReserveAmount / totalMonths;
+  // --- Valores Iniciais de Crédito e Taxas ---
+  let currentCredit = credit;
+  let currentAdminAmount = credit * adminRatePct / 100;
+  let currentReserveAmount = credit * reserveRatePct / 100;
 
   // --- Saldo devedor inicial ---
-  let saldoDevedor = credit + totalAdminAmount + totalReserveAmount;
+  let saldoDevedor = currentCredit + currentAdminAmount + currentReserveAmount;
 
   const monthlyData: MonthlyRow[] = [];
   let totalPaidByClient = 0;
@@ -68,10 +66,19 @@ export function runCancelamento(input: CancelamentoInput) {
     const isReajust = m > 1 && (m - 1) % reajustPeriod === 0;
     
     if (isReajust) {
-      saldoDevedor = saldoDevedor * (1 + reajustPct / 100);
+      const factor = (1 + reajustPct / 100);
+      currentCredit *= factor;
+      currentAdminAmount *= factor;
+      currentReserveAmount *= factor;
+      saldoDevedor *= factor;
     }
 
+    // A parcela é calculada sobre o valor atualizado (diluído pelo prazo total)
+    const monthlyCommonFund = currentCredit / totalMonths;
+    const monthlyAdminDiluted = currentAdminAmount / totalMonths;
+    const monthlyReserveDiluted = currentReserveAmount / totalMonths;
     const seguroMes = saldoDevedor * insurancePct / 100;
+    
     const parcelaMes = monthlyCommonFund + monthlyReserveDiluted + monthlyAdminDiluted + seguroMes;
     const novoSaldo = saldoDevedor - parcelaMes;
 

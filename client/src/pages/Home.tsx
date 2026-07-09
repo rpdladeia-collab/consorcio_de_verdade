@@ -118,46 +118,52 @@ function ConscienciaSection() {
 function RaioXSection() {
   const cards = [
     {
-      num: "1",
-      name: "Essa parcela continua cabendo daqui a alguns anos?",
-      call: "Cabe hoje. Amanhã a gente confere.",
-      text: "Veja como a parcela pode mudar com o tempo, especialmente quando entram correções, seguros e saldo devedor.",
+      name: "A parcela cabe hoje. E amanhã?",
+      call: "Planejamento e Reajustes",
+      text: "Simule a evolução da parcela com reajustes e seguros antes de assumir um compromisso de longo prazo.",
       href: "/simulador/simule-seu-plano",
     },
     {
-      num: "2",
-      name: "Esse lance realmente aumenta minhas chances?",
-      call: "Dar lance é fácil. Saber se ele compra chance é outra história.",
-      text: "Entenda se o lance aproxima você da contemplação ou apenas aumenta o esforço financeiro.",
-      href: "/simulador/raio-x-do-lance",
+      name: "O consórcio se paga ou o seu dinheiro faria mais em outro lugar?",
+      call: "Custo de Oportunidade",
+      text: "Descubra se a estratégia de alavancagem realmente compensa comparado a outros investimentos.",
+      href: "/simulador/auto-pagavel",
     },
     {
-      num: "3",
-      name: "Quanto esse consórcio realmente vai me custar?",
-      call: "Sem juros não significa sem conta.",
-      text: "Separe crédito, taxa, seguro, fundo de reserva e correção para entender o custo real da operação.",
+      name: "Não tem juros, mas tem correção !!",
+      call: "Custo Real da Operação",
+      text: "Calcula taxa de administração, seguro e fundo de reserva juntos — o custo real que o anúncio separa.",
       href: "/simulador/custo-operacao",
     },
     {
-      num: "4",
-      name: "Quanto do crédito contratado realmente chega até você?",
-      call: "Crédito contratado é uma coisa. Dinheiro novo é outra.",
-      text: "Veja quanto da operação chega de fato até você e quanto fica no caminho.",
+      name: "Quanto do seu crédito vira taxa?",
+      call: "Eficiência do Crédito",
+      text: "Mostra quanto da parcela é efetivamente taxa e como isso corrói a eficiência do plano no tempo.",
       href: "/simulador/proporcao-taxa",
     },
     {
-      num: "5",
-      name: "Quanto a correção pode aumentar sua dívida?",
-      call: "O juro saiu da conversa. O reajuste ficou.",
-      text: "Simule como a correção pode afetar carta, saldo e parcela ao longo do contrato.",
-      href: "/simulador/historico-correcoes",
+      name: "Seu lance aumenta a chance — ou só queima caixa?",
+      call: "Raio-X do Lance",
+      text: "Projeta o impacto financeiro real da contemplação em diferentes momentos do plano antes de ofertar.",
+      href: "/simulador/raio-x-do-lance",
     },
     {
-      num: "6",
-      name: "Essa operação realmente se paga?",
-      call: "Quando a promessa é bonita, a matemática precisa assinar embaixo.",
-      text: "Teste se a carta realmente se paga depois da contemplação ou se a conta só fecha no discurso.",
-      href: "/simulador/auto-pagavel",
+      name: "Lance na carta ou na categoria? A conta decide",
+      call: "Estratégia de Lance",
+      text: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria.",
+      href: "/simulador/lance-carta-x-categoria",
+    },
+    {
+      name: "Desistir custa mais do que parece",
+      call: "Custo de Cancelamento",
+      text: "Descubra quanto você realmente perde ao cancelar a cota: saldo, taxas e multas.",
+      href: "/simulador/custo-cancelamento",
+    },
+    {
+      name: "Quanto vale sua carta contemplada hoje?",
+      call: "Avaliação de Ativo",
+      text: "Simula o valor de venda de uma carta contemplada no mercado secundário com ágio.",
+      href: "/simulador/venda-carta-contemplada",
     },
   ];
 
@@ -178,18 +184,15 @@ function RaioXSection() {
           O QUE VOCÊ PRECISA SABER
         </p>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           {cards.map((c) => (
-            <Link key={c.num} href={c.href}>
-              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-4 hover:border-[var(--orange)] hover:shadow-sm transition-all cursor-pointer h-full">
-                <p className="text-[10px] tracking-widest uppercase text-[var(--orange)]/60 mb-1 font-semibold">
-                  {c.num}
-                </p>
-                <p className="text-sm font-bold text-[var(--ink)] mb-1">{c.name}</p>
-                <p className="text-xs text-[var(--orange)] font-medium mb-2 leading-snug">
+            <Link key={c.name} href={c.href}>
+              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-4 hover:border-[var(--orange)] hover:shadow-sm transition-all cursor-pointer h-full flex flex-col">
+                <p className="text-sm font-bold text-[var(--ink)] mb-1 leading-tight">{c.name}</p>
+                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-2">
                   {c.call}
                 </p>
-                <p className="text-xs text-gray-700 leading-snug font-medium">{c.text}</p>
+                <p className="text-[11px] text-gray-700 leading-snug font-medium mt-auto">{c.text}</p>
               </div>
             </Link>
           ))}

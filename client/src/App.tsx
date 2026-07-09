@@ -19,7 +19,7 @@ import SimuladorSimulePlano from "./pages/SimuladorSimulePlano";
 import SimuladorContemplacao from "./pages/SimuladorContemplacao";
 import SimuladorCustoOperacao from "./pages/SimuladorCustoOperacao";
 import SimuladorProporcaoTaxa from "./pages/SimuladorProporcaoTaxa";
-import SimuladorHistoricoCorrecoes from "./pages/SimuladorHistoricoCorrecoes";
+
 import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
 import SimuladorLanceCartaXCategoria from "./pages/SimuladorLanceCartaXCategoria";
 import SimuladorVendaCartaContemplada from "./pages/SimuladorVendaCartaContemplada";
@@ -46,8 +46,7 @@ function Router() {
       <Route path={"/simuladores/3"} component={SimuladorCustoOperacao} />
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simuladores/4"} component={SimuladorProporcaoTaxa} />
-      <Route path={"/simulador/historico-correcoes"} component={SimuladorHistoricoCorrecoes} />
-      <Route path={"/simuladores/5"} component={SimuladorHistoricoCorrecoes} />
+
       <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
       <Route path={"/simuladores/6"} component={SimuladorAutoPagavel} />
       <Route path={"/simulador/lance-carta-x-categoria"} component={SimuladorLanceCartaXCategoria} />

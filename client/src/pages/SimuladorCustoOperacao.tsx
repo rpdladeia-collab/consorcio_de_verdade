@@ -314,10 +314,10 @@ export default function SimuladorCustoOperacao() {
 
   return (
     <RaioXLayout
-      moduleNumber="03"
-      title="Raio-X do Custo Total"
-      subtitle="Consórcio não tem juros, mas tem correção e isso muda tudo !!"
-      description="Veja o custo real da operação, separando taxa, seguro, fundo de reserva e correções para entender o que você está pagando e o que é apenas atualização monetária."
+      moduleNumber={3}
+      title="CONSÓRCIO NÃO TEM JUROS. MAS TEM CORREÇÃO. E ISSO MUDA TUDO."
+      description={<span className="text-white">Quando o crédito é corrigido, as parcelas e o saldo devedor também podem mudar. Esta análise separa taxa de administração, seguro, fundo de reserva e atualização monetária para mostrar o custo real da operação.</span>}
+      descriptionSupport="Simule o impacto total da operação e descubra o custo real invisível do seu plano."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={!!result}
