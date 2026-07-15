@@ -24,6 +24,13 @@ export const estruturaDoPlanoRouter = router({
         })).default([]),
         savingsRate: z.number().min(0).default(0.515),
         cdbRate: z.number().min(0).default(0.795),
+        // Lance
+        lanceProprio: z.number().min(0).default(0),
+        lanceFgts: z.number().min(0).default(0),
+        lanceEmbutido: z.number().min(0).default(0),
+        baseDoLance: z.enum(['carta', 'categoria']).default('carta'),
+        parcelasPagas: z.number().int().min(0).default(0),
+        estrategiaPos: z.enum(['abater_parcela', 'reduzir_prazo']).default('abater_parcela'),
       })
     )
     .mutation(({ input }) => {
@@ -40,6 +47,12 @@ export const estruturaDoPlanoRouter = router({
         paymentRanges: input.paymentRanges,
         savingsRate: input.savingsRate,
         cdbRate: input.cdbRate,
+        lanceProprio: input.lanceProprio,
+        lanceFgts: input.lanceFgts,
+        lanceEmbutido: input.lanceEmbutido,
+        baseDoLance: input.baseDoLance,
+        parcelasPagas: input.parcelasPagas,
+        estrategiaPos: input.estrategiaPos,
       });
 
       const raw = JSON.stringify({

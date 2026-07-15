@@ -32,6 +32,13 @@ export interface EstruturaOptions {
   paymentRanges: PaymentRange[];
   savingsRate: number; // taxa mensal poupança (%)
   cdbRate: number; // taxa mensal CDB (%)
+  // Lance
+  lanceProprio?: number; // Lance próprio em R$
+  lanceFgts?: number; // Lance FGTS em R$
+  lanceEmbutido?: number; // Lance embutido em R$
+  baseDoLance?: 'carta' | 'categoria'; // Base do lance
+  parcelasPagas?: number; // Parcelas já pagas
+  estrategiaPos?: 'abater_parcela' | 'reduzir_prazo'; // Estratégia pós-contemplação
 }
 
 export interface EstruturaRow {
@@ -144,6 +151,24 @@ export interface InvestmentComparison {
   auditRows: AuditRow[];
 }
 
+export interface LanceAnalysis {
+  isActive: boolean;
+  lanceProprio: number;
+  lanceFgts: number;
+  lanceEmbutido: number;
+  totalLance: number;
+  baseDoLance: string;
+  parcelasPagas: number;
+  estrategiaPos: string;
+  baseValue: number;
+  lancePct: number;
+  competitiveness: number;
+  verdict: string;
+  decisionText: string;
+  impactoParcela?: number;
+  impactoPrazo?: number;
+}
+
 export interface EstruturaResult {
   rows: EstruturaRow[];
   yearlyCorrections: YearlyCorrection[];
@@ -171,6 +196,7 @@ export interface EstruturaResult {
   costs: CostBlock;
   costRows: CostTableRow[];
   investments: InvestmentComparison;
+  lanceAnalysis?: LanceAnalysis;
 }
 
 function clamp(n: number, a: number, b: number): number {
@@ -512,6 +538,76 @@ function simulateInvestmentComparison(c: EstruturaOptions, p: ReturnType<typeof 
 
 /* ─── Função principal exportada ───────────────────────────────────────────── */
 
+function analyzeLanceImpact(opts: EstruturaOptions, proposal: any): LanceAnalysis | undefined {
+  const lanceProprio = opts.lanceProprio || 0;
+  const lanceFgts = opts.lanceFgts || 0;
+  const lanceEmbutido = opts.lanceEmbutido || 0;
+  const totalLance = lanceProprio + lanceFgts + lanceEmbutido;
+
+  if (totalLance <= 0) return undefined;
+
+  const baseDoLance = opts.baseDoLance || 'carta';
+  const baseValue = baseDoLance === 'categoria' ? opts.credit * (1 + opts.adminRate / 100) : opts.credit;
+  const lancePct = (totalLance / baseValue) * 100;
+  const referenceBidPct = 45;
+  const competitiveness = (lancePct / referenceBidPct) * 100;
+
+  let verdict: string = 'atencao';
+  let decisionText = '';
+
+  if (lancePct <= 0) {
+    verdict = 'critico';
+    decisionText = 'Sem lance, a contemplacao depende exclusivamente de sorteio.';
+  } else if (competitiveness < 70) {
+    verdict = 'critico';
+    decisionText = `Seu lance representa apenas ${lancePct.toFixed(1)}% da base. Pouco provavel que venca por lance.`;
+  } else if (competitiveness < 90) {
+    verdict = 'atencao';
+    decisionText = `Seu lance esta abaixo da media historica (${competitiveness.toFixed(0)}% da referencia). Pode contemplar em assembleias fracas.`;
+  } else if (competitiveness > 140) {
+    verdict = 'atencao';
+    decisionText = `Seu lance esta bem acima da referencia (${competitiveness.toFixed(0)}%). Chance alta, mas pode estar imobilizando capital.`;
+  } else {
+    verdict = 'positivo';
+    decisionText = `Seu lance esta na faixa competitiva (${competitiveness.toFixed(0)}% da referencia), com boa relacao entre chance e capital.`;
+  }
+
+  const estrategiaPos = opts.estrategiaPos || 'abater_parcela';
+  const parcelasPagas = opts.parcelasPagas || 0;
+  const remainingInstallments = Math.max(0, opts.term - parcelasPagas);
+  const installmentBase = baseValue / opts.term;
+  const remainingDebt = Math.max(0, baseValue - installmentBase * parcelasPagas - totalLance);
+
+  let impactoParcela: number | undefined;
+  let impactoPrazo: number | undefined;
+
+  if (estrategiaPos === 'abater_parcela' && remainingInstallments > 0) {
+    const newInstallment = remainingDebt / remainingInstallments;
+    impactoParcela = installmentBase - newInstallment;
+  } else if (estrategiaPos === 'reduzir_prazo') {
+    const monthsCovered = installmentBase > 0.02 ? Math.floor(totalLance / installmentBase) : 0;
+    impactoPrazo = Math.min(monthsCovered, remainingInstallments);
+  }
+
+  return {
+    isActive: true,
+    lanceProprio,
+    lanceFgts,
+    lanceEmbutido,
+    totalLance,
+    baseDoLance,
+    parcelasPagas,
+    estrategiaPos,
+    baseValue,
+    lancePct,
+    competitiveness,
+    verdict,
+    decisionText,
+    impactoParcela,
+    impactoPrazo,
+  };
+}
+
 export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResult {
   const c: EstruturaOptions = {
     credit: Math.max(0, opts.credit),
@@ -532,6 +628,7 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
   const yearlyCorrections = buildYearlyCorrections(proposal);
   const { block: costs, rows: costRows } = buildCosts(proposal);
   const investments = simulateInvestmentComparison(c, proposal);
+  const lanceAnalysis = analyzeLanceImpact(opts, proposal);
 
   return {
     rows: proposal.rows,
@@ -550,5 +647,6 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
     costs,
     costRows,
     investments,
+    lanceAnalysis,
   };
 }

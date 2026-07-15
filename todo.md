@@ -407,3 +407,21 @@
 - [x] Excluir arquivos SimuladorCustoOperacao.tsx e pdfCustoOperacao.ts
 - [x] Atualizar contador de análises (8 → 7)
 - [x] Validar build e salvar checkpoint
+
+
+---
+
+## Integração do Lance Livre no Estrutura do Plano (v13)
+
+- [x] Estender interface `EstruturaOptions` para incluir parâmetros do lance
+- [x] Adicionar função `analyzeLanceImpact()` em `server/lib/estruturaDoPlano.ts`
+- [x] Estender `EstruturaResult` com campo `lanceAnalysis`
+- [x] Atualizar router `server/routers/estruturaDoPlano.ts` com novos campos de entrada
+- [x] Adicionar novo menu "Estrutura do Lance" em `EstruturaDoPlano.tsx` (aba 5)
+- [x] Implementar painel de entrada com campos: base do lance, parcelas pagas, lance próprio, FGTS, embutido, estratégia pós-contemplação
+- [x] Integrar análise de viabilidade do lance nos cálculos
+- [x] Salvar parâmetros do lance em sessionStorage
+- [x] Exibir resultados da análise de lance na nova aba
+- [x] Criar testes Vitest para o novo motor de lance integrado
+- [ ] Validar responsividade em mobile
+- [ ] Salvar checkpoint final

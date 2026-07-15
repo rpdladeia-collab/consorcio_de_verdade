@@ -52,9 +52,16 @@ interface FormState {
   paymentPolicyMode: PolicyMode;
   savingsRate: string;
   cdbRate: string;
+  // Lance
+  lanceProprio: string;
+  lanceFgts: string;
+  lanceEmbutido: string;
+  baseDoLance: 'carta' | 'categoria';
+  parcelasPagas: string;
+  estrategiaPos: 'abater_parcela' | 'reduzir_prazo';
 }
 
-type TabId = "proposta" | "custos" | "correcoes" | "investimentos";
+type TabId = "proposta" | "custos" | "correcoes" | "investimentos" | "lance";
 
 /* ─── Helpers ────────────────────────────────────────────────────────────────── */
 function num(s: string): number {
@@ -745,6 +752,8 @@ export default function EstruturaDoPlano() {
     insuranceRate: "0", adjustmentRate: "5", adjustmentPeriod: "12",
     firstAdjustmentMonth: "13", paymentPolicyMode: "standard",
     savingsRate: "0.515", cdbRate: "0.795",
+    lanceProprio: "0", lanceFgts: "0", lanceEmbutido: "0",
+    baseDoLance: "carta", parcelasPagas: "0", estrategiaPos: "abater_parcela",
   });
 
   const set = (k: keyof FormState) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
@@ -781,6 +790,12 @@ export default function EstruturaDoPlano() {
       })) : [],
       savingsRate: num(form.savingsRate),
       cdbRate: num(form.cdbRate),
+      lanceProprio: num(form.lanceProprio),
+      lanceFgts: num(form.lanceFgts),
+      lanceEmbutido: num(form.lanceEmbutido),
+      baseDoLance: form.baseDoLance,
+      parcelasPagas: Math.round(num(form.parcelasPagas)),
+      estrategiaPos: form.estrategiaPos,
     });
   }
 
@@ -874,6 +889,39 @@ export default function EstruturaDoPlano() {
         </div>
       )}
 
+      {/* Estrutura do Lance — só visível na aba Lance */}
+      {activeTab === "lance" && (
+        <div className="pt-2 border-t border-gray-100">
+          <p className="font-bold text-[13px] text-gray-700 uppercase tracking-wider mb-2">Composição do Lance</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+            <FieldRow label="Base do lance" hint="Carta ou categoria (carta + taxa)">
+              <select value={form.baseDoLance} onChange={(e) => set("baseDoLance")(e.target.value as any)} className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#FF4E1F]">
+                <option value="carta">Carta</option>
+                <option value="categoria">Categoria</option>
+              </select>
+            </FieldRow>
+            <FieldRow label="Parcelas já pagas" hint="Quantidade de parcelas já quitadas">
+              <TextInput value={form.parcelasPagas} onChange={set("parcelasPagas")} placeholder="0" suffix="parcelas" />
+            </FieldRow>
+            <FieldRow label="Lance próprio (R$)" hint="Recurso próprio para o lance">
+              <TextInput value={form.lanceProprio} onChange={set("lanceProprio")} placeholder="0" suffix="R$" />
+            </FieldRow>
+            <FieldRow label="Lance FGTS (R$)" hint="Recurso FGTS para o lance">
+              <TextInput value={form.lanceFgts} onChange={set("lanceFgts")} placeholder="0" suffix="R$" />
+            </FieldRow>
+            <FieldRow label="Lance embutido (R$)" hint="Valor já embutido nas parcelas">
+              <TextInput value={form.lanceEmbutido} onChange={set("lanceEmbutido")} placeholder="0" suffix="R$" />
+            </FieldRow>
+            <FieldRow label="Estratégia pós-contemplação" hint="Como aplicar o lance após contemplação">
+              <select value={form.estrategiaPos} onChange={(e) => set("estrategiaPos")(e.target.value as any)} className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#FF4E1F]">
+                <option value="abater_parcela">Abater parcela</option>
+                <option value="reduzir_prazo">Reduzir prazo</option>
+              </select>
+            </FieldRow>
+          </div>
+        </div>
+      )}
+
       {/* Premissas de investimento — só visíveis na aba Consórcio x investimentos */}
       {activeTab === "investimentos" && (
         <div className="pt-2 border-t border-gray-100">
@@ -904,6 +952,7 @@ export default function EstruturaDoPlano() {
     { id: "custos", label: "2. Custos da operação" },
     { id: "correcoes", label: "3. Histórico de correções" },
     { id: "investimentos", label: "4. Consórcio x investimentos" },
+    { id: "lance", label: "5. Estrutura do Lance" },
   ];
 
   const resultsPanel = hasResult ? (
@@ -943,6 +992,50 @@ export default function EstruturaDoPlano() {
       {activeTab === "correcoes" && <CorrectionsTab result={result} />}
 
       {activeTab === "investimentos" && <InvestmentsTab result={result} inv={result.investments} />}
+
+      {activeTab === "lance" && result.lanceAnalysis ? (
+        <div className="space-y-4">
+          {result.lanceAnalysis.isActive ? (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <KpiCard label="Lance Próprio" value={formatBRL(result.lanceAnalysis.lanceProprio)} tone="positive" />
+                <KpiCard label="Lance FGTS" value={formatBRL(result.lanceAnalysis.lanceFgts)} tone="positive" />
+                <KpiCard label="Lance Embutido" value={formatBRL(result.lanceAnalysis.lanceEmbutido)} tone="positive" />
+                <KpiCard label="Total do Lance" value={formatBRL(result.lanceAnalysis.totalLance)} highlight={true} />
+                <KpiCard label="% da Base" value={`${result.lanceAnalysis.lancePct.toFixed(2)}%`} />
+                <KpiCard label="Competitividade" value={`${result.lanceAnalysis.competitiveness.toFixed(0)}%`} tone={result.lanceAnalysis.competitiveness >= 90 ? "positive" : "negative"} />
+              </div>
+
+              <div className={`p-4 rounded-lg border-l-4 ${
+                result.lanceAnalysis.verdict === "positivo" ? "bg-green-50 border-green-500" :
+                result.lanceAnalysis.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
+                "bg-red-50 border-red-500"
+              }`}>
+                <p className="font-bold text-gray-900 mb-2">Análise do Lance</p>
+                <p className="text-sm text-gray-700">{result.lanceAnalysis.decisionText}</p>
+              </div>
+
+              {result.lanceAnalysis.impactoParcela !== undefined && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="font-bold text-gray-900 mb-1">Impacto na Parcela</p>
+                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{formatBRL(result.lanceAnalysis.impactoParcela)}</span> por parcela após contemplação</p>
+                </div>
+              )}
+
+              {result.lanceAnalysis.impactoPrazo !== undefined && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="font-bold text-gray-900 mb-1">Impacto no Prazo</p>
+                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{result.lanceAnalysis.impactoPrazo} parcela(s)</span> após contemplação</p>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <p className="text-sm text-gray-600">Nenhum lance informado. Preencha os campos de lance no painel esquerdo para ver a análise.</p>
+            </div>
+          )}
+        </div>
+      ) : null}
 
       {/* CTA + Transparência */}
       <div className="pt-4 space-y-4">
