@@ -82,9 +82,11 @@ export default function RaioXLayout({
 
           {/* Coluna direita — Resultados */}
           <div className="flex-1 min-w-0 w-full">
-            <WaitingAnalysisScreen>
-              {resultsPanel}
-            </WaitingAnalysisScreen>
+            {hasResult ? (
+              resultsPanel
+            ) : (
+              <WaitingAnalysisScreen />
+            )}
           </div>
         </div>
       </section>
