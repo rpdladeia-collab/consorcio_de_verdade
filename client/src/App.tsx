@@ -16,10 +16,12 @@ import Termos from "./pages/Termos";
 import Privacidade from "./pages/Privacidade";
 
 import SimuladorZonaContemplacao from "./pages/SimuladorZonaContemplacao";
+import SimuladorLanceLivre from "./pages/SimuladorLanceLivre";
 import SimuladorContemplacao from "./pages/SimuladorContemplacao";
 import SimuladorProporcaoTaxa from "./pages/SimuladorProporcaoTaxa";
 
 import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
+import SimuladorLanceCartaXCategoria from "./pages/SimuladorLanceCartaXCategoria";
 import SimuladorVendaCartaContemplada from "./pages/SimuladorVendaCartaContemplada";
 import SimuladorCancelamento from "./pages/SimuladorCancelamento";
 import EstruturaDoPlano from "./pages/EstruturaDoPlano";
@@ -35,9 +37,11 @@ function Router() {
       <Route path={"/caixa-preta"} component={CaixaPreta} />
 
       <Route path={"/simulador/zona-contemplacao"} component={SimuladorZonaContemplacao} />
+      <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
       <Route path={"/simulador/contemplacao"} component={SimuladorContemplacao} />
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
+      <Route path={"/simulador/lance-carta-x-categoria"} component={SimuladorLanceCartaXCategoria} />
       <Route path={"/simulador/venda-carta-contemplada"} component={SimuladorVendaCartaContemplada} />
       <Route path={"/simulador/custo-cancelamento"} component={SimuladorCancelamento} />
       <Route path={"/simulador/estrutura-do-plano"} component={EstruturaDoPlano} />

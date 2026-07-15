@@ -7,7 +7,7 @@
 
 import { useState, useMemo } from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
-import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle, AlertCircle } from "lucide-react";
+import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import {
@@ -993,83 +993,47 @@ export default function EstruturaDoPlano() {
 
       {activeTab === "investimentos" && <InvestmentsTab result={result} inv={result.investments} />}
 
-      {activeTab === "lance" && result.lanceResult ? (
+      {activeTab === "lance" && result.lanceAnalysis ? (
         <div className="space-y-4">
-          {/* Dashboard de KPIs do Lance */}
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-            <KpiCard label="Carta Atualizada" value={formatBRL(result.lanceResult.inputs.credit)} hint="Valor nominal atualizado." tone="positive" />
-            <KpiCard label="Carta Líquida" value={formatBRL(result.lanceResult.inputs.credit - result.lanceResult.bidValue)} hint="Carta menos lance." tone="negative" />
-            <KpiCard label="Lance Total" value={formatBRL(result.lanceResult.bidValue)} hint="Valor do lance em R$." tone="positive" />
-            <KpiCard label="Força do Lance" value={`${result.lanceResult.inputs.bidPct.toFixed(1)}%`} hint="Em relação à base." />
-            <KpiCard label="Parcela Antes" value={formatBRL(result.lanceResult.installmentBase)} hint="Última parcela antes." tone="negative" />
-            <KpiCard label="Parcela Pós-Lance" value={formatBRL(result.lanceResult.newInstallment || result.lanceResult.installmentBase)} hint="1ª parcela após." tone="negative" />
-          </div>
+          {result.lanceAnalysis.isActive ? (
+            <>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                <KpiCard label="Lance Próprio" value={formatBRL(result.lanceAnalysis.lanceProprio)} tone="positive" />
+                <KpiCard label="Lance FGTS" value={formatBRL(result.lanceAnalysis.lanceFgts)} tone="positive" />
+                <KpiCard label="Lance Embutido" value={formatBRL(result.lanceAnalysis.lanceEmbutido)} tone="positive" />
+                <KpiCard label="Total do Lance" value={formatBRL(result.lanceAnalysis.totalLance)} highlight={true} />
+                <KpiCard label="% da Base" value={`${result.lanceAnalysis.lancePct.toFixed(2)}%`} />
+                <KpiCard label="Competitividade" value={`${result.lanceAnalysis.competitiveness.toFixed(0)}%`} tone={result.lanceAnalysis.competitiveness >= 90 ? "positive" : "negative"} />
+              </div>
 
-          {/* Diagnóstico do Lance */}
-          <div className={`p-4 rounded-lg border-l-4 ${
-            result.lanceResult.verdict === "positivo" ? "bg-green-50 border-green-500" :
-            result.lanceResult.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
-            "bg-red-50 border-red-500"
-          }`}>
-            <p className="font-bold text-gray-900 mb-2">Diagnóstico do lance.</p>
-            <p className="text-sm text-gray-700 leading-relaxed">{result.lanceResult.decisionText}</p>
-          </div>
+              <div className={`p-4 rounded-lg border-l-4 ${
+                result.lanceAnalysis.verdict === "positivo" ? "bg-green-50 border-green-500" :
+                result.lanceAnalysis.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
+                "bg-red-50 border-red-500"
+              }`}>
+                <p className="font-bold text-gray-900 mb-2">Análise do Lance</p>
+                <p className="text-sm text-gray-700">{result.lanceAnalysis.decisionText}</p>
+              </div>
 
-          {/* Pontos Positivos */}
-          {result.lanceResult.positives.length > 0 && (
-            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
-              <p className="font-bold text-gray-900 mb-2">Pontos positivos</p>
-              <ul className="text-sm text-gray-700 space-y-1">
-                {result.lanceResult.positives.map((p: string, i: number) => <li key={i}>• {p}</li>)}
-              </ul>
+              {result.lanceAnalysis.impactoParcela !== undefined && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="font-bold text-gray-900 mb-1">Impacto na Parcela</p>
+                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{formatBRL(result.lanceAnalysis.impactoParcela)}</span> por parcela após contemplação</p>
+                </div>
+              )}
+
+              {result.lanceAnalysis.impactoPrazo !== undefined && (
+                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
+                  <p className="font-bold text-gray-900 mb-1">Impacto no Prazo</p>
+                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{result.lanceAnalysis.impactoPrazo} parcela(s)</span> após contemplação</p>
+                </div>
+              )}
+            </>
+          ) : (
+            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+              <p className="text-sm text-gray-600">Nenhum lance informado. Preencha os campos de lance no painel esquerdo para ver a análise.</p>
             </div>
           )}
-
-          {/* Atenções */}
-          {result.lanceResult.attentions.length > 0 && (
-            <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
-              <p className="font-bold text-gray-900 mb-2">Atenções</p>
-              <ul className="text-sm text-gray-700 space-y-1">
-                {result.lanceResult.attentions.map((a: string, i: number) => <li key={i}>• {a}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {/* Avisos */}
-          {result.lanceResult.warnings.length > 0 && (
-            <div className="p-4 bg-red-50 rounded-lg border border-red-200">
-              <p className="font-bold text-gray-900 mb-2">Avisos</p>
-              <ul className="text-sm text-gray-700 space-y-1">
-                {result.lanceResult.warnings.map((w: string, i: number) => <li key={i}>• {w}</li>)}
-              </ul>
-            </div>
-          )}
-
-          {/* Tabela de Auditoria */}
-          <div className="overflow-x-auto border border-gray-200 rounded-lg">
-            <table className="w-full text-[12px]">
-              <thead>
-                <tr className="bg-gray-900 text-white">
-                  <th className="px-3 py-2 text-left font-bold">Item</th>
-                  <th className="px-3 py-2 text-right font-bold">Valor</th>
-                  <th className="px-3 py-2 text-left font-bold">Racional</th>
-                </tr>
-              </thead>
-              <tbody>
-                {result.lanceResult.audit.map((row: any, idx: number) => (
-                  <tr key={idx} className={`border-t border-gray-200 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
-                    <td className="px-3 py-2 font-bold text-gray-900">{row.item}</td>
-                    <td className="px-3 py-2 text-right text-gray-700">{row.valor}</td>
-                    <td className="px-3 py-2 text-gray-700 text-[11px]">{row.racional}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      ) : activeTab === "lance" ? (
-        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-          <p className="text-sm text-gray-600">Nenhum lance informado. Preencha os campos de lance no painel esquerdo para ver a análise.</p>
         </div>
       ) : null}
 
