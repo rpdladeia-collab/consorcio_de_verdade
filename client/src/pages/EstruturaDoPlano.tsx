@@ -1005,8 +1005,14 @@ export default function EstruturaDoPlano() {
               hint="Carta menos embutido." tone="orange" />
             <KpiCard label="Lance total" value={formatBRL(result.contemplation?.event.total || 0)}
               hint="Próprio + FGTS + embutido." tone="orange" />
-            <KpiCard label="Força do lance" value={`${((result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100).toFixed(1)}%`}
-              hint={form.baseDoLance === 'categoria' ? "Em relação à carta + taxas." : "Em relação à carta."} tone={((result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100) >= 35 ? "positive" : ((result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100) >= 20 ? "orange" : "negative"} />
+            {(() => {
+              const lancePct = form.baseDoLance === 'categoria'
+                ? (result.contemplation?.event.total || 0) / ((result.credit || 0) + (result.credit || 0) * num(form.adminRate) / 100 + (result.credit || 0) * num(form.reserveRate) / 100 || 1) * 100
+                : (result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100;
+              const tone = lancePct >= 35 ? "positive" : lancePct >= 20 ? "orange" : "negative";
+              return <KpiCard label="Força do lance" value={`${lancePct.toFixed(1)}%`}
+                hint={form.baseDoLance === 'categoria' ? "Em relação à carta + taxas." : "Em relação à carta."} tone={tone} />;
+            })()}
             <KpiCard label="Parcela antes" value={formatBRLCents((result.contemplation?.rows.find(r => r.month === result.contemplation!.eventMonth - 1)?.payment || 0))}
               hint="Último mês antes da contemplação." tone="default" />
             <KpiCard label="Parcela pós-lance" value={formatBRLCents(result.contemplation?.firstPostPayment || 0)}
@@ -1044,7 +1050,10 @@ export default function EstruturaDoPlano() {
                     Racional
                   </button>
                   <button 
-                    onClick={(e) => { e.stopPropagation(); }}
+                    onClick={(e) => { 
+                      e.stopPropagation();
+                      toast.info('Funcionalidade de PDF em desenvolvimento');
+                    }}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-black text-[10px] font-bold uppercase rounded-full hover:bg-white/20 transition-colors shadow-sm border border-white/10"
                   >
                     <Download className="w-3 h-3" />
@@ -1069,9 +1078,9 @@ export default function EstruturaDoPlano() {
                     <tbody className="divide-y divide-border/30">
                       {(result.contemplation?.rows || []).slice(0, expandedLance ? undefined : 10).map((r: any) => (
                         <tr key={r.month} className={`transition-colors ${r.tags?.some((t: string) => ['CORREÇÃO', 'LANCE APÓS PARCELA', 'AUMENTO', 'POLÍTICA DE PARCELA'].includes(t)) ? "bg-yellow-50" : "bg-white"}`}>
-                          <td className="px-2 py-1 font-mono text-foreground/70 text-[10.35px]">{r.month}</td>
-                          <td className="px-2 py-1 font-mono text-[10.35px] font-semibold">{formatBRL(r.credit)}</td>
-                          <td className="px-2 py-1 font-medium text-[10.35px]">
+                          <td className="px-2 py-1 font-mono text-foreground/70 text-[11.9px]">{r.month}</td>
+                          <td className="px-2 py-1 font-mono text-[11.9px] font-semibold">{formatBRL(r.credit)}</td>
+                          <td className="px-2 py-1 font-medium text-[11.9px]">
                             {r.tags?.includes('LANCE APÓS PARCELA') ? (
                               <span className="text-[var(--orange)] flex items-center gap-0.5 font-bold">
                                 <ArrowUpRight className="w-2 h-2" />
@@ -1079,11 +1088,11 @@ export default function EstruturaDoPlano() {
                               </span>
                             ) : r.phase}
                           </td>
-                          <td className="px-2 py-1 text-right font-mono text-[10.35px] text-foreground/80">{r.totalLance > 0 ? formatBRL(r.totalLance) : "—"}</td>
-                          <td className={`px-2 py-1 text-right font-mono font-bold text-[10.35px] ${r.tags?.includes('LANCE APÓS PARCELA') ? "text-[var(--orange)]" : "text-foreground"}`}>
+                          <td className="px-2 py-1 text-right font-mono text-[11.9px] text-foreground/80">{r.totalLance > 0 ? formatBRL(r.totalLance) : "—"}</td>
+                          <td className={`px-2 py-1 text-right font-mono font-bold text-[11.9px] ${r.tags?.includes('LANCE APÓS PARCELA') ? "text-[var(--orange)]" : "text-foreground"}`}>
                             {r.payment > 0 ? formatBRLCents(r.payment) : "—"}
                           </td>
-                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[10.35px]">{formatBRL(r.saldoFinal)}</td>
+                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[11.9px]">{formatBRL(r.saldoFinal)}</td>
                         </tr>
                       ))}
                     </tbody>
