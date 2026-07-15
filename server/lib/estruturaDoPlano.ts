@@ -10,6 +10,8 @@
  * - simulateInvestmentComparison (consórcio x investimentos)
  */
 
+import { calcLanceLivre } from './lanceLivre';
+
 const EPS = 0.02;
 
 export interface PaymentRange {
@@ -634,7 +636,6 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
   // Integração do calcLanceLivre
   let lanceResult: any = undefined;
   if (opts.lanceProprio || opts.lanceFgts || opts.lanceEmbutido) {
-    const { calcLanceLivre } = require('./lanceLivre');
     const totalLance = (opts.lanceProprio || 0) + (opts.lanceFgts || 0) + (opts.lanceEmbutido || 0);
     const bidPct = (totalLance / c.credit) * 100;
     
@@ -646,9 +647,6 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
       bidPct,
       referenceBidPct: 45,
       lanceUse: opts.estrategiaPos || 'abater_parcela',
-      own: opts.lanceProprio || 0,
-      fgts: opts.lanceFgts || 0,
-      embedded: opts.lanceEmbutido || 0,
     });
   }
 
