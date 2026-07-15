@@ -993,101 +993,83 @@ export default function EstruturaDoPlano() {
 
       {activeTab === "investimentos" && <InvestmentsTab result={result} inv={result.investments} />}
 
-      {activeTab === "lance" && result.lanceAnalysis ? (
+      {activeTab === "lance" && result.lanceResult ? (
         <div className="space-y-4">
-          {result.lanceAnalysis.isActive ? (
-            <>
-              {/* Dashboard de 6 KPIs conforme layout original */}
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
-                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Carta Atualizada</p>
-                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.cartaAtualizada)}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">Valor nominal atualizado.</p>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
-                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Carta Líquida</p>
-                  <p className="text-[18px] md:text-[20px] font-bold text-[#FF4E1F]">{formatBRL(result.lanceAnalysis.cartaLiquida)}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">Carta menos embutido.</p>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
-                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Lance Total</p>
-                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.totalLance)}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">Próprio + FGTS + embutido.</p>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
-                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Força do Lance</p>
-                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{result.lanceAnalysis.forcaDoLance.toFixed(1)}%</p>
-                  <p className="text-[11px] text-gray-500 mt-1">Em relação à carta.</p>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
-                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Parcela Antes</p>
-                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.parcelaAntes)}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">Ultimo mês antes da contemplação.</p>
-                </div>
-                <div className="p-4 bg-white rounded-lg border border-gray-200">
-                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Parcela Pós-Lance</p>
-                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.parcelaPosLance)}</p>
-                  <p className="text-[11px] text-gray-500 mt-1">1ª parcela após o lance.</p>
-                </div>
-              </div>
+          {/* Dashboard de KPIs do Lance */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+            <KpiCard label="Carta Atualizada" value={formatBRL(result.lanceResult.inputs.credit)} hint="Valor nominal atualizado." tone="positive" />
+            <KpiCard label="Carta Líquida" value={formatBRL(result.lanceResult.inputs.credit - result.lanceResult.bidValue)} hint="Carta menos lance." tone="negative" />
+            <KpiCard label="Lance Total" value={formatBRL(result.lanceResult.bidValue)} hint="Valor do lance em R$." tone="positive" />
+            <KpiCard label="Força do Lance" value={`${result.lanceResult.inputs.bidPct.toFixed(1)}%`} hint="Em relação à base." />
+            <KpiCard label="Parcela Antes" value={formatBRL(result.lanceResult.installmentBase)} hint="Última parcela antes." tone="negative" />
+            <KpiCard label="Parcela Pós-Lance" value={formatBRL(result.lanceResult.newInstallment || result.lanceResult.installmentBase)} hint="1ª parcela após." tone="negative" />
+          </div>
 
-              {/* Diagnóstico do Lance */}
-              <div className={`p-4 rounded-lg border-l-4 ${
-                result.lanceAnalysis.verdict === "positivo" ? "bg-green-50 border-green-500" :
-                result.lanceAnalysis.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
-                "bg-red-50 border-red-500"
-              }`}>
-                <div className="flex gap-2 mb-2">
-                  <AlertCircle className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
-                  <p className="font-bold text-gray-900">Diagnóstico do lance.</p>
-                </div>
-                <p className="text-sm text-gray-700 leading-relaxed">{result.lanceAnalysis.diagnostico}</p>
-              </div>
+          {/* Diagnóstico do Lance */}
+          <div className={`p-4 rounded-lg border-l-4 ${
+            result.lanceResult.verdict === "positivo" ? "bg-green-50 border-green-500" :
+            result.lanceResult.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
+            "bg-red-50 border-red-500"
+          }`}>
+            <p className="font-bold text-gray-900 mb-2">Diagnóstico do lance.</p>
+            <p className="text-sm text-gray-700 leading-relaxed">{result.lanceResult.decisionText}</p>
+          </div>
 
-              {/* Tabela de Evolução das Parcelas */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-bold text-[13px] text-gray-800 uppercase tracking-wider">Evolução das Parcelas</h3>
-                  <div className="flex gap-2">
-                    <button className="px-3 py-1.5 bg-yellow-400 text-gray-900 text-[11px] font-bold rounded-full hover:opacity-90 transition-opacity">Racional</button>
-                    <button className="px-3 py-1.5 border border-gray-300 text-gray-700 text-[11px] font-bold rounded-full hover:bg-gray-50 transition-colors">PDF</button>
-                  </div>
-                </div>
-                <div className="overflow-x-auto border border-gray-200 rounded-lg">
-                  <table className="w-full text-[12px]">
-                    <thead>
-                      <tr className="bg-gray-900 text-white">
-                        <th className="px-3 py-2 text-left font-bold">MØS</th>
-                        <th className="px-3 py-2 text-left font-bold">CARTA</th>
-                        <th className="px-3 py-2 text-left font-bold">EVENTO</th>
-                        <th className="px-3 py-2 text-right font-bold">LANCE</th>
-                        <th className="px-3 py-2 text-right font-bold">PARCELA</th>
-                        <th className="px-3 py-2 text-right font-bold">SALDO</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {result.lanceAnalysis.evolutionRows.map((row, idx) => (
-                        <tr key={idx} className={`border-t border-gray-200 ${
-                          row.evento.includes('Lance') ? 'bg-yellow-50' : idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'
-                        }`}>
-                          <td className="px-3 py-2 font-bold text-gray-900">{row.mes}</td>
-                          <td className="px-3 py-2 text-gray-700">{formatBRL(row.carta)}</td>
-                          <td className="px-3 py-2 text-gray-700">{row.evento}</td>
-                          <td className="px-3 py-2 text-right text-gray-700">{row.lance > 0 ? formatBRL(row.lance) : '-'}</td>
-                          <td className="px-3 py-2 text-right text-gray-700">{formatBRL(row.parcela)}</td>
-                          <td className="px-3 py-2 text-right font-bold text-gray-900">{formatBRL(row.saldo)}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </>
-          ) : (
-            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <p className="text-sm text-gray-600">Nenhum lance informado. Preencha os campos de lance no painel esquerdo para ver a análise.</p>
+          {/* Pontos Positivos */}
+          {result.lanceResult.positives.length > 0 && (
+            <div className="p-4 bg-green-50 rounded-lg border border-green-200">
+              <p className="font-bold text-gray-900 mb-2">Pontos positivos</p>
+              <ul className="text-sm text-gray-700 space-y-1">
+                {result.lanceResult.positives.map((p: string, i: number) => <li key={i}>• {p}</li>)}
+              </ul>
             </div>
           )}
+
+          {/* Atenções */}
+          {result.lanceResult.attentions.length > 0 && (
+            <div className="p-4 bg-yellow-50 rounded-lg border border-yellow-200">
+              <p className="font-bold text-gray-900 mb-2">Atenções</p>
+              <ul className="text-sm text-gray-700 space-y-1">
+                {result.lanceResult.attentions.map((a: string, i: number) => <li key={i}>• {a}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {/* Avisos */}
+          {result.lanceResult.warnings.length > 0 && (
+            <div className="p-4 bg-red-50 rounded-lg border border-red-200">
+              <p className="font-bold text-gray-900 mb-2">Avisos</p>
+              <ul className="text-sm text-gray-700 space-y-1">
+                {result.lanceResult.warnings.map((w: string, i: number) => <li key={i}>• {w}</li>)}
+              </ul>
+            </div>
+          )}
+
+          {/* Tabela de Auditoria */}
+          <div className="overflow-x-auto border border-gray-200 rounded-lg">
+            <table className="w-full text-[12px]">
+              <thead>
+                <tr className="bg-gray-900 text-white">
+                  <th className="px-3 py-2 text-left font-bold">Item</th>
+                  <th className="px-3 py-2 text-right font-bold">Valor</th>
+                  <th className="px-3 py-2 text-left font-bold">Racional</th>
+                </tr>
+              </thead>
+              <tbody>
+                {result.lanceResult.audit.map((row: any, idx: number) => (
+                  <tr key={idx} className={`border-t border-gray-200 ${idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'}`}>
+                    <td className="px-3 py-2 font-bold text-gray-900">{row.item}</td>
+                    <td className="px-3 py-2 text-right text-gray-700">{row.valor}</td>
+                    <td className="px-3 py-2 text-gray-700 text-[11px]">{row.racional}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      ) : activeTab === "lance" ? (
+        <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
+          <p className="text-sm text-gray-600">Nenhum lance informado. Preencha os campos de lance no painel esquerdo para ver a análise.</p>
         </div>
       ) : null}
 
