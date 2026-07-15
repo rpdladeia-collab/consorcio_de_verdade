@@ -999,15 +999,15 @@ export default function EstruturaDoPlano() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
             <KpiCard label="Carta atualizada" value={formatBRL(result.credit)}
               hint="Valor nominal atualizado." tone="default" />
-            <KpiCard label="Carta líquida" value={formatBRL(result.credit - result.lanceResult.embedded)}
+            <KpiCard label="Carta líquida" value={formatBRL(result.credit - (result.lanceResult?.embedded || 0))}
               hint="Carta menos embutido." tone="orange" />
-            <KpiCard label="Lance total" value={formatBRL(result.lanceResult.totalLance)}
+            <KpiCard label="Lance total" value={formatBRL(result.lanceResult?.totalLance || 0)}
               hint="Próprio + FGTS + embutido." tone="orange" />
-            <KpiCard label="Força do lance" value={`${(result.lanceResult.forcePct).toFixed(1)}%`}
-              hint="Em relação à carta." tone={result.lanceResult.forcePct >= 35 ? "positive" : result.lanceResult.forcePct >= 20 ? "orange" : "negative"} />
-            <KpiCard label="Parcela antes" value={formatBRLCents(result.lanceResult.preInstallment)}
+            <KpiCard label="Força do lance" value={`${((result.lanceResult?.forcePct) || 0).toFixed(1)}%`}
+              hint="Em relação à carta." tone={(result.lanceResult?.forcePct || 0) >= 35 ? "positive" : (result.lanceResult?.forcePct || 0) >= 20 ? "orange" : "negative"} />
+            <KpiCard label="Parcela antes" value={formatBRLCents(result.lanceResult?.preInstallment || 0)}
               hint="Último mês antes da contemplação." tone="default" />
-            <KpiCard label="Parcela pós-lance" value={formatBRLCents(result.lanceResult.postInstallment)}
+            <KpiCard label="Parcela pós-lance" value={formatBRLCents(result.lanceResult?.postInstallment || 0)}
               hint="1ª parcela após o lance." tone="default" />
           </div>
 
@@ -1022,14 +1022,14 @@ export default function EstruturaDoPlano() {
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-[13px] md:text-[14px] sm:text-[14px] md:text-[15px] mb-1">Diagnóstico do lance.</h3>
                 <p className="text-[12px] md:text-[13px] sm:text-[13px] md:text-[14px] leading-relaxed text-foreground/70">
-                  Seu lance representa {(result.lanceResult.forcePct).toFixed(1)}% da carta. Desse total, {formatBRL(result.lanceResult.own + result.lanceResult.fgts)} saem do seu patrimônio e {formatBRL(result.lanceResult.embedded)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {formatBRLCents(result.lanceResult.postInstallment)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
+                  Seu lance representa {((result.lanceResult?.forcePct) || 0).toFixed(1)}% da carta. Desse total, {formatBRL((result.lanceResult?.own || 0) + (result.lanceResult?.fgts || 0))} saem do seu patrimônio e {formatBRL(result.lanceResult?.embedded || 0)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {formatBRLCents(result.lanceResult?.postInstallment || 0)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
                 </p>
               </div>
             </div>
           </div>
 
           {/* Tabela de Evolução das Parcelas */}
-          {result.lanceResult.projection && (
+          {result.lanceResult?.projection && (
             <div className="space-y-2 sm:space-y-3">
               <div className="flex items-center justify-between px-1">
                 <h3 className="text-[13px] md:text-[14px] font-bold text-foreground/60 uppercase tracking-widest">Evolução das parcelas</h3>
@@ -1065,7 +1065,7 @@ export default function EstruturaDoPlano() {
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/30">
-                      {result.lanceResult.projection.rows.slice(0, 10).map((r: any) => (
+                      {(result.lanceResult?.projection?.rows || []).slice(0, 10).map((r: any) => (
                         <tr key={r.month} className={`transition-colors ${r.event === "Lance aplicado" ? "bg-yellow-50" : "bg-white"}`}>
                           <td className="px-2 py-1 font-mono text-foreground/70 text-[9px]">{r.month}</td>
                           <td className="px-2 py-1 font-mono text-[9px] font-semibold">{formatBRL(r.credit)}</td>
@@ -1088,10 +1088,10 @@ export default function EstruturaDoPlano() {
                   </table>
                   </div>
                 </div>
-                {result.lanceResult.projection.rows.length > 10 && (
+                {(result.lanceResult?.projection?.rows?.length || 0) > 10 && (
                   <button className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-bold text-[var(--orange)] bg-secondary/5 hover:bg-secondary/20 border-t border-border transition-all">
                     <ChevronDown className="w-3 h-3" />
-                    Ver todas ({result.lanceResult.projection.rows.length})
+                    Ver todas ({result.lanceResult?.projection?.rows?.length || 0})
                   </button>
                 )}
               </div>
