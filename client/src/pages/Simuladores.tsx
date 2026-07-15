@@ -6,7 +6,7 @@ import { ArrowRight } from 'lucide-react';
 const CATEGORIAS = [
   {
     num: "01",
-    title: "Cabe no seu planejamento?",
+    title: "Raio-X do Consórcio",
     desc: "O primeiro filtro, antes de olhar preço.",
     modulos: [
       { slug: "estrutura-do-plano", title: "NUNCA UM CONSÓRCIO FOI EXPLICADO ASSIM", desc: "Explore a memória completa de cálculo do seu plano, mês a mês. Custos, correções, evolução da carta e indicadores que normalmente permanecem escondidos do consumidor.", cta: "EXPLORAR ESTRUTURA" }
