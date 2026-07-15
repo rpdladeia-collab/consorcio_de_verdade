@@ -144,7 +144,7 @@ export default function Simuladores() {
                 {cat.desc}
               </span>
             </div>
-            <div className={`grid gap-px bg-[#E4DCC9] border border-[#E4DCC9] mb-6 ${cat.modulos.length >= 3 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'}`}>
+            <div className={`grid gap-px bg-[#E4DCC9] border border-[#E4DCC9] mb-6 ${cat.modulos.length === 1 ? 'grid-cols-1' : cat.modulos.length >= 3 ? 'grid-cols-1 md:grid-cols-3' : 'grid-cols-1 md:grid-cols-2'}`}>
               {cat.modulos.map((m) => (
                 <Link key={m.title} href={m.slug === "#" ? "#" : `/simulador/${m.slug}#parametros`}>
                   <div className={`p-5 md:p-6 flex flex-col h-full transition-colors group relative ${m.isFuture ? 'bg-[#F5F5F5] cursor-default opacity-70' : 'bg-white cursor-pointer hover:bg-[#FFFDF8]'}`}>
