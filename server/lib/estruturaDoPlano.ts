@@ -859,7 +859,7 @@ function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): 
       tags.push('LANCE APÓS PARCELA');
       creditAvailable = Math.max(0, b.creditCurrent - lanceEmbedded);
       eventData = {
-        base: req.base,
+        base: b.creditCurrent,
         own: lanceOwn,
         embedded: lanceEmbedded,
         fgts: lanceFgts,

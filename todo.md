@@ -425,3 +425,11 @@
 - [x] Criar testes Vitest para o novo motor de lance integrado
 - [ ] Validar responsividade em mobile
 - [ ] Salvar checkpoint final
+
+
+## Correções Estrutura do Lance (v14)
+
+- [ ] CARTA ATUALIZADA deve incluir valor da carta + correção aplicada (não apenas valor base)
+- [ ] Debugar motor: correção não está sendo refletida no 13º/14º mês da tabela
+- [ ] Visual: linhas com eventos atípicos (correção, lance) devem ter fundo laranja
+- [ ] Testar completamente antes de entregar

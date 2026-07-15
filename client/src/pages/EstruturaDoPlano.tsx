@@ -1068,7 +1068,7 @@ export default function EstruturaDoPlano() {
                     </thead>
                     <tbody className="divide-y divide-border/30">
                       {(result.contemplation?.rows || []).slice(0, expandedLance ? undefined : 10).map((r: any) => (
-                        <tr key={r.month} className={`transition-colors ${r.event === "Lance aplicado" ? "bg-yellow-50" : "bg-white"}`}>
+                        <tr key={r.month} className={`transition-colors ${r.tags?.some((t: string) => ['CORREÇÃO', 'LANCE APÓS PARCELA', 'AUMENTO', 'POLÍTICA DE PARCELA'].includes(t)) ? "bg-yellow-50" : "bg-white"}`}>
                           <td className="px-2 py-1 font-mono text-foreground/70 text-[10.35px]">{r.month}</td>
                           <td className="px-2 py-1 font-mono text-[10.35px] font-semibold">{formatBRL(r.credit)}</td>
                           <td className="px-2 py-1 font-medium text-[10.35px]">
