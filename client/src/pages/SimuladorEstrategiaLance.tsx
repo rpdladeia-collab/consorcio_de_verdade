@@ -14,7 +14,7 @@ const safe = (v: string | number, d = 0) => {
   return Number.isFinite(n) ? n : d;
 };
 
-export default function SimuladorLanceCartaXCategoria() {
+export default function SimuladorEstrategiaLance() {
   const [credit, setCredit] = useState<string>("300000");
   const [adminRate, setAdminRate] = useState<string>("25");
   const [lanceRate, setLanceRate] = useState<string>("30");

@@ -25,7 +25,7 @@ const CATEGORIAS = [
     title: "Lance na carta ou na categoria? A conta decide",
     desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria.",
     modulos: [
-      { slug: "lance-carta-x-categoria", title: "ESTRATÉGIA DE LANCE", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
+      { slug: "estrategia-lance", title: "ESTRATÉGIA DE LANCE", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
     ]
   },
   {
