@@ -1,4 +1,5 @@
 import { Toaster } from "@/components/ui/sonner";
+import React from 'react';
 import { TooltipProvider } from "@/components/ui/tooltip";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -63,6 +64,17 @@ const DARK_ROUTES = ["/sobre", "/panorama"];
 function AppLayout() {
   const [location] = useLocation();
   const isDark = DARK_ROUTES.some((r) => location === r || location.startsWith(r + "/"));
+  
+  // Rastreamento de páginas com Google Analytics
+  React.useEffect(() => {
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('config', 'G-RKXSPKS9M8', {
+        page_path: location,
+        page_title: document.title,
+      });
+    }
+  }, [location]);
+  
   return (
     <div className="flex flex-col min-h-screen">
       <ScrollToTop />
