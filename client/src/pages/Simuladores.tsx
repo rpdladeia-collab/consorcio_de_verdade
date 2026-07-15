@@ -14,35 +14,35 @@ const CATEGORIAS = [
   },
   {
     num: "02",
-    title: "Quanto isso custa, de verdade?",
-    desc: "Taxa de administração, seguro, correção — juntos.",
+    title: "Quanto do seu crédito vira taxa?",
+    desc: "Mostra quanto da parcela é efetivamente taxa, e como isso corrói a eficiência do plano ao longo do tempo.",
     modulos: [
-      { slug: "proporcao-taxa", title: "QUANTO DO SEU CRÉDITO VIRA TAXA?", desc: "Mostra quanto da parcela é efetivamente taxa, e como isso corrói a eficiência do plano ao longo do tempo.", cta: "Descobrir resposta" },
+      { slug: "proporcao-taxa", title: "EFICIÊNCIA DA TAXA", desc: "Mostra quanto da parcela é efetivamente taxa, e como isso corrói a eficiência do plano ao longo do tempo.", cta: "Descobrir resposta" },
     ]
   },
   {
     num: "03",
-    title: "Lance: estratégia ou aposta?",
-    desc: "A matemática por trás de ofertar mais.",
+    title: "Lance na carta ou na categoria? A conta decide",
+    desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria.",
     modulos: [
-      { slug: "lance-carta-x-categoria", title: "Lance na carta ou na categoria? A conta decide", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
+      { slug: "lance-carta-x-categoria", title: "ESTRATÉGIA DE LANCE", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
     ]
   },
   {
     num: "04",
-    title: "E se você precisar sair?",
-    desc: "O mercado secundário tem preço próprio.",
+    title: "Desistir custa mais do que parece",
+    desc: "Descubra quanto você realmente perde ao cancelar a cota: saldo, taxas e multas.",
     modulos: [
-      { slug: "custo-cancelamento", title: "Desistir custa mais do que parece", desc: "Descubra quanto você realmente perde ao cancelar a cota: saldo, taxas e o custo de oportunidade do dinheiro parado.", cta: "Fazer esta análise" },
+      { slug: "custo-cancelamento", title: "CUSTO DE CANCELAMENTO", desc: "Descubra quanto você realmente perde ao cancelar a cota: saldo, taxas e o custo de oportunidade do dinheiro parado.", cta: "Fazer esta análise" },
       { slug: "#", title: "Venda de carta não contemplada", desc: "Entenda o deságio real e as regras para transferir uma cota cancelada ou ativa sem contemplação.", cta: "EM BREVE", isFuture: true }
     ]
   },
   {
     num: "05",
-    title: "Aqui você ganha",
-    desc: "Estratégias de alavancagem e lucro real.",
+    title: "Quanto vale sua carta contemplada hoje?",
+    desc: "Simula o valor de venda de uma carta contemplada no mercado secundário com ágio.",
     modulos: [
-      { slug: "venda-carta-contemplada", title: "Quanto vale sua carta contemplada hoje?", desc: "Nesta área vamos tratar de todas as estratégias que geram ganho: alavancagem, venda de carta com ágio, compra de carta, etc.", cta: "Fazer esta análise" }
+      { slug: "venda-carta-contemplada", title: "AVALIAÇÃO DE ATIVO", desc: "Simula o valor de venda de uma carta contemplada no mercado secundário com ágio.", cta: "Fazer esta análise" }
     ]
   }
 ];
