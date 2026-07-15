@@ -200,6 +200,7 @@ export interface EstruturaResult {
   investments: InvestmentComparison;
   lanceAnalysis?: LanceAnalysis;
   lanceResult?: any; // Resultado da integração do calcLanceLivre
+  contemplation?: ContemplationResult; // Resultado da simulação de contemplação
 }
 
 function clamp(n: number, a: number, b: number): number {
@@ -650,6 +651,23 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
     });
   }
 
+  // Integração de simulateContemplation (racional exato do HTML)
+  let contemplation: ContemplationResult | undefined = undefined;
+  if (opts.lanceProprio || opts.lanceFgts || opts.lanceEmbutido) {
+    const scenario: ContemplationScenario = {
+      month: opts.parcelasPagas || 1,
+      base: (opts.baseDoLance as 'carta' | 'categoria') || 'carta',
+      inputMode: 'value',
+      allocation: 'proportional',
+      strategy: 'payment',
+      own: opts.lanceProprio || 0,
+      embedded: opts.lanceEmbutido || 0,
+      useFgts: (opts.lanceFgts || 0) > 0,
+      fgts: opts.lanceFgts || 0,
+    };
+    contemplation = simulateContemplation(c, scenario);
+  }
+
   return {
     rows: proposal.rows,
     yearlyCorrections,
@@ -669,5 +687,299 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
     investments,
     lanceAnalysis,
     lanceResult,
+    contemplation,
+  };
+}
+
+
+// ============================================================================
+// FUNÇÕES PORTADAS EXATAMENTE DO HTML - CONTEMPLAÇÃO
+// ============================================================================
+
+export interface ContemplationScenario {
+  month: number;
+  base: 'carta' | 'categoria';
+  inputMode: 'percent' | 'value';
+  allocation: 'commonOnly' | 'proportional';
+  strategy: 'payment' | 'term';
+  own: number;
+  embedded: number;
+  useFgts: boolean;
+  fgts: number;
+}
+
+export interface ContemplationEvent {
+  base: number;
+  own: number;
+  embedded: number;
+  fgts: number;
+  total: number;
+  creditAvailable: number;
+  balanceAfter: number;
+}
+
+export interface ContemplationRow {
+  month: number;
+  phase: 'Pré' | 'Contemplação' | 'Pós';
+  credit: number;
+  reajuste: number;
+  payment: number;
+  saldoAfterPayment: number;
+  lanceOwn: number;
+  lanceEmbedded: number;
+  lanceFgts: number;
+  totalLance: number;
+  saldoFinal: number;
+  creditAvailable: number;
+  tags: string[];
+  isEvent: boolean;
+}
+
+export interface ContemplationResult {
+  contract: EstruturaOptions;
+  scenario: ContemplationScenario;
+  rows: ContemplationRow[];
+  event: ContemplationEvent;
+  eventMonth: number;
+  newTerm: number;
+  firstPostPayment: number;
+  maxPostPayment: number;
+  finalBalance: number;
+  alerts: string[];
+}
+
+function baseForLance(c: EstruturaOptions, creditCurrent: number, baseMode: 'carta' | 'categoria'): number {
+  return baseMode === 'categoria' ? creditCurrent * (1 + c.adminRate / 100) : creditCurrent;
+}
+
+function resolvedLances(c: EstruturaOptions, sc: ContemplationScenario, creditCurrent: number) {
+  const base = baseForLance(c, creditCurrent, sc.base);
+  const factor = sc.inputMode === 'percent' ? base / 100 : 1;
+  return {
+    base,
+    own: sc.own * factor,
+    embedded: sc.embedded * factor,
+    fgts: sc.fgts * factor,
+  };
+}
+
+function lanceCapacity(b: any, rule: 'commonOnly' | 'proportional'): number {
+  return rule === 'commonOnly' ? Math.max(0, b.common) : Math.max(0, b.common + b.admin + b.reserve + b.deferred);
+}
+
+function proportionalApply(b: any, amount: number) {
+  const total = b.common + b.admin + b.reserve + b.deferred;
+  if (total <= EPS || amount <= 0) return { applied: 0, common: 0, admin: 0, reserve: 0, deferred: 0 };
+  const applied = Math.min(amount, total);
+  const out: any = { applied };
+  for (const k of ['common', 'admin', 'reserve', 'deferred']) {
+    const x = applied * (b[k] / total);
+    b[k] = Math.max(0, b[k] - x);
+    out[k] = x;
+  }
+  return out;
+}
+
+function applyLanceByRule(b: any, amount: number, rule: 'commonOnly' | 'proportional') {
+  if (rule === 'commonOnly') {
+    const applied = Math.min(Math.max(0, amount), b.common);
+    b.common = Math.max(0, b.common - applied);
+    return { applied, common: applied, admin: 0, reserve: 0, deferred: 0 };
+  }
+  return proportionalApply(b, amount);
+}
+
+function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): ContemplationResult {
+  const b = initialBalances(c);
+  const rows: ContemplationRow[] = [];
+  const alerts: string[] = [];
+  let prevPayment = 0;
+  let targetTermPayment: number | null = null;
+  let eventData: ContemplationEvent | null = null;
+
+  const eventMonth = Math.min(c.term, Math.max(1, sc.month));
+
+  for (let month = 1; month <= c.term; month++) {
+    const tags: string[] = [];
+    const isEvent = month === eventMonth;
+    let adj = { value: 0, creditIncrease: 0, adminIncrease: 0, factor: 1 };
+
+    if (adjustmentDue(c, month)) {
+      adj = applyAdjustment(c, b);
+      tags.push('CORREÇÃO');
+      if (targetTermPayment != null) targetTermPayment *= adj.factor;
+    }
+
+    const saldoInicial = b.common + b.admin + b.reserve + b.deferred;
+    const rem = c.term - month + 1;
+    let fc = 0,
+      ta = 0,
+      fr = 0,
+      insurance = 0;
+
+    if (saldoInicial > EPS) {
+      insurance = insuranceFor(c, b);
+      if (month <= eventMonth || sc.strategy === 'payment') {
+        const fullComponents = { fc: b.common / rem, ta: b.admin / rem, fr: b.reserve / rem };
+        const paidPolicy = applyPaymentPolicy(c, month, fullComponents, insurance, b);
+        fc = paidPolicy.fc;
+        ta = paidPolicy.ta;
+        fr = paidPolicy.fr;
+        if (Math.abs(paidPolicy.policyAdjustment) > EPS) tags.push('POLÍTICA DE PARCELA');
+        if (isEvent && sc.strategy === 'term') targetTermPayment = fc + ta + fr;
+      } else {
+        if (targetTermPayment == null) targetTermPayment = saldoInicial / rem;
+        const paid = proportionalApply(b, Math.min(targetTermPayment, saldoInicial));
+        fc = paid.common;
+        ta = paid.admin;
+        fr = paid.reserve;
+      }
+    }
+
+    const payment = fc + ta + fr + insurance;
+    const saldoAfterPayment = b.common + b.admin + b.reserve + b.deferred;
+    let lanceOwn = 0,
+      lanceEmbedded = 0,
+      lanceFgts = 0,
+      totalLance = 0,
+      creditAvailable = b.creditCurrent;
+
+    if (isEvent) {
+      const req = resolvedLances(c, sc, b.creditCurrent);
+      const requested = req.own + req.embedded + req.fgts;
+      const cap = lanceCapacity(b, sc.allocation);
+      const effective = Math.min(requested, cap);
+      const scale = requested > 0 ? effective / requested : 0;
+      lanceOwn = req.own * scale;
+      lanceEmbedded = req.embedded * scale;
+      lanceFgts = req.fgts * scale;
+      totalLance = effective;
+      if (requested > cap + EPS) alerts.push(`O lance informado superava o saldo amortizável. O motor limitou a amortização a R$ ${cap.toFixed(2)}.`);
+      applyLanceByRule(b, effective, sc.allocation);
+      tags.push('LANCE APÓS PARCELA');
+      creditAvailable = Math.max(0, b.creditCurrent - lanceEmbedded);
+      eventData = {
+        base: req.base,
+        own: lanceOwn,
+        embedded: lanceEmbedded,
+        fgts: lanceFgts,
+        total: totalLance,
+        creditAvailable,
+        balanceAfter: b.common + b.admin + b.reserve + b.deferred,
+      };
+    }
+
+    const saldoFinal = b.common + b.admin + b.reserve + b.deferred;
+    if (prevPayment > 0 && payment > prevPayment * 1.005) tags.push('AUMENTO');
+
+    rows.push({
+      month,
+      phase: month < eventMonth ? 'Pré' : isEvent ? 'Contemplação' : 'Pós',
+      credit: b.creditCurrent,
+      reajuste: adj.value,
+      payment,
+      saldoAfterPayment,
+      lanceOwn,
+      lanceEmbedded,
+      lanceFgts,
+      totalLance,
+      saldoFinal,
+      creditAvailable,
+      tags,
+      isEvent,
+    });
+
+    prevPayment = payment;
+    if (month >= eventMonth && saldoFinal <= EPS) break;
+  }
+
+  const last = rows[rows.length - 1];
+  const post = rows.filter((r) => r.month > eventMonth);
+  const firstPost = post[0] || rows.find((r) => r.month === eventMonth);
+
+  return {
+    contract: c,
+    scenario: sc,
+    rows,
+    event: eventData || {
+      base: baseForLance(c, last?.credit || c.credit, sc.base),
+      own: 0,
+      embedded: 0,
+      fgts: 0,
+      total: 0,
+      creditAvailable: last?.credit || c.credit,
+      balanceAfter: last?.saldoFinal || 0,
+    },
+    eventMonth,
+    newTerm: last?.month || eventMonth,
+    firstPostPayment: firstPost?.payment || 0,
+    maxPostPayment: Math.max(0, ...post.map((r) => r.payment)),
+    finalBalance: last?.saldoFinal || 0,
+    alerts,
+  };
+}
+
+export interface EmbeddedLanceLayers {
+  cartaCheia: number;
+  lanceProprio: number;
+  lanceEmbutidoInformado: number;
+  lanceEmbutidoAplicavel: number;
+  fgtsUsado: number;
+  lanceTotalAssembleia: number;
+  percentualLanceAssembleia: number;
+  cartaLiquidaCompra: number;
+  percentualCartaConsumida: number;
+  taxaAdmSobreCartaCheia: number;
+  taxaEfetivaSobreCartaLiquida: number;
+  penalidadeEmPontos: number;
+  creditoFinanciadoGrupo: number;
+  taxaSobreCreditoFinanciado: number;
+}
+
+function calculateEmbeddedLanceLayers(params: {
+  creditAtMonth: number;
+  adminRate: number;
+  own: number;
+  embedded: number;
+  fgts: number;
+}): EmbeddedLanceLayers {
+  const cartaCheia = Math.max(0, params.creditAtMonth);
+  const lanceProprio = Math.max(0, params.own);
+  const lanceEmbutidoInformado = Math.max(0, params.embedded);
+  const fgtsUsado = Math.max(0, params.fgts);
+  const lanceEmbutidoAplicavel = Math.min(lanceEmbutidoInformado, cartaCheia);
+
+  // Camada 1: força de contemplação
+  const lanceTotalAssembleia = lanceProprio + fgtsUsado + lanceEmbutidoAplicavel;
+  const percentualLanceAssembleia = cartaCheia > EPS ? (lanceTotalAssembleia / cartaCheia) * 100 : 0;
+
+  // Camada 2: crédito disponível
+  const cartaLiquidaCompra = Math.max(0, cartaCheia - lanceEmbutidoAplicavel);
+  const percentualCartaConsumida = cartaCheia > EPS ? (lanceEmbutidoAplicavel / cartaCheia) * 100 : 0;
+
+  // Camada 3: eficiência da taxa
+  const taxaAdmSobreCartaCheia = (cartaCheia * params.adminRate) / 100;
+  const taxaEfetivaSobreCartaLiquida = cartaLiquidaCompra > EPS ? (taxaAdmSobreCartaCheia / cartaLiquidaCompra) * 100 : 0;
+  const penalidadeEmPontos = taxaEfetivaSobreCartaLiquida - params.adminRate;
+
+  // Leitura complementar
+  const creditoFinanciadoGrupo = Math.max(0, cartaLiquidaCompra - lanceProprio - fgtsUsado);
+  const taxaSobreCreditoFinanciado = creditoFinanciadoGrupo > EPS ? (taxaAdmSobreCartaCheia / creditoFinanciadoGrupo) * 100 : 0;
+
+  return {
+    cartaCheia,
+    lanceProprio,
+    lanceEmbutidoInformado,
+    lanceEmbutidoAplicavel,
+    fgtsUsado,
+    lanceTotalAssembleia,
+    percentualLanceAssembleia,
+    cartaLiquidaCompra,
+    percentualCartaConsumida,
+    taxaAdmSobreCartaCheia,
+    taxaEfetivaSobreCartaLiquida,
+    penalidadeEmPontos,
+    creditoFinanciadoGrupo,
+    taxaSobreCreditoFinanciado,
   };
 }
