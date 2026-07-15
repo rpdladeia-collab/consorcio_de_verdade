@@ -167,6 +167,22 @@ export interface LanceAnalysis {
   decisionText: string;
   impactoParcela?: number;
   impactoPrazo?: number;
+  // Dashboard KPIs
+  cartaAtualizada: number;
+  cartaLiquida: number;
+  forcaDoLance: number;
+  parcelaAntes: number;
+  parcelaPosLance: number;
+  diagnostico: string;
+  // Tabela de evolucao
+  evolutionRows: Array<{
+    mes: number;
+    carta: number;
+    evento: string;
+    lance: number;
+    parcela: number;
+    saldo: number;
+  }>;
 }
 
 export interface EstruturaResult {
@@ -589,6 +605,61 @@ function analyzeLanceImpact(opts: EstruturaOptions, proposal: any): LanceAnalysi
     impactoPrazo = Math.min(monthsCovered, remainingInstallments);
   }
 
+  // Calcular KPIs do dashboard
+  const cartaAtualizada = baseValue;
+  const cartaLiquida = baseValue - totalLance;
+  const forcaDoLance = lancePct;
+  const parcelaAntes = baseValue / opts.term;
+  const parcelaPosLance = cartaLiquida / opts.term;
+
+  // Gerar tabela de evolução das parcelas
+  const evolutionRows: Array<{
+    mes: number;
+    carta: number;
+    evento: string;
+    lance: number;
+    parcela: number;
+    saldo: number;
+  }> = [];
+
+  let saldoAtual = baseValue;
+  let lanceRestante = totalLance;
+
+  for (let mes = 1; mes <= opts.term; mes++) {
+    let evento = 'Parcela paga';
+    let lanceMes = 0;
+    let parcelaMes = parcelaAntes;
+
+    if (mes === parcelasPagas + 1 && totalLance > 0) {
+      evento = 'Lance aplicado';
+      lanceMes = totalLance;
+      lanceRestante = 0;
+
+      if (estrategiaPos === 'abater_parcela') {
+        parcelaMes = parcelaPosLance;
+      } else if (estrategiaPos === 'reduzir_prazo') {
+        // Reduzir prazo: pula parcelas
+        const parcelasReduzidas = Math.min(impactoPrazo || 0, remainingInstallments);
+        if (mes + parcelasReduzidas <= opts.term) {
+          evento = 'Lance aplicado / Reduzir prazo';
+        }
+      }
+    }
+
+    saldoAtual = Math.max(0, saldoAtual - parcelaMes - lanceMes);
+
+    evolutionRows.push({
+      mes,
+      carta: baseValue,
+      evento,
+      lance: lanceMes,
+      parcela: parcelaMes,
+      saldo: saldoAtual,
+    });
+  }
+
+  const diagnostico = decisionText;
+
   return {
     isActive: true,
     lanceProprio,
@@ -605,6 +676,13 @@ function analyzeLanceImpact(opts: EstruturaOptions, proposal: any): LanceAnalysi
     decisionText,
     impactoParcela,
     impactoPrazo,
+    cartaAtualizada,
+    cartaLiquida,
+    forcaDoLance,
+    parcelaAntes,
+    parcelaPosLance,
+    diagnostico,
+    evolutionRows,
   };
 }
 

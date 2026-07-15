@@ -7,7 +7,7 @@
 
 import { useState, useMemo } from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
-import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle } from "lucide-react";
+import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import {
@@ -997,37 +997,91 @@ export default function EstruturaDoPlano() {
         <div className="space-y-4">
           {result.lanceAnalysis.isActive ? (
             <>
+              {/* Dashboard de 6 KPIs conforme layout original */}
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <KpiCard label="Lance Próprio" value={formatBRL(result.lanceAnalysis.lanceProprio)} tone="positive" />
-                <KpiCard label="Lance FGTS" value={formatBRL(result.lanceAnalysis.lanceFgts)} tone="positive" />
-                <KpiCard label="Lance Embutido" value={formatBRL(result.lanceAnalysis.lanceEmbutido)} tone="positive" />
-                <KpiCard label="Total do Lance" value={formatBRL(result.lanceAnalysis.totalLance)} highlight={true} />
-                <KpiCard label="% da Base" value={`${result.lanceAnalysis.lancePct.toFixed(2)}%`} />
-                <KpiCard label="Competitividade" value={`${result.lanceAnalysis.competitiveness.toFixed(0)}%`} tone={result.lanceAnalysis.competitiveness >= 90 ? "positive" : "negative"} />
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Carta Atualizada</p>
+                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.cartaAtualizada)}</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Valor nominal atualizado.</p>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Carta Líquida</p>
+                  <p className="text-[18px] md:text-[20px] font-bold text-[#FF4E1F]">{formatBRL(result.lanceAnalysis.cartaLiquida)}</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Carta menos embutido.</p>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Lance Total</p>
+                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.totalLance)}</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Próprio + FGTS + embutido.</p>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Força do Lance</p>
+                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{result.lanceAnalysis.forcaDoLance.toFixed(1)}%</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Em relação à carta.</p>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Parcela Antes</p>
+                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.parcelaAntes)}</p>
+                  <p className="text-[11px] text-gray-500 mt-1">Ultimo mês antes da contemplação.</p>
+                </div>
+                <div className="p-4 bg-white rounded-lg border border-gray-200">
+                  <p className="text-[11px] text-gray-600 font-bold uppercase tracking-wider mb-2">Parcela Pós-Lance</p>
+                  <p className="text-[18px] md:text-[20px] font-bold text-gray-900">{formatBRL(result.lanceAnalysis.parcelaPosLance)}</p>
+                  <p className="text-[11px] text-gray-500 mt-1">1ª parcela após o lance.</p>
+                </div>
               </div>
 
+              {/* Diagnóstico do Lance */}
               <div className={`p-4 rounded-lg border-l-4 ${
                 result.lanceAnalysis.verdict === "positivo" ? "bg-green-50 border-green-500" :
                 result.lanceAnalysis.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
                 "bg-red-50 border-red-500"
               }`}>
-                <p className="font-bold text-gray-900 mb-2">Análise do Lance</p>
-                <p className="text-sm text-gray-700">{result.lanceAnalysis.decisionText}</p>
+                <div className="flex gap-2 mb-2">
+                  <AlertCircle className="w-5 h-5 text-gray-700 flex-shrink-0 mt-0.5" />
+                  <p className="font-bold text-gray-900">Diagnóstico do lance.</p>
+                </div>
+                <p className="text-sm text-gray-700 leading-relaxed">{result.lanceAnalysis.diagnostico}</p>
               </div>
 
-              {result.lanceAnalysis.impactoParcela !== undefined && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="font-bold text-gray-900 mb-1">Impacto na Parcela</p>
-                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{formatBRL(result.lanceAnalysis.impactoParcela)}</span> por parcela após contemplação</p>
+              {/* Tabela de Evolução das Parcelas */}
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-[13px] text-gray-800 uppercase tracking-wider">Evolução das Parcelas</h3>
+                  <div className="flex gap-2">
+                    <button className="px-3 py-1.5 bg-yellow-400 text-gray-900 text-[11px] font-bold rounded-full hover:opacity-90 transition-opacity">Racional</button>
+                    <button className="px-3 py-1.5 border border-gray-300 text-gray-700 text-[11px] font-bold rounded-full hover:bg-gray-50 transition-colors">PDF</button>
+                  </div>
                 </div>
-              )}
-
-              {result.lanceAnalysis.impactoPrazo !== undefined && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="font-bold text-gray-900 mb-1">Impacto no Prazo</p>
-                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{result.lanceAnalysis.impactoPrazo} parcela(s)</span> após contemplação</p>
+                <div className="overflow-x-auto border border-gray-200 rounded-lg">
+                  <table className="w-full text-[12px]">
+                    <thead>
+                      <tr className="bg-gray-900 text-white">
+                        <th className="px-3 py-2 text-left font-bold">MØS</th>
+                        <th className="px-3 py-2 text-left font-bold">CARTA</th>
+                        <th className="px-3 py-2 text-left font-bold">EVENTO</th>
+                        <th className="px-3 py-2 text-right font-bold">LANCE</th>
+                        <th className="px-3 py-2 text-right font-bold">PARCELA</th>
+                        <th className="px-3 py-2 text-right font-bold">SALDO</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {result.lanceAnalysis.evolutionRows.map((row, idx) => (
+                        <tr key={idx} className={`border-t border-gray-200 ${
+                          row.evento.includes('Lance') ? 'bg-yellow-50' : idx % 2 === 0 ? 'bg-white' : 'bg-gray-50'
+                        }`}>
+                          <td className="px-3 py-2 font-bold text-gray-900">{row.mes}</td>
+                          <td className="px-3 py-2 text-gray-700">{formatBRL(row.carta)}</td>
+                          <td className="px-3 py-2 text-gray-700">{row.evento}</td>
+                          <td className="px-3 py-2 text-right text-gray-700">{row.lance > 0 ? formatBRL(row.lance) : '-'}</td>
+                          <td className="px-3 py-2 text-right text-gray-700">{formatBRL(row.parcela)}</td>
+                          <td className="px-3 py-2 text-right font-bold text-gray-900">{formatBRL(row.saldo)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              )}
+              </div>
             </>
           ) : (
             <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
