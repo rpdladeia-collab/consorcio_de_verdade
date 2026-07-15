@@ -10,6 +10,7 @@ import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
+import { generatePdfEstruturaDaLance } from "@/lib/pdfEstruturaDaLance";
 import {
   KpiCard,
   ConsultCTA,
@@ -817,6 +818,76 @@ export default function EstruturaDoPlano() {
     setRanges((r) => r.map((range, i) => i === idx ? { ...range, [field]: value } : range));
   }
 
+  const handleDownloadPdfLance = async () => {
+    if (!result?.contemplation) {
+      toast.error('Nenhum resultado de lance para gerar PDF.');
+      return;
+    }
+
+    try {
+      const cartaAtualizada = result.contemplation.rows.find(
+        (r) => r.month === Math.round(num(form.parcelasPagas))
+      )?.credit || result.credit;
+
+      const lancePct = form.baseDoLance === 'categoria'
+        ? (result.contemplation.event.total || 0) / 
+          ((result.credit || 0) + (result.credit || 0) * num(form.adminRate) / 100 + (result.credit || 0) * num(form.reserveRate) / 100 || 1) * 100
+        : (result.contemplation.event.total || 0) / (result.contemplation.event.base || 1) * 100;
+
+      const parcelaAntes = result.contemplation.rows.find(
+        (r) => r.month === result.contemplation!.eventMonth - 1
+      )?.payment || 0;
+
+      const diagnosticoTexto = `Seu lance representa ${lancePct.toFixed(1)}% da carta. Desse total, R$ ${
+        ((result.contemplation.event.own || 0) + (result.contemplation.event.fgts || 0)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      } saem do seu patrimonio e R$ ${
+        (result.contemplation.event.embedded || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      } serao abatidos diretamente do credito. Apos a contemplacao, sua parcela cai para aproximadamente R$ ${
+        (result.contemplation.firstPostPayment || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      }. Antes de decidir, compare esse esforco financeiro com outras alternativas disponiveis.`;
+
+      const pdfData = {
+        credit: result.credit,
+        term: result.term,
+        adminRate: num(form.adminRate),
+        reserveRate: num(form.reserveRate),
+        adjustmentRate: num(form.adjustmentRate),
+        adjustmentPeriod: form.adjustmentPeriod,
+        paidMonths: Math.round(num(form.parcelasPagas)),
+        baseDoLance: form.baseDoLance,
+        lanceProprio: num(form.lanceProprio),
+        lanceFgts: num(form.lanceFgts),
+        lanceEmbutido: num(form.lanceEmbutido),
+        cartaAtualizada,
+        cartaLiquida: result.contemplation.event.creditAvailable || 0,
+        lanceTotal: result.contemplation.event.total || 0,
+        forcaPct: lancePct,
+        parcelaAntes,
+        parcelaPosLance: result.contemplation.firstPostPayment || 0,
+        diagnosticoTexto,
+        rows: result.contemplation.rows.map((r) => ({
+          month: r.month,
+          credit: r.credit,
+          event: r.tags?.join(', ') || '',
+          lance: r.totalLance || 0,
+          payment: r.payment,
+          balance: r.saldoFinal,
+          tags: r.tags || [],
+        })),
+        simulationId: data?.simulationId || 'unknown',
+        generatedAt: data?.generatedAt || new Date().toISOString(),
+      };
+
+      await generatePdfEstruturaDaLance(pdfData);
+      toast.success('PDF gerado com sucesso!');
+    } catch (err) {
+      console.error(err);
+      toast.error('Erro ao gerar PDF. Tente novamente.');
+    }
+  };
+
+  // Agora handleDownloadPdfLance está definida e pode ser usada em formPanel e resultsPanel
+
   /* ── Painel esquerdo: formulário ────────────────────────────────────────── */
   const formPanel = (
     <form onSubmit={handleSubmit} className="space-y-3">
@@ -1052,7 +1123,7 @@ export default function EstruturaDoPlano() {
                   <button 
                     onClick={(e) => { 
                       e.stopPropagation();
-                      toast.info('Funcionalidade de PDF em desenvolvimento');
+                      handleDownloadPdfLance();
                     }}
                     className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-black text-[10px] font-bold uppercase rounded-full hover:bg-white/20 transition-colors shadow-sm border border-white/10"
                   >

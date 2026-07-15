@@ -429,7 +429,18 @@
 
 ## Correções Estrutura do Lance (v14)
 
-- [ ] CARTA ATUALIZADA deve incluir valor da carta + correção aplicada (não apenas valor base)
-- [ ] Debugar motor: correção não está sendo refletida no 13º/14º mês da tabela
-- [ ] Visual: linhas com eventos atípicos (correção, lance) devem ter fundo laranja
-- [ ] Testar completamente antes de entregar
+- [x] CARTA ATUALIZADA deve incluir valor da carta + correção aplicada (não apenas valor base)
+- [x] Debugar motor: correção não está sendo refletida no 13º/14º mês da tabela
+- [x] Visual: linhas com eventos atípicos (correção, lance) devem ter fundo laranja
+- [x] Testar completamente antes de entregar
+
+---
+
+## Geração de PDF - Estrutura do Lance (v15)
+
+- [x] Criar arquivo pdfEstruturaDaLance.ts com gerador jsPDF
+- [x] Implementar tabelas de parâmetros, KPIs e diagnóstico
+- [x] Integrar botão PDF com handler real
+- [x] Testar geração de PDF e validar layout
+- [x] Adicionar bloco de transparência ao PDF
+- [x] Salvar checkpoint
