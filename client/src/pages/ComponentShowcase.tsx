@@ -194,7 +194,7 @@ export default function ComponentsShowcase() {
   const [isChatLoading, setIsChatLoading] = useState(false);
 
   const handleDialogSubmit = () => {
-    console.log("Dialog submitted with value:", dialogInput);
+    // submitted
     sonnerToast.success("Submitted successfully", {
       description: `Input: ${dialogInput}`,
     });
@@ -251,7 +251,7 @@ export default function ComponentsShowcase() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Foreground (Default)
                       </p>
                       <p className="text-foreground text-lg">
@@ -259,7 +259,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Muted Foreground
                       </p>
                       <p className="text-muted-foreground text-lg">
@@ -267,7 +267,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Primary
                       </p>
                       <p className="text-primary text-lg font-medium">
@@ -275,7 +275,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Secondary Foreground
                       </p>
                       <p className="text-secondary-foreground text-lg">
@@ -285,7 +285,7 @@ export default function ComponentsShowcase() {
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Accent Foreground
                       </p>
                       <p className="text-accent-foreground text-lg">
@@ -293,7 +293,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Destructive
                       </p>
                       <p className="text-destructive text-lg font-medium">
@@ -301,7 +301,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Card Foreground
                       </p>
                       <p className="text-card-foreground text-lg">
@@ -309,7 +309,7 @@ export default function ComponentsShowcase() {
                       </p>
                     </div>
                     <div>
-                      <p className="text-sm text-muted-foreground mb-1">
+                      <p className="text-[14px] md:text-[15px] text-muted-foreground mb-1">
                         Popover Foreground
                       </p>
                       <p className="text-popover-foreground text-lg">
@@ -330,49 +330,49 @@ export default function ComponentsShowcase() {
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                   <div className="bg-primary text-primary-foreground rounded-lg p-4">
                     <p className="font-medium mb-1">Primary</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Primary background with foreground text
                     </p>
                   </div>
                   <div className="bg-secondary text-secondary-foreground rounded-lg p-4">
                     <p className="font-medium mb-1">Secondary</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Secondary background with foreground text
                     </p>
                   </div>
                   <div className="bg-muted text-muted-foreground rounded-lg p-4">
                     <p className="font-medium mb-1">Muted</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Muted background with foreground text
                     </p>
                   </div>
                   <div className="bg-accent text-accent-foreground rounded-lg p-4">
                     <p className="font-medium mb-1">Accent</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Accent background with foreground text
                     </p>
                   </div>
                   <div className="bg-destructive text-destructive-foreground rounded-lg p-4">
                     <p className="font-medium mb-1">Destructive</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Destructive background with foreground text
                     </p>
                   </div>
                   <div className="bg-card text-card-foreground rounded-lg p-4 border">
                     <p className="font-medium mb-1">Card</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Card background with foreground text
                     </p>
                   </div>
                   <div className="bg-popover text-popover-foreground rounded-lg p-4 border">
                     <p className="font-medium mb-1">Popover</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Popover background with foreground text
                     </p>
                   </div>
                   <div className="bg-background text-foreground rounded-lg p-4 border">
                     <p className="font-medium mb-1">Background</p>
-                    <p className="text-sm opacity-90">
+                    <p className="text-[14px] md:text-[15px] opacity-90">
                       Default background with foreground text
                     </p>
                   </div>
@@ -525,7 +525,7 @@ export default function ComponentsShowcase() {
                     </PopoverContent>
                   </Popover>
                   {datePickerDate && (
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-[14px] md:text-[15px] text-muted-foreground">
                       Selected:{" "}
                       {format(datePickerDate, "yyyy/MM/dd  HH:mm", {
                         locale: zhCN,
@@ -600,7 +600,7 @@ export default function ComponentsShowcase() {
                     </PopoverContent>
                   </Popover>
                   {selectedFramework && (
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-[14px] md:text-[15px] text-muted-foreground">
                       Selected:{" "}
                       {
                         [
@@ -619,7 +619,7 @@ export default function ComponentsShowcase() {
                 <div className="space-y-2">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="month" className="text-sm font-medium">
+                      <Label htmlFor="month" className="text-[14px] md:text-[15px] font-medium">
                         Month
                       </Label>
                       <Select
@@ -644,7 +644,7 @@ export default function ComponentsShowcase() {
                       </Select>
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="year" className="text-sm font-medium">
+                      <Label htmlFor="year" className="text-[14px] md:text-[15px] font-medium">
                         Year
                       </Label>
                       <Select
@@ -668,7 +668,7 @@ export default function ComponentsShowcase() {
                     </div>
                   </div>
                   {selectedMonth && selectedYear && (
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-[14px] md:text-[15px] text-muted-foreground">
                       Selected: {selectedYear}/{selectedMonth}/
                     </p>
                   )}
@@ -771,7 +771,7 @@ export default function ComponentsShowcase() {
                       </PaginationItem>
                     </PaginationContent>
                   </Pagination>
-                  <p className="text-sm text-muted-foreground text-center">
+                  <p className="text-[14px] md:text-[15px] text-muted-foreground text-center">
                     Current page: {currentPage}
                   </p>
                 </div>
@@ -947,7 +947,7 @@ export default function ComponentsShowcase() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-[14px] md:text-[15px] text-muted-foreground">
                       Settings content goes here.
                     </p>
                   </CardContent>
@@ -998,13 +998,13 @@ export default function ComponentsShowcase() {
                 <CollapsibleContent>
                   <CardContent>
                     <div className="space-y-2">
-                      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+                      <div className="rounded-md border px-4 py-3 font-mono text-[14px] md:text-[15px]">
                         @radix-ui/primitives
                       </div>
-                      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+                      <div className="rounded-md border px-4 py-3 font-mono text-[14px] md:text-[15px]">
                         @radix-ui/colors
                       </div>
-                      <div className="rounded-md border px-4 py-3 font-mono text-sm">
+                      <div className="rounded-md border px-4 py-3 font-mono text-[14px] md:text-[15px]">
                         @stitches/react
                       </div>
                     </div>
@@ -1098,7 +1098,7 @@ export default function ComponentsShowcase() {
                     <PopoverContent>
                       <div className="space-y-2">
                         <h4 className="font-medium leading-none">Dimensions</h4>
-                        <p className="text-sm text-muted-foreground">
+                        <p className="text-[14px] md:text-[15px] text-muted-foreground">
                           Set the dimensions for the layer.
                         </p>
                       </div>
@@ -1156,8 +1156,8 @@ export default function ComponentsShowcase() {
                     </HoverCardTrigger>
                     <HoverCardContent>
                       <div className="space-y-2">
-                        <h4 className="text-sm font-semibold">@nextjs</h4>
-                        <p className="text-sm">
+                        <h4 className="text-[14px] md:text-[15px] font-semibold">@nextjs</h4>
+                        <p className="text-[14px] md:text-[15px]">
                           The React Framework – created and maintained by
                           @vercel.
                         </p>
@@ -1273,7 +1273,7 @@ export default function ComponentsShowcase() {
                     <div className="p-4">
                       <div className="space-y-4">
                         {Array.from({ length: 20 }).map((_, i) => (
-                          <div key={i} className="text-sm">
+                          <div key={i} className="text-[14px] md:text-[15px]">
                             Item {i + 1}: This is a scrollable content area
                           </div>
                         ))}
@@ -1397,7 +1397,7 @@ export default function ComponentsShowcase() {
             <Card>
               <CardContent className="pt-6">
                 <div className="space-y-4">
-                  <div className="text-sm text-muted-foreground">
+                  <div className="text-[14px] md:text-[15px] text-muted-foreground">
                     <p>
                       A ready-to-use chat interface component that integrates with the LLM system.
                       Features markdown rendering, auto-scrolling, and loading states.
@@ -1428,7 +1428,7 @@ export default function ComponentsShowcase() {
       </main>
 
       <footer className="border-t py-6 mt-12">
-        <div className="container text-center text-sm text-muted-foreground">
+        <div className="container text-center text-[14px] md:text-[15px] text-muted-foreground">
           <p>Shadcn/ui Component Showcase</p>
         </div>
       </footer>
