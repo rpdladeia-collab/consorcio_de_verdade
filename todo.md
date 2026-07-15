@@ -444,3 +444,18 @@
 - [x] Testar geração de PDF e validar layout
 - [x] Adicionar bloco de transparência ao PDF
 - [x] Salvar checkpoint
+
+---
+
+## Exclusão do Simulador "Lance: Estratégia ou Aposta?" (v16)
+
+- [x] Remover card "Lance: estratégia ou aposta?" da seção 03 em Simuladores.tsx
+- [x] Remover simulador SimuladorContemplacao (rota /simulador/contemplacao)
+- [x] Remover simulador SimuladorLanceCartaXCategoria (rota /simulador/lance-carta-x-categoria)
+- [x] Remover imports de SimuladorContemplacao e SimuladorLanceCartaXCategoria do App.tsx
+- [x] Remover rotas numéricas antigas (/simuladores/5, /simuladores/6) do App.tsx
+- [x] Excluir arquivos: SimuladorContemplacao.tsx, SimuladorLanceCartaXCategoria.tsx
+- [x] Excluir arquivos PDF: pdfContemplacao.ts, pdfLanceCartaXCategoria.ts
+- [x] Remover referências de "contemplacao" e "lance-carta" do Home.tsx
+- [x] Atualizar contador de análises (7 → 5)
+- [x] Validar build e salvar checkpoint

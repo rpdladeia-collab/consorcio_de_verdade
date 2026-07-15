@@ -21,15 +21,6 @@ const CATEGORIAS = [
     ]
   },
   {
-    num: "03",
-    title: "Lance: estratégia ou aposta?",
-    desc: "A matemática por trás de ofertar mais.",
-    modulos: [
-      { slug: "contemplacao", title: "SEU LANCE AUMENTA A CHANCE — OU SÓ QUEIMA CAIXA?", desc: "Projeta o impacto financeiro real da contemplação em diferentes momentos do plano, antes de você ofertar.", cta: "Fazer esta análise" },
-      { slug: "lance-carta-x-categoria", title: "Lance na carta ou na categoria? A conta decide", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
-    ]
-  },
-  {
     num: "04",
     title: "E se você precisar sair?",
     desc: "O mercado secundário tem preço próprio.",
@@ -64,7 +55,7 @@ export default function Simuladores() {
       <section id="hero" className="bg-[#0A0A08] text-white pt-10 pb-6 px-6 scroll-mt-20">
         <div className="max-w-[1180px] mx-auto">
           <span className="inline-flex items-center gap-2.5 text-[12px] tracking-[0.16em] uppercase text-[#FF4E1F] mb-4 before:content-[''] before:w-[22px] before:h-[2px] before:bg-[#FF4E1F]">
-            Raio-X · 7 análises sem filtro
+            Raío-X · 5 análises sem filtro
           </span>
           <h1 className="font-display text-[clamp(1.8rem,4.2vw,3.2rem)] leading-[1.05] max-w-[800px] uppercase">
             48,6% desistem. Apenas 1 em cada 5 cotas é contemplada por sorteio.
