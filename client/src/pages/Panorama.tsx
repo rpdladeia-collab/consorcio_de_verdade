@@ -176,7 +176,7 @@ function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
         <span className="inline-block text-[9px] uppercase tracking-[0.2em] font-bold text-[#c2410c] font-mono mb-0.5">
           Leitura rápida
         </span>
-        <h2 className="text-lg font-bold text-[#15140f] tracking-tight">O que você vai encontrar neste painel</h2>
+        <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">O que você vai encontrar neste painel</h2>
       </div>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-[#e5e0d8] border border-[#e5e0d8] overflow-hidden">
         {EXEC_CARDS.map((card) => (
@@ -185,14 +185,14 @@ function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
             onClick={() => onScrollTo(card.id)}
             className="text-left bg-white p-3 hover:bg-[#f6f3ec] transition-all group"
           >
-            <span className="block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
+            <span className="block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
               Cap. {card.num}
             </span>
-            <h3 className="font-bold text-[#15140f] text-[14px] md:text-[15px] mb-1 group-hover:text-[#c2410c] transition-colors leading-tight">
+            <h3 className="font-bold text-[#15140f] text-[16px] md:text-[18px] mb-1 group-hover:text-[#c2410c] transition-colors leading-tight">
               {card.title}
             </h3>
-            <p className="text-[10px] text-[#4b4843] leading-snug mb-2 font-bold">{card.desc}</p>
-            <span className="text-[9px] font-bold uppercase tracking-widest text-[#c2410c] border-b border-[#c2410c]/20 pb-0.5">
+            <p className="text-[12px] text-[#4b4843] leading-snug mb-2 font-bold">{card.desc}</p>
+            <span className="text-[10px] font-bold uppercase tracking-widest text-[#c2410c] border-b border-[#c2410c]/20 pb-0.5">
               Acessar →
             </span>
           </button>
