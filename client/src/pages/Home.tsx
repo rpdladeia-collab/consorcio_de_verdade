@@ -143,7 +143,7 @@ function RaioXSection() {
           Raio-X
         </p>
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-1.5 leading-tight">
-          48,6% DESISTEM. E A MAIORIA DAS CONTEMPLAÇÕES OCORRE POR LANCE.
+          A proposta cabe no bolso. <br className="hidden md:block" /> Mas o contrato cabe na vida?
         </h2>
         <p className="text-[14px] md:text-[15px] text-gray-800 mb-6 max-w-2xl">
           Cada simulador responde uma pergunta que normalmente só aparece depois da assinatura do contrato. Descubra essas respostas antes de decidir.
