@@ -7,7 +7,7 @@
 
 import { useState, useMemo } from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
-import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle } from "lucide-react";
+import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import {
@@ -993,45 +993,108 @@ export default function EstruturaDoPlano() {
 
       {activeTab === "investimentos" && <InvestmentsTab result={result} inv={result.investments} />}
 
-      {activeTab === "lance" && result.lanceAnalysis ? (
-        <div className="space-y-4">
-          {result.lanceAnalysis.isActive ? (
-            <>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                <KpiCard label="Lance Próprio" value={formatBRL(result.lanceAnalysis.lanceProprio)} tone="positive" />
-                <KpiCard label="Lance FGTS" value={formatBRL(result.lanceAnalysis.lanceFgts)} tone="positive" />
-                <KpiCard label="Lance Embutido" value={formatBRL(result.lanceAnalysis.lanceEmbutido)} tone="positive" />
-                <KpiCard label="Total do Lance" value={formatBRL(result.lanceAnalysis.totalLance)} highlight={true} />
-                <KpiCard label="% da Base" value={`${result.lanceAnalysis.lancePct.toFixed(2)}%`} />
-                <KpiCard label="Competitividade" value={`${result.lanceAnalysis.competitiveness.toFixed(0)}%`} tone={result.lanceAnalysis.competitiveness >= 90 ? "positive" : "negative"} />
+      {activeTab === "lance" && result.lanceResult ? (
+        <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
+          {/* KPIs — grid 2×3 (6 quadrantes) */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
+            <KpiCard label="Carta atualizada" value={formatBRL(result.credit)}
+              hint="Valor nominal atualizado." tone="default" />
+            <KpiCard label="Carta líquida" value={formatBRL(result.credit - result.lanceResult.embedded)}
+              hint="Carta menos embutido." tone="orange" />
+            <KpiCard label="Lance total" value={formatBRL(result.lanceResult.totalLance)}
+              hint="Próprio + FGTS + embutido." tone="orange" />
+            <KpiCard label="Força do lance" value={`${(result.lanceResult.forcePct).toFixed(1)}%`}
+              hint="Em relação à carta." tone={result.lanceResult.forcePct >= 35 ? "positive" : result.lanceResult.forcePct >= 20 ? "orange" : "negative"} />
+            <KpiCard label="Parcela antes" value={formatBRLCents(result.lanceResult.preInstallment)}
+              hint="Último mês antes da contemplação." tone="default" />
+            <KpiCard label="Parcela pós-lance" value={formatBRLCents(result.lanceResult.postInstallment)}
+              hint="1ª parcela após o lance." tone="default" />
+          </div>
+
+          {/* Card Diagnóstico do Lance */}
+          <div className="rounded-lg sm:rounded-xl border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-3 sm:p-4">
+            <div className="flex items-start gap-3">
+              <div className="flex-shrink-0 mt-0.5">
+                <svg className="w-4 h-4 text-[var(--orange)]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-
-              <div className={`p-4 rounded-lg border-l-4 ${
-                result.lanceAnalysis.verdict === "positivo" ? "bg-green-50 border-green-500" :
-                result.lanceAnalysis.verdict === "atencao" ? "bg-yellow-50 border-yellow-500" :
-                "bg-red-50 border-red-500"
-              }`}>
-                <p className="font-bold text-gray-900 mb-2">Análise do Lance</p>
-                <p className="text-sm text-gray-700">{result.lanceAnalysis.decisionText}</p>
+              <div className="flex-1 min-w-0">
+                <h3 className="font-semibold text-[13px] md:text-[14px] sm:text-[14px] md:text-[15px] mb-1">Diagnóstico do lance.</h3>
+                <p className="text-[12px] md:text-[13px] sm:text-[13px] md:text-[14px] leading-relaxed text-foreground/70">
+                  Seu lance representa {(result.lanceResult.forcePct).toFixed(1)}% da carta. Desse total, {formatBRL(result.lanceResult.own + result.lanceResult.fgts)} saem do seu patrimônio e {formatBRL(result.lanceResult.embedded)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {formatBRLCents(result.lanceResult.postInstallment)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
+                </p>
               </div>
+            </div>
+          </div>
 
-              {result.lanceAnalysis.impactoParcela !== undefined && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="font-bold text-gray-900 mb-1">Impacto na Parcela</p>
-                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{formatBRL(result.lanceAnalysis.impactoParcela)}</span> por parcela após contemplação</p>
+          {/* Tabela de Evolução das Parcelas */}
+          {result.lanceResult.projection && (
+            <div className="space-y-2 sm:space-y-3">
+              <div className="flex items-center justify-between px-1">
+                <h3 className="text-[13px] md:text-[14px] font-bold text-foreground/60 uppercase tracking-widest">Evolução das parcelas</h3>
+                <div className="flex items-center gap-2">
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFC93C] text-[#0A0A08] text-[10px] font-bold uppercase rounded-full hover:bg-[#FFD700] transition-colors shadow-sm"
+                  >
+                    <HelpCircle className="w-3 h-3" />
+                    Racional
+                  </button>
+                  <button 
+                    onClick={(e) => { e.stopPropagation(); }}
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-black text-[10px] font-bold uppercase rounded-full hover:bg-white/20 transition-colors shadow-sm border border-white/10"
+                  >
+                    <Download className="w-3 h-3" />
+                    PDF
+                  </button>
                 </div>
-              )}
-
-              {result.lanceAnalysis.impactoPrazo !== undefined && (
-                <div className="p-4 bg-blue-50 rounded-lg border border-blue-200">
-                  <p className="font-bold text-gray-900 mb-1">Impacto no Prazo</p>
-                  <p className="text-sm text-gray-700">Redução estimada: <span className="font-bold">{result.lanceAnalysis.impactoPrazo} parcela(s)</span> após contemplação</p>
+              </div>
+              <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden bg-white shadow-sm">
+                <div className="w-full">
+                  <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
+                    <table className="w-full text-[10px] md:text-[11px] min-w-[560px]">
+                    <thead className="bg-[var(--ink)] text-white sticky top-0 z-10">
+                      <tr>
+                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Mês</th>
+                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Carta</th>
+                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Evento</th>
+                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Lance</th>
+                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Parcela</th>
+                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Saldo</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border/30">
+                      {result.lanceResult.projection.rows.slice(0, 10).map((r: any) => (
+                        <tr key={r.month} className={`transition-colors ${r.event === "Lance aplicado" ? "bg-yellow-50" : "bg-white"}`}>
+                          <td className="px-2 py-1 font-mono text-foreground/70 text-[9px]">{r.month}</td>
+                          <td className="px-2 py-1 font-mono text-[9px] font-semibold">{formatBRL(r.credit)}</td>
+                          <td className="px-2 py-1 font-medium text-[9px]">
+                            {r.event === "Lance aplicado" ? (
+                              <span className="text-[var(--orange)] flex items-center gap-0.5 font-bold">
+                                <ArrowUpRight className="w-2 h-2" />
+                                {r.event}
+                              </span>
+                            ) : r.event}
+                          </td>
+                          <td className="px-2 py-1 text-right font-mono text-[9px] text-foreground/80">{r.lance > 0 ? formatBRL(r.lance) : "—"}</td>
+                          <td className={`px-2 py-1 text-right font-mono font-bold text-[9px] ${r.event === "Lance aplicado" ? "text-[var(--orange)]" : "text-foreground"}`}>
+                            {r.parcela > 0 ? formatBRLCents(r.parcela) : "—"}
+                          </td>
+                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[9px]">{formatBRL(r.saldo)}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                  </div>
                 </div>
-              )}
-            </>
-          ) : (
-            <div className="p-4 bg-gray-50 rounded-lg border border-gray-200">
-              <p className="text-sm text-gray-600">Nenhum lance informado. Preencha os campos de lance no painel esquerdo para ver a análise.</p>
+                {result.lanceResult.projection.rows.length > 10 && (
+                  <button className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-bold text-[var(--orange)] bg-secondary/5 hover:bg-secondary/20 border-t border-border transition-all">
+                    <ChevronDown className="w-3 h-3" />
+                    Ver todas ({result.lanceResult.projection.rows.length})
+                  </button>
+                )}
+              </div>
             </div>
           )}
         </div>

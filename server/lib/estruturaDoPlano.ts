@@ -197,6 +197,7 @@ export interface EstruturaResult {
   costRows: CostTableRow[];
   investments: InvestmentComparison;
   lanceAnalysis?: LanceAnalysis;
+  lanceResult?: any; // Resultado da integração do calcLanceLivre
 }
 
 function clamp(n: number, a: number, b: number): number {
@@ -630,6 +631,27 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
   const investments = simulateInvestmentComparison(c, proposal);
   const lanceAnalysis = analyzeLanceImpact(opts, proposal);
 
+  // Integração do calcLanceLivre
+  let lanceResult: any = undefined;
+  if (opts.lanceProprio || opts.lanceFgts || opts.lanceEmbutido) {
+    const { calcLanceLivre } = require('./lanceLivre');
+    const totalLance = (opts.lanceProprio || 0) + (opts.lanceFgts || 0) + (opts.lanceEmbutido || 0);
+    const bidPct = (totalLance / c.credit) * 100;
+    
+    lanceResult = calcLanceLivre({
+      credit: c.credit,
+      adminRate: c.adminRate,
+      term: c.term,
+      paidInstallments: opts.parcelasPagas || 0,
+      bidPct,
+      referenceBidPct: 45,
+      lanceUse: opts.estrategiaPos || 'abater_parcela',
+      own: opts.lanceProprio || 0,
+      fgts: opts.lanceFgts || 0,
+      embedded: opts.lanceEmbutido || 0,
+    });
+  }
+
   return {
     rows: proposal.rows,
     yearlyCorrections,
@@ -648,5 +670,6 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
     costRows,
     investments,
     lanceAnalysis,
+    lanceResult,
   };
 }
