@@ -253,6 +253,7 @@ const VIDEOS = [
   { id: 2, title: "Análise 2", tag: "AUDITORIA", description: "Aprofundando a estratégia", src: "/assets/videos-caixa-preta/video2.mov" },
   { id: 3, title: "Análise 3", tag: "ESTRATÉGIA", description: "Terceira análise em vídeo", src: "/assets/videos-caixa-preta/video3.mp4" },
   { id: 4, title: "Análise 4", tag: "AUDITORIA", description: "Análise complementar", src: "/assets/videos-caixa-preta/video4.mp4" },
+  { id: 5, title: "Menu Caixa Preta", tag: "INSTITUCIONAL", description: "Os 9 pilares da Caixa Preta do Consórcio", src: "/manus-storage/40609eb3329e4667936bda7b321e6a5b_565b6736.mp4" },
 ];
 
 function CarrosselModal({ isOpen, onClose, slides, title }: { isOpen: boolean; onClose: () => void; slides: string[]; title: string }) {
