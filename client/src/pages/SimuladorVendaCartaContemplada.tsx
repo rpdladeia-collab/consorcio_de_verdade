@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import RaioXLayout from '@/components/cdv/RaioXLayout';
 import { ConsultCTA, MethodologyBlock } from '@/components/cdv/SimuladorUI';
 import { Download } from 'lucide-react';

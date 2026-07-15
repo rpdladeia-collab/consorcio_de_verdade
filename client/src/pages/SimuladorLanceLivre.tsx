@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -48,6 +48,23 @@ export default function SimuladorLanceLivre() {
     onError: (err) => toast.error(err.message || "Não foi possível calcular."),
   });
   const result = calc.data;
+
+  // Auto-calcular com dados de exemplo ao montar
+  useEffect(() => {
+    if (!result && !calc.isPending) {
+      setTimeout(() => {
+        calc.mutate({
+          credit: n(credit),
+          bidPct: parseFloat(bidPct.replace(",", ".")) || 0,
+          referenceBidPct: parseFloat(referenceBidPct.replace(",", ".")) || 45,
+          adminRate: parseFloat(adminRate.replace(",", ".")) || 0,
+          term: parseInt(term) || 180,
+          paidInstallments: parseInt(paidInstallments) || 0,
+          lanceUse,
+        });
+      }, 100);
+    }
+  }, []);
 
   function n(v: string) {
     return parseFloat(v.replace(/\./g, "").replace(",", ".")) || 0;

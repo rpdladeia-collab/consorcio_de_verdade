@@ -199,6 +199,20 @@ export default function SimuladorZonaContemplacao() {
   const histResult = calcHist.data;
   const quantResult = calcQuant.data;
 
+  // Auto-calcular com dados de exemplo ao montar
+  useEffect(() => {
+    if (!histResult && !calcHist.isPending) {
+      setTimeout(() => {
+        const parsed = histRows
+          .map((r) => ({ ass: parseNum(r.ass), low: parseNum(r.low), mid: parseNum(r.mid), high: parseNum(r.high) }))
+          .filter((r) => r.low > 0 || r.mid > 0 || r.high > 0);
+        if (parsed.length) {
+          calcHist.mutate({ rows: parsed, meulance: parseNum(meuLance), metodoZona: metodo, modalidade, grupoNome });
+        }
+      }, 100);
+    }
+  }, []);
+
   // ── Aba 1: Histórico ──────────────────────────────────────────────────────
 
   function updateHistRow(i: number, key: keyof HistRow, v: string) {

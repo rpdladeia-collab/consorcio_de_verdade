@@ -1,5 +1,5 @@
 
-import { useState, useMemo } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Download, HelpCircle, ChevronDown } from "lucide-react";
 import RaioXLayout from "@/components/cdv/RaioXLayout";
 import { formatBRL } from "@/components/cdv/SimuladorUI";

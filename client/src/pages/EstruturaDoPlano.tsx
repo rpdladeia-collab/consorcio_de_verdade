@@ -6,6 +6,7 @@
  */
 
 import { useState, useMemo } from "react";
+import React from "react";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
@@ -804,6 +805,44 @@ export default function EstruturaDoPlano() {
   const data = mutation.data;
   const result = data?.result;
   const hasResult = !!result;
+
+  // Auto-calcular com dados de exemplo ao montar
+  React.useEffect(() => {
+    if (!hasResult && !mutation.isPending) {
+      setTimeout(() => {
+        const credit = num(form.credit);
+        const term = Math.round(num(form.term));
+        const adjPeriod = parseInt(form.adjustmentPeriod);
+        const firstAdj = adjPeriod === 0 ? 13 : parseInt(form.firstAdjustmentMonth) || (adjPeriod === 6 ? 7 : 13);
+
+        mutation.mutate({
+          credit,
+          term,
+          adminRate: num(form.adminRate),
+          reserveRate: num(form.reserveRate),
+          insuranceRate: num(form.insuranceRate),
+          adjustmentRate: num(form.adjustmentRate),
+          adjustmentPeriod: adjPeriod,
+          firstAdjustmentMonth: firstAdj,
+          paymentPolicyMode: form.paymentPolicyMode,
+          paymentRanges: form.paymentPolicyMode === "ranges" ? ranges.map(r => ({
+            start: Math.max(1, Math.round(r.start)),
+            end: Math.max(Math.round(r.start), Math.round(r.end)),
+            type: r.type,
+            value: Math.max(0, r.value),
+          })) : [],
+          savingsRate: num(form.savingsRate),
+          cdbRate: num(form.cdbRate),
+          lanceProprio: num(form.lanceProprio),
+          lanceFgts: num(form.lanceFgts),
+          lanceEmbutido: num(form.lanceEmbutido),
+          baseDoLance: form.baseDoLance,
+          parcelasPagas: Math.round(num(form.parcelasPagas)),
+          estrategiaPos: form.estrategiaPos,
+        });
+      }, 100);
+    }
+  }, []);
 
   function addRange() {
     const term = Math.round(num(form.term)) || 180;
