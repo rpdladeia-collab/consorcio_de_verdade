@@ -117,12 +117,6 @@ function RaioXSection() {
       href: "/simulador/proporcao-taxa#parametros",
     },
     {
-      name: "Seu lance aumenta a chance — ou só queima caixa?",
-      call: "Impacto do Lance",
-      text: "Projeta o impacto financeiro real da contemplação em diferentes momentos do plano, antes de você ofertar.",
-      href: "/simulador/contemplacao#parametros",
-    },
-    {
       name: "Lance na carta ou na categoria? A conta decide",
       call: "Estratégia de Lance",
       text: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria.",

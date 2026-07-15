@@ -25,7 +25,6 @@ const CATEGORIAS = [
     title: "Lance: estratégia ou aposta?",
     desc: "A matemática por trás de ofertar mais.",
     modulos: [
-      { slug: "contemplacao", title: "SEU LANCE AUMENTA A CHANCE — OU SÓ QUEIMA CAIXA?", desc: "Projeta o impacto financeiro real da contemplação em diferentes momentos do plano, antes de você ofertar.", cta: "Fazer esta análise" },
       { slug: "lance-carta-x-categoria", title: "Lance na carta ou na categoria? A conta decide", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
     ]
   },

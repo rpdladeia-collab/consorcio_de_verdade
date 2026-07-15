@@ -17,7 +17,6 @@ import Privacidade from "./pages/Privacidade";
 
 import SimuladorZonaContemplacao from "./pages/SimuladorZonaContemplacao";
 import SimuladorLanceLivre from "./pages/SimuladorLanceLivre";
-import SimuladorContemplacao from "./pages/SimuladorContemplacao";
 import SimuladorProporcaoTaxa from "./pages/SimuladorProporcaoTaxa";
 
 import SimuladorAutoPagavel from "./pages/SimuladorAutoPagavel";
@@ -38,7 +37,6 @@ function Router() {
 
       <Route path={"/simulador/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/simulador/lance-livre"} component={SimuladorLanceLivre} />
-      <Route path={"/simulador/contemplacao"} component={SimuladorContemplacao} />
       <Route path={"/simulador/proporcao-taxa"} component={SimuladorProporcaoTaxa} />
       <Route path={"/simulador/auto-pagavel"} component={SimuladorAutoPagavel} />
       <Route path={"/simulador/lance-carta-x-categoria"} component={SimuladorLanceCartaXCategoria} />

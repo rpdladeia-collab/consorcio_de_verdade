@@ -444,3 +444,18 @@
 - [x] Testar geração de PDF e validar layout
 - [x] Adicionar bloco de transparência ao PDF
 - [x] Salvar checkpoint
+
+---
+
+## Exclusao do Simulador "Seu lance aumenta a chance" (v16 - CORRIGIDO)
+
+- [x] Remover APENAS o primeiro simulador (contemplacao) de Simuladores.tsx
+- [x] Manter SimuladorLanceCartaXCategoria em Simuladores.tsx
+- [x] Remover import de SimuladorContemplacao do App.tsx
+- [x] Remover rota /simulador/contemplacao do App.tsx
+- [x] Excluir arquivo: SimuladorContemplacao.tsx
+- [x] Excluir arquivo PDF: pdfContemplacao.ts
+- [x] Remover referencia de contemplacao do Home.tsx
+- [x] Manter referencia de lance-carta-x-categoria
+- [x] Validar build
+- [x] Salvar checkpoint
