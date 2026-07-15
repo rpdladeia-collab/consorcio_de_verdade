@@ -1197,8 +1197,8 @@ export default function EstruturaDoPlano() {
   return (
     <RaioXLayout
       moduleNumber={7}
-      title="Estrutura do Plano"
-      description="Memória de cálculo detalhada com componentes mês a mês, custos da operação, histórico de correções e comparativo com investimentos."
+      title="Raio-X do Consórcio"
+      description="Nunca um consórcio foi explicado assim"
       descriptionSupport="O simulador replica o racional do contrato: fundo comum, taxa de administração, fundo de reserva, seguro e correções periódicas."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
