@@ -218,6 +218,23 @@ const CARROSSEIS = [
     image: "/assets/meia-parcela/meia-parcela.png"
   },
   { 
+    id: "caixa-preta-menu",
+    title: "Menu Caixa Preta", 
+    tag: "INSTITUCIONAL",
+    description: "Os 9 pilares da Caixa Preta do Consórcio - Tudo que você precisa saber.",
+    slides: [
+      "/manus-storage/B3B514FF-FE72-4417-A66D-3FA8FF3F15F2_e8cf98e3.png",
+      "/manus-storage/2443AF92-73E6-4C2B-828D-BD45CF50BDF9_737b8d72.png",
+      "/manus-storage/F123AEC3-225D-4BCA-BE47-64718DCB3BA9_0bb740f3.png",
+      "/manus-storage/6DBFF4E1-2290-4253-993F-E4996B652AD7_38b06169.png",
+      "/manus-storage/4E3C2CA5-3C2E-4908-921F-B6B5A1B8948B_0cbb16a3.png",
+      "/manus-storage/9065E275-1979-4CB4-BEAB-9429F081C823_d191b555.png",
+      "/manus-storage/F8754966-B640-4182-B25A-E35E3970F071_aee66249.png",
+      "/manus-storage/8B65EC98-B478-4645-BA86-36ED7D2208A2_dda92d34.png",
+      "/manus-storage/931F26FF-7C82-4982-B37A-B6C533427BAD_e9587969.png"
+    ]
+  },
+  { 
     id: "conclusao",
     title: "Consórcio não é pra todos", 
     tag: "CONCLUSÃO",
