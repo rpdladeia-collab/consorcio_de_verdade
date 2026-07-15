@@ -170,7 +170,7 @@ export function DiagnosticCard({
   narrative,
 }: {
   verdict: Verdict;
-  headline: string;
+  headline?: string;
   narrative: ReactNode;
 }) {
   const v = verdictMap[verdict];
@@ -324,7 +324,7 @@ export function CalcMemory({
     const col1: { label: string; value: string }[] = [
       { label: "Carta de Crédito", value: formatBRL(projection.cartaInicial) },
       { label: "Taxa de Adm. Contratual", value: formatBRL(projection.taxaAdmInicial) },
-      { label: "Fundo de Reserva", value: formatBRL(projection.fundoReserva) },
+      { label: "Fundo de Reserva", value: formatBRL(projection.fundoReservaInicial) },
     ];
     const col2: { label: string; value: string }[] = [
       { label: "Correção da Carta (Fundo Comum)", value: formatBRL(projection.correcaoFundoComum) },

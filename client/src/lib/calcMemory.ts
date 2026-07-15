@@ -13,6 +13,7 @@ export interface CalcMemoryProjection {
   cartaInicial: number;
   taxaAdmInicial: number;
   fundoReservaInicial: number;
+  fundoReserva?: number; // alias para fundoReservaInicial
   correcaoFundoComum: number;
   aumentoTaxaAdm: number;
   aumentoFundoReserva: number;

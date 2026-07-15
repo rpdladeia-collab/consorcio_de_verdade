@@ -270,8 +270,6 @@ export default function SimuladorLanceCartaXCategoria() {
         <ConsultCTA />
         
         <MethodologyBlock
-          title="Metodologia"
-          description="Simulação baseada na comparação matemática direta entre bases de cálculo (carta vs categoria). Os valores podem variar conforme o regulamento específico de cada administradora."
           sources={["Regulamento Geral de Consórcios", "Matemática Financeira Aplicada"]}
         />
       </div>

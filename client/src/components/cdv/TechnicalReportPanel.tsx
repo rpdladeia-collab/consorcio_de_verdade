@@ -167,16 +167,16 @@ export const TechnicalReportPanel: React.FC<TechnicalReportPanelProps> = ({
               <p className="text-sm text-gray-600 mb-3">{flow.explanation}</p>
               {flow.label !== 'Fluxo de Proteção' && flow.label !== 'Fluxo Financeiro' ? (
                 <div className="flex justify-between text-sm">
-                  <span>Inicial: {formatCurrency(flow.initial)}</span>
-                  <span>→ +{formatCurrency(flow.corrections)}</span>
-                  <span>→ Final: {formatCurrency(flow.final)}</span>
+                  <span>Inicial: {formatCurrency((flow as any).initial)}</span>
+                  <span>→ +{formatCurrency((flow as any).corrections)}</span>
+                  <span>→ Final: {formatCurrency((flow as any).final)}</span>
                 </div>
               ) : (
                 <div className="text-sm">
                   {flow.label === 'Fluxo de Proteção' ? (
-                    <span>Total: {formatCurrency(flow.total)}</span>
+                    <span>Total: {formatCurrency((flow as any).total)}</span>
                   ) : (
-                    <span>Total: {formatCurrency(flow.totalPaid)}</span>
+                    <span>Total: {formatCurrency((flow as any).totalPaid)}</span>
                   )}
                 </div>
               )}

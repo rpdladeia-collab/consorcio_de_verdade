@@ -28,7 +28,6 @@ interface FormState {
   own: string;
   fgts: string;
   embedded: string;
-  totalParcelas: string;
   correcaoAnualPct: string;
 }
 
@@ -39,7 +38,6 @@ const DEFAULT: FormState = {
   own: "60000",
   fgts: "0",
   embedded: "60000",
-  totalParcelas: "120",
   correcaoAnualPct: "6",
 };
 
@@ -89,7 +87,7 @@ export default function SimuladorProporcaoTaxa() {
     const ownNum = Number(form.own) || 0;
     const fgtsNum = Number(form.fgts) || 0;
     const embeddedNum = Number(form.embedded) || 0;
-    const termNum = Number(form.totalParcelas) || 1;
+    const termNum = 120; // prazo padrão em meses
     const correctionPctNum = Number(form.correcaoAnualPct) || 0;
 
     const adminTotalValue = creditNum * (adminPctNum / 100);
@@ -158,7 +156,7 @@ export default function SimuladorProporcaoTaxa() {
       adminPctNum,
       embeddedNum
     };
-  }, [form.credit, form.adminPct, form.paid, form.own, form.fgts, form.embedded, form.totalParcelas, form.correcaoAnualPct]);
+  }, [form.credit, form.adminPct, form.paid, form.own, form.fgts, form.embedded, form.correcaoAnualPct]);
 
   async function handlePdf() {
     if (!hasCalculated) return;
@@ -201,8 +199,7 @@ export default function SimuladorProporcaoTaxa() {
           own: form.own,
           fgts: form.fgts,
           embedded: form.embedded,
-          totalParcelas: form.totalParcelas,
-          correcaoAnualPct: form.correcaoAnualPct
+          basis: 'newMoney'
         }
       });
     } catch (err) {
@@ -264,13 +261,7 @@ export default function SimuladorProporcaoTaxa() {
             <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Reduz a carta</p>
           </div>
         </div>
-        <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Prazo</label>
-          <div className="mt-auto">
-            <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.totalParcelas} onChange={(e) => set("totalParcelas", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
-          </div>
-        </div>
+
         <div className="flex flex-col h-full">
           <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Correção (%)</label>
           <div className="mt-auto">
@@ -291,7 +282,7 @@ export default function SimuladorProporcaoTaxa() {
         <KpiCard label="Taxa Nominal (Contratual)" value={pct2(adminPctNum)} hint="Taxa de administração contratual" />
         <KpiCard label="Taxa sobre Carta Líquida" value={pct2((currentAdminAtMonth / liquidAtMonth) * 100)} hint="Proporção sobre a carta após embutido" />
         <KpiCard label="Taxa sobre Dinheiro Novo" value={pct2(taxOnNewMoney)} highlight={true} hint="O indicador que mostra o custo real da operação." />
-        <KpiCard label="Peso Adicional da Taxa" value={pct2(weightIncrease)} tone="danger" hint="Diferença entre taxa real e nominal" />
+        <KpiCard label="Peso Adicional da Taxa" value={pct2(weightIncrease)} tone="negative" hint="Diferença entre taxa real e nominal" />
       </div>
 
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">

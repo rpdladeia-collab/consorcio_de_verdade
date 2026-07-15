@@ -32,7 +32,7 @@ export async function generatePdfCustoOportunidade(data: any) {
       ["CUSTO DE OPORTUNIDADE", formatBRL(custoOportunidade)],
     ],
     theme: "striped",
-    headStyles: { fillStyle: [255, 78, 31] }, // #FF4E1F
+    headStyles: { fillColor: [255, 78, 31] }, // #FF4E1F
   });
 
   // Tabela de Auditoria

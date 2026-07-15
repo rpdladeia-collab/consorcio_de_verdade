@@ -20,6 +20,8 @@ import {
   formatPct,
   type Verdict,
 } from "@/components/cdv/SimuladorUI";
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from "@/components/ui/collapsible";
+import { ChevronDown } from "lucide-react";
 
 function mapVerdict(v: "positivo" | "atencao" | "critico"): Verdict {
   if (v === "positivo") return "positive";
@@ -200,11 +202,10 @@ export default function SimuladorLanceLivre() {
 
                 <DiagnosticCard
                   verdict={mapVerdict(result.verdict)}
-                  headline={result.headline}
                   narrative={<p className="text-[10px] sm:text-[14px] md:text-[15px]">{result.decisionText}</p>}
                 />
 
-                <MeaningBlock label="Lance Livre" textClass="text-[10px] sm:text-[14px] md:text-[15px]">
+                <MeaningBlock label="Lance Livre">
                   <p className="text-[10px] sm:text-[14px] md:text-[15px]">
                     Para uma carta de <strong>{formatBRL(result.inputs.credit)}</strong>, um lance livre de{" "}
                     <strong>{formatPct(result.inputs.bidPct)}</strong> exige{" "}
@@ -226,8 +227,15 @@ export default function SimuladorLanceLivre() {
                   </span>
                 </div>
 
-                <Collapsible title="Sensibilidade e memória de cálculo" subtitle="Como diferentes lances se comparam à referência" open={true} onToggle={() => {}}>
-                  <div className="space-y-4 pt-2">
+                <Collapsible defaultOpen>
+                  <CollapsibleTrigger className="flex w-full items-center justify-between py-3 px-4 bg-card hover:bg-card/80 rounded-lg border border-border">
+                    <div>
+                      <h3 className="font-semibold text-foreground">Sensibilidade e memória de cálculo</h3>
+                      <p className="text-sm text-foreground/60">Como diferentes lances se comparam à referência</p>
+                    </div>
+                    <ChevronDown className="w-4 h-4 transition-transform" />
+                  </CollapsibleTrigger>
+                  <CollapsibleContent className="space-y-4 pt-2">
                     <div className="overflow-x-auto">
                       <table className="w-full text-[8px] sm:text-[14px] md:text-[15px] border-collapse min-w-[400px]">
                         <thead>
@@ -251,7 +259,7 @@ export default function SimuladorLanceLivre() {
                       </table>
                     </div>
                     <CalcMemory rows={result.audit.map((a) => ({ label: a.item, value: a.valor, formula: a.racional }))} />
-                  </div>
+                  </CollapsibleContent>
                 </Collapsible>
               </div>
             )}
