@@ -999,7 +999,7 @@ export default function EstruturaDoPlano() {
         <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
           {/* KPIs — grid 2×3 (6 quadrantes) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-            <KpiCard label="Carta atualizada" value={formatBRL(result.credit || 0)}
+            <KpiCard label="Carta atualizada" value={formatBRL((result.contemplation?.rows.find(r => r.month === Number(form.parcelasPagas))?.credit || result.credit) || 0)}
               hint="Valor nominal atualizado." tone="default" />
             <KpiCard label="Carta líquida" value={formatBRL(result.contemplation?.event.creditAvailable || 0)}
               hint="Carta menos embutido." tone="orange" />
