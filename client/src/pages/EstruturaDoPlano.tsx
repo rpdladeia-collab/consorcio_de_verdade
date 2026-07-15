@@ -1027,8 +1027,27 @@ export default function EstruturaDoPlano() {
     { id: "lance", label: "5. Estrutura do Lance" },
   ];
 
+  /* ── Menu interno (exibido antes dos resultados) ── */
+  const internalMenu = (
+    <div className="w-full bg-white border border-[#DDD6C8] rounded-xl p-6 shadow-sm mb-6">
+      <h3 className="font-bold text-[#1a1a1a] text-[16px] mb-4">Explore o simulador:</h3>
+      <div className="space-y-2">
+        {tabs.map((t) => (
+          <button
+            key={t.id}
+            onClick={() => setActiveTab(t.id)}
+            className="w-full text-left px-4 py-2.5 text-[14px] font-medium text-[#1a1a1a] hover:text-[#FF4E1F] transition-colors border-l-2 border-transparent hover:border-[#FF4E1F] hover:bg-[#FFF5F0]"
+          >
+            {t.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+
   const resultsPanel = hasResult ? (
     <div className="space-y-4">
+      {internalMenu}
       {/* Navegação por abas */}
       <div className="flex flex-nowrap overflow-x-auto gap-1 border-b border-gray-200 scrollbar-thin">
         {tabs.map((t) => (
@@ -1197,13 +1216,14 @@ export default function EstruturaDoPlano() {
   return (
     <RaioXLayout
       moduleNumber={7}
-      title="Estrutura do Plano"
-      description="Memória de cálculo detalhada com componentes mês a mês, custos da operação, histórico de correções e comparativo com investimentos."
-      descriptionSupport="O simulador replica o racional do contrato: fundo comum, taxa de administração, fundo de reserva, seguro e correções periódicas."
+      title="Raio-X do Consórcio"
+      description="Nunca um consórcio foi explicado assim."
+      descriptionSupport="Explore a memória completa de cálculo do seu plano, mês a mês. Custos, correções, evolução da carta e indicadores que normalmente permanecem escondidos do consumidor."
       formPanel={formPanel}
       resultsPanel={resultsPanel}
       hasResult={hasResult}
       scheduleTable={scheduleTable}
+      internalMenu={internalMenu}
     />
   );
 }

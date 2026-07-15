@@ -13,6 +13,7 @@ interface RaioXLayoutProps {
   resultsPanel: React.ReactNode;
   hasResult: boolean;
   scheduleTable?: React.ReactNode;
+  internalMenu?: React.ReactNode;
 }
 
 export default function RaioXLayout({
@@ -23,6 +24,7 @@ export default function RaioXLayout({
   resultsPanel,
   hasResult,
   scheduleTable,
+  internalMenu,
 }: RaioXLayoutProps) {
   return (
     <div className="min-h-screen bg-[#FAF5EA]">
@@ -72,7 +74,7 @@ export default function RaioXLayout({
 
       {/* ── Grid principal ── */}
       <section className="w-full max-w-7xl mx-auto px-4 md:px-5 lg:px-8 py-8 print:p-0">
-        <div className="flex flex-col lg:flex-row gap-8 items-start">
+        <div className={`flex ${hasResult ? 'lg:flex-row' : 'flex-col'} gap-8 items-start`}>
           {/* Coluna esquerda — Formulário */}
           <div id="parametros" className="w-full lg:w-[40%] lg:shrink-0 print:hidden mb-8 lg:mb-0 scroll-mt-24">
             <div className="bg-white border border-[#DDD6C8] rounded-xl p-6 shadow-sm">
@@ -80,12 +82,12 @@ export default function RaioXLayout({
             </div>
           </div>
 
-          {/* Coluna direita — Resultados */}
-          <div className="flex-1 min-w-0 w-full">
+          {/* Coluna direita \u2014 Resultados */}
+          <div className={`${hasResult ? 'flex-1 min-w-0' : 'w-full'} w-full`}>
             {hasResult ? (
               resultsPanel
             ) : (
-              <WaitingAnalysisScreen />
+              <WaitingAnalysisScreen internalMenu={internalMenu} />
             )}
           </div>
         </div>
