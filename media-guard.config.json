@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "sourceRoots": [
+    "client/src",
+    "client/index.html"
+  ],
+  "mediaRoots": [
+    "client/public",
+    "client/src"
+  ],
+  "publicRoot": "client/public",
+  "manifestPath": "docs/media-manifest.json",
+  "reportPath": "artifacts/media-guard-report.json",
+  "requiredPublicMedia": [
+    "/assets/logo-dark.png",
+    "/assets/logo-light.png",
+    "/assets/favicon.svg",
+    "/assets/icon-192.png",
+    "/brand/logo-light.png",
+    "/favicon.ico",
+    "/icon-192.png"
+  ],
+  "allowedExternalMediaHosts": []
+}
