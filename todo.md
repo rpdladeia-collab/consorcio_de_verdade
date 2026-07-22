@@ -71,3 +71,10 @@
 - [x] FASE 8: Modelar as 3 camadas funcionais (Administradora, Segmentos, Grupos) com indicadores e comparativos
 - [x] FASE 8: Definir cálculos de médias de mercado e regras de comparativo (acima/abaixo/dentro da média)
 - [x] FASE 8: Escrever e entregar o Product Spec completo
+
+## FASE 8.1 — REVISÃO DO PRODUCT SPEC
+
+- [x] FASE 8.1: Revisar classificação — mover associações para "Cooperativas e Associações"
+- [x] FASE 8.1: Reescrever Product Spec orientado a perguntas do consumidor (8 alterações)
+- [x] FASE 8.1: Mapear viabilidade das 11 inteligências de Top 10 (sem implementar)
+- [x] FASE 8.1: Entregar Product Spec revisado para aprovação
