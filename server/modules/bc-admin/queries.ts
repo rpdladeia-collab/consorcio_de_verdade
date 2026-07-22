@@ -1010,3 +1010,69 @@ export async function getStatusIngestao() {
     dataImportacao: imp.dataImportacao,
   }));
 }
+
+/**
+ * Consulta 11: TOTAIS DE MERCADO
+ * Retorna os totais reais calculados a partir dos dados importados
+ * para exibição no bloco "Mercado em Números" da home.
+ */
+export async function getMercadoTotais() {
+  const db = await requireDb();
+
+  // Data-base mais recente
+  const latest = await db
+    .select()
+    .from(bcImportacoes)
+    .where(eq(bcImportacoes.status, "sucesso"))
+    .orderBy(desc(bcImportacoes.dataBase))
+    .limit(1);
+
+  if (latest.length === 0) {
+    return null;
+  }
+
+  const dataBase = latest[0].dataBase;
+
+  // Buscar todas as linhas da data-base mais recente (base segmentos_consolidados)
+  const linhas = await getLinhasByDataBase(dataBase);
+
+  const linhasConsolidadas = linhas.filter(
+    (l) => l.tipoDados === "segmentos_consolidados",
+  );
+
+  // Helper: parse número brasileiro (vírgula decimal)
+  const parseNum = (v: string | undefined): number => {
+    if (!v) return 0;
+    return parseFloat(v.replace(/\./g, "").replace(",", ".")) || 0;
+  };
+
+  // Administradoras únicas
+  const admsSet = new Set<string>();
+  // Segmentos únicos
+  const segmentosSet = new Set<string>();
+  // Acumuladores
+  let totalCotasAtivas = 0;
+  let totalGrupos = 0;
+
+  for (const linha of linhasConsolidadas) {
+    const d = linha.dadosLinha;
+    // As colunas normalizadas preservam o identificador oficial sem depender
+    // de variações de grafia no cabeçalho CSV.
+    if (linha.nomeAdministradora) admsSet.add(linha.nomeAdministradora);
+    if (linha.codigoSegmento) segmentosSet.add(linha.codigoSegmento);
+
+    totalCotasAtivas += parseNum(
+      d["Quantidade_de_cotas_ativas_em_dia"] || d["Quantidade_de_cotas_ativas"] || "0",
+    );
+    totalGrupos += parseInt(d["Quantidade_de_grupos_ativos"] || "0") || 0;
+  }
+
+  return {
+    dataBase,
+    administradoras: admsSet.size,
+    segmentos: segmentosSet.size,
+    cotasAtivas: totalCotasAtivas,
+    gruposAtivos: totalGrupos,
+    periodoMeses: 24,
+  };
+}

@@ -121,3 +121,10 @@
 - [x] Corrigir o item histórico de backend: as consultas e procedures temporariamente criadas para rankings foram integralmente removidas para respeitar a diretriz de não alterar APIs, consultas, banco ou camada analítica.
 - [x] Ajustar a home para que rankings e totais não dependam de novas consultas, preservando os seis blocos aprovados.
 - [x] Validar desktop e mobile, executar testes e salvar checkpoint da revisão exclusivamente visual.
+
+## REESTRUTURAÇÃO DEFINITIVA V1 — HOME PANORAMA > ADMINISTRADORAS
+
+- [x] Criar consulta única de totais de mercado no backend (adms, segmentos, cotas, grupos — dados reais)
+- [ ] Reescrever home: 4 blocos enxutos (hero mínimo, busca central, mercado em números texto, rodapé)
+- [ ] Remover completamente: Explorar o Mercado, rankings fictícios, skeletons, cards "em desenvolvimento"
+- [ ] Validar no navegador e salvar checkpoint

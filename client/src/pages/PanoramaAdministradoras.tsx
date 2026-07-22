@@ -111,11 +111,12 @@ function TendenciaItemPct({ label, indicador, variacao }: { label: string; indic
   );
 }
 
-// ─── Página: Home do Panorama > Administradoras (Fase 8.2) ─────────────────
+// ─── Página: Home do Panorama > Administradoras (Versão Definitiva V1) ────
 function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }) {
   const [search, setSearch] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const { data, isLoading, isError } = trpc.panoramaAdmin.listAdministradoras.useQuery();
+  const { data: totais } = trpc.panoramaAdmin.mercadoTotais.useQuery();
 
   // Filtrar resultados de busca para o select
   const filtered = useMemo(() => {
@@ -136,48 +137,38 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
     if (selectedNome) onSelect(selectedNome);
   };
 
-  // Estrutura visual dos rankings. A consulta consolidada ainda não existe no mapa analítico aprovado.
-  function RankingCard({ titulo }: { titulo: string }) {
-    return (
-      <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
-        <h3 className="text-[11px] uppercase tracking-widest font-bold text-[#c2410c] mb-4">{titulo}</h3>
-        <ol className="space-y-3" aria-label={`${titulo} em desenvolvimento`}>
-          {[1, 2, 3].map((posicao) => (
-            <li key={posicao} className="flex items-center gap-3 text-[#9e9890]">
-              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#f0ede5] text-[13px] font-bold shrink-0">{posicao}º</span>
-              <span className="h-3 rounded-full bg-[#f0ede5] flex-1" />
-            </li>
-          ))}
-        </ol>
-        <button type="button" disabled className="mt-4 text-[12px] font-bold text-[#9e9890] cursor-not-allowed" aria-label={`Ranking completo de ${titulo} em desenvolvimento`}>
-          Ver ranking completo · Em desenvolvimento
-        </button>
-      </div>
-    );
-  }
+  // Formatar milhões
+  const fmtMilhoes = (v: number) => {
+    if (v >= 1_000_000) return (v / 1_000_000).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " milhões de";
+    return v.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
+  };
+  const fmtMil = (v: number) => {
+    if (v >= 1_000) return (v / 1_000).toLocaleString("pt-BR", { minimumFractionDigits: 0, maximumFractionDigits: 0 }) + " mil";
+    return v.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
+  };
 
   return (
-    <div className="max-w-5xl mx-auto px-4 py-6 md:py-10">
-      {/* ─── BLOCO 1: HERO (reduzido 70%) ─── */}
-      <div className="mb-6 md:mb-8">
-        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
+    <div className="max-w-3xl mx-auto px-4 py-6 md:py-10">
+      {/* ─── BLOCO 1: HERO (mínimo) ─── */}
+      <div className="mb-5 md:mb-6">
+        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">
           Panorama BC | Administradoras
         </span>
-        <p className="text-[#4b4843] text-[14px] md:text-[15px] leading-relaxed font-bold">
-          Dados oficiais do Banco Central dos últimos 24 meses. Pesquise qualquer administradora de consórcio ou explore os principais indicadores do mercado.
+        <p className="text-[#4b4843] text-[13px] md:text-[14px] leading-snug font-bold">
+          Consulte dados oficiais das administradoras de consórcio publicados pelo Banco Central.
         </p>
       </div>
 
-      {/* ─── BLOCO 2: BUSCA (principal) ─── */}
-      <div className="bg-white border border-[#e5e0d8] rounded-2xl p-5 md:p-7 shadow-sm mb-8">
+      {/* ─── BLOCO 2: BUSCA (principal da página) ─── */}
+      <div className="bg-white border border-[#e5e0d8] rounded-2xl p-5 md:p-7 shadow-sm mb-6 md:mb-8">
         <label htmlFor="busca-administradora" className="block text-[14px] md:text-[15px] font-bold text-[#15140f] mb-3">
-          Qual administradora deseja analisar?
+          Qual administradora você deseja analisar?
         </label>
         <div className="relative mb-3">
           <input
             id="busca-administradora"
             type="search"
-            placeholder="Digite o nome da administradora..."
+            placeholder="Buscar por nome"
             value={search}
             onChange={(e) => {
               setSearch(e.target.value);
@@ -244,7 +235,7 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
         <button
           onClick={handleAnalyze}
           disabled={!canAnalyze}
-          className="w-full px-6 py-3.5 text-[15px] md:text-[16px] font-bold rounded-xl transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed enabled:bg-[#c2410c] enabled:text-white enabled:hover:bg-[#a33d0a] bg-[#d1ccc5] text-[#9e9890]"
+          className="w-full px-6 py-4 text-[16px] md:text-[17px] font-bold rounded-xl transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed enabled:bg-[#c2410c] enabled:text-white enabled:hover:bg-[#a33d0a] bg-[#d1ccc5] text-[#9e9890]"
         >
           ANALISAR
         </button>
@@ -254,68 +245,25 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
         )}
       </div>
 
-      {/* ─── BLOCO 3: EXPLORAR O MERCADO ─── */}
-      <div className="mb-8">
-        <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-4">Explorar o Mercado</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="text-[14px] font-bold text-[#15140f] mb-1">Administradoras</p>
-            <p className="text-[12px] text-[#9e9890] font-bold">Em desenvolvimento</p>
-          </div>
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="text-[14px] font-bold text-[#15140f] mb-1">Segmentos</p>
-            <p className="text-[12px] text-[#9e9890] font-bold">Em desenvolvimento</p>
-          </div>
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="text-[14px] font-bold text-[#15140f] mb-1">Rankings</p>
-            <p className="text-[12px] text-[#9e9890] font-bold">Veja abaixo</p>
+      {/* ─── BLOCO 3: MERCADO EM NÚMEROS (texto, sem cards) ─── */}
+      {totais && (
+        <div className="mb-6 md:mb-8">
+          <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-3">Mercado em Números</h2>
+          <div className="text-[#4b4843] text-[14px] md:text-[15px] leading-relaxed font-bold space-y-1">
+            <p>{totais.administradoras} administradoras.</p>
+            <p>{totais.segmentos} segmentos de consórcio.</p>
+            <p>Mais de {fmtMilhoes(totais.cotasAtivas)} cotas ativas.</p>
+            <p>Mais de {fmtMil(totais.gruposAtivos)} grupos ativos.</p>
+            <p>Histórico oficial dos últimos {totais.periodoMeses} meses.</p>
+            <p>Dados oficiais do Banco Central.</p>
           </div>
         </div>
-      </div>
+      )}
 
-      {/* ─── BLOCO 4: RANKINGS DO MERCADO (TOP 3) ─── */}
-      <div className="mb-8">
-        <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-4">Rankings do Mercado</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <RankingCard titulo="Top 10 — Cotas Ativas" />
-          <RankingCard titulo="Top 10 — Contemplações" />
-          <RankingCard titulo="Top 10 — Participação de Mercado" />
-          <RankingCard titulo="Top 10 — Grupos Ativos" />
-          <RankingCard titulo="Top 10 — Comercialização" />
-        </div>
-      </div>
-
-      {/* ─── BLOCO 5: MERCADO EM NÚMEROS ─── */}
-      <div className="mb-8">
-        <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-4">Mercado em Números</h2>
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">{isLoading ? "—" : data?.length ?? "—"}</p>
-            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Administradoras</p>
-          </div>
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">6</p>
-            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Segmentos</p>
-          </div>
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">—</p>
-            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Cotas Ativas</p>
-          </div>
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">—</p>
-            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Grupos Ativos</p>
-          </div>
-          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
-            <p className="font-mono text-[14px] md:text-[15px] font-bold text-[#15140f] leading-tight">24 meses</p>
-            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Período</p>
-          </div>
-        </div>
-      </div>
-
-      {/* ─── BLOCO 6: RODAPÉ ─── */}
+      {/* ─── BLOCO 4: RODAPÉ ─── */}
       <div className="border-t border-[#e5e0d8] pt-5">
         <p className="text-[12px] md:text-[13px] text-[#9e9890] font-bold text-center leading-relaxed">
-          Dados oficiais publicados pelo Banco Central do Brasil e atualizados automaticamente pelo motor do Consórcio de Verdade.
+          Todas as análises deste módulo são realizadas exclusivamente com dados oficiais publicados pelo Banco Central do Brasil.
         </p>
       </div>
     </div>

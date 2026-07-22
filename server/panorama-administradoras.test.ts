@@ -51,16 +51,16 @@ describe("situacaoRelativa", () => {
 });
 
 describe("home do Panorama > Administradoras", () => {
-  it("não depende de novas APIs de ranking ou totais de mercado", () => {
+  it("usa somente a lista existente e uma única consulta real de totais", () => {
     const source = readFileSync(
       resolve(process.cwd(), "client/src/pages/PanoramaAdministradoras.tsx"),
       "utf8",
     );
 
-    expect(source).toContain("Qual administradora deseja analisar?");
-    expect(source).toContain("Rankings do Mercado");
+    expect(source).toContain("Qual administradora você deseja analisar?");
     expect(source).toContain("Mercado em Números");
+    expect(source).toContain("mercadoTotais");
     expect(source).not.toContain("rankingsTop3");
-    expect(source).not.toContain("mercadoNumeros");
+    expect(source).not.toContain("Rankings do Mercado");
   });
 });

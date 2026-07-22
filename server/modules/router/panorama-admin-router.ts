@@ -21,6 +21,7 @@ import {
   getStatusIngestao,
   getRaioXCompleto,
   getDetalheSegmento,
+  getMercadoTotais,
 } from "../bc-admin/queries";
 
 const searchTermSchema = z.string().trim().min(2).max(120);
@@ -170,4 +171,9 @@ export const panoramaAdminRouter = router({
     .query(({ input }) =>
       compararAdministradoras(input.searchTerms, input.dataBase),
     ),
+
+  /**
+   * Totais de mercado para a home (dados reais)
+   */
+  mercadoTotais: publicProcedure.query(() => getMercadoTotais()),
 });
