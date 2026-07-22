@@ -1,4 +1,4 @@
-import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, date, boolean } from "drizzle-orm/mysql-core";
+import { int, mysqlEnum, mysqlTable, text, timestamp, varchar, decimal, date, boolean, longtext } from "drizzle-orm/mysql-core";
 
 /**
  * Core user table backing auth flow.
@@ -41,16 +41,20 @@ export const bcImportacoes = mysqlTable("bc_importacoes", {
   dataImportacao: timestamp("dataImportacao").defaultNow().notNull(),
   /** Data-base do arquivo (YYYY-MM, ex: 2026-07) */
   dataBase: varchar("dataBase", { length: 7 }).notNull(),
-  /** Nome do arquivo ZIP (ex: 202607.zip) */
+  /** Nome do arquivo ZIP (ex: 202607Consorcios.zip) */
   nomeZip: varchar("nomeZip", { length: 255 }).notNull().unique(),
   /** Hash SHA-256 do arquivo para detectar duplicatas */
   hashArquivo: varchar("hashArquivo", { length: 64 }).notNull().unique(),
+  /** Base de origem oficial do Banco Central */
+  baseOrigem: mysqlEnum("baseOrigem", ["consolidados", "dados_uf"]).notNull(),
   /** Status da importação: pendente, sucesso, erro */
   status: mysqlEnum("status", ["pendente", "sucesso", "erro"]).default("pendente").notNull(),
   /** Quantidade de arquivos extraídos do ZIP */
   quantidadeArquivosExtraidos: int("quantidadeArquivosExtraidos").default(0),
+  /** Quantidade total de linhas importadas */
+  quantidadeLinhasImportadas: int("quantidadeLinhasImportadas").default(0),
   /** Logs do processo (erros, avisos, etc.) */
-  logs: text("logs"),
+  logs: longtext("logs"),
   /** Timestamp de criação */
   criadoEm: timestamp("criadoEm").defaultNow().notNull(),
   /** Timestamp de última atualização */
@@ -85,24 +89,41 @@ export type BcArquivo = typeof bcArquivos.$inferSelect;
 export type InsertBcArquivo = typeof bcArquivos.$inferInsert;
 
 /**
- * Tabela: bc_dados_mensais
- * Responsável por armazenar TODOS os dados brutos do Banco Central
- * Dados são armazenados EXATAMENTE como publicados (sem transformação, normalização ou exclusão)
- * Esta tabela é um espelho fiel dos dados do BC
+ * Tabela: bc_dados_linha
+ * RESPONSÁVEL POR ARMAZENAR CADA LINHA DOS ARQUIVOS CSV DO BANCO CENTRAL
+ * REGRA ARQUITETURAL DEFINITIVA: 1 linha CSV = 1 linha no banco de dados
+ *
+ * Colunas individuais para campos comuns a todos os arquivos (filtros e cruzamentos):
+ * - dataBase, baseOrigem, tipoDados, cnpjAdministradora, nomeAdministradora, codigoSegmento
+ *
+ * Coluna dadosLinha (JSON): preserva INTEGRALMENTE todos os campos oficiais de cada linha
+ * Nenhum campo oficial é descartado.
  */
-export const bcDadosMensais = mysqlTable("bc_dados_mensais", {
+export const bcDadosLinha = mysqlTable("bc_dados_linha", {
   id: int("id").autoincrement().primaryKey(),
   /** Referência à importação */
   importacaoId: int("importacaoId").notNull(),
-  /** Data-base do arquivo (YYYY-MM) */
+  /** Data-base do arquivo (YYYY-MM, ex: 2026-05) */
   dataBase: varchar("dataBase", { length: 7 }).notNull(),
-  /** Tipo de dados (ex: segmentos_consolidados, bens_imoveis_grupos, etc.) */
+  /** Base de origem oficial do Banco Central */
+  baseOrigem: mysqlEnum("baseOrigem", ["consolidados", "dados_uf"]).notNull(),
+  /** Tipo de dados (ex: segmentos_consolidados, bens_imoveis_grupos, bens_moveis_grupos, dados_uf) */
   tipoDados: varchar("tipoDados", { length: 100 }).notNull(),
-  /** Dados brutos em JSON (preserva estrutura original do BC) */
-  dadosJson: text("dadosJson").notNull(),
+  /** Nome do arquivo CSV original dentro do ZIP */
+  nomeArquivoOriginal: varchar("nomeArquivoOriginal", { length: 255 }).notNull(),
+  /** CNPJ da administradora (8 dígitos, zero-padded) — chave de relacionamento entre bases */
+  cnpjAdministradora: varchar("cnpjAdministradora", { length: 20 }).notNull(),
+  /** Nome da administradora (preservado do campo oficial) */
+  nomeAdministradora: varchar("nomeAdministradora", { length: 255 }).notNull(),
+  /** Código do segmento (preservado do campo oficial) */
+  codigoSegmento: varchar("codigoSegmento", { length: 10 }).notNull(),
+  /** Todos os campos oficiais da linha CSV, preservados integralmente como JSON */
+  dadosLinha: text("dadosLinha").notNull(),
+  /** Cabeçalhos originais do arquivo CSV (preservados integralmente) */
+  cabecalhosOriginais: text("cabecalhosOriginais"),
   /** Timestamp de criação */
   criadoEm: timestamp("criadoEm").defaultNow().notNull(),
 });
 
-export type BcDadosMensal = typeof bcDadosMensais.$inferSelect;
-export type InsertBcDadosMensal = typeof bcDadosMensais.$inferInsert;
+export type BcDadosLinha = typeof bcDadosLinha.$inferSelect;
+export type InsertBcDadosLinha = typeof bcDadosLinha.$inferInsert;

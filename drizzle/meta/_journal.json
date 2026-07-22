@@ -15,6 +15,20 @@
       "when": 1784689332830,
       "tag": "0001_panoramic_mother_askani",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1784725578979,
+      "tag": "0002_little_peter_quill",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1784730405726,
+      "tag": "0003_organic_random",
+      "breakpoints": true
     }
   ]
 }

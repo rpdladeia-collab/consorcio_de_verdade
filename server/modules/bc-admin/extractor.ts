@@ -50,9 +50,39 @@ export async function extractZipFile(
     }
 
     const extractedFiles: ExtractedFile[] = [];
+    const writePromises: Promise<void>[] = [];
 
     // Extrair ZIP
     return new Promise((resolve) => {
+      let streamClosed = false;
+      let streamError: string | null = null;
+
+      async function tryResolve() {
+        if (!streamClosed) return;
+        // Aguardar todas as escritas terminarem
+        const results = await Promise.allSettled(writePromises);
+        const hadError = streamError !== null || results.some(
+          (r) => r.status === "rejected",
+        );
+
+        if (hadError) {
+          resolve({
+            success: false,
+            error: streamError || "One or more files failed to extract",
+          });
+        } else if (extractedFiles.length === 0) {
+          resolve({
+            success: false,
+            error: "No files extracted from ZIP",
+          });
+        } else {
+          resolve({
+            success: true,
+            files: extractedFiles,
+          });
+        }
+      }
+
       fs.createReadStream(zipPath)
         .pipe(unzipper.Parse())
         .on("entry", (entry) => {
@@ -74,43 +104,36 @@ export async function extractZipFile(
             fs.mkdirSync(fileDir, { recursive: true });
           }
 
-          // Escrever arquivo no disco
-          const writeStream = fs.createWriteStream(filePath);
-
-          entry.pipe(writeStream);
-
-          writeStream.on("finish", () => {
-            const stats = fs.statSync(filePath);
-            extractedFiles.push({
-              name: fileName,
-              type,
-              path: filePath,
-              size: stats.size,
+          // Escrever arquivo no disco e rastrear conclusão
+          const writePromise = new Promise<void>((resolveWrite, rejectWrite) => {
+            const writeStream = fs.createWriteStream(filePath);
+            entry.pipe(writeStream);
+            writeStream.on("finish", () => {
+              const stats = fs.statSync(filePath);
+              extractedFiles.push({
+                name: fileName,
+                type,
+                path: filePath,
+                size: stats.size,
+              });
+              resolveWrite();
+            });
+            writeStream.on("error", (error) => {
+              console.error(`Error writing file ${fileName}:`, error);
+              rejectWrite(error);
             });
           });
 
-          writeStream.on("error", (error) => {
-            console.error(`Error writing file ${fileName}:`, error);
-          });
+          writePromises.push(writePromise);
         })
         .on("error", (error) => {
-          resolve({
-            success: false,
-            error: `Failed to extract ZIP: ${error.message}`,
-          });
+          streamError = `Failed to extract ZIP: ${error.message}`;
+          streamClosed = true;
+          tryResolve();
         })
         .on("close", () => {
-          if (extractedFiles.length === 0) {
-            resolve({
-              success: false,
-              error: "No files extracted from ZIP",
-            });
-          } else {
-            resolve({
-              success: true,
-              files: extractedFiles,
-            });
-          }
+          streamClosed = true;
+          tryResolve();
         });
     });
   } catch (error) {
@@ -153,6 +176,10 @@ export async function validateZipIntegrity(zipPath: string): Promise<{
 
       fs.createReadStream(zipPath)
         .pipe(unzipper.Parse())
+        .on("entry", (entry) => {
+          // Drenar entries para que o stream possa fechar
+          entry.autodrain();
+        })
         .on("error", (error) => {
           isValid = false;
           errorMsg = `ZIP corrupted: ${error.message}`;

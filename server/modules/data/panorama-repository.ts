@@ -13,8 +13,8 @@ import {
 import {
   panoramaMetadata,
   panoramaMetrics,
-} from "../../../../drizzle/panorama-schema";
-import { getDb } from "../../../db";
+} from "../../../drizzle/panorama-schema";
+import { getDb } from "../../db";
 
 export interface PanoramaGroupSummary {
   id: string;

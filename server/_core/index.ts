@@ -9,6 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { handleBCAdminImport } from "../modules/bc-admin/scheduled-handler";
+import { setupDailyImportHeartbeat } from "../modules/bc-admin/heartbeat-setup";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -65,6 +66,10 @@ async function startServer() {
 
   server.listen(port, () => {
     console.log(`Server running on http://localhost:${port}/`);
+    // FASE 6: Registrar job diário de atualização do motor de ingestão
+    setupDailyImportHeartbeat().catch((err) => {
+      console.error("[HEARTBEAT-SETUP] Failed to register daily import job:", err);
+    });
   });
 }
 

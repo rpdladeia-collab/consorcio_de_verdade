@@ -1,28 +1,32 @@
 /**
- * FASE 1: Downloader Automático do Banco Central
- * Responsável por:
- * 1. Acessar página do BC
- * 2. Detectar novos ZIPs
- * 3. Verificar duplicatas (por hash)
- * 4. Fazer download automático
+ * FASE 6: Downloader de arquivos ZIP do Banco Central
+ * Implementa descoberta determinística dos últimos 24 meses para:
+ * - Dados Consolidados (padrão: AAAAMMConsorcios.zip, mensal)
+ * - Dados por UF (padrão: AAAAMMConsorcios_UF.zip, trimestral: mar/jun/set/dez)
  */
 
 import * as fs from "fs";
 import * as path from "path";
-import * as https from "https";
 import * as crypto from "crypto";
 import { createReadStream } from "fs";
 
-const BC_URL = "https://www.bcb.gov.br/estabilidadefinanceira/consorciobd";
+const BC_BASE_URL = "https://www.bcb.gov.br";
+const BC_DOWNLOAD_PATH = "/Fis/Consorcios/Port/BD";
 const STORAGE_DIR = "/storage/banco-central";
 
 /**
- * Interface para representar um arquivo ZIP disponível no BC
+ * Base de origem oficial do Banco Central
+ */
+export type BaseOrigem = "consolidados" | "dados_uf";
+
+/**
+ * Interface para arquivo ZIP do BC
  */
 export interface BCZipFile {
   url: string;
   filename: string;
-  dataBase: string; // YYYY-MM
+  dataBase: string; // formato YYYY-MM
+  baseOrigem: BaseOrigem;
 }
 
 /**
@@ -41,7 +45,6 @@ export async function calculateFileHash(filePath: string): Promise<string> {
   return new Promise((resolve, reject) => {
     const hash = crypto.createHash("sha256");
     const stream = createReadStream(filePath);
-
     stream.on("data", (data) => hash.update(data));
     stream.on("end", () => resolve(hash.digest("hex")));
     stream.on("error", reject);
@@ -49,75 +52,53 @@ export async function calculateFileHash(filePath: string): Promise<string> {
 }
 
 /**
- * Fazer download de um arquivo ZIP
- * Retorna o caminho local do arquivo
+ * Fazer download de um arquivo ZIP do BC
  */
 export async function downloadZipFile(
   url: string,
-  outputPath: string
+  outputPath: string,
 ): Promise<string> {
-  return new Promise((resolve, reject) => {
-    const file = fs.createWriteStream(outputPath);
-
-    https
-      .get(url, (response) => {
-        // Verificar se o download foi bem-sucedido
-        if (response.statusCode !== 200) {
-          fs.unlink(outputPath, () => {}); // Limpar arquivo parcial
-          reject(
-            new Error(
-              `Download failed with status ${response.statusCode}: ${url}`
-            )
-          );
-          return;
-        }
-
-        response.pipe(file);
-
-        file.on("finish", () => {
-          file.close();
-          resolve(outputPath);
-        });
-
-        file.on("error", (err) => {
-          fs.unlink(outputPath, () => {}); // Limpar arquivo parcial
-          reject(err);
-        });
-      })
-      .on("error", (err) => {
-        fs.unlink(outputPath, () => {}); // Limpar arquivo parcial
-        reject(err);
-      });
-  });
-}
-
-/**
- * Extrair data-base do nome do arquivo ZIP
- * Ex: 202607.zip → 2026-07
- */
-export function extractDataBaseFromZipName(zipName: string): string {
-  // Remover extensão .zip
-  const nameWithoutExt = zipName.replace(/\.zip$/i, "");
-
-  // Extrair YYYYMM (últimos 6 dígitos)
-  const match = nameWithoutExt.match(/(\d{6})$/);
-  if (!match) {
-    throw new Error(`Cannot extract date from ZIP name: ${zipName}`);
+  const dir = path.dirname(outputPath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
   }
 
-  const yyyymm = match[1];
-  const year = yyyymm.substring(0, 4);
-  const month = yyyymm.substring(4, 6);
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error(`Download failed: HTTP ${response.status} for ${url}`);
+  }
 
-  return `${year}-${month}`;
+  const buffer = Buffer.from(await response.arrayBuffer());
+  fs.writeFileSync(outputPath, buffer);
+  return outputPath;
 }
 
 /**
- * Verificar se um arquivo ZIP já foi importado (por hash)
+ * Extrair data-base (YYYY-MM) a partir do nome do ZIP oficial
+ * Suporta padrões: 202605Consorcios.zip e 202603Consorcios_UF.zip
+ */
+export function extractDataBaseFromZipName(filename: string): string | null {
+  const match = filename.match(/^(\d{4})(\d{2})Consorcios(?:_UF)?\.zip$/i);
+  if (!match) return null;
+  return `${match[1]}-${match[2]}`;
+}
+
+/**
+ * Detectar base de origem a partir do nome do arquivo
+ */
+export function detectBaseOrigem(filename: string): BaseOrigem {
+  if (/Consorcios_UF\.zip$/i.test(filename)) {
+    return "dados_uf";
+  }
+  return "consolidados";
+}
+
+/**
+ * Verificar se um ZIP já foi importado (por hash)
  */
 export async function isZipAlreadyImported(
   filePath: string,
-  findImportacaoByHashFn: (hash: string) => Promise<any>
+  findImportacaoByHashFn: (hash: string) => Promise<any>,
 ): Promise<boolean> {
   try {
     const hash = await calculateFileHash(filePath);
@@ -130,21 +111,89 @@ export async function isZipAlreadyImported(
 }
 
 /**
- * Obter lista de ZIPs disponíveis no BC
- * NOTA: Esta é uma implementação simplificada
- * Em produção, seria necessário fazer scraping da página do BC
- * ou usar uma API se disponível
+ * Gerar lista determinística de ZIPs de Dados Consolidados dos últimos N meses
+ * Disponibilidade: mensal (todos os meses)
  */
-export async function getAvailableBCZips(): Promise<BCZipFile[]> {
-  // TODO: Implementar scraping ou integração com API do BC
-  // Por enquanto, retorna array vazio
-  // Este método será chamado pelo cron para detectar novos arquivos
+function generateConsolidadosZipList(monthsBack: number): BCZipFile[] {
+  const zips: BCZipFile[] = [];
+  const now = new Date();
+  // Usar o mês anterior como referência (o BC publica com defasagem de ~2 meses)
+  const refDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
 
-  console.log(`Fetching available ZIPs from BC: ${BC_URL}`);
+  for (let i = 0; i < monthsBack; i++) {
+    const date = new Date(refDate.getFullYear(), refDate.getMonth() - i, 1);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const yyyymm = `${year}${month}`;
+    const filename = `${yyyymm}Consorcios.zip`;
+    const dataBase = `${year}-${month}`;
 
-  // Placeholder: em produção, fazer scraping da página
-  // e retornar lista de ZIPs disponíveis
-  return [];
+    zips.push({
+      url: `${BC_BASE_URL}${BC_DOWNLOAD_PATH}/${filename}`,
+      filename,
+      dataBase,
+      baseOrigem: "consolidados",
+    });
+  }
+
+  return zips;
+}
+
+/**
+ * Gerar lista determinística de ZIPs de Dados por UF dos últimos N meses
+ * Disponibilidade: trimestral (março, junho, setembro, dezembro)
+ */
+function generateDadosUfZipList(monthsBack: number): BCZipFile[] {
+  const zips: BCZipFile[] = [];
+  const now = new Date();
+  const refDate = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+  const trimestralMonths = [2, 5, 8, 11]; // 0-indexed: mar=2, jun=5, set=8, dez=11
+
+  for (let i = 0; i < monthsBack; i++) {
+    const date = new Date(refDate.getFullYear(), refDate.getMonth() - i, 1);
+    const month = date.getMonth();
+
+    if (trimestralMonths.includes(month)) {
+      const year = date.getFullYear();
+      const monthStr = String(month + 1).padStart(2, "0");
+      const yyyymm = `${year}${monthStr}`;
+      const filename = `${yyyymm}Consorcios_UF.zip`;
+      const dataBase = `${year}-${monthStr}`;
+
+      zips.push({
+        url: `${BC_BASE_URL}${BC_DOWNLOAD_PATH}/${filename}`,
+        filename,
+        dataBase,
+        baseOrigem: "dados_uf",
+      });
+    }
+  }
+
+  return zips;
+}
+
+/**
+ * Obter lista de todos os ZIPs disponíveis dos últimos 24 meses
+ * Inclui Dados Consolidados (mensal) e Dados por UF (trimestral)
+ */
+export function getAvailableBCZips(monthsBack: number = 24): BCZipFile[] {
+  const consolidados = generateConsolidadosZipList(monthsBack);
+  const dadosUf = generateDadosUfZipList(monthsBack);
+  return [...consolidados, ...dadosUf];
+}
+
+/**
+ * Obter lista de ZIPs de Dados Consolidados dos últimos N meses
+ */
+export function getConsolidadosZips(monthsBack: number = 24): BCZipFile[] {
+  return generateConsolidadosZipList(monthsBack);
+}
+
+/**
+ * Obter lista de ZIPs de Dados por UF dos últimos N meses
+ */
+export function getDadosUfZips(monthsBack: number = 24): BCZipFile[] {
+  return generateDadosUfZipList(monthsBack);
 }
 
 /**
@@ -153,7 +202,7 @@ export async function getAvailableBCZips(): Promise<BCZipFile[]> {
  */
 export async function processNewZip(
   zipFile: BCZipFile,
-  findImportacaoByHashFn: (hash: string) => Promise<any>
+  findImportacaoByHashFn: (hash: string) => Promise<any>,
 ): Promise<{
   success: boolean;
   filePath?: string;
@@ -164,17 +213,13 @@ export async function processNewZip(
   try {
     ensureStorageDir();
 
-    // Caminho onde o ZIP será armazenado
     const outputPath = path.join(STORAGE_DIR, zipFile.filename);
 
-    // Verificar se o arquivo já existe localmente
     if (fs.existsSync(outputPath)) {
       const hash = await calculateFileHash(outputPath);
-
-      // Verificar se já foi importado
       const alreadyImported = await isZipAlreadyImported(
         outputPath,
-        findImportacaoByHashFn
+        findImportacaoByHashFn,
       );
       if (alreadyImported) {
         return {
@@ -182,7 +227,6 @@ export async function processNewZip(
           error: `ZIP already imported: ${zipFile.filename}`,
         };
       }
-
       return {
         success: true,
         filePath: outputPath,
@@ -191,20 +235,16 @@ export async function processNewZip(
       };
     }
 
-    // Fazer download do arquivo
     console.log(`Downloading ZIP: ${zipFile.filename}`);
     const downloadedPath = await downloadZipFile(zipFile.url, outputPath);
-
-    // Calcular hash do arquivo baixado
     const hash = await calculateFileHash(downloadedPath);
 
-    // Verificar se já foi importado (por hash)
     const alreadyImported = await isZipAlreadyImported(
       downloadedPath,
-      findImportacaoByHashFn
+      findImportacaoByHashFn,
     );
     if (alreadyImported) {
-      fs.unlinkSync(downloadedPath); // Remover arquivo duplicado
+      fs.unlinkSync(downloadedPath);
       return {
         success: false,
         error: `ZIP already imported (duplicate hash): ${zipFile.filename}`,

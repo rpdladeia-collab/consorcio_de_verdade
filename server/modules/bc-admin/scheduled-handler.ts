@@ -1,7 +1,7 @@
 /**
- * FASE 1: Handler para Cron Mensal de Importação do BC
- * Executado automaticamente no dia 15 de cada mês às 02:00 UTC
- * Responsável por: download, extração e importação de dados
+ * FASE 6: Handler para Atualização Diária do Motor de Ingestão do BC
+ * Executado automaticamente todos os dias às 03:00 UTC
+ * Responsável por: verificar, baixar e importar novos arquivos publicados pelo BC
  */
 
 import { Request, Response } from "express";
@@ -76,9 +76,9 @@ export async function handleBCAdminImport(req: Request, res: Response) {
  * Informações sobre o cron
  */
 export const BC_ADMIN_CRON_CONFIG = {
-  name: "bc-admin-monthly-import",
-  cron: "0 0 2 15 * *", // Dia 15 de cada mês às 02:00 UTC
+  name: "bc-admin-daily-import",
+  cron: "0 0 3 * * *", // Diariamente às 03:00 UTC
   path: "/api/scheduled/bc-admin-import",
-  description: "Monthly import of Banco Central consortium data",
+  description: "Daily check and import of new Banco Central consortium data files",
   method: "POST" as const,
 };
