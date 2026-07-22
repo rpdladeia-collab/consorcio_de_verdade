@@ -63,3 +63,11 @@
 - [x] REFATORAÇÃO ALTERNATIVA A: Limpar banco e re-executar importação completa dos 32 ZIPs
 - [x] REFATORAÇÃO ALTERNATIVA A: Coletar as 12 evidências obrigatórias
 - [x] REFATORAÇÃO ALTERNATIVA A: Atualizar queries.ts e panorama-admin-router.ts para novo schema
+
+## FASE 8 — MODELAGEM FUNCIONAL DO PANORAMA > ADMINISTRADORAS (V1)
+
+- [x] FASE 8: Consultar dicionário do BC no banco para mapear códigos de segmento → nomes amigáveis
+- [x] FASE 8: Classificar manualmente as 143 administradoras em Banco, Adm Independente e Cooperativa
+- [x] FASE 8: Modelar as 3 camadas funcionais (Administradora, Segmentos, Grupos) com indicadores e comparativos
+- [x] FASE 8: Definir cálculos de médias de mercado e regras de comparativo (acima/abaixo/dentro da média)
+- [x] FASE 8: Escrever e entregar o Product Spec completo
