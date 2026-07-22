@@ -111,12 +111,13 @@ function TendenciaItemPct({ label, indicador, variacao }: { label: string; indic
   );
 }
 
-// ─── Página: Lista de Administradoras (Entrega 01) ──────────────────────────
+// ─── Página: Home do Panorama > Administradoras (Fase 8.2) ─────────────────
 function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }) {
   const [search, setSearch] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
   const { data, isLoading, isError } = trpc.panoramaAdmin.listAdministradoras.useQuery();
 
+  // Filtrar resultados de busca para o select
   const filtered = useMemo(() => {
     if (!data) return [];
     if (!search.trim()) return data;
@@ -127,47 +128,110 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
     });
   }, [data, search]);
 
+  // Determinar se uma administradora está selecionada (via busca ou select)
+  const selectedNome = selectedOption || (filtered.length === 1 ? filtered[0].nomeAdministradora : "");
+  const canAnalyze = !!selectedNome;
+
+  const handleAnalyze = () => {
+    if (selectedNome) onSelect(selectedNome);
+  };
+
+  // Estrutura visual dos rankings. A consulta consolidada ainda não existe no mapa analítico aprovado.
+  function RankingCard({ titulo }: { titulo: string }) {
+    return (
+      <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
+        <h3 className="text-[11px] uppercase tracking-widest font-bold text-[#c2410c] mb-4">{titulo}</h3>
+        <ol className="space-y-3" aria-label={`${titulo} em desenvolvimento`}>
+          {[1, 2, 3].map((posicao) => (
+            <li key={posicao} className="flex items-center gap-3 text-[#9e9890]">
+              <span className="flex items-center justify-center w-7 h-7 rounded-full bg-[#f0ede5] text-[13px] font-bold shrink-0">{posicao}º</span>
+              <span className="h-3 rounded-full bg-[#f0ede5] flex-1" />
+            </li>
+          ))}
+        </ol>
+        <button type="button" disabled className="mt-4 text-[12px] font-bold text-[#9e9890] cursor-not-allowed" aria-label={`Ranking completo de ${titulo} em desenvolvimento`}>
+          Ver ranking completo · Em desenvolvimento
+        </button>
+      </div>
+    );
+  }
+
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8 md:py-12">
-      <div className="mb-8">
-        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-2">
-          Panorama: Administradoras
+    <div className="max-w-5xl mx-auto px-4 py-6 md:py-10">
+      {/* ─── BLOCO 1: HERO (reduzido 70%) ─── */}
+      <div className="mb-6 md:mb-8">
+        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
+          Panorama BC | Administradoras
         </span>
-        <h1 className="text-2xl md:text-4xl font-bold text-[#15140f] leading-tight mb-3 tracking-tight">
-          Raio-X das administradoras de consórcio
-        </h1>
-        <p className="text-[#4b4843] text-[15px] md:text-[16px] leading-relaxed font-bold max-w-2xl">
-          Selecione uma administradora para visualizar indicadores operacionais, segmentos, grupos,
-          contemplações e tendências dos últimos 24 meses. Dados oficiais do Banco Central.
+        <p className="text-[#4b4843] text-[14px] md:text-[15px] leading-relaxed font-bold">
+          Dados oficiais do Banco Central dos últimos 24 meses. Pesquise qualquer administradora de consórcio ou explore os principais indicadores do mercado.
         </p>
       </div>
 
-      <div className="space-y-3 mb-6">
-        <label htmlFor="busca-administradora" className="sr-only">Buscar administradora</label>
-        <div className="relative">
+      {/* ─── BLOCO 2: BUSCA (principal) ─── */}
+      <div className="bg-white border border-[#e5e0d8] rounded-2xl p-5 md:p-7 shadow-sm mb-8">
+        <label htmlFor="busca-administradora" className="block text-[14px] md:text-[15px] font-bold text-[#15140f] mb-3">
+          Qual administradora deseja analisar?
+        </label>
+        <div className="relative mb-3">
           <input
             id="busca-administradora"
             type="search"
-            placeholder="Buscar por nome da administradora..."
+            placeholder="Digite o nome da administradora..."
             value={search}
-            onChange={(e) => setSearch(e.target.value)}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setSelectedOption("");
+            }}
             className="w-full px-4 py-3.5 pr-12 text-[15px] md:text-[16px] font-medium border border-[#d1ccc5] rounded-xl bg-white text-[#15140f] placeholder:text-[#9e9890] focus:outline-none focus:border-[#c2410c] focus:ring-2 focus:ring-[#c2410c]/20 transition-all"
           />
           <svg className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9e9890] pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
         </div>
-        <label htmlFor="select-administradora" className="block text-[11px] uppercase tracking-wider font-bold text-[#4b4843]">
-          Ou selecione na lista alfabética
+
+        {/* Resultados filtrados da busca (apenas quando digitando) */}
+        {search.trim() && filtered.length > 0 && filtered.length <= 5 && (
+          <div className="mb-3 space-y-1.5">
+            {filtered.map((adm: { nomeAdministradora: string }) => (
+              <button
+                key={adm.nomeAdministradora}
+                onClick={() => {
+                  setSelectedOption(adm.nomeAdministradora);
+                  setSearch("");
+                }}
+                className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-[#15140f] bg-[#f6f3ec] hover:bg-[#f0ede5] rounded-lg transition-colors"
+              >
+                {adm.nomeAdministradora}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {search.trim() && filtered.length > 5 && (
+          <p className="mb-3 text-[13px] text-[#4b4843] font-bold">
+            {filtered.length} administradoras encontradas. Refine sua busca ou use a lista abaixo.
+          </p>
+        )}
+
+        {search.trim() && !isLoading && !isError && filtered.length === 0 && (
+          <p className="mb-3 text-[13px] text-[#9e9890] font-bold">Nenhuma administradora encontrada para "{search}"</p>
+        )}
+
+        {/* Divisor OU */}
+        <div className="flex items-center gap-3 my-3">
+          <div className="flex-1 h-px bg-[#e5e0d8]"></div>
+          <span className="text-[11px] uppercase tracking-wider font-bold text-[#9e9890]">OU</span>
+          <div className="flex-1 h-px bg-[#e5e0d8]"></div>
+        </div>
+
+        <label htmlFor="select-administradora" className="block text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mb-2">
+          Selecione uma administradora
         </label>
         <select
           id="select-administradora"
           value={selectedOption}
           disabled={isLoading || !data?.length}
-          onChange={(e) => {
-            const nome = e.target.value;
-            setSelectedOption(nome);
-            if (nome) onSelect(nome);
-          }}
-          className="w-full px-4 py-3.5 text-[15px] md:text-[16px] font-medium border border-[#d1ccc5] rounded-xl bg-white text-[#15140f] focus:outline-none focus:border-[#c2410c] focus:ring-2 focus:ring-[#c2410c]/20 transition-all disabled:opacity-60"
+          onChange={(e) => setSelectedOption(e.target.value)}
+          className="w-full px-4 py-3.5 text-[15px] md:text-[16px] font-medium border border-[#d1ccc5] rounded-xl bg-white text-[#15140f] focus:outline-none focus:border-[#c2410c] focus:ring-2 focus:ring-[#c2410c]/20 transition-all disabled:opacity-60 mb-4"
         >
           <option value="">Selecione uma administradora</option>
           {(data || []).map((adm: { nomeAdministradora: string; cnpjAdministradora: string }) => (
@@ -176,62 +240,84 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
             </option>
           ))}
         </select>
+
+        <button
+          onClick={handleAnalyze}
+          disabled={!canAnalyze}
+          className="w-full px-6 py-3.5 text-[15px] md:text-[16px] font-bold rounded-xl transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed enabled:bg-[#c2410c] enabled:text-white enabled:hover:bg-[#a33d0a] bg-[#d1ccc5] text-[#9e9890]"
+        >
+          ANALISAR
+        </button>
+
+        {isError && (
+          <p className="mt-3 text-[13px] text-[#c2410c] font-bold text-center">Não foi possível carregar a lista. Atualize a página.</p>
+        )}
       </div>
 
-      {isLoading && (
-        <div className="text-center py-12">
-          <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#c2410c] border-t-transparent"></div>
-          <p className="mt-3 text-[14px] text-[#4b4843] font-bold">Carregando administradoras...</p>
-        </div>
-      )}
-
-      {isError && (
-        <div className="text-center py-12 rounded-xl border border-orange-200 bg-orange-50">
-          <p className="text-[15px] text-[#4b4843] font-bold">Não foi possível carregar a lista de administradoras. Atualize a página e tente novamente.</p>
-        </div>
-      )}
-
-      {!isLoading && !isError && filtered.length === 0 && (
-        <div className="text-center py-12">
-          <p className="text-[15px] text-[#4b4843] font-bold">Nenhuma administradora encontrada para "{search}"</p>
-        </div>
-      )}
-
-      {!isLoading && !isError && filtered.length > 0 && (
-        <>
-          <p className="text-[12px] text-[#9e9890] font-bold mb-3">
-            {filtered.length} administradora{filtered.length !== 1 ? "s" : ""} encontrada{filtered.length !== 1 ? "s" : ""}
-          </p>
-          <div className="space-y-2">
-            {filtered.map((adm: { nomeAdministradora: string; cnpjAdministradora: string }) => {
-              const cat = getCategoria(adm.nomeAdministradora);
-              const catColor = cat === "Banco" ? "bg-[#15140f] text-white" :
-                cat === "Cooperativas e Associações" ? "bg-[#2f5233] text-white" :
-                "bg-white border border-[#d1ccc5] text-[#4b4843]";
-              return (
-                <button
-                  key={adm.cnpjAdministradora + adm.nomeAdministradora}
-                  onClick={() => onSelect(adm.nomeAdministradora)}
-                  className="w-full text-left bg-white border border-[#e5e0d8] rounded-xl p-4 hover:border-[#c2410c] hover:shadow-md transition-all group flex items-center justify-between gap-4"
-                >
-                  <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-[9px] uppercase tracking-wider font-bold px-2 py-0.5 rounded-full whitespace-nowrap ${catColor}`}>
-                        {cat}
-                      </span>
-                    </div>
-                    <h3 className="text-[15px] md:text-[16px] font-bold text-[#15140f] group-hover:text-[#c2410c] transition-colors leading-tight truncate">
-                      {adm.nomeAdministradora}
-                    </h3>
-                    <p className="text-[11px] text-[#9e9890] font-mono mt-0.5">CNPJ: {adm.cnpjAdministradora}</p>
-                  </div>
-                  <svg className="text-[#9e9890] group-hover:text-[#c2410c] shrink-0 transition-colors" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6"/></svg>
-                </button>
-              );
-            })}
+      {/* ─── BLOCO 3: EXPLORAR O MERCADO ─── */}
+      <div className="mb-8">
+        <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-4">Explorar o Mercado</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="text-[14px] font-bold text-[#15140f] mb-1">Administradoras</p>
+            <p className="text-[12px] text-[#9e9890] font-bold">Em desenvolvimento</p>
           </div>
-        </>
-      )}
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="text-[14px] font-bold text-[#15140f] mb-1">Segmentos</p>
+            <p className="text-[12px] text-[#9e9890] font-bold">Em desenvolvimento</p>
+          </div>
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="text-[14px] font-bold text-[#15140f] mb-1">Rankings</p>
+            <p className="text-[12px] text-[#9e9890] font-bold">Veja abaixo</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── BLOCO 4: RANKINGS DO MERCADO (TOP 3) ─── */}
+      <div className="mb-8">
+        <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-4">Rankings do Mercado</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <RankingCard titulo="Top 10 — Cotas Ativas" />
+          <RankingCard titulo="Top 10 — Contemplações" />
+          <RankingCard titulo="Top 10 — Participação de Mercado" />
+          <RankingCard titulo="Top 10 — Grupos Ativos" />
+          <RankingCard titulo="Top 10 — Comercialização" />
+        </div>
+      </div>
+
+      {/* ─── BLOCO 5: MERCADO EM NÚMEROS ─── */}
+      <div className="mb-8">
+        <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-4">Mercado em Números</h2>
+        <div className="grid grid-cols-2 md:grid-cols-5 gap-3">
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">{isLoading ? "—" : data?.length ?? "—"}</p>
+            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Administradoras</p>
+          </div>
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">6</p>
+            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Segmentos</p>
+          </div>
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">—</p>
+            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Cotas Ativas</p>
+          </div>
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="font-mono text-xl md:text-2xl font-bold text-[#15140f]">—</p>
+            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Grupos Ativos</p>
+          </div>
+          <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 text-center shadow-sm">
+            <p className="font-mono text-[14px] md:text-[15px] font-bold text-[#15140f] leading-tight">24 meses</p>
+            <p className="text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Período</p>
+          </div>
+        </div>
+      </div>
+
+      {/* ─── BLOCO 6: RODAPÉ ─── */}
+      <div className="border-t border-[#e5e0d8] pt-5">
+        <p className="text-[12px] md:text-[13px] text-[#9e9890] font-bold text-center leading-relaxed">
+          Dados oficiais publicados pelo Banco Central do Brasil e atualizados automaticamente pelo motor do Consórcio de Verdade.
+        </p>
+      </div>
     </div>
   );
 }

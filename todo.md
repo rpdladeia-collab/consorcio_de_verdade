@@ -109,3 +109,15 @@
 - [x] Bloco 8: Segmentos (grupos, cotas, contemplações, exclusões, taxa, fila, participação)
 - [x] Bloco 9: Grupos (cotas, contemplações, exclusões, taxa, prazo, correção, relevância, comparação)
 - [x] Validar no navegador e salvar checkpoint
+
+## FASE 8.2 — REESTRUTURAÇÃO DA TELA INICIAL DO PANORAMA > ADMINISTRADORAS
+
+- [x] Criar consultas de rankings top 3 e totais de mercado no backend
+- [x] Reescrever frontend da home em 6 blocos (hero, busca, explorar, rankings, números, rodapé)
+- [x] Validar no navegador (desktop + mobile) e salvar checkpoint
+
+## CORREÇÃO DE ESCOPO — FASE 8.2
+
+- [x] Corrigir o item histórico de backend: as consultas e procedures temporariamente criadas para rankings foram integralmente removidas para respeitar a diretriz de não alterar APIs, consultas, banco ou camada analítica.
+- [x] Ajustar a home para que rankings e totais não dependam de novas consultas, preservando os seis blocos aprovados.
+- [x] Validar desktop e mobile, executar testes e salvar checkpoint da revisão exclusivamente visual.

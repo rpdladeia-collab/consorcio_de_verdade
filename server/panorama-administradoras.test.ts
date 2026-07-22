@@ -1,3 +1,5 @@
+import { readFileSync } from "node:fs";
+import { resolve } from "node:path";
 import { describe, expect, it } from "vitest";
 import {
   interpretarTendencia,
@@ -45,5 +47,20 @@ describe("situacaoRelativa", () => {
     expect(situacaoRelativa(30, 45)).toBe("Muito abaixo da média");
     expect(situacaoRelativa(46, 45)).toBe("Dentro da média");
     expect(situacaoRelativa(58, 45)).toBe("Muito acima da média");
+  });
+});
+
+describe("home do Panorama > Administradoras", () => {
+  it("não depende de novas APIs de ranking ou totais de mercado", () => {
+    const source = readFileSync(
+      resolve(process.cwd(), "client/src/pages/PanoramaAdministradoras.tsx"),
+      "utf8",
+    );
+
+    expect(source).toContain("Qual administradora deseja analisar?");
+    expect(source).toContain("Rankings do Mercado");
+    expect(source).toContain("Mercado em Números");
+    expect(source).not.toContain("rankingsTop3");
+    expect(source).not.toContain("mercadoNumeros");
   });
 });
