@@ -8,6 +8,7 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import { handleBCAdminImport } from "../modules/bc-admin/scheduled-handler";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -36,6 +37,10 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
+  
+  // FASE 1: Scheduled handler para importação mensal do BC
+  app.post("/api/scheduled/bc-admin-import", handleBCAdminImport);
+  
   // tRPC API
   app.use(
     "/api/trpc",
