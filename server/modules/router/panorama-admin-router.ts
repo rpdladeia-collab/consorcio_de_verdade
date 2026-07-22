@@ -7,6 +7,7 @@
 import { z } from "zod";
 import { publicProcedure, router } from "../../_core/trpc";
 import {
+  listAdministradoras,
   listAvailableDataBases,
   getPerfilAdministradora,
   getContemplacoes,
@@ -18,6 +19,8 @@ import {
   getHistoricoAdministradora,
   compararAdministradoras,
   getStatusIngestao,
+  getRaioXCompleto,
+  getDetalheSegmento,
 } from "../bc-admin/queries";
 
 const searchTermSchema = z.string().trim().min(2).max(120);
@@ -25,6 +28,11 @@ const optionalDataBaseSchema = z.string().optional();
 const searchTermsArraySchema = z.array(z.string().trim().min(2).max(120)).min(1).max(10);
 
 export const panoramaAdminRouter = router({
+  /**
+   * Listar todas as administradoras únicas (ordem alfabética)
+   */
+  listAdministradoras: publicProcedure.query(() => listAdministradoras()),
+
   /**
    * Status da ingestão: lista todas as importações realizadas
    */
@@ -129,6 +137,25 @@ export const panoramaAdminRouter = router({
     .query(({ input }) =>
       getHistoricoAdministradora(input.searchTerm, input.baseOrigem),
     ),
+
+  /**
+   * Raio-X completo: indicadores + mercado + tendência (Entregas 02-05)
+   */
+  raioX: publicProcedure
+    .input(z.object({ searchTerm: searchTermSchema }))
+    .query(({ input }) => getRaioXCompleto(input.searchTerm)),
+
+  /**
+   * Detalhe de segmento: grupos e indicadores de um segmento específico (Entrega 06)
+   */
+  detalheSegmento: publicProcedure
+    .input(
+      z.object({
+        searchTerm: searchTermSchema,
+        codigoSegmento: z.string().min(1).max(10),
+      }),
+    )
+    .query(({ input }) => getDetalheSegmento(input.searchTerm, input.codigoSegmento)),
 
   /**
    * Comparação: lado-a-lado de múltiplas administradoras

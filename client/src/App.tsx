@@ -27,6 +27,7 @@ import SimuladorCancelamento from "./pages/SimuladorCancelamento";
 import EstruturaDoPlano from "./pages/EstruturaDoPlano";
 
 import Panorama from "./pages/Panorama";
+import PanoramaAdministradoras from "./pages/PanoramaAdministradoras";
 import { DataLabPage } from "./pages/DataLab";
 // ZonaContemplacao antiga substituída pela versão nativa (SimuladorZonaContemplacao)
 
@@ -48,6 +49,7 @@ function Router() {
 
       <Route path={"/zona-contemplacao"} component={SimuladorZonaContemplacao} />
       <Route path={"/panorama"} component={Panorama} />
+      <Route path={"/panorama-administradoras"} component={PanoramaAdministradoras} />
       <Route path={"/data-lab"} component={DataLabPage} />
       <Route path={"/sobre"} component={Sobre} />
       <Route path={"/contato"} component={Contato} />
@@ -61,7 +63,7 @@ function Router() {
 }
 
 // Rotas com fundo escuro (bg-ink) — o main herda o fundo para preencher o flex-1
-const DARK_ROUTES = ["/sobre", "/panorama", "/data-lab"];
+const DARK_ROUTES = ["/sobre", "/panorama", "/panorama-administradoras", "/data-lab"];
 
 function AppLayout() {
   const [location] = useLocation();

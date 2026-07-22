@@ -638,6 +638,7 @@ const TABS = [
   { id: "sorte",       label: "Contemplações: lance e sorteio", parent: "editorial" },
   { id: "macro",       label: "Cenários econômicos", parent: "editorial" },
   { id: "data-lab",    label: "Panorama oficial", href: "/data-lab" },
+  { id: "panorama-adm", label: "Panorama: Administradoras", href: "/panorama-administradoras" },
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 

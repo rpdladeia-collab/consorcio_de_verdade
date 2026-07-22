@@ -78,3 +78,20 @@
 - [x] FASE 8.1: Reescrever Product Spec orientado a perguntas do consumidor (8 alterações)
 - [x] FASE 8.1: Mapear viabilidade das 11 inteligências de Top 10 (sem implementar)
 - [x] FASE 8.1: Entregar Product Spec revisado para aprovação
+
+## IMPLEMENTAÇÃO PANORAMA > ADMINISTRADORAS (V1)
+
+- [x] ENTREGA 01: Campo de busca + select alfabético + navegação para página da administradora
+- [x] ENTREGA 02: Raio-X da administradora (identidade + indicadores operacionais)
+- [x] ENTREGA 03: Distribuição da operação (segmentos com grupos, cotas, percentuais)
+- [x] ENTREGA 04: Contemplações (lance vs sorteio, histórico trimestral)
+- [x] ENTREGA 05: Tendência operacional (crescimento/estável/diminuindo)
+- [x] ENTREGA 06: Segmentos (grupos ativos, cotas, taxa, exclusões, contemplações, fila, mercado)
+- [x] ENTREGA 07: Grupos (cotas, contemplações, exclusões, taxa, prazo, relevância, comparação)
+
+## CORREÇÕES DE QUALIDADE — PANORAMA > ADMINISTRADORAS
+
+- [x] Adicionar estado de erro explícito para panoramaAdmin.raioX (diferenciar falha de "nenhum dado")
+- [x] Adicionar estado de erro explícito para panoramaAdmin.contemplacoes
+- [x] Adicionar estado de erro explícito para panoramaAdmin.detalheSegmento
+- [x] Adicionar coluna "vs. Segmento" na tabela de grupos (comparativo de taxa do grupo vs média do segmento)
