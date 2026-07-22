@@ -60,6 +60,6 @@
 - [x] REFATORAÇÃO ALTERNATIVA A: Refatorar parser para retornar linhas individuais
 - [x] REFATORAÇÃO ALTERNATIVA A: Refatorar db.ts para inserção linha a linha (bulk insert)
 - [x] REFATORAÇÃO ALTERNATIVA A: Refatorar orchestrator para inserção linha a linha
-- [ ] REFATORAÇÃO ALTERNATIVA A: Limpar banco e re-executar importação completa dos 32 ZIPs
-- [ ] REFATORAÇÃO ALTERNATIVA A: Coletar as 12 evidências obrigatórias
+- [x] REFATORAÇÃO ALTERNATIVA A: Limpar banco e re-executar importação completa dos 32 ZIPs
+- [x] REFATORAÇÃO ALTERNATIVA A: Coletar as 12 evidências obrigatórias
 - [x] REFATORAÇÃO ALTERNATIVA A: Atualizar queries.ts e panorama-admin-router.ts para novo schema

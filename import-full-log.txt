@@ -1,0 +1,43 @@
+nohup: ignoring input
+=== Batch import: 32 ZIPs (start=0) ===
+
+[consolidados] 202606Consorcios.zip ... SKIP (não disponível)
+[consolidados] 202605Consorcios.zip ... OK (3542 linhas)
+[consolidados] 202604Consorcios.zip ... OK (3376 linhas)
+[consolidados] 202603Consorcios.zip ... OK (18139 linhas)
+[consolidados] 202602Consorcios.zip ... OK (3497 linhas)
+[consolidados] 202601Consorcios.zip ... OK (3477 linhas)
+[consolidados] 202512Consorcios.zip ... OK (18309 linhas)
+[consolidados] 202511Consorcios.zip ... OK (3426 linhas)
+[consolidados] 202510Consorcios.zip ... OK (3400 linhas)
+[consolidados] 202509Consorcios.zip ... OK (18339 linhas)
+[consolidados] 202508Consorcios.zip ... OK (3285 linhas)
+[consolidados] 202507Consorcios.zip ... OK (3252 linhas)
+[consolidados] 202506Consorcios.zip ... OK (18134 linhas)
+[consolidados] 202505Consorcios.zip ... OK (3202 linhas)
+[consolidados] 202504Consorcios.zip ... OK (3174 linhas)
+[consolidados] 202503Consorcios.zip ... OK (18039 linhas)
+[consolidados] 202502Consorcios.zip ... OK (3131 linhas)
+[consolidados] 202501Consorcios.zip ... OK (3125 linhas)
+[consolidados] 202412Consorcios.zip ... OK (18072 linhas)
+[consolidados] 202411Consorcios.zip ... OK (3086 linhas)
+[consolidados] 202410Consorcios.zip ... OK (3094 linhas)
+[consolidados] 202409Consorcios.zip ... OK (18186 linhas)
+[consolidados] 202408Consorcios.zip ... OK (3036 linhas)
+[consolidados] 202407Consorcios.zip ... OK (3030 linhas)
+[dados_uf] 202606Consorcios_UF.zip ... SKIP (não disponível)
+[dados_uf] 202603Consorcios_UF.zip ... OK (7591 linhas)
+[dados_uf] 202512Consorcios_UF.zip ... OK (7637 linhas)
+[dados_uf] 202509Consorcios_UF.zip ... OK (7596 linhas)
+[dados_uf] 202506Consorcios_UF.zip ... OK (7495 linhas)
+[dados_uf] 202503Consorcios_UF.zip ... OK (7459 linhas)
+[dados_uf] 202412Consorcios_UF.zip ... OK (7417 linhas)
+[dados_uf] 202409Consorcios_UF.zip ... OK (7402 linhas)
+
+=== Resumo do batch ===
+Sucessos: 30
+Falhas: 0
+Ignorados: 2
+Total de linhas: 231948
+
+Próximo batch: --start=32 --count=32
