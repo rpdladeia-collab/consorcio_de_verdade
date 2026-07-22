@@ -95,3 +95,17 @@
 - [x] Adicionar estado de erro explícito para panoramaAdmin.contemplacoes
 - [x] Adicionar estado de erro explícito para panoramaAdmin.detalheSegmento
 - [x] Adicionar coluna "vs. Segmento" na tabela de grupos (comparativo de taxa do grupo vs média do segmento)
+
+## REORGANIZAÇÃO UX — PANORAMA > ADMINISTRADORAS (9 BLOCOS)
+
+- [x] Auditar métricas: validar exclusões >100%, cotas não contempladas >100% e comparativos de mercado
+- [x] Bloco 1: Resumo executivo automático (texto gerado dinamicamente com os dados existentes)
+- [x] Bloco 2: Tamanho da operação (grupos, cotas, participação, segmentos, categoria — apenas)
+- [x] Bloco 3: Contemplações (lance vs sorteio com destaque, total sobre cotas ativas, comparação com mercado)
+- [x] Bloco 4: Fila de espera (cotas aguardando, percentual, comparação com mercado — validar >100%)
+- [x] Bloco 5: Exclusões (quantidade, percentual, comparação com mercado, situação em 5 níveis)
+- [x] Bloco 6: Distribuição da operação (segmentos com identificação textual)
+- [x] Bloco 7: Tendência operacional (substituir Crescendo/Diminuindo por Melhorou/Piorou/Estável)
+- [x] Bloco 8: Segmentos (grupos, cotas, contemplações, exclusões, taxa, fila, participação)
+- [x] Bloco 9: Grupos (cotas, contemplações, exclusões, taxa, prazo, correção, relevância, comparação)
+- [x] Validar no navegador e salvar checkpoint

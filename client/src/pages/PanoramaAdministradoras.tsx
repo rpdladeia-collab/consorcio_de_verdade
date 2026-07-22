@@ -6,6 +6,13 @@
 import { useEffect, useState, useMemo } from "react";
 import { useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
+import {
+  interpretarTendencia,
+  leituraSegmento,
+  percentualSeguro,
+  type DirecaoBruta,
+  type IndicadorTendencia,
+} from "@/lib/panoramaAdministradoras";
 
 // Classificação manual das administradoras (ativo do projeto)
 const CLASSIFICACAO: Record<string, string> = {
@@ -78,7 +85,7 @@ function IndicadorCard({ label, value, sublabel, accent }: { label: string; valu
 }
 
 // ─── Componente: Tendência ──────────────────────────────────────────────────
-function TendenciaItemPct({ label, variacao }: { label: string; variacao: { pct: number; direcao: "Crescendo" | "Estável" | "Diminuindo" } | null }) {
+function TendenciaItemPct({ label, indicador, variacao }: { label: string; indicador: IndicadorTendencia; variacao: { pct: number; direcao: DirecaoBruta } | null }) {
   if (!variacao) {
     return (
       <div className="flex items-center justify-between py-2.5 border-b border-[#e5e0d8] last:border-0">
@@ -87,17 +94,18 @@ function TendenciaItemPct({ label, variacao }: { label: string; variacao: { pct:
       </div>
     );
   }
-  const pct = variacao.pct.toFixed(1) + "%";
+  const pct = Math.abs(variacao.pct).toFixed(1) + "%";
+  const direcao = interpretarTendencia(indicador, variacao.direcao);
   let color = "text-[#716b60]";
   let bg = "bg-[#f0ede5]";
-  if (variacao.direcao === "Crescendo") { color = "text-[#2f5233]"; bg = "bg-green-50"; }
-  if (variacao.direcao === "Diminuindo") { color = "text-[#c2410c]"; bg = "bg-orange-50"; }
+  if (direcao === "Melhorou") { color = "text-[#2f5233]"; bg = "bg-green-50"; }
+  if (direcao === "Piorou") { color = "text-[#c2410c]"; bg = "bg-orange-50"; }
   return (
     <div className="flex items-center justify-between py-2.5 border-b border-[#e5e0d8] last:border-0">
       <span className="text-[14px] md:text-[15px] font-bold text-[#15140f]">{label}</span>
       <div className="flex items-center gap-2">
         <span className="font-mono text-[13px] font-bold text-[#4b4843]">{pct}</span>
-        <span className={`text-[12px] font-bold px-2.5 py-1 rounded-full ${bg} ${color}`}>{variacao.direcao}</span>
+        <span className={`text-[12px] font-bold px-2.5 py-1 rounded-full ${bg} ${color}`}>{direcao}</span>
       </div>
     </div>
   );
@@ -294,6 +302,11 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
   }, [segData, grupoBusca]);
 
   const categoria = getCategoria(nomeAdm);
+  const pctFila = indicadores ? percentualSeguro(indicadores.totalNaoContempladas, indicadores.totalCotasAtivas) : null;
+  const pctFilaMercado = mercado ? percentualSeguro(mercado.totalNaoContempladas, mercado.totalCotas) : null;
+  const pctFilaSegmento = segData?.segmento
+    ? percentualSeguro(segData.segmento.naoContempladas, segData.segmento.cotasAtivas)
+    : null;
 
   return (
     <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
@@ -344,228 +357,265 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
           </div>
         )}
 
-        {/* ── ENTREGA 02: Raio-X da Administradora ── */}
+        {/* ── BLOCO 1: Resumo Executivo Automático ── */}
+        {indicadores && mercado && (
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Raio-X da administradora</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">O que importa nesta operação</h2>
+            </div>
+            <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
+              <p className="text-[15px] md:text-[16px] text-[#15140f] leading-relaxed font-medium">
+                <strong className="font-bold">{nomeAdm}</strong> é uma <strong className="font-bold">{categoria.toLowerCase()}</strong> com <strong className="font-bold text-[#c2410c]">{fmtN(indicadores.totalGrupos)} grupos ativos</strong> e <strong className="font-bold text-[#c2410c]">{fmtN(indicadores.totalCotasAtivas)} cotas ativas</strong>. A operação é mais concentrada em <strong className="font-bold">{indicadores.distribuicao[0]?.nome || "seus segmentos principais"}</strong>, que representa <strong className="font-bold text-[#c2410c]">{fmtPct(indicadores.distribuicao[0]?.pctAdm || 0)}</strong> da administradora. {contemp && contemp.total > 0 && <>No dado trimestral mais recente, <strong className="font-bold text-[#c2410c]">{fmtPct(contemp.pctLance)}</strong> das contemplações ocorreram por lance.</>} {" "}A taxa média de administração é <strong className={`font-bold ${indicadores.taxaMedia <= mercado.taxaMedia ? "text-[#2f5233]" : "text-[#c2410c]"}`}>{fmtMoeda(indicadores.taxaMedia)}%</strong>, {indicadores.taxaMedia <= mercado.taxaMedia ? "abaixo" : "acima"} da média do mercado ({fmtMoeda(mercado.taxaMedia)}%). {" "}No mês mais recente, contemplou <strong className="font-bold text-[#2f5233]">{fmtN(indicadores.totalContempladas)} cotas</strong> ({fmtPct(indicadores.pctContempladas)} das ativas). {pctFila !== null ? <>A fila informada corresponde a <strong className="font-bold">{fmtPct(pctFila)}</strong> das cotas ativas.</> : <>A base informa <strong className="font-bold">{fmtN(indicadores.totalNaoContempladas)} cotas não contempladas</strong>; como esse valor supera o total de cotas ativas da mesma data-base, o percentual não é exibido.</>}</p>
+            </div>
+          </section>
+        )}
+
+        {/* ── BLOCO 2: Tamanho da Operação ── */}
         {indicadores && (
-          <>
-            {/* Identidade */}
-            <section>
-              <div className="mb-4">
-                <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Identidade da operação</span>
-                <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Raio-X da administradora</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-                <IndicadorCard label="Categoria" value={categoria} />
-                <IndicadorCard label="Grupos ativos" value={fmtN(indicadores.totalGrupos)} accent />
-                <IndicadorCard label="Cotas ativas" value={fmtN(indicadores.totalCotasAtivas)} accent />
-                <IndicadorCard label="Segmentos" value={fmtN(indicadores.totalSegmentos)} />
-                <IndicadorCard label="Participação no mercado" value={fmtPct(indicadores.pctMercado)} sublabel="do total de cotas ativas" />
-              </div>
-            </section>
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Tamanho da operação</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Quão grande é esta administradora</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+              <IndicadorCard label="Categoria" value={categoria} />
+              <IndicadorCard label="Grupos ativos" value={fmtN(indicadores.totalGrupos)} accent />
+              <IndicadorCard label="Cotas ativas" value={fmtN(indicadores.totalCotasAtivas)} accent />
+              <IndicadorCard label="Segmentos" value={fmtN(indicadores.totalSegmentos)} />
+              <IndicadorCard label="Participação no mercado" value={fmtPct(indicadores.pctMercado)} sublabel="do total de cotas ativas" />
+            </div>
+          </section>
+        )}
 
-            {/* Indicadores Operacionais */}
-            <section>
-              <div className="mb-4">
-                <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Indicadores operacionais</span>
-                <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">O que está acontecendo agora</h2>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        {/* ── BLOCO 3: Contemplações ── */}
+        {indicadores && (
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Contemplações</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Quantas cotas foram contempladas</h2>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
+              <IndicadorCard
+                label="Contemplações no mês"
+                value={fmtN(indicadores.totalContempladas)}
+                sublabel={`${fmtPct(indicadores.pctContempladas)} das cotas ativas`}
+                accent
+              />
+              {mercado && (
                 <IndicadorCard
-                  label="Contemplações no mês"
-                  value={fmtN(indicadores.totalContempladas)}
-                  sublabel={`${fmtPct(indicadores.pctContempladas)} das cotas ativas`}
+                  label="Média do mercado"
+                  value={fmtPct(mercado.pctContempladas)}
+                  sublabel="contemplações no mês sobre cotas ativas"
                 />
-                <IndicadorCard
-                  label="Cotas não contempladas"
-                  value={fmtN(indicadores.totalNaoContempladas)}
-                  sublabel={`${fmtPct(indicadores.pctNaoContempladas)} aguardando`}
-                  accent
-                />
-                <IndicadorCard
-                  label="Exclusões"
-                  value={fmtN(indicadores.totalExcluidas)}
-                  sublabel={`${fmtPct(indicadores.pctExcluidas)} das cotas ativas`}
-                  accent
-                />
-                <IndicadorCard
-                  label="Taxa média de adm."
-                  value={fmtMoeda(indicadores.taxaMedia) + "%"}
-                  sublabel="Ponderada por cotas ativas"
-                />
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mt-3">
-                <IndicadorCard
-                  label="Cotas comercializadas no mês"
-                  value={fmtN(indicadores.totalCotasComercializadas)}
-                  sublabel="Novos cotistas no período"
-                />
-              </div>
-            </section>
-
-            {/* ── ENTREGA 02b: Comparativo com a média do mercado ── */}
+              )}
+            </div>
+            {/* Comparativo de contemplações com mercado */}
             {mercado && (
-              <section>
-                <div className="mb-4">
-                  <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Comparativo com o mercado</span>
-                  <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Como esta adm se compara</h2>
-                </div>
-                <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm space-y-3">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div>
-                      <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Taxa média de administração</span>
-                      <div className="flex items-baseline gap-3">
-                        <span className="font-mono text-lg font-bold text-[#15140f]">{fmtMoeda(indicadores.taxaMedia)}%</span>
-                        <span className="text-[12px] font-bold text-[#9e9890]">Mercado: {fmtMoeda(mercado.taxaMedia)}%</span>
-                      </div>
-                      <span className={`text-[12px] font-bold ${indicadores.taxaMedia <= mercado.taxaMedia ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
-                        {indicadores.taxaMedia <= mercado.taxaMedia ? "Abaixo da média" : "Acima da média"}
-                      </span>
+              <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm mb-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Contemplações da adm</span>
+                    <div className="flex items-baseline gap-3">
+                      <span className="font-mono text-lg font-bold text-[#15140f]">{fmtPct(indicadores.pctContempladas)}</span>
+                      <span className="text-[12px] font-bold text-[#9e9890]">Mercado: {fmtPct(mercado.pctContempladas)}</span>
                     </div>
-                    <div>
-                      <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Taxa de exclusão</span>
-                      <div className="flex items-baseline gap-3">
-                        <span className="font-mono text-lg font-bold text-[#15140f]">{fmtPct(indicadores.pctExcluidas)}</span>
-                        <span className="text-[12px] font-bold text-[#9e9890]">Mercado: {fmtPct(mercado.pctExcluidas)}</span>
-                      </div>
-                      <span className={`text-[12px] font-bold ${indicadores.pctExcluidas <= mercado.pctExcluidas ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
-                        {indicadores.pctExcluidas <= mercado.pctExcluidas ? "Exclusão abaixo da média" : "Exclusão acima da média"}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Taxa de contemplação</span>
-                      <div className="flex items-baseline gap-3">
-                        <span className="font-mono text-lg font-bold text-[#15140f]">{fmtPct(indicadores.pctContempladas)}</span>
-                        <span className="text-[12px] font-bold text-[#9e9890]">Mercado: {fmtPct(mercado.pctContempladas)}</span>
-                      </div>
-                      <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
-                        {indicadores.pctContempladas >= mercado.pctContempladas ? "Contemplação acima da média" : "Contemplação abaixo da média"}
-                      </span>
-                    </div>
-                    <div>
-                      <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Participação no mercado</span>
-                      <div className="flex items-baseline gap-3">
-                        <span className="font-mono text-lg font-bold text-[#15140f]">{fmtPct(indicadores.pctMercado)}</span>
-                        <span className="text-[12px] font-bold text-[#9e9890]">das cotas ativas totais</span>
-                      </div>
-                    </div>
+                    <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
+                      {indicadores.pctContempladas >= mercado.pctContempladas ? "Contemplação acima da média" : "Contemplação abaixo da média"}
+                    </span>
+                  </div>
+                  <div>
+                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Leitura</span>
+                    <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
+                      {indicadores.pctContempladas >= mercado.pctContempladas ? "A administradora contempla acima da média no mês" : "A administradora contempla abaixo da média no mês"}
+                    </span>
                   </div>
                 </div>
-              </section>
+              </div>
             )}
 
-            {/* ── ENTREGA 03: Distribuição da Operação ── */}
-            <section>
-              <div className="mb-4">
-                <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Distribuição da operação</span>
-                <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Segmentos em operação</h2>
+            {/* Lance vs Sorteio */}
+            {contemp && contemp.total > 0 ? (
+              <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
+                <div className="grid grid-cols-2 gap-6 mb-6">
+                  <div className="text-center">
+                    <div className="font-mono text-3xl md:text-4xl font-bold text-[#c2410c]">{fmtPct(contemp.pctLance)}</div>
+                    <p className="text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Por Lance</p>
+                    <p className="text-[14px] font-mono text-[#15140f] mt-1">{fmtN(contemp.totalLance)} cotas</p>
+                  </div>
+                  <div className="text-center">
+                    <div className="font-mono text-3xl md:text-4xl font-bold text-[#2f5233]">{fmtPct(contemp.pctSorteio)}</div>
+                    <p className="text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Por Sorteio</p>
+                    <p className="text-[14px] font-mono text-[#15140f] mt-1">{fmtN(contemp.totalSorteio)} cotas</p>
+                  </div>
+                </div>
+                <div className="flex h-8 rounded-lg overflow-hidden border border-[#e5e0d8]">
+                  <div className="bg-[#c2410c] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctLance}%` }}>
+                    {contemp.pctLance > 15 ? "Lance" : ""}
+                  </div>
+                  <div className="bg-[#2f5233] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctSorteio}%` }}>
+                    {contemp.pctSorteio > 15 ? "Sorteio" : ""}
+                  </div>
+                </div>
+                <p className="text-[12px] text-[#9e9890] font-bold mt-3">
+                  Data-base: {contemp.dataBase} (base trimestral Dados por UF)
+                </p>
               </div>
-              <div className="bg-white border border-[#e5e0d8] rounded-xl overflow-hidden shadow-sm">
-                <table className="w-full text-left">
-                  <thead>
-                    <tr className="bg-[#f6f3ec] border-b border-[#e5e0d8]">
-                      <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843]">Segmento</th>
-                      <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Grupos ativos</th>
-                      <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Cotas ativas</th>
-                      <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">% na Adm</th>
-                      <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">% Mercado</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {indicadores.distribuicao.map((seg: any) => (
-                      <tr
-                        key={seg.codigo}
-                        onClick={() => setSegmentoSelecionado(segmentoSelecionado === seg.codigo ? null : seg.codigo)}
-                        className="border-b border-[#e5e0d8] last:border-0 cursor-pointer hover:bg-[#f6f3ec] transition-colors"
-                      >
-                        <td className="px-4 py-3 text-[14px] md:text-[15px] font-bold text-[#15140f]">{seg.nome}</td>
-                        <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#15140f] text-right">{fmtN(seg.grupos)}</td>
-                        <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#15140f] text-right">{fmtN(seg.cotas)}</td>
-                        <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#c2410c] text-right font-bold">{fmtPct(seg.pctAdm)}</td>
-                        <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#2f5233] text-right font-bold">{fmtPct(seg.pctMercado)}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+            ) : contempError ? (
+              <div className="bg-white border border-orange-200 rounded-xl p-6 shadow-sm">
+                <p className="text-[14px] text-[#4b4843] font-bold">
+                  Erro ao carregar dados de contemplações. Tente novamente.
+                </p>
               </div>
-              <p className="text-[12px] text-[#9e9890] font-bold mt-2">Clique em um segmento para ver os grupos.</p>
-            </section>
+            ) : (
+              <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
+                <p className="text-[14px] text-[#4b4843] font-bold">
+                  Dados de contemplações por lance e sorteio não disponíveis para esta administradora no período mais recente.
+                </p>
+              </div>
+            )}
+          </section>
+        )}
 
-            {/* ── ENTREGA 04: Contemplações ── */}
-            <section>
-              <div className="mb-4">
-                <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Contemplações</span>
-                <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Lance vs. Sorteio</h2>
-              </div>
-              {contemp && contemp.total > 0 ? (
-                <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
-                  <div className="grid grid-cols-2 gap-6 mb-6">
-                    <div className="text-center">
-                      <div className="font-mono text-3xl md:text-4xl font-bold text-[#c2410c]">{fmtPct(contemp.pctLance)}</div>
-                      <p className="text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Por Lance</p>
-                      <p className="text-[14px] font-mono text-[#15140f] mt-1">{fmtN(contemp.totalLance)} cotas</p>
-                    </div>
-                    <div className="text-center">
-                      <div className="font-mono text-3xl md:text-4xl font-bold text-[#2f5233]">{fmtPct(contemp.pctSorteio)}</div>
-                      <p className="text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Por Sorteio</p>
-                      <p className="text-[14px] font-mono text-[#15140f] mt-1">{fmtN(contemp.totalSorteio)} cotas</p>
-                    </div>
+        {/* ── BLOCO 4: Fila de Espera ── */}
+        {indicadores && (
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Fila de espera</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Quantos cotistas aguardam contemplação</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <IndicadorCard
+                label="Cotas não contempladas"
+                value={fmtN(indicadores.totalNaoContempladas)}
+                sublabel={pctFila !== null ? `${fmtPct(pctFila)} das cotas ativas` : "Percentual indisponível: valor superior às cotas ativas"}
+                accent
+              />
+              {mercado && (
+                <>
+                  <IndicadorCard
+                    label="Mercado: não contempladas"
+                    value={fmtN(mercado.totalNaoContempladas)}
+                    sublabel={pctFilaMercado !== null ? `${fmtPct(pctFilaMercado)} das cotas ativas` : "Percentual indisponível"}
+                  />
+                  <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm flex flex-col justify-center">
+                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Comparativo</span>
+                    <span className={`text-[14px] font-bold ${pctFila !== null && pctFilaMercado !== null && pctFila <= pctFilaMercado ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
+                      {pctFila !== null && pctFilaMercado !== null ? (pctFila <= pctFilaMercado ? "Fila menor que a média" : "Fila maior que a média") : "Comparativo indisponível nesta competência"}
+                    </span>
                   </div>
-                  {/* Barra visual */}
-                  <div className="flex h-8 rounded-lg overflow-hidden border border-[#e5e0d8]">
-                    <div className="bg-[#c2410c] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctLance}%` }}>
-                      {contemp.pctLance > 15 ? "Lance" : ""}
-                    </div>
-                    <div className="bg-[#2f5233] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctSorteio}%` }}>
-                      {contemp.pctSorteio > 15 ? "Sorteio" : ""}
-                    </div>
-                  </div>
-                  <p className="text-[12px] text-[#9e9890] font-bold mt-3">
-                    Data-base: {contemp.dataBase} (base trimestral Dados por UF)
-                  </p>
-                </div>
-              ) : contempError ? (
-                <div className="bg-white border border-orange-200 rounded-xl p-6 shadow-sm">
-                  <p className="text-[14px] text-[#4b4843] font-bold">
-                    Erro ao carregar dados de contemplações. Tente novamente.
-                  </p>
-                </div>
-              ) : (
-                <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
-                  <p className="text-[14px] text-[#4b4843] font-bold">
-                    Dados de contemplações por lance e sorteio não disponíveis para esta administradora no período mais recente.
-                  </p>
-                </div>
+                </>
               )}
-            </section>
+            </div>
+          </section>
+        )}
 
-            {/* ── ENTREGA 05: Tendência Operacional ── */}
-            <section>
-              <div className="mb-4">
-                <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Tendência operacional</span>
-                <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Últimos 24 meses</h2>
-              </div>
-              <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
-                {tendencia ? (
-                  <>
-                    <TendenciaItemPct label="Cotas ativas" variacao={tendencia.cotasAtivas} />
-                    <TendenciaItemPct label="Contemplações no mês" variacao={tendencia.contemplacoes} />
-                    <TendenciaItemPct label="Exclusões" variacao={tendencia.exclusoes} />
-                    <TendenciaItemPct label="Fila de espera (não contempladas)" variacao={tendencia.filaEspera} />
-                    <TendenciaItemPct label="Grupos ativos" variacao={tendencia.gruposAtivos} />
-                    <TendenciaItemPct label="Cotas comercializadas" variacao={tendencia.cotasComercializadas} />
-                    <p className="text-[12px] text-[#9e9890] font-bold mt-3">
-                      Comparação entre {tendencia.periodoAntigo} e {tendencia.periodoRecente}.
-                    </p>
-                  </>
-                ) : (
-                  <p className="text-[14px] text-[#4b4843] font-bold py-4">
-                    Dados históricos insuficientes para calcular a tendência.
+        {/* ── BLOCO 5: Exclusões ── */}
+        {indicadores && (
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Exclusões</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Índice de exclusão</h2>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+              <IndicadorCard
+                label="Cotas excluídas"
+                value={fmtN(indicadores.totalExcluidas)}
+                sublabel="Quantidade cumulativa informada pelo BC"
+                accent
+              />
+              {mercado && (
+                <>
+                  <IndicadorCard
+                    label="Mercado: excluídas"
+                    value={fmtN(mercado.totalExcluidas)}
+                    sublabel="Quantidade cumulativa informada pelo BC"
+                  />
+                  <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm flex flex-col justify-center">
+                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Comparativo</span>
+                    <div className="space-y-1">
+                      <span className="text-[14px] font-bold text-[#716b60]">Indisponível nesta base</span>
+                      <span className="block text-[11px] text-[#9e9890] font-bold">O BC publica exclusões acumuladas e cotas ativas como medidas de naturezas diferentes.</span>
+                    </div>
+                  </div>
+                </>
+              )}
+            </div>
+          </section>
+        )}
+
+        {/* ── BLOCO 6: Distribuição da Operação ── */}
+        {indicadores && (
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Distribuição da operação</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Segmentos em operação</h2>
+            </div>
+            <div className="bg-white border border-[#e5e0d8] rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+              <table className="w-full text-left min-w-[600px]">
+                <thead>
+                  <tr className="bg-[#f6f3ec] border-b border-[#e5e0d8]">
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843]">Segmento</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843]">Leitura</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Grupos ativos</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Cotas ativas</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">% na Adm</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">% Mercado</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {indicadores.distribuicao.map((seg: any, posicao: number) => (
+                    <tr
+                      key={seg.codigo}
+                      onClick={() => setSegmentoSelecionado(segmentoSelecionado === seg.codigo ? null : seg.codigo)}
+                      className={`border-b border-[#e5e0d8] last:border-0 cursor-pointer hover:bg-[#f6f3ec] transition-colors ${segmentoSelecionado === seg.codigo ? "bg-[#c2410c]/5" : ""}`}
+                    >
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-bold text-[#15140f]">{seg.nome}</td>
+                      <td className="px-4 py-3 text-[12px] md:text-[13px] text-[#4b4843] font-bold">{leituraSegmento(posicao, indicadores.distribuicao.length)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#15140f] text-right">{fmtN(seg.grupos)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#15140f] text-right">{fmtN(seg.cotas)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#c2410c] text-right font-bold">{fmtPct(seg.pctAdm)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#2f5233] text-right font-bold">{fmtPct(seg.pctMercado)}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <p className="text-[12px] text-[#9e9890] font-bold mt-2">Clique em um segmento para ver os grupos.</p>
+          </section>
+        )}
+
+        {/* ── BLOCO 7: Tendência Operacional ── */}
+        {indicadores && (
+          <section>
+            <div className="mb-4">
+              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Tendência operacional</span>
+              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Últimos 24 meses</h2>
+            </div>
+            <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
+              {tendencia ? (
+                <>
+                  <TendenciaItemPct label="Cotas ativas" indicador="cotasAtivas" variacao={tendencia.cotasAtivas} />
+                  <TendenciaItemPct label="Contemplações no mês" indicador="contemplacoes" variacao={tendencia.contemplacoes} />
+                  <TendenciaItemPct label="Exclusões" indicador="exclusoes" variacao={tendencia.exclusoes} />
+                  <TendenciaItemPct label="Fila de espera (não contempladas)" indicador="filaEspera" variacao={tendencia.filaEspera} />
+                  <TendenciaItemPct label="Grupos ativos" indicador="gruposAtivos" variacao={tendencia.gruposAtivos} />
+                  <TendenciaItemPct label="Cotas comercializadas" indicador="cotasComercializadas" variacao={tendencia.cotasComercializadas} />
+                  <p className="text-[12px] text-[#9e9890] font-bold mt-3">
+                    Comparação entre {tendencia.periodoAntigo} e {tendencia.periodoRecente}.
                   </p>
-                )}
-              </div>
-            </section>
+                </>
+              ) : (
+                <p className="text-[14px] text-[#4b4843] font-bold py-4">
+                  Dados históricos insuficientes para calcular a tendência.
+                </p>
+              )}
+            </div>
+          </section>
+        )}
 
-            {/* ── ENTREGA 06: Segmentos (detalhe) ── */}
-            {segmentoSelecionado && (
+        {/* ── BLOCO 8: Segmentos (detalhe) ── */}
+        {indicadores && segmentoSelecionado && (
               <section>
                 <div className="mb-4">
                   <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Segmento: {getNomeSegmento(segmentoSelecionado)}</span>
@@ -588,10 +638,9 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
                       <IndicadorCard label="Cotas ativas" value={fmtN(segData.segmento.cotasAtivas)} />
                       <IndicadorCard label="Participação no mercado" value={fmtPct(segData.segmento.pctMercado)} accent />
                       <IndicadorCard label="Taxa média" value={fmtMoeda(segData.segmento.taxaMedia) + "%"} />
-                      <IndicadorCard label="Contemplações no mês" value={fmtN(segData.segmento.contempladas)} sublabel={fmtPct(segData.segmento.pctContempladas) + " das cotas"} />
-                      <IndicadorCard label="Exclusões" value={fmtN(segData.segmento.excluidas)} sublabel={fmtPct(segData.segmento.pctExcluidas) + " das cotas"} accent />
-                      <IndicadorCard label="Não contempladas" value={fmtN(segData.segmento.naoContempladas)} accent />
-                      <IndicadorCard label="Exclusão vs. mercado" value={fmtPct(segData.segmento.pctExcluidas)} sublabel={`Mercado: ${fmtPct(segData.segmento.mercadoPctExcluidas)}`} />
+                      <IndicadorCard label="Contemplações no mês" value={fmtN(segData.segmento.contempladas)} sublabel={fmtPct(segData.segmento.pctContempladas) + " das cotas ativas"} />
+                      <IndicadorCard label="Exclusões" value={fmtN(segData.segmento.excluidas)} sublabel="Quantidade cumulativa informada pelo BC" accent />
+                      <IndicadorCard label="Fila de espera" value={fmtN(segData.segmento.naoContempladas)} sublabel={pctFilaSegmento !== null ? `${fmtPct(pctFilaSegmento)} das cotas ativas` : "Percentual indisponível nesta competência"} accent />
                     </>
                   )}
                 </div>
@@ -678,11 +727,10 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
                   <p><strong className="text-[#15140f]">Período:</strong> Dados de julho/2024 a maio/2026 (últimos 24 meses disponíveis).</p>
                   <p><strong className="text-[#15140f]">Classificação:</strong> A categoria (Banco, Administradora Independente, Cooperativas e Associações) é classificação própria do Consórcio de Verdade, não do Banco Central.</p>
                   <p><strong className="text-[#15140f]">Médias de mercado:</strong> Calculadas sobre todas as administradoras, ponderadas por cotas ativas.</p>
+                  <p><strong className="text-[#15140f]">Leitura dos percentuais:</strong> quando a base oficial informa um valor que supera o respectivo total de cotas ativas na mesma data-base, o produto exibe a quantidade e não exibe um percentual potencialmente enganoso.</p>
                 </div>
               </div>
             </section>
-          </>
-        )}
       </main>
     </div>
   );
