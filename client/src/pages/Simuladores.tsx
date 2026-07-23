@@ -5,7 +5,7 @@ import { ArrowRight } from 'lucide-react';
 const CATEGORIAS = [
   {
     num: "01",
-    title: "Raio-X do Consórcio",
+    title: "Raio-X da Proposta",
     desc: "O primeiro filtro, antes de olhar preço.",
     modulos: [
       { slug: "estrutura-do-plano", title: "NUNCA UM CONSÓRCIO FOI EXPLICADO ASSIM", desc: "Explore a memória completa de cálculo do seu plano, mês a mês. Custos, correções, evolução da carta e os números que realmente determinam quanto o seu consórcio custa ao longo do tempo.", cta: "EXPLORAR ESTRUTURA" }
@@ -17,11 +17,20 @@ const CATEGORIAS = [
     desc: "A matemática por trás da contemplação.",
     modulos: [
       { slug: "estrategia-lance", title: "CARTA OU CATEGORIA?", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
-      { slug: "#", title: "LANCE EMBUTIDO", desc: "Entenda como o lance embutido funciona, seus limites e quando vale a pena utilizar essa modalidade.", cta: "EM BREVE", isFuture: true }
+      { slug: "#", title: "LANCE EMBUTIDO", desc: "Entenda como o lance embutido funciona, seus limites e quando vale a pena utilizar essa modalidade.", cta: "EM BREVE", isFuture: true },
+      { slug: "#", title: "LANCE FIXO - SORTE", desc: "Simule o lance fixo combinado com sorteio para entender as probabilidades de contemplação e quando essa estratégia faz sentido.", cta: "EM BREVE", isFuture: true }
     ]
   },
   {
     num: "03",
+    title: "Raio-X da Contemplação",
+    desc: "Onde seu lance se encaixa no grupo.",
+    modulos: [
+      { slug: "zona-contemplacao", title: "ZONA DE CONTEMPLAÇÃO", desc: "O lance não é apenas um valor. É uma posição frente à concorrência. Analise o histórico, o quantitativo de vagas e a pressão do grupo para identificar a sua real zona de contemplação.", cta: "Descobrir minha zona" }
+    ]
+  },
+  {
+    num: "04",
     title: "Raio-X da Exclusão",
     desc: "Descubra quanto você realmente perde ao cancelar a cota.",
     modulos: [
@@ -30,7 +39,7 @@ const CATEGORIAS = [
     ]
   },
   {
-    num: "04",
+    num: "05",
     title: "Raio-X da Alavancagem",
     desc: "Avaliação de ativos e mercado secundário.",
     modulos: [

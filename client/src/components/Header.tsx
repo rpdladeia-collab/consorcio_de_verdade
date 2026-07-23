@@ -1,12 +1,32 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { Menu, X, Instagram, Youtube } from "lucide-react";
+import { Menu, X, Instagram, Youtube, ChevronDown } from "lucide-react";
 import { LOGO, BRAND } from "@/lib/brand";
+
+const RAIOX_SUBMENU = [
+  { label: "Raio-X da Proposta", href: "/simulador/estrutura-do-plano#parametros" },
+  { label: "Raio-X do Lance", href: "/simulador/estrategia-lance#parametros" },
+  { label: "Raio-X da Contemplação", href: "/simulador/zona-contemplacao#hero" },
+  { label: "Raio-X da Exclusão", href: "/simulador/custo-cancelamento#parametros" },
+  { label: "Raio-X da Alavancagem", href: "/simulador/venda-carta-contemplada#parametros" },
+];
+
+const INDUSTRIA_SUBMENU = [
+  { label: "Panorama editorial", href: "/panorama#hero" },
+  { label: "Panorama Banco Central", href: "/data-lab" },
+  { label: "Panorama Administradoras", href: "#", isFuture: true },
+];
+
+const R_ICON_URL = "/manus-storage/r_ponto_minimal_transparente_limpo_c867ecfd.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
+  const [raioxOpen, setRaioxOpen] = useState(false);
+  const [raioxMobileOpen, setRaioxMobileOpen] = useState(false);
+  const [industriaOpen, setIndustriaOpen] = useState(false);
+  const [industriaMobileOpen, setIndustriaMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -17,12 +37,15 @@ export default function Header() {
 
   useEffect(() => {
     setOpen(false);
+    setRaioxOpen(false);
+    setRaioxMobileOpen(false);
+    setIndustriaOpen(false);
+    setIndustriaMobileOpen(false);
   }, [location]);
 
   const raioxActive = location.startsWith("/simulador") || location === "/simuladores";
   const caixapretaActive = location === "/caixa-preta";
-  const zonaActive = location === "/zona-contemplacao";
-  const panoramaActive = location === "/panorama";
+  const panoramaActive = location === "/panorama" || location === "/data-lab";
 
   return (
     <>
@@ -31,7 +54,7 @@ export default function Header() {
       >
         <div className="w-full px-3 md:px-4 lg:px-5 max-w-[100vw]">
           <div className="flex items-center justify-between h-14 md:h-16">
-            {/* Logo - Densidade aumentada sem alterar altura do menu */}
+            {/* Logo */}
             <Link href="/" className="flex items-center shrink-0">
               <img
                 src={LOGO.dark}
@@ -51,32 +74,83 @@ export default function Header() {
                 Home
               </Link>
 
-              <Link
-                href="/simuladores#hero"
-                className={`text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
-                  raioxActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
-                }`}
+              {/* raio-x do consórcio com submenu */}
+              <div
+                className="relative"
+                onMouseEnter={() => setRaioxOpen(true)}
+                onMouseLeave={() => setRaioxOpen(false)}
               >
-                Raio-X
-              </Link>
+                <button
+                  className={`flex items-center gap-1 text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
+                    raioxActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
+                  }`}
+                >
+                  <Link href="/simuladores#hero">raio-x do consórcio</Link>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${raioxOpen ? "rotate-180" : ""}`} />
+                </button>
 
-              <Link
-                href="/zona-contemplacao#hero"
-                className={`text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
-                  zonaActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
-                }`}
-              >
-                Zona de Contemplação
-              </Link>
+                {raioxOpen && (
+                  <div className="absolute top-full left-0 pt-2 z-50">
+                    <div className="bg-white border border-border shadow-lg rounded-sm min-w-[240px] py-2">
+                      {RAIOX_SUBMENU.map((item) => (
+                        <Link
+                          key={item.href}
+                          href={item.href}
+                          className="block px-4 py-2.5 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[#FAF5EA] transition-colors"
+                        >
+                          {item.label}
+                        </Link>
+                      ))}
+                    </div>
+                  </div>
+                )}
+              </div>
 
-              <Link
-                href="/panorama#hero"
-                className={`text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
-                  panoramaActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
-                }`}
+              {/* Indústria do Consórcio com submenu */}
+              <div
+                className="relative"
+                onMouseEnter={() => setIndustriaOpen(true)}
+                onMouseLeave={() => setIndustriaOpen(false)}
               >
-                Panorama: BC
-              </Link>
+                <button
+                  className={`flex items-center gap-1 text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
+                    panoramaActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
+                  }`}
+                >
+                  <Link href="/panorama#hero">Indústria do Consórcio</Link>
+                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${industriaOpen ? "rotate-180" : ""}`} />
+                </button>
+
+                {industriaOpen && (
+                  <div className="absolute top-full left-0 pt-2 z-50">
+                    <div className="bg-white border border-border shadow-lg rounded-sm min-w-[240px] py-2">
+                      {INDUSTRIA_SUBMENU.map((item) => {
+                        if (item.isFuture) {
+                          return (
+                            <button
+                              key={item.label}
+                              onClick={() => alert("Em breve")}
+                              className="block w-full text-left px-4 py-2.5 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[#FAF5EA] transition-colors"
+                              style={{ filter: "saturate(0.5)", opacity: 0.6 }}
+                            >
+                              {item.label}
+                            </button>
+                          );
+                        }
+                        return (
+                          <Link
+                            key={item.href}
+                            href={item.href}
+                            className="block px-4 py-2.5 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[#FAF5EA] transition-colors"
+                          >
+                            {item.label}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
 
               <Link
                 href="/caixa-preta#hero"
@@ -86,18 +160,9 @@ export default function Header() {
               >
                 Caixa-Preta
               </Link>
-
-              <Link
-                href="/sobre"
-                className={`text-[14px] md:text-[15px] font-medium transition-colors hover:text-[var(--orange)] ${
-                  location === "/sobre" ? "text-[var(--orange)]" : "text-foreground/80"
-                }`}
-              >
-                  r.
-              </Link>
             </nav>
 
-            {/* Ações desktop — Redes Sociais */}
+            {/* Ações desktop — Redes Sociais + ícone r. */}
             <div className="hidden lg:flex items-center gap-4">
               <a
                 href={BRAND.instagram}
@@ -117,6 +182,17 @@ export default function Header() {
               >
                 <Youtube className="w-5 h-5" />
               </a>
+              <Link
+                href="/sobre"
+                aria-label="r. — Consórcio de Verdade"
+                className={`transition-colors hover:opacity-80 ${location === "/sobre" ? "opacity-80" : ""}`}
+              >
+                <img
+                  src={R_ICON_URL}
+                  alt="r."
+                  className="w-5 h-5 object-contain"
+                />
+              </Link>
             </div>
 
             {/* Mobile toggle */}
@@ -141,39 +217,69 @@ export default function Header() {
                 Home
               </Link>
 
-              <Link
-                href="/simuladores#hero"
-                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
+              {/* raio-x do consórcio com submenu mobile */}
+              <button
+                onClick={() => setRaioxMobileOpen((v) => !v)}
+                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60 flex items-center justify-between w-full"
               >
-                Raio-X
-              </Link>
+                <span>raio-x do consórcio</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${raioxMobileOpen ? "rotate-180" : ""}`} />
+              </button>
+              {raioxMobileOpen && (
+                <div className="flex flex-col gap-0 pl-4 border-b border-border/60">
+                  {RAIOX_SUBMENU.map((item) => (
+                    <Link
+                      key={item.href}
+                      href={item.href}
+                      className="py-2.5 text-[14px] text-foreground/75 hover:text-[var(--orange)]"
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
 
-              <Link
-                href="/zona-contemplacao#hero"
-                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
+              {/* Indústria do Consórcio com submenu mobile */}
+              <button
+                onClick={() => setIndustriaMobileOpen((v) => !v)}
+                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60 flex items-center justify-between w-full"
               >
-                Zona de Contemplação
-              </Link>
-
-              <Link
-                href="/panorama#hero"
-                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
-              >
-                Panorama: BC
-              </Link>
+                <span>Indústria do Consórcio</span>
+                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${industriaMobileOpen ? "rotate-180" : ""}`} />
+              </button>
+              {industriaMobileOpen && (
+                <div className="flex flex-col gap-0 pl-4 border-b border-border/60">
+                  {INDUSTRIA_SUBMENU.map((item) => {
+                    if (item.isFuture) {
+                      return (
+                        <button
+                          key={item.label}
+                          onClick={() => alert("Em breve")}
+                          className="py-2.5 text-[14px] text-foreground/75 hover:text-[var(--orange)] text-left"
+                          style={{ filter: "saturate(0.5)", opacity: 0.6 }}
+                        >
+                          {item.label}
+                        </button>
+                      );
+                    }
+                    return (
+                      <Link
+                        key={item.href}
+                        href={item.href}
+                        className="py-2.5 text-[14px] text-foreground/75 hover:text-[var(--orange)]"
+                      >
+                        {item.label}
+                      </Link>
+                    );
+                  })}
+                </div>
+              )}
 
               <Link
                 href="/caixa-preta#hero"
                 className="py-3 text-base font-medium text-foreground/90 hover:text-[#FFC93C] border-b border-border/60"
               >
                 Caixa-Preta
-              </Link>
-
-              <Link
-                href="/sobre"
-                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60"
-              >
-                  r.
               </Link>
 
               <div className="flex items-center gap-5 mt-4 pb-2">
@@ -183,6 +289,13 @@ export default function Header() {
                 <a href={BRAND.youtube} target="_blank" rel="noreferrer" className="text-[var(--orange)] hover:text-[#FFFF00] transition-colors">
                   <Youtube className="w-5 h-5" />
                 </a>
+                <Link href="/sobre" className="hover:opacity-80 transition-opacity">
+                  <img
+                    src={R_ICON_URL}
+                    alt="r."
+                    className="w-5 h-5 object-contain"
+                  />
+                </Link>
               </div>
             </nav>
           </div>

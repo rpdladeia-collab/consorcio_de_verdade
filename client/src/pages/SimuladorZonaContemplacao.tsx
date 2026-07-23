@@ -28,7 +28,7 @@ import {
   Legend,
   LabelList,
 } from "recharts";
-import { LOGO } from "@/lib/brand";
+import { LOGO, BRAND } from "@/lib/brand";
 import WaitingAnalysisScreen from "@/components/cdv/WaitingAnalysisScreen";
 import {
   AuditSeal,
@@ -125,7 +125,6 @@ function ChipBadge({ text, cls }: { text: string; cls: "green" | "yellow" | "red
 }
 
 function Thermometer({ pos, label }: { pos: number; label: string }) {
-  // Gradiente: vermelho forte (piso) → amarelo claro (abaixo da média) → amarelo escuro (média) → verde (teto)
   return (
     <div className="space-y-2">
       <div
@@ -160,6 +159,33 @@ function ProgressBar({ pct, color = "orange" }: { pct: number; color?: "orange" 
   );
 }
 
+// ─── Empty state customizado (item 8) ────────────────────────────────────────
+
+function CustomEmptyState() {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label="Seu resultado aparecerá aqui"
+      className="relative isolate flex min-h-[200px] w-full flex-col items-center justify-center overflow-hidden rounded-2xl bg-[#F6F3EC] px-6 py-8 text-center text-[#1C1A16] border border-[#DDD6C8] shadow-sm"
+    >
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-20 [background-image:radial-gradient(circle_at_center,rgba(255,78,31,0.05),transparent_60%)]"
+      />
+      <img
+        src={LOGO.dark}
+        alt={BRAND.name}
+        className="relative z-10 h-8 md:h-10 w-auto object-contain opacity-80 mb-4"
+      />
+      <p className="relative z-10 font-semibold text-[15px] md:text-base mb-1.5">Seu resultado aparecerá aqui.</p>
+      <p className="relative z-10 text-[13px] md:text-[14px] text-[#1C1A16]/55 max-w-md leading-relaxed">
+        Informe o histórico do grupo e o percentual do lance pretendido para descobrir como ele se posiciona em relação às últimas assembleias.
+      </p>
+    </div>
+  );
+}
+
 // ─── Componente principal ─────────────────────────────────────────────────────
 
 export default function SimuladorZonaContemplacao() {
@@ -187,13 +213,12 @@ export default function SimuladorZonaContemplacao() {
   const [prazo, setPrazo] = useState("180");
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([0, 1, 2, 3, 4, 5]);
 
-
   // Mutations
   const calcHist = trpc.zonaContemplacao.calcHistorico.useMutation({
-    onError: (err) => toast.error(err.message || "Erro ao calcular histórico."),
+    onError: (err: { message?: string }) => toast.error(err.message || "Erro ao calcular histórico."),
   });
   const calcQuant = trpc.zonaContemplacao.calcQuantitativo.useMutation({
-    onError: (err) => toast.error(err.message || "Erro ao calcular quantitativo."),
+    onError: (err: { message?: string }) => toast.error(err.message || "Erro ao calcular quantitativo."),
   });
 
   const histResult = calcHist.data;
@@ -291,7 +316,7 @@ export default function SimuladorZonaContemplacao() {
             trend: { label: histResult.trend.label, detail: histResult.trend.detail, cls: histResult.trend.cls },
             position: { title: histResult.position.title, detail: histResult.position.detail, pos: histResult.position.pos },
             pressao: { label: histResult.pressao.label, detail: histResult.pressao.detail },
-            chips: histResult.chips.map((c) => ({ text: c.text, cls: c.cls })),
+            chips: histResult.chips.map((c: { text: string; cls: "green" | "yellow" | "red" }) => ({ text: c.text, cls: c.cls })),
             simulationId: histResult.simulationId,
             generatedAt: histResult.generatedAt,
           },
@@ -321,7 +346,7 @@ export default function SimuladorZonaContemplacao() {
             probSorteioGeral: quantResult.probSorteioGeral,
             probSorteioDetalhe: quantResult.probSorteioDetalhe,
             hStatus: { title: quantResult.hStatus.title, detail: quantResult.hStatus.detail, chip: quantResult.hStatus.chip, pin: quantResult.hStatus.pin },
-            chips: quantResult.chips.map((c) => ({ text: c.text, cls: c.cls })),
+            chips: quantResult.chips.map((c: { text: string; cls: "green" | "yellow" | "red" }) => ({ text: c.text, cls: c.cls })),
             fixo30: quantResult.fixo30,
             fixo50: quantResult.fixo50,
             odds30Pct: quantResult.odds30Pct,
@@ -347,15 +372,21 @@ export default function SimuladorZonaContemplacao() {
   const chartData = [...histRows]
     .filter((r) => parseNum(r.low) > 0 || parseNum(r.mid) > 0 || parseNum(r.high) > 0)
     .sort((a, b) => parseNum(a.ass) - parseNum(b.ass))
-    .map((r) => ({ label: `Ass. ${r.ass}`, low: parseNum(r.low), mid: parseNum(r.mid), high: parseNum(r.high) }));
+    .reverse()
+    .map((r) => ({
+      label: `As.${r.ass}`,
+      low: parseNum(r.low),
+      mid: parseNum(r.mid),
+      high: parseNum(r.high),
+    }));
 
   // ─────────────────────────────────────────────────────────────────────────
 
-            const tabs = [
-              { id: "dados", label: "1. Histórico" },
-              { id: "quant", label: "2. Estatística" },
-              { id: "leitura", label: "3. Leitura técnica" },
-            ];
+  const tabs: { id: "dados" | "quant" | "leitura"; label: string }[] = [
+    { id: "dados", label: "1. Histórico" },
+    { id: "quant", label: "2. Estatística" },
+    { id: "leitura", label: "3. Leitura técnica" },
+  ];
 
   return (
     <div className="min-h-screen bg-[var(--paper)]">
@@ -408,124 +439,140 @@ export default function SimuladorZonaContemplacao() {
         {/* ── ABA 1: HISTÓRICO ─────────────────────────────────────────────── */}
         {activeTab === "dados" && (
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col lg:flex-row gap-5 items-start">
-              {/* Coluna esquerda — Parâmetros */}
-            <div id="parametros" className="w-full lg:w-[38%] lg:shrink-0 rounded-2xl border border-border bg-card p-5 space-y-4 scroll-mt-24">
-              <SectionTitle
-                eyebrow="Parâmetros do histórico"
-                title="Configurações do grupo"
-                desc="Escolha a modalidade de lance para filtrar o histórico corretamente."
-              />
-              {/* Texto orientador */}
-              <div className="rounded-xl bg-secondary/50 border border-border px-4 py-3">
-                <p className="text-[14px] md:text-[15px] text-foreground/65 leading-relaxed">
-                  Informe os lances observados nas últimas assembleias do grupo. Preencha o % do menor lance, do lance médio e do maior lance de cada assembleia, sempre usando dados da mesma modalidade. Depois, insira o percentual de lance que deseja testar. O simulador vai posicionar esse lance dentro da faixa histórica informada, permitindo comparar o valor testado com o piso, a referência central e o teto dos lances anteriores.{" "}
-                  <strong className="text-foreground/80">O RESULTADO NÃO REFLETE PROMESSA OU GARANTIA DE CONTEMPLAÇÃO, APENAS MOSTRA COMO O GRUPO VEM SE MOVIMENTANDO.</strong>
-                </p>
-              </div>
-              <div className="space-y-4">
+            {/* LAYOUT LADO A LADO: Parâmetros (30%) + Histórico (70%) */}
+            <div className="flex flex-col lg:flex-row gap-4 items-start">
+              {/* Coluna esquerda — Parâmetros do Histórico (30%) */}
+              <div id="parametros" className="w-full lg:w-[30%] lg:shrink-0 rounded-2xl border border-border bg-card p-4 space-y-3 scroll-mt-24">
+                <h3 className="font-bold text-[15px] md:text-base text-foreground">Parâmetros do histórico</h3>
                 <div>
-                  <label className="text-[14px] md:text-[15px] font-medium text-foreground/70 mb-1.5 block">Modalidade</label>
+                  <label className="text-[13px] md:text-[14px] font-medium text-foreground/70 mb-1 block">Modalidade</label>
                   <select
                     value={modalidade}
                     onChange={(e) => setModalidade(e.target.value)}
-                    className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-[14px] md:text-[15px] focus:outline-none focus:border-[var(--orange)] transition-colors"
+                    className="w-full rounded-xl border border-border bg-background px-3 py-2 text-[14px] md:text-[15px] focus:outline-none focus:border-[var(--orange)] transition-colors"
                   >
                     {MODALIDADES.map((m) => (
                       <option key={m.value} value={m.value}>{m.label}</option>
                     ))}
                   </select>
                 </div>
+                {/* Texto de orientação reescrito (item 3) */}
+                <div className="rounded-xl bg-secondary/40 px-3 py-2.5">
+                  <p className="font-semibold text-[13px] md:text-[14px] text-foreground/80 mb-1.5">Como preencher o histórico do grupo?</p>
+                  <p className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed">
+                    Informe os lances vencedores das últimas assembleias do seu grupo, sempre utilizando a mesma modalidade de lance (livre, fixo ou embutido).
+                  </p>
+                  <p className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed mt-1.5">
+                    Em cada assembleia, informe:
+                  </p>
+                  <ul className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed ml-4 list-disc mt-0.5 space-y-0.5">
+                    <li>o menor lance contemplado;</li>
+                    <li>o lance médio;</li>
+                    <li>o maior lance contemplado.</li>
+                  </ul>
+                  <p className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed mt-1.5">
+                    Quanto maior a quantidade de assembleias informadas, mais precisa será a análise da sua posição no grupo.
+                  </p>
+                  <p className="text-[12px] md:text-[13px] text-foreground/50 leading-relaxed mt-1.5 italic">
+                    O simulador não prevê resultados futuros nem garante contemplação. Ele apenas compara o percentual do seu lance com o comportamento histórico do grupo.
+                  </p>
+                </div>
+              </div>
+
+              {/* Coluna direita — Histórico Mensal (70%) */}
+              <div className="w-full lg:w-[70%] space-y-4">
+                {/* Tabela de histórico mensal (item 4) */}
+                <div className="rounded-2xl border border-border bg-card overflow-hidden">
+                  <div className="px-4 py-3 border-b border-border">
+                    <p className="font-semibold text-[14px] md:text-[15px]">Histórico mensal</p>
+                    <p className="text-[13px] md:text-[14px] text-foreground/60 mt-0.5">Informe, por assembleia, o menor, o médio e o maior lance vencedor (% da carta).</p>
+                  </div>
+                  <div id="leitura" className="overflow-x-auto scroll-mt-24">
+                    <table className="w-full text-[14px] md:text-[15px]">
+                      <thead>
+                        <tr className="bg-secondary/60 text-foreground/55 text-[13px] md:text-[14px] uppercase tracking-wide">
+                          <th className="text-left font-medium px-3 py-2.5">
+                            <span className="inline-flex items-center gap-1">
+                              Assembleia
+                              <span title="Número da assembleia (mês do grupo)"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                            </span>
+                          </th>
+                          <th className="text-left font-medium px-3 py-2.5">
+                            <span className="inline-flex items-center gap-1">
+                              Menor lance (%)
+                              <span title="Menor percentual de lance que venceu contemplação nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                            </span>
+                          </th>
+                          <th className="text-left font-medium px-3 py-2.5">
+                            <span className="inline-flex items-center gap-1">
+                              Lance médio (%)
+                              <span title="Lance médio dos contemplados nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                            </span>
+                          </th>
+                          <th className="text-left font-medium px-3 py-2.5">
+                            <span className="inline-flex items-center gap-1">
+                              Maior lance (%)
+                              <span title="Maior percentual de lance vencedor nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
+                            </span>
+                          </th>
+                          <th className="px-3 py-2.5 w-10"></th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-border">
+                        {histRows.map((r, i) => (
+                          <tr key={i} className="hover:bg-secondary/30 transition-colors">
+                            <td className="px-3 py-1.5"><CellInput value={r.ass} onChange={(v) => updateHistRow(i, "ass", v)} /></td>
+                            <td className="px-3 py-1.5"><CellInput value={r.low} onChange={(v) => updateHistRow(i, "low", v)} /></td>
+                            <td className="px-3 py-1.5"><CellInput value={r.mid} onChange={(v) => updateHistRow(i, "mid", v)} /></td>
+                            <td className="px-3 py-1.5"><CellInput value={r.high} onChange={(v) => updateHistRow(i, "high", v)} /></td>
+                            <td className="px-3 py-1.5 text-center">
+                              <button onClick={() => removeHistRow(i)} className="text-foreground/30 hover:text-[var(--destructive)] transition-colors">
+                                <Trash2 className="w-4 h-4" />
+                              </button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                  <div className="px-3 py-2.5 border-t border-border">
+                    <button onClick={addHistRow} className="inline-flex items-center gap-1.5 text-[14px] md:text-[15px] font-medium text-[var(--orange)] hover:underline">
+                      <Plus className="w-4 h-4" /> Adicionar assembleia
+                    </button>
+                  </div>
+                </div>
+
+                {/* Campo de lance + botão (itens 5, 6, 7) */}
+                <div className="rounded-2xl border border-border bg-card p-4 space-y-3">
+                  <h3 className="font-bold text-[15px] md:text-base text-foreground">Qual percentual de lance você pretende ofertar?</h3>
+                  <div className="flex flex-col sm:flex-row gap-3 items-stretch">
+                    <div className="flex-[3]">
+                      <input
+                        inputMode="decimal"
+                        placeholder="Ex.: 52,5%"
+                        value={meuLance}
+                        onChange={(e) => setMeuLance(e.target.value)}
+                        className="w-full rounded-xl border border-border bg-background px-4 py-3 text-lg data-num font-semibold focus:outline-none focus:border-[var(--orange)] transition-colors"
+                      />
+                    </div>
+                    <button
+                      onClick={runHistorico}
+                      disabled={calcHist.isPending}
+                      className="flex-[1] inline-flex items-center justify-center gap-2 rounded-xl bg-[var(--orange)] text-white px-5 py-3 text-[14px] md:text-[15px] font-semibold transition-transform hover:scale-[1.01] active:scale-[0.98] disabled:opacity-60 whitespace-nowrap"
+                    >
+                      {calcHist.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Analisando…</> : <><Search className="w-4 h-4" /> Identificar minha zona de contemplação</>}
+                    </button>
+                  </div>
+                  <p className="text-[13px] md:text-[14px] text-foreground/50 leading-relaxed">
+                    Informe o percentual do lance que você pretende ofertar. O simulador irá comparar esse valor com o histórico do grupo para identificar em qual zona de contemplação ele se encontra.
+                  </p>
+                </div>
               </div>
             </div>
 
-            {/* Coluna direita — Tabela de histórico */}
-            <div className="flex-1 min-w-0 w-full rounded-2xl border border-border bg-card overflow-hidden">
-              <div className="px-5 py-4 border-b border-border">
-                <p className="font-semibold text-[14px] md:text-[15px]">Histórico mensal</p>
-                <p className="text-[14px] md:text-[15px] text-foreground/75 mt-0.5">Informe, por assembleia, o menor, o médio e o maior lance vencedor (% da carta). Quanto mais assembleias, melhor a leitura.</p>
-              </div>
-              <div id="leitura" className="overflow-x-auto scroll-mt-24">
-                <table className="w-full text-[14px] md:text-[15px]">
-                  <thead>
-                    <tr className="bg-secondary/60 text-foreground/55 text-[14px] md:text-[15px] uppercase tracking-wide">
-                      <th className="text-left font-medium px-4 py-3">
-                        <span className="inline-flex items-center gap-1">
-                          Assembleia
-                          <span title="Número da assembleia (mês do grupo)"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
-                        </span>
-                      </th>
-                      <th className="text-left font-medium px-4 py-3">
-                        <span className="inline-flex items-center gap-1">
-                          Menor lance (%)
-                          <span title="Menor percentual de lance que venceu contemplação nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
-                        </span>
-                      </th>
-                      <th className="text-left font-medium px-4 py-3">
-                        <span className="inline-flex items-center gap-1">
-                          Lance médio (%)
-                          <span title="Lance médio dos contemplados nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
-                        </span>
-                      </th>
-                      <th className="text-left font-medium px-4 py-3">
-                        <span className="inline-flex items-center gap-1">
-                          Maior lance (%)
-                          <span title="Maior percentual de lance vencedor nesta assembleia"><HelpCircle className="w-3 h-3 text-foreground/35" /></span>
-                        </span>
-                      </th>
-                      <th className="px-4 py-3 w-10"></th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-border">
-                    {histRows.map((r, i) => (
-                      <tr key={i} className="hover:bg-secondary/30 transition-colors">
-                        <td className="px-4 py-2"><CellInput value={r.ass} onChange={(v) => updateHistRow(i, "ass", v)} /></td>
-                        <td className="px-4 py-2"><CellInput value={r.low} onChange={(v) => updateHistRow(i, "low", v)} /></td>
-                        <td className="px-4 py-2"><CellInput value={r.mid} onChange={(v) => updateHistRow(i, "mid", v)} /></td>
-                        <td className="px-4 py-2"><CellInput value={r.high} onChange={(v) => updateHistRow(i, "high", v)} /></td>
-                        <td className="px-4 py-2 text-center">
-                          <button onClick={() => removeHistRow(i)} className="text-foreground/30 hover:text-[var(--destructive)] transition-colors">
-                            <Trash2 className="w-4 h-4" />
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="px-4 py-3 border-t border-border">
-                <button onClick={addHistRow} className="inline-flex items-center gap-1.5 text-[14px] md:text-[15px] font-medium text-[var(--orange)] hover:underline">
-                  <Plus className="w-4 h-4" /> Adicionar assembleia
-                </button>
-              </div>
-            </div>
-            </div>
-
-            {/* Lance a testar + botão */}
-            <div className="grid sm:grid-cols-[1fr_auto] gap-4 items-end">
-              <div>
-                <label className="text-[14px] md:text-[15px] font-medium text-foreground/70 mb-1.5 block">Média de contemplação (% da carta)</label>
-                <input
-                  inputMode="decimal"
-                  placeholder="Ex: 45,5%"
-                  value={meuLance}
-                  onChange={(e) => setMeuLance(e.target.value)}
-                  className="w-full rounded-xl border border-border bg-background px-4 py-3 text-lg data-num font-semibold focus:outline-none focus:border-[var(--orange)] transition-colors"
-                />
-                <p className="text-[14px] md:text-[15px] text-foreground/50 mt-1">Insira a média de contemplação em percentual (ex: 45,5%)</p>
-              </div>
-              <button
-                onClick={runHistorico}
-                disabled={calcHist.isPending}
-                className="inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-7 py-3.5 text-[14px] md:text-[15px] font-semibold transition-transform hover:scale-[1.01] active:scale-[0.98] disabled:opacity-60 whitespace-nowrap"
-              >
-                {calcHist.isPending ? <><Loader2 className="w-4 h-4 animate-spin" /> Analisando…</> : <><Search className="w-4 h-4" /> Analisar zona</>}
-              </button>
-            </div>
-
-            {/* RESULTADO ABA 1 */}
-            <div id="resultado-hist" className="scroll-mt-24 space-y-4">
-              {!histResult && !calcHist.isPending && <WaitingAnalysisScreen />}
+            {/* RESULTADO ABA 1 (item 8) */}
+            <div id="resultado-hist" className="scroll-mt-24 space-y-4 mt-4">
+              {!histResult && !calcHist.isPending && <CustomEmptyState />}
 
               {calcHist.isPending && (
                 <div className="rounded-2xl border border-border bg-card p-10 text-center">
@@ -551,13 +598,11 @@ export default function SimuladorZonaContemplacao() {
                   <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
                     <p className="eyebrow text-foreground/50">Lance testado</p>
                     <div className="flex flex-wrap gap-2">
-                      {histResult.chips.map((c, i) => (
+                      {histResult.chips.map((c: { text: string; cls: "green" | "yellow" | "red" }, i: number) => (
                         <ChipBadge key={i} text={c.text} cls={c.cls} />
                       ))}
                     </div>
                   </div>
-
-
 
                   {/* Gráfico da zona */}
                   {chartData.length > 1 && (
@@ -594,8 +639,6 @@ export default function SimuladorZonaContemplacao() {
                     </div>
                   )}
 
-
-
                   {/* PDF */}
                   <div className="flex flex-wrap items-center gap-3">
                     <PdfButton onClick={handlePdf} />
@@ -617,7 +660,6 @@ export default function SimuladorZonaContemplacao() {
                 eyebrow="Estatística"
                 title="Saúde do grupo"
               />
-              {/* Texto orientador */}
               <div className="rounded-xl bg-secondary/50 border border-border px-4 py-3">
                 <p className="text-[14px] md:text-[15px] text-foreground/75 leading-relaxed">
                   Preencha com a quantidade de contemplações realizadas, começando pela mais recente. Em cada linha, informe o número da assembleia, a base geral de cotas ativas participantes do sorteio geral, a quantidade de cotas que disputaram os lances fixos de 30% e 50% e quantas contemplações ocorreram em cada modalidade: lance livre, lance limitado, lance fixo 30%, lance fixo 50%, sorteio geral ou outras. O objetivo é organizar o comportamento histórico do grupo por assembleia, permitindo observar o ritmo das contemplações sem transformar esses dados em previsão, promessa ou garantia de resultado futuro.
@@ -736,7 +778,7 @@ export default function SimuladorZonaContemplacao() {
                   <div className="rounded-2xl border border-border bg-card p-6 space-y-4">
                     <p className="eyebrow text-foreground/50">Diagnóstico</p>
                     <div className="flex flex-wrap gap-2">
-                      {quantResult.chips.map((c, i) => (
+                      {quantResult.chips.map((c: { text: string; cls: "green" | "yellow" | "red" }, i: number) => (
                         <ChipBadge key={i} text={c.text} cls={c.cls} />
                       ))}
                     </div>
@@ -751,8 +793,6 @@ export default function SimuladorZonaContemplacao() {
                       <p className="text-[14px] md:text-[15px] text-foreground/70 mt-1">{quantResult.hStatus.detail}</p>
                     </div>
                   </div>
-
-
 
                   {/* Lance fixo */}
                   <div className="rounded-2xl border border-border bg-card p-5 space-y-3">
@@ -823,7 +863,7 @@ export default function SimuladorZonaContemplacao() {
                   <div className="rounded-xl bg-secondary/40 p-4">
                     <p className="text-[14px] md:text-[15px] text-foreground/50 mb-1">Aviso educativo</p>
                     <p className="text-[14px] md:text-[15px] text-foreground/70">
-                      Este histórico é informado pelo próprio usuário com base em dados públicos das assembleias. Não representa promessa ou garantia de contemplação futura. O comportamento dos lances pode mudar a qualquer momento conforme a dinâmica do grupo.
+                      Este histórico é informado pelo próprio usuário com base em dados públicos das assembleias. Não representa promessa ou garantia de contemplação futura. O comportamento dos lances pode mudar
                     </p>
                   </div>
                 </div>

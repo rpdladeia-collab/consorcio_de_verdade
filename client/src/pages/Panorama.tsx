@@ -637,8 +637,8 @@ const TABS = [
   { id: "reclamacoes", label: "Reclamações e atendimento", parent: "editorial" },
   { id: "sorte",       label: "Contemplações: lance e sorteio", parent: "editorial" },
   { id: "macro",       label: "Cenários econômicos", parent: "editorial" },
-  { id: "data-lab",    label: "Panorama oficial", href: "/data-lab" },
-  { id: "panorama-adm", label: "Panorama: Administradoras", href: "/panorama-administradoras" },
+  { id: "data-lab",    label: "Panorama Banco Central", href: "/data-lab" },
+  { id: "panorama-adm", label: "Panorama Administradoras", href: "#", isFuture: true },
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
@@ -752,9 +752,20 @@ export default function Panorama() {
               </div>
             </div>
 
-            {/* Panorama oficial */}
+            {/* Panorama Banco Central + Panorama Administradoras */}
             {TABS.filter((t) => !(t as any).parent).map((tab) => {
               const href = (tab as any).href;
+              const isFuture = (tab as any).isFuture;
+              if (isFuture) {
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => alert("Em breve")}
+                    className="shrink-0 px-4 py-4 text-[14px] md:text-[15px] font-semibold border-b-2 transition-colors whitespace-nowrap border-transparent text-[#4b4843] hover:text-[#15140f]"
+                    style={{ filter: "saturate(0.5)", opacity: 0.6 }}
+                  >{tab.label}</button>
+                );
+              }
               if (href) {
                 return (
                   <a key={tab.id} href={href}
