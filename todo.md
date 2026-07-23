@@ -168,3 +168,8 @@
 - [x] 4. Menu "Dados da Proposta": reordenar cards (parcela inicial, parcela final, carta inicial, carta final, custo taxa inicial, custo taxa final)
 - [x] 5. Panorama:BC: adicionar tag amarela "Dados consolidados de 2025" nos heros dos dois menus
 - [x] 6. Cobrir as alterações do Raio-X e das tags do Panorama:BC com teste automatizado
+
+## AJUSTES HOME — RODADA 3
+
+- [x] 1. Adicionar tag amarela "Dados consolidados de 2025" no menu Home — Panorama Dados Oficiais
+- [x] 2. Remover a frase "Comprar uma cota não significa receber o bem." do card "Vender mais significa entregar melhores resultados?"

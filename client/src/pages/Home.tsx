@@ -236,7 +236,7 @@ function PanoramaSection() {
     {
       title: "Vender mais significa entregar melhores resultados?",
       call: "Mas venda não é posse.",
-      text: "Comprar uma cota não significa receber o bem. Entre a venda e a contemplação existe fila, lance, sorteio, correção e permanência no grupo.",
+      text: "Entre a venda e a contemplação existe fila, lance, sorteio, correção e permanência no grupo.",
       href: "/panorama#vendas",
     },
     {
@@ -262,9 +262,14 @@ function PanoramaSection() {
   return (
     <section className="bg-[var(--paper)] py-8 md:py-10 border-t border-[var(--ink)]/10">
       <div className="max-w-5xl mx-auto px-4">
-        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-2 font-semibold">
-          Panorama: Dados Oficiais
-        </p>
+        <div className="flex items-center justify-between mb-2">
+          <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] font-semibold">
+            Panorama: Dados Oficiais
+          </p>
+          <span className="inline-flex items-center rounded-full border border-yellow-400 bg-yellow-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-700">
+            Dados consolidados de 2025
+          </span>
+        </div>
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-1.5 leading-tight">
           Não é opinião. São os dados oficiais.
         </h2>
