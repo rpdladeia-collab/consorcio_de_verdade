@@ -380,6 +380,11 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
       moduleNumber={0}
       title="Panorama BC · Administradoras"
       description="Consulte dados oficiais das administradoras de consórcio publicados pelo Banco Central. Escolha uma administradora e descubra o raio-X completo da operação."
+      heroBadge={
+        <span className="inline-flex shrink-0 items-center rounded-full border border-yellow-400/50 bg-yellow-400/15 px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-yellow-300">
+          Dados consolidados de 2025
+        </span>
+      }
       formPanel={formPanel}
       resultsPanel={discoveryPanel}
       hasResult={true}

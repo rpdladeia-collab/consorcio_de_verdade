@@ -565,14 +565,7 @@ function CorrectionsTab({ result }: { result: any }) {
         </div>
       </div>
 
-      <div className="rounded-lg border border-gray-200 bg-gray-50 p-3">
-        <p className="text-[13px] text-gray-800"><b>Leitura rápida:</b> o verde mostra a carta final atualizada. O laranja mostra o total desembolsado pelo cliente: principal, taxas, seguro e correções projetadas. A projeção não representa promessa de índice futuro.</p>
-      </div>
-
-      {/* Gráfico de degraus: parcela vs carta */}
-      <CorrectionStepChart result={result} />
-
-      {/* Racional + Ponto-chave (acima da tabela) */}
+      {/* Racional + Ponto-chave (substituindo o aviso removido) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-[14px] font-bold text-gray-800 mb-2">Racional</p>
@@ -583,6 +576,9 @@ function CorrectionsTab({ result }: { result: any }) {
           <p className="text-[13px] text-gray-700 leading-relaxed">A correção não é uma parcela extra isolada. Ela aumenta a base que ainda falta pagar e, por isso, altera as parcelas dali para frente.</p>
         </div>
       </div>
+
+      {/* Gráfico de degraus: parcela vs carta */}
+      <CorrectionStepChart result={result} />
 
       {/* Destaque: critérios de correção da administradora */}
       <div className="rounded-xl border-2 border-[#FF4E1F]/40 bg-[#FFF5F0] p-4">
@@ -602,6 +598,66 @@ function CorrectionsTab({ result }: { result: any }) {
       {/* Tabela ano a ano — accordion fechado por padrão */}
       <CorrectionsHistoryAccordion yearly={yearly} />
 
+    </div>
+  );
+}
+
+/* ─── Accordion: Degradação de Eficiência (fechado por padrão) ──────────────── */
+function DegradacaoAccordion({ rows }: { rows: any[] }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden bg-white shadow-sm">
+      {/* Cabeçalho clicável */}
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        className="w-full flex items-center justify-between px-3 sm:px-4 py-3 bg-gray-50 hover:bg-gray-100 transition-colors duration-150 text-left"
+        style={{ transitionTimingFunction: "cubic-bezier(0.23, 1, 0.32, 1)" }}
+      >
+        <div className="flex-1 min-w-0">
+          <h3 className="text-[13px] md:text-[14px] font-bold text-foreground/80">Degradação de Eficiência</h3>
+          <p className="text-[11px] md:text-[12px] text-foreground/60 mt-0.5">Mostra como a taxa de administração perde eficiência à medida que você utiliza recursos próprios no plano. · toque para {open ? "recolher" : "expandir"}</p>
+        </div>
+        {/* Seta animada */}
+        <svg
+          className={`shrink-0 w-5 h-5 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
+          fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
+          style={{ transitionTimingFunction: "cubic-bezier(0.23, 1, 0.32, 1)" }}
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </button>
+
+      {/* Conteúdo expansível */}
+      {open && (
+        <div className="border-t border-border/30 overflow-x-auto">
+          <table className="w-full text-[10px] md:text-[11px] min-w-[560px]">
+            <thead className="bg-[var(--ink)] text-white sticky top-0 z-10">
+              <tr>
+                <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Parcela</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Desembolso</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Dinheiro Novo</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Taxa Efetiva</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Eficiência</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Degradação</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-border/30">
+              {rows.map((row: any) => (
+                <tr key={row.parcela} className="hover:bg-gray-50 transition-colors">
+                  <td className="px-2 py-1 font-mono text-foreground/70 text-[11.9px]">{row.parcela}</td>
+                  <td className="px-2 py-1 text-right font-mono text-[11.9px]">{formatBRL(row.desembolsoAcumulado)}</td>
+                  <td className="px-2 py-1 text-right font-mono text-[11.9px]">{formatBRL(row.dinheiroNovo)}</td>
+                  <td className="px-2 py-1 text-right font-mono text-[11.9px]">{row.taxaEfetiva.toFixed(2)}%</td>
+                  <td className="px-2 py-1 text-right font-mono font-bold text-[11.9px]">{row.eficiencia.toFixed(1)}%</td>
+                  <td className={`px-2 py-1 text-right font-mono font-bold text-[11.9px] ${row.degradacao > 20 ? "text-red-600" : row.degradacao > 10 ? "text-orange-600" : "text-green-600"}`}>{row.degradacao.toFixed(1)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 }
@@ -1089,10 +1145,10 @@ export default function EstruturaDoPlano() {
           {/* KPIs consolidados — linha 1: inicial | linha 2: final */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <KpiCard label="Parcela inicial" value={formatBRLCents(result.first.payment)} hint="conforme política de parcelas" tone="negative" />
-            <KpiCard label="Carta inicial" value={formatBRLCents(result.credit)} hint="valor informado na proposta" tone="positive" />
-            <KpiCard label="Custo da taxa de adm. inicial" value={formatBRLCents(result.costs.taxaContratada)} hint="taxa de administração contratada" tone="negative" />
             <KpiCard label="Parcela final" value={formatBRLCents(result.last.payment)} hint="última parcela projetada" tone="negative" />
+            <KpiCard label="Carta inicial" value={formatBRLCents(result.credit)} hint="valor informado na proposta" tone="positive" />
             <KpiCard label="Carta final" value={formatBRLCents(result.last.credit)} hint="crédito projetado no último mês" tone="positive" />
+            <KpiCard label="Custo da taxa de adm. inicial" value={formatBRLCents(result.costs.taxaContratada)} hint="taxa de administração contratada" tone="negative" />
             <KpiCard label="Custo da taxa de adm. final" value={formatBRLCents(result.costs.taxaAdmProjetada)} hint="taxa de administração projetada com correções" tone="negative" />
           </div>
 
@@ -1122,38 +1178,7 @@ export default function EstruturaDoPlano() {
           {/* Degradação Progressiva */}
           {result.eficienciaTaxa.degradacao && (
             <div className="space-y-3">
-              <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden bg-white shadow-sm">
-                <div className="p-3 sm:p-4 border-b border-border/30 bg-gray-50">
-                  <h3 className="text-[13px] md:text-[14px] font-bold text-foreground/80">Degradação de Eficiência</h3>
-                  <p className="text-[11px] md:text-[12px] text-foreground/60 mt-1">Como a eficiência cai ao longo das parcelas</p>
-                </div>
-                <div className="overflow-x-auto">
-                  <table className="w-full text-[10px] md:text-[11px] min-w-[560px]">
-                    <thead className="bg-[var(--ink)] text-white sticky top-0 z-10">
-                      <tr>
-                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Parcela</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Desembolso</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Dinheiro Novo</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Taxa Efetiva</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Eficiência</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Degradação</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border/30">
-                      {result.eficienciaTaxa.degradacao.rows.map((row: any) => (
-                        <tr key={row.parcela} className="hover:bg-gray-50 transition-colors">
-                          <td className="px-2 py-1 font-mono text-foreground/70 text-[11.9px]">{row.parcela}</td>
-                          <td className="px-2 py-1 text-right font-mono text-[11.9px]">{formatBRL(row.desembolsoAcumulado)}</td>
-                          <td className="px-2 py-1 text-right font-mono text-[11.9px]">{formatBRL(row.dinheiroNovo)}</td>
-                          <td className="px-2 py-1 text-right font-mono text-[11.9px]">{row.taxaEfetiva.toFixed(2)}%</td>
-                          <td className="px-2 py-1 text-right font-mono font-bold text-[11.9px]">{row.eficiencia.toFixed(1)}%</td>
-                          <td className={`px-2 py-1 text-right font-mono font-bold text-[11.9px] ${row.degradacao > 20 ? "text-red-600" : row.degradacao > 10 ? "text-orange-600" : "text-green-600"}`}>{row.degradacao.toFixed(1)}%</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
+              <DegradacaoAccordion rows={result.eficienciaTaxa.degradacao.rows} />
 
               {/* Alerta de Degradação */}
               {result.eficienciaTaxa.degradacao.alerta && (

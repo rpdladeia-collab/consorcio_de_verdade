@@ -159,3 +159,12 @@
 - [x] Atualizar dados de Motocicletas: 48,2% / 3,0 mi cotas
 - [x] Validar visualmente no navegador
 - [x] Cobrir os valores atualizados do hero do Raio-X com teste automatizado
+
+## AJUSTES RAIO-X + PANORAMA:BC — RODADA 2
+
+- [x] 1. Card "Raio-X do Consórcio": trocar texto descritivo abaixo do título
+- [x] 2. Simulador Raio-X do Consórcio: remover aviso "Leitura rápida" e subir cards "Racional" e "Ponto Chave"
+- [x] 3. Menu "Eficiência da Taxa": trocar subtítulo da tabela "Degradação de Eficiência" e colocar em modo encolhido
+- [x] 4. Menu "Dados da Proposta": reordenar cards (parcela inicial, parcela final, carta inicial, carta final, custo taxa inicial, custo taxa final)
+- [x] 5. Panorama:BC: adicionar tag amarela "Dados consolidados de 2025" nos heros dos dois menus
+- [x] 6. Cobrir as alterações do Raio-X e das tags do Panorama:BC com teste automatizado

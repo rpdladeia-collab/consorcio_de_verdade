@@ -8,7 +8,7 @@ const CATEGORIAS = [
     title: "Raio-X do Consórcio",
     desc: "O primeiro filtro, antes de olhar preço.",
     modulos: [
-      { slug: "estrutura-do-plano", title: "NUNCA UM CONSÓRCIO FOI EXPLICADO ASSIM", desc: "Explore a memória completa de cálculo do seu plano, mês a mês. Custos, correções, evolução da carta e indicadores que normalmente permanecem escondidos do consumidor.", cta: "EXPLORAR ESTRUTURA" }
+      { slug: "estrutura-do-plano", title: "NUNCA UM CONSÓRCIO FOI EXPLICADO ASSIM", desc: "Explore a memória completa de cálculo do seu plano, mês a mês. Custos, correções, evolução da carta e os números que realmente determinam quanto o seu consórcio custa ao longo do tempo.", cta: "EXPLORAR ESTRUTURA" }
     ]
   },
   {

@@ -686,9 +686,12 @@ export default function Panorama() {
       {/* ── Hero ── */}
       <header id="hero" className="bg-[#15140f] text-white pt-10 pb-6 px-6 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
-          <div className="mb-3">
+          <div className="mb-3 flex items-center justify-between">
             <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
               Panorama: Dados Oficiais BCB 2016–2024
+            </span>
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-400/15 border border-yellow-400/40 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-300">
+              Dados consolidados de 2025
             </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-3 tracking-tight">

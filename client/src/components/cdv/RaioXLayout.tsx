@@ -9,6 +9,7 @@ interface RaioXLayoutProps {
   title: string;
   description: string | React.ReactNode;
   descriptionSupport?: string;
+  heroBadge?: React.ReactNode;
   formPanel: React.ReactNode;
   resultsPanel: React.ReactNode;
   hasResult: boolean;
@@ -19,6 +20,7 @@ export default function RaioXLayout({
   title,
   description,
   descriptionSupport,
+  heroBadge,
   formPanel,
   resultsPanel,
   hasResult,
@@ -52,9 +54,12 @@ export default function RaioXLayout({
           </Link>
 
           {/* Título - Fonte Display */}
-          <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight text-white uppercase">
-            {title}
-          </h1>
+          <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+            <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl leading-tight text-white uppercase">
+              {title}
+            </h1>
+            {heroBadge}
+          </div>
 
           {/* Descrição - Estilo Suave */}
           <div className="text-[#C9C4B8] text-[14px] md:text-[15px] md:text-base max-w-3xl leading-relaxed">
