@@ -199,7 +199,7 @@ function ZonaSection() {
   return (
     <section className="bg-[var(--ink)] py-8 md:py-10">
       <div className="max-w-5xl mx-auto px-4">
-        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-2 font-semibold">
+        <p className="text-[10px] tracking-widest uppercase mb-2 font-semibold" style={{ color: "color-mix(in oklch, var(--orange) 70%, white)" }}>
           Zona de Contemplação
         </p>
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-1.5 leading-tight">
@@ -214,14 +214,14 @@ function ZonaSection() {
             <Link key={c.title} href={c.href}>
               <div className="bg-white/5 border border-white/10 rounded-lg p-4 hover:border-[var(--orange)]/50 transition-all cursor-pointer h-full">
                 <p className="text-[14px] md:text-[15px] font-bold text-white mb-1 leading-tight">{c.title}</p>
-                <p className="text-[13px] md:text-[14px] text-[var(--orange)] leading-snug font-medium">{c.call}</p>
+                <p className="text-[13px] md:text-[14px] leading-snug font-medium" style={{ color: "color-mix(in oklch, var(--orange) 70%, white)" }}>{c.call}</p>
               </div>
             </Link>
           ))}
         </div>
 
         <Link href="/zona-contemplacao#parametros">
-          <button className="border border-[var(--orange)] text-[var(--orange)] text-[14px] md:text-[15px] font-semibold px-5 py-2.5 rounded-full hover:bg-[var(--orange)] hover:text-white active:scale-95 transition-all">
+          <button className="border text-[14px] md:text-[15px] font-semibold px-5 py-2.5 rounded-full hover:text-white active:scale-95 transition-all" style={{ borderColor: "color-mix(in oklch, var(--orange) 70%, white)", color: "color-mix(in oklch, var(--orange) 70%, white)" }} onMouseEnter={(e) => { e.currentTarget.style.backgroundColor = "color-mix(in oklch, var(--orange) 70%, white)"; }} onMouseLeave={(e) => { e.currentTarget.style.backgroundColor = "transparent"; }}>
             Testar meu lance →
           </button>
         </Link>
@@ -266,7 +266,7 @@ function PanoramaSection() {
           <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] font-semibold">
             Panorama: Dados Oficiais
           </p>
-          <span className="inline-flex items-center rounded-full border border-yellow-400 bg-yellow-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-700">
+          <span className="inline-flex items-center rounded-full bg-black px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-white">
             Dados consolidados de 2025
           </span>
         </div>
@@ -314,8 +314,8 @@ export default function Home() {
   return (
     <main className="bg-[var(--paper)]">
       <HeroSection />
-      <ConscienciaSection />
       <RaioXSection />
+      <ConscienciaSection />
       <ZonaSection />
       <PanoramaSection />
     </main>

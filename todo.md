@@ -173,3 +173,9 @@
 
 - [x] 1. Adicionar tag amarela "Dados consolidados de 2025" no menu Home — Panorama Dados Oficiais
 - [x] 2. Remover a frase "Comprar uma cota não significa receber o bem." do card "Vender mais significa entregar melhores resultados?"
+
+## AJUSTES HOME — RODADA 4
+
+- [x] 1. Alterar tag amarela do Home para fundo preto com escrita branca
+- [x] 2. Reduzir em 30% o tom das escritas laranja na seção Home — Zona de Contemplação
+- [x] 3. Inverter ordem: colocar área "Raio-X" acima da área "Por que simular antes de contratar"
