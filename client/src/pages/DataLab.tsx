@@ -258,9 +258,14 @@ export function DataLabPage() {
         </nav>
 
         <div className="mx-auto max-w-5xl px-4 py-8 sm:py-10">
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#f97316]">
-            Panorama BC · Panorama Oficial
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#f97316]">
+              Panorama BC · Panorama Oficial
+            </span>
+            <span className="inline-flex items-center rounded-full border border-yellow-400 bg-yellow-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-700">
+              Dados integrados com Banco Central em tempo real
+            </span>
+          </div>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Mercado em Números</h1>
           <p className="mt-3 max-w-2xl text-sm font-medium leading-relaxed text-white/70 sm:text-[15px]">
             Dados conectados ao Banco Central do Brasil. Explore mais de uma década do mercado de consórcios

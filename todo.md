@@ -179,3 +179,9 @@
 - [x] 1. Alterar tag amarela do Home para fundo preto com escrita branca
 - [x] 2. Reduzir em 30% o tom das escritas laranja na seção Home — Zona de Contemplação
 - [x] 3. Inverter ordem: colocar área "Raio-X" acima da área "Por que simular antes de contratar"
+
+## AJUSTES HOME + PANORAMA — RODADA 5
+
+- [x] 1. Panorama:BC — submenu "Panorama oficial": adicionar tag amarela "Dados integrados com Banco Central em tempo real" no hero
+- [x] 2. Home — hero com fundo branco (separar visualmente da seção Raio-X logo abaixo)
+- [x] 3. Home — seção Raio-X: reduzir espaço exagerado entre subtítulo e os 4 cards

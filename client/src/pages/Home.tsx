@@ -4,7 +4,7 @@ import { BRAND } from "@/lib/brand";
 // ─── Seção 1: Hero ────────────────────────────────────────────────────────────
 function HeroSection() {
   return (
-    <section id="hero" className="bg-[var(--paper)] py-10 md:py-12 border-b border-[var(--ink)]/10 scroll-mt-20">
+    <section id="hero" className="bg-white py-10 md:py-12 border-b border-[var(--ink)]/10 scroll-mt-20">
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex flex-col md:flex-row gap-8 items-start">
           {/* Coluna de texto */}
@@ -143,7 +143,7 @@ function RaioXSection() {
           Cada simulador responde uma pergunta que normalmente só aparece depois da assinatura do contrato. Descubra essas respostas antes de decidir.
         </p>
 
-        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-5 font-semibold">
+        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-3 font-semibold">
           O QUE VOCÊ PRECISA SABER
         </p>
 
@@ -152,7 +152,7 @@ function RaioXSection() {
             <Link key={c.name} href={c.href}>
               <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-5 hover:border-[var(--orange)] hover:shadow-md hover:scale-105 transition-all cursor-pointer h-full flex flex-col min-h-[180px]">
                 <p className="text-[14px] md:text-[15px] font-bold text-[var(--ink)] mb-2 leading-tight uppercase">{c.name}</p>
-                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-4">
+                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-2">
                   {c.call}
                 </p>
                 <p className="text-[13px] md:text-[14px] text-gray-700 leading-snug font-normal mt-auto">{c.text}</p>
