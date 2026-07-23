@@ -49,14 +49,35 @@ describe("ajustes da rodada Raio-X e Panorama:BC", () => {
     }
   });
 
-  it("inclui a tag de dados consolidados nos dois heros do Panorama:BC", () => {
+  it("inclui a tag Dados 2025 no hero do Panorama Editorial", () => {
     const panorama = readSource("client/src/pages/Panorama.tsx");
-    const administradoras = readSource("client/src/pages/PanoramaAdministradoras.tsx");
-    const layout = readSource("client/src/components/cdv/RaioXLayout.tsx");
 
-    expect(panorama).toContain("Dados consolidados de 2025");
-    expect(administradoras).toContain("Dados consolidados de 2025");
-    expect(administradoras).toContain("heroBadge={");
-    expect(layout).toContain("heroBadge?: React.ReactNode");
+    expect(panorama).toContain("Dados 2025");
+  });
+
+  it("removeu a tag do hero do Panorama Oficial (DataLab)", () => {
+    const dataLab = readSource("client/src/pages/DataLab.tsx");
+
+    expect(dataLab).not.toContain("Dados integrados com Banco Central em tempo real");
+  });
+
+  it("Interpretando as métricas está em modo retraído (details/summary)", () => {
+    const dataLab = readSource("client/src/pages/DataLab.tsx");
+
+    expect(dataLab).toContain("<details");
+    expect(dataLab).toContain("Interpretando as métricas");
+  });
+
+  it("WhatsApp corrigido para 31996952204", () => {
+    const simuladores = readSource("client/src/pages/Simuladores.tsx");
+
+    expect(simuladores).toContain("5531996952204");
+  });
+
+  it("card Lance Embutido com tag em breve", () => {
+    const simuladores = readSource("client/src/pages/Simuladores.tsx");
+
+    expect(simuladores).toContain("LANCE EMBUTIDO");
+    expect(simuladores).toContain("isFuture: true");
   });
 });

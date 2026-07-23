@@ -407,13 +407,14 @@ export default function SimuladorZonaContemplacao() {
 
         {/* ── ABA 1: HISTÓRICO ─────────────────────────────────────────────── */}
         {activeTab === "dados" && (
-          <div className="space-y-5 max-w-5xl mx-auto">
-            {/* Parâmetros */}
-            <div id="parametros" className="rounded-2xl border border-border bg-card p-5 space-y-4 scroll-mt-24">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col lg:flex-row gap-5 items-start">
+              {/* Coluna esquerda — Parâmetros */}
+            <div id="parametros" className="w-full lg:w-[38%] lg:shrink-0 rounded-2xl border border-border bg-card p-5 space-y-4 scroll-mt-24">
               <SectionTitle
                 eyebrow="Parâmetros do histórico"
                 title="Configurações do grupo"
-                desc="Identifique o grupo e escolha a modalidade de lance para filtrar o histórico corretamente."
+                desc="Escolha a modalidade de lance para filtrar o histórico corretamente."
               />
               {/* Texto orientador */}
               <div className="rounded-xl bg-secondary/50 border border-border px-4 py-3">
@@ -422,16 +423,7 @@ export default function SimuladorZonaContemplacao() {
                   <strong className="text-foreground/80">O RESULTADO NÃO REFLETE PROMESSA OU GARANTIA DE CONTEMPLAÇÃO, APENAS MOSTRA COMO O GRUPO VEM SE MOVIMENTANDO.</strong>
                 </p>
               </div>
-              <div className="grid sm:grid-cols-3 gap-4">
-                <div>
-                  <label className="text-[14px] md:text-[15px] font-medium text-foreground/70 mb-1.5 block">Nome do grupo</label>
-                  <input
-                    value={grupoNome}
-                    onChange={(e) => setGrupoNome(e.target.value)}
-                    placeholder="Ex: XYZ"
-                    className="w-full rounded-xl border border-border bg-background px-4 py-2.5 text-[14px] md:text-[15px] focus:outline-none focus:border-[var(--orange)] transition-colors"
-                  />
-                </div>
+              <div className="space-y-4">
                 <div>
                   <label className="text-[14px] md:text-[15px] font-medium text-foreground/70 mb-1.5 block">Modalidade</label>
                   <select
@@ -444,29 +436,11 @@ export default function SimuladorZonaContemplacao() {
                     ))}
                   </select>
                 </div>
-                <div>
-                  <label className="text-[14px] md:text-[15px] font-medium text-foreground/70 mb-1.5 block">Método estatístico</label>
-                  <div className="flex gap-2">
-                    {(["media", "mediana"] as const).map((m) => (
-                      <button
-                        key={m}
-                        onClick={() => setMetodo(m)}
-                        className={`flex-1 rounded-xl border px-3 py-2.5 text-[14px] md:text-[15px] font-medium transition-colors ${
-                          metodo === m
-                            ? "border-[var(--orange)] text-[var(--orange)] bg-[color-mix(in_oklch,var(--orange)_8%,transparent)]"
-                            : "border-border text-foreground/60"
-                        }`}
-                      >
-                        {m === "media" ? "Média" : "Mediana"}
-                      </button>
-                    ))}
-                  </div>
-                </div>
               </div>
             </div>
 
-            {/* Tabela de histórico */}
-            <div className="rounded-2xl border border-border bg-card overflow-hidden">
+            {/* Coluna direita — Tabela de histórico */}
+            <div className="flex-1 min-w-0 w-full rounded-2xl border border-border bg-card overflow-hidden">
               <div className="px-5 py-4 border-b border-border">
                 <p className="font-semibold text-[14px] md:text-[15px]">Histórico mensal</p>
                 <p className="text-[14px] md:text-[15px] text-foreground/75 mt-0.5">Informe, por assembleia, o menor, o médio e o maior lance vencedor (% da carta). Quanto mais assembleias, melhor a leitura.</p>
@@ -524,6 +498,7 @@ export default function SimuladorZonaContemplacao() {
                   <Plus className="w-4 h-4" /> Adicionar assembleia
                 </button>
               </div>
+            </div>
             </div>
 
             {/* Lance a testar + botão */}

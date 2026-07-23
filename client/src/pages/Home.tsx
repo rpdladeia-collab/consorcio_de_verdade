@@ -23,7 +23,7 @@ function HeroSection() {
               Aqui você simula custos, lance, contemplação, correções e capacidade real de pagamento — antes de assinar o contrato.
             </p>
             <div className="flex flex-wrap gap-2.5 mb-3">
-              <a href="#raio-x">
+              <a href="/simuladores">
                 <button className="bg-[var(--orange)] text-white text-[14px] md:text-[15px] font-semibold px-5 py-2.5 rounded-full hover:opacity-90 active:scale-95 transition-all">
                   Usar simuladores gratuitamente →
                 </button>
@@ -39,7 +39,7 @@ function HeroSection() {
               </a>
             </div>
             <p className="text-[14px] md:text-[15px] text-gray-700 font-medium">
-              Simulações gratuitas. Dados claros. Decisão com mais consciência.
+              Dados claros. Decisão com mais consciência.
             </p>
           </div>
 
@@ -150,12 +150,12 @@ function RaioXSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           {cards.map((c) => (
             <Link key={c.name} href={c.href}>
-              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-5 hover:border-[var(--orange)] hover:shadow-md hover:scale-105 transition-all cursor-pointer h-full flex flex-col min-h-[180px]">
-                <p className="text-[14px] md:text-[15px] font-bold text-[var(--ink)] mb-2 leading-tight uppercase">{c.name}</p>
-                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-2">
+              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-5 hover:border-[var(--orange)] hover:shadow-md hover:scale-105 transition-all cursor-pointer h-full flex flex-col min-h-[140px] md:min-h-[180px]">
+                <p className="text-[14px] md:text-[15px] font-bold text-[var(--ink)] mb-1.5 leading-tight uppercase">{c.name}</p>
+                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-1.5">
                   {c.call}
                 </p>
-                <p className="text-[13px] md:text-[14px] text-gray-700 leading-snug font-normal mt-auto">{c.text}</p>
+                <p className="text-[13px] md:text-[14px] text-gray-700 leading-snug font-normal md:mt-auto">{c.text}</p>
               </div>
             </Link>
           ))}
@@ -273,9 +273,6 @@ function PanoramaSection() {
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-1.5 leading-tight">
           Não é opinião. São os dados oficiais.
         </h2>
-        <p className="text-[14px] md:text-[15px] text-[var(--ink)]/60 mb-1.5 max-w-2xl">
-          Aqui você consegue enxergar um mercado que a propaganda nem sempre mostra.
-        </p>
         <p className="text-[14px] md:text-[15px] text-[var(--ink)]/60 mb-4 max-w-2xl">
           Os dados ajudam a entender a complexidade real do sistema de consórcios.
         </p>

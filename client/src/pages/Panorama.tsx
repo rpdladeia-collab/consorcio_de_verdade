@@ -690,8 +690,8 @@ export default function Panorama() {
             <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
               Panorama: Dados Oficiais BCB 2016–2024
             </span>
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-yellow-400/15 border border-yellow-400/40 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-300">
-              Dados consolidados de 2025
+            <span className="text-[11px] font-bold uppercase tracking-wider text-yellow-400">
+              Dados 2025
             </span>
           </div>
           <h1 className="text-3xl md:text-5xl font-bold leading-[1.1] mb-3 tracking-tight">

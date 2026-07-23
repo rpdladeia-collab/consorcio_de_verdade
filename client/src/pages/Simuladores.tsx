@@ -17,7 +17,7 @@ const CATEGORIAS = [
     desc: "A matemática por trás da contemplação.",
     modulos: [
       { slug: "estrategia-lance", title: "CARTA OU CATEGORIA?", desc: "Compara a diferença matemática entre ofertar o lance sobre o crédito ou sobre a categoria (crédito + taxas).", cta: "Descobrir resposta" },
-      { slug: "#", title: "ESTRATÉGIAS DE LANCE", desc: "Lance Embutido, Lance Fixo, Lance Livre e Lance Limitado. Entenda as regras e limites de cada modalidade.", cta: "EM BREVE", isFuture: true }
+      { slug: "#", title: "LANCE EMBUTIDO", desc: "Entenda como o lance embutido funciona, seus limites e quando vale a pena utilizar essa modalidade.", cta: "EM BREVE", isFuture: true }
     ]
   },
   {
@@ -173,7 +173,7 @@ export default function Simuladores() {
           <p className="text-[#C9C4B8] max-w-[560px] mx-auto mb-8 text-[16px] leading-[1.8] font-medium">
             Às vezes o caso é específico demais pra uma régua padrão. Peça uma leitura independente do seu cenário e tome sua decisão com total clareza.
           </p>
-          <a href="https://wa.me/5511999999999" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3.5 px-9 py-5 bg-[#FF4E1F] text-[#0A0A08] text-[14px] font-black tracking-[0.08em] uppercase rounded-[2px] hover:bg-[#FFC93C] transition-all duration-300 group shadow-[0_10px_30px_rgba(255,78,31,0.2)] hover:shadow-[0_15px_40px_rgba(255,78,31,0.3)] hover:scale-[1.05]">
+          <a href="https://wa.me/5531996952204" target="_blank" rel="noreferrer" className="inline-flex items-center gap-3.5 px-9 py-5 bg-[#FF4E1F] text-[#0A0A08] text-[14px] font-black tracking-[0.08em] uppercase rounded-[2px] hover:bg-[#FFC93C] transition-all duration-300 group shadow-[0_10px_30px_rgba(255,78,31,0.2)] hover:shadow-[0_15px_40px_rgba(255,78,31,0.3)] hover:scale-[1.05]">
             Solicitar análise estratégica
             <ArrowRight className="w-5 h-5 transition-all group-hover:translate-x-2" />
           </a>

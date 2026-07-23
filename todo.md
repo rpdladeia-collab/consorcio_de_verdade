@@ -185,3 +185,16 @@
 - [x] 1. Panorama:BC — submenu "Panorama oficial": adicionar tag amarela "Dados integrados com Banco Central em tempo real" no hero
 - [x] 2. Home — hero com fundo branco (separar visualmente da seção Raio-X logo abaixo)
 - [x] 3. Home — seção Raio-X: reduzir espaço exagerado entre subtítulo e os 4 cards
+
+## RODADA 6 — 7 ALTERAÇÕES
+
+- [x] 1. Home Raio-X: reduzir espaço exagerado entre subtítulo laranja e texto do card (mobile)
+- [x] 2. Home hero: botão laranja leva para página Raio-X; excluir frase "simulação gratuita"
+- [x] 3. Home área Panorama: excluir frase "aqui vc consegue enxergar..."
+- [x] 4. Raio-X Lance sobre Carta: excluir logomarca da dash; manter resultados visíveis antes do input; corrigir fonte fora do padrão
+- [x] 5. Raio-X do Lance: adicionar card "Lance Embutido" com tag "em breve" no mesmo formato do card "estratégia de lance"
+- [x] 6. Raio-X seção final: corrigir WhatsApp para 31996952204
+- [x] 7. Zona de Contemplação: layout parâmetros esquerda + histórico direita; excluir botões "nome do grupo" e "método estatístico"
+- [x] 8. Panorama Editorial: tag hero alterada para "Dados 2025" apenas texto amarelo forte
+- [x] 9. Panorama Oficial: excluir tag do hero
+- [x] 10. Panorama Oficial: área "Interpretação das Métricas" com visualização retraída (accordion)

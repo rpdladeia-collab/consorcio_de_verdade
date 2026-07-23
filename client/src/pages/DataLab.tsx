@@ -262,9 +262,6 @@ export function DataLabPage() {
             <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#f97316]">
               Panorama BC · Panorama Oficial
             </span>
-            <span className="inline-flex items-center rounded-full border border-yellow-400 bg-yellow-50 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-yellow-700">
-              Dados integrados com Banco Central em tempo real
-            </span>
           </div>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Mercado em Números</h1>
           <p className="mt-3 max-w-2xl text-sm font-medium leading-relaxed text-white/70 sm:text-[15px]">
@@ -406,10 +403,13 @@ export function DataLabPage() {
               </div>
             )}
 
-            <div className="mt-5 border-t border-[#e5e0d8] pt-4">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+            <details className="mt-5 border-t border-[#e5e0d8] pt-4 group">
+              <summary className="flex cursor-pointer items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#716b60] select-none">
                 Interpretando as métricas
-              </span>
+                <svg className="h-3 w-3 text-[#716b60] transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
               <div className="mt-3 space-y-3">
                 {organizedGroups.map(section => (
                   <div key={section.label}>
@@ -431,7 +431,7 @@ export function DataLabPage() {
                   </div>
                 ))}
               </div>
-            </div>
+            </details>
           </aside>
 
           <div className="min-w-0">
