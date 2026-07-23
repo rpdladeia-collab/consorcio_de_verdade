@@ -148,4 +148,14 @@
 - [x] Conferir o escopo original e remover qualquer detalhe não solicitado
 - [x] Corrigir somente pendências do redesenho já iniciado
 - [x] Validar a página em desktop e celular sem alterar outros módulos
-- [ ] Salvar a versão final do redesenho solicitado
+- [x] Salvar a versão final do redesenho solicitado
+
+## AJUSTES NO RAIO-X DO CONSÓRCIO — HERO
+
+- [x] Alterar "48,6% DESISTEM" para "48,4% DESISTEM"
+- [x] Trocar ano 2024 para 2025 em todo o hero
+- [x] Atualizar dados de Imóveis: 54,5% / 3,4 mi cotas
+- [x] Atualizar dados de Automóveis: 46,2% / 4,6 mi cotas
+- [x] Atualizar dados de Motocicletas: 48,2% / 3,0 mi cotas
+- [x] Validar visualmente no navegador
+- [x] Cobrir os valores atualizados do hero do Raio-X com teste automatizado

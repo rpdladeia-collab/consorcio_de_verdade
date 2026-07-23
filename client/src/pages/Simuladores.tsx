@@ -58,7 +58,7 @@ export default function Simuladores() {
             Raio-X
           </span>
           <h1 className="font-display text-[clamp(1.4rem,3.2vw,2.3rem)] leading-[1.05] max-w-[800px] uppercase">
-            48,6% DESISTEM. E A MAIORIA DAS CONTEMPLAÇÕES OCORREM POR LANCE.
+            48,4% DESISTEM. E A MAIORIA DAS CONTEMPLAÇÕES OCORREM POR LANCE.
           </h1>
           <p className="mt-2 max-w-[500px] text-[13px] leading-[1.5] text-[#C9C4B8]">
             Assinar primeiro. Entender depois. É assim que começam os erros mais caros. Faça as análises antes de decidir.
@@ -76,15 +76,15 @@ export default function Simuladores() {
                 Índice de Exclusão
               </span>
               <h3 className="text-white text-[15px] font-semibold uppercase tracking-tight">
-                IE 2024 · Banco Central
+                IE 2025 · Banco Central
               </h3>
             </div>
 
             <div className="flex flex-1 flex-wrap items-center justify-between md:justify-end gap-x-12 gap-y-6">
               {[
-                { label: "Imóveis", value: "56,9%", total: "2,85 mi" },
-                { label: "Automóveis", value: "46,8%", total: "4,27 mi" },
-                { label: "Motocicletas", value: "48,1%", total: "2,84 mi" }
+                { label: "Imóveis", value: "54,5%", total: "3,4 mi" },
+                { label: "Automóveis", value: "46,2%", total: "4,6 mi" },
+                { label: "Motocicletas", value: "48,2%", total: "3,0 mi" }
               ].map((item) => (
                 <div key={item.label} className="flex items-center gap-4">
                   <div className="font-mono text-[32px] font-semibold text-[#FFC93C] leading-none">
@@ -105,7 +105,7 @@ export default function Simuladores() {
           
           <div className="mt-6 pt-4 border-t border-white/5 text-center md:text-left">
             <span className="text-[10px] text-[#79746A] tracking-[0.05em] uppercase font-bold opacity-80">
-              Fonte: Banco Central do Brasil · Panorama do Consórcio 2024 · Dados públicos citados. O comportamento passado não garante resultado futuro.
+              Fonte: Banco Central do Brasil · Panorama do Consórcio 2025 · Dados públicos citados. O comportamento passado não garante resultado futuro.
             </span>
           </div>
         </div>
