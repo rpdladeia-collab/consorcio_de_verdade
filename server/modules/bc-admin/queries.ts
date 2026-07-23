@@ -103,15 +103,22 @@ function filterLinhasByAdminName<
  * Listar todas as administradoras únicas em ordem alfabética
  * Retorna nome e CNPJ para o select de busca
  */
-export async function listAdministradoras() {
+export async function listAdministradoras(codigoSegmento?: string) {
   const db = await requireDb();
+  const filtro = codigoSegmento
+    ? and(
+        ne(bcDadosLinha.nomeAdministradora, ""),
+        eq(bcDadosLinha.codigoSegmento, codigoSegmento),
+      )
+    : ne(bcDadosLinha.nomeAdministradora, "");
+
   const results = await db
     .selectDistinct({
       nomeAdministradora: bcDadosLinha.nomeAdministradora,
       cnpjAdministradora: bcDadosLinha.cnpjAdministradora,
     })
     .from(bcDadosLinha)
-    .where(ne(bcDadosLinha.nomeAdministradora, ""))
+    .where(filtro)
     .orderBy(bcDadosLinha.nomeAdministradora);
 
   return results;

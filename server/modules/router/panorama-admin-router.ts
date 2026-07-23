@@ -32,7 +32,9 @@ export const panoramaAdminRouter = router({
   /**
    * Listar todas as administradoras únicas (ordem alfabética)
    */
-  listAdministradoras: publicProcedure.query(() => listAdministradoras()),
+  listAdministradoras: publicProcedure
+    .input(z.object({ codigoSegmento: z.string().min(1).max(2).optional() }).optional())
+    .query(({ input }) => listAdministradoras(input?.codigoSegmento)),
 
   /**
    * Status da ingestão: lista todas as importações realizadas

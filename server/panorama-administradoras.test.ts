@@ -63,4 +63,18 @@ describe("home do Panorama > Administradoras", () => {
     expect(source).not.toContain("rankingsTop3");
     expect(source).not.toContain("Rankings do Mercado");
   });
+
+  it("aplica o segmento escolhido à consulta existente de administradoras", () => {
+    const pageSource = readFileSync(
+      resolve(process.cwd(), "client/src/pages/PanoramaAdministradoras.tsx"),
+      "utf8",
+    );
+    const querySource = readFileSync(
+      resolve(process.cwd(), "server/modules/bc-admin/queries.ts"),
+      "utf8",
+    );
+
+    expect(pageSource).toContain("codigoSegmento: segmentoFiltro");
+    expect(querySource).toContain("eq(bcDadosLinha.codigoSegmento, codigoSegmento)");
+  });
 });

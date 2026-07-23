@@ -125,6 +125,27 @@
 ## REESTRUTURAÇÃO DEFINITIVA V1 — HOME PANORAMA > ADMINISTRADORAS
 
 - [x] Criar consulta única de totais de mercado no backend (adms, segmentos, cotas, grupos — dados reais)
-- [ ] Reescrever home: 4 blocos enxutos (hero mínimo, busca central, mercado em números texto, rodapé)
-- [ ] Remover completamente: Explorar o Mercado, rankings fictícios, skeletons, cards "em desenvolvimento"
-- [ ] Validar no navegador e salvar checkpoint
+- [x] Reescrever home: 4 blocos enxutos (hero mínimo, busca central, mercado em números texto, rodapé)
+- [x] Remover completamente: Explorar o Mercado, rankings fictícios, skeletons, cards "em desenvolvimento"
+- [x] Validar no navegador e salvar checkpoint
+
+## EXPORTAÇÃO DA BASE DE DADOS DO BC
+
+- [x] Analisar estrutura dos dados no banco (campos, bases, volume)
+- [x] Escrever script de exportação (Node.js) que consulta bc_dados_linha e gera planilha Excel
+- [x] Executar o script e gerar o arquivo Excel
+- [x] Disponibilizar o arquivo para o usuário (upload + link de download)
+
+## PADRONIZAÇÃO VISUAL — PANORAMA BC COMO MÓDULO NATIVO DO CONSÓRCIO DE VERDADE
+
+- [x] Estudar o padrão visual dos módulos existentes (Raio-X da Parcela, Raio-X do Lance, etc.)
+- [x] Redesenhar tela inicial: coluna esquerda (inputs) + coluna direita (o que você descobrirá)
+- [x] Redesenhar raio-x da administradora em 8 blocos lógicos no mesmo padrão visual
+- [x] Validar no navegador e entregar
+
+## CONCLUSÃO RESTRITA — PANORAMA BC · ADMINISTRADORAS
+
+- [x] Conferir o escopo original e remover qualquer detalhe não solicitado
+- [x] Corrigir somente pendências do redesenho já iniciado
+- [x] Validar a página em desktop e celular sem alterar outros módulos
+- [ ] Salvar a versão final do redesenho solicitado

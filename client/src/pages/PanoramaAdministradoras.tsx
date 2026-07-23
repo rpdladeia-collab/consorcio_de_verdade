@@ -1,10 +1,11 @@
 /**
- * Panorama > Administradoras — V1
- * Entrega 01: Busca das administradoras
- * Campo de busca + select alfabético + navegação para página da administradora
+ * Panorama > Administradoras — V2
+ * Redesenho completo para seguir o padrão visual do Consórcio de Verdade.
+ * Coluna esquerda = inputs | Coluna direita = outputs/inteligência.
+ * Raio-X organizado em 8 blocos lógicos, como demais módulos do site.
  */
 import { useEffect, useState, useMemo } from "react";
-import { useLocation } from "wouter";
+import { useLocation, Link } from "wouter";
 import { trpc } from "@/lib/trpc";
 import {
   interpretarTendencia,
@@ -13,8 +14,22 @@ import {
   type DirecaoBruta,
   type IndicadorTendencia,
 } from "@/lib/panoramaAdministradoras";
+import RaioXLayout from "@/components/cdv/RaioXLayout";
+import WaitingAnalysisScreen from "@/components/cdv/WaitingAnalysisScreen";
+import {
+  KpiCard,
+  DiagnosticCard,
+  MeaningBlock,
+  TransparencyBlock,
+  ConsultCTA,
+  SectionTitle,
+  formatBRL,
+  formatPct,
+  type Verdict,
+} from "@/components/cdv/SimuladorUI";
+import { ArrowLeft, Search, Loader2, Building2, TrendingUp, Users, GitBranch, BarChart3, Eye, ShieldCheck } from "lucide-react";
 
-// Classificação manual das administradoras (ativo do projeto)
+// ─── Classificação manual das administradoras ─────────────────────────────────
 const CLASSIFICACAO: Record<string, string> = {
   "BANCORBRÁS": "Banco",
   "BANRISUL S.A. ADM CONSÓRCIOS": "Banco",
@@ -61,7 +76,7 @@ function fmtN(v: number | string): string {
   return n.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
 }
 
-function fmtPct(v: number | string): string {
+function fmtPctLocal(v: number | string): string {
   const n = typeof v === "string" ? parseFloat(v) : v;
   if (isNaN(n)) return "—";
   return n.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + "%";
@@ -73,63 +88,78 @@ function fmtMoeda(v: number | string): string {
   return n.toLocaleString("pt-BR", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
 }
 
-// ─── Componente: Card de Indicador ──────────────────────────────────────────
-function IndicadorCard({ label, value, sublabel, accent }: { label: string; value: string; sublabel?: string; accent?: boolean }) {
-  return (
-    <div className={`rounded-lg p-4 border shadow-sm ${accent ? "bg-orange-50 border-orange-200" : "bg-white border-[#e5e0d8]"}`}>
-      <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1.5">{label}</span>
-      <div className={`font-mono text-xl md:text-2xl font-bold tracking-tight ${accent ? "text-[#c2410c]" : "text-[#15140f]"}`}>{value}</div>
-      {sublabel && <p className="mt-1 text-[11px] text-[#4b4843] leading-snug font-bold">{sublabel}</p>}
-    </div>
-  );
-}
-
-// ─── Componente: Tendência ──────────────────────────────────────────────────
-function TendenciaItemPct({ label, indicador, variacao }: { label: string; indicador: IndicadorTendencia; variacao: { pct: number; direcao: DirecaoBruta } | null }) {
+// ─── Componente: Tendência (estilo CDV) ───────────────────────────────────────
+function TendenciaItem({ label, indicador, variacao }: { label: string; indicador: IndicadorTendencia; variacao: { pct: number; direcao: DirecaoBruta } | null }) {
   if (!variacao) {
     return (
-      <div className="flex items-center justify-between py-2.5 border-b border-[#e5e0d8] last:border-0">
-        <span className="text-[14px] md:text-[15px] font-bold text-[#15140f]">{label}</span>
-        <span className="text-[13px] font-bold text-[#9e9890]">Sem dados</span>
+      <div className="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+        <span className="text-[14px] md:text-[15px] font-bold text-white">{label}</span>
+        <span className="text-[13px] font-bold text-white/30">Sem dados</span>
       </div>
     );
   }
   const pct = Math.abs(variacao.pct).toFixed(1) + "%";
   const direcao = interpretarTendencia(indicador, variacao.direcao);
-  let color = "text-[#716b60]";
-  let bg = "bg-[#f0ede5]";
-  if (direcao === "Melhorou") { color = "text-[#2f5233]"; bg = "bg-green-50"; }
-  if (direcao === "Piorou") { color = "text-[#c2410c]"; bg = "bg-orange-50"; }
+  let color = "text-white/60";
+  let bg = "bg-white/5";
+  if (direcao === "Melhorou") { color = "text-[var(--positive)]"; bg = "bg-[color-mix(in_oklch,var(--positive)_15%,transparent)]"; }
+  if (direcao === "Piorou") { color = "text-[var(--orange)]"; bg = "bg-[color-mix(in_oklch,var(--orange)_15%,transparent)]"; }
   return (
-    <div className="flex items-center justify-between py-2.5 border-b border-[#e5e0d8] last:border-0">
-      <span className="text-[14px] md:text-[15px] font-bold text-[#15140f]">{label}</span>
+    <div className="flex items-center justify-between py-3 border-b border-white/10 last:border-0">
+      <span className="text-[14px] md:text-[15px] font-bold text-white">{label}</span>
       <div className="flex items-center gap-2">
-        <span className="font-mono text-[13px] font-bold text-[#4b4843]">{pct}</span>
+        <span className="font-mono text-[13px] font-bold text-white/70">{pct}</span>
         <span className={`text-[12px] font-bold px-2.5 py-1 rounded-full ${bg} ${color}`}>{direcao}</span>
       </div>
     </div>
   );
 }
 
-// ─── Página: Home do Panorama > Administradoras (Versão Definitiva V1) ────
+// ─── Bloco do Raio-X (wrapper visual consistente) ─────────────────────────────
+function RaioXBlock({ eyebrow, title, children, icon: Icon }: { eyebrow: string; title: string; children: React.ReactNode; icon?: React.ComponentType<{ className?: string }> }) {
+  return (
+    <section className="space-y-3">
+      <div className="flex items-center gap-2">
+        {Icon && <Icon className="w-4 h-4 text-[var(--orange)]" />}
+        <div>
+          <p className="eyebrow text-[var(--orange)] mb-0.5">{eyebrow}</p>
+          <h2 className="text-lg md:text-xl font-extrabold text-foreground tracking-tight">{title}</h2>
+        </div>
+      </div>
+      {children}
+    </section>
+  );
+}
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// TELA INICIAL — Coluna esquerda: inputs | Coluna direita: o que descobrirá
+// ═══════════════════════════════════════════════════════════════════════════════
 function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }) {
   const [search, setSearch] = useState("");
   const [selectedOption, setSelectedOption] = useState("");
-  const { data, isLoading, isError } = trpc.panoramaAdmin.listAdministradoras.useQuery();
+  const [categoriaFiltro, setCategoriaFiltro] = useState("todas");
+  const [segmentoFiltro, setSegmentoFiltro] = useState("todos");
+  const { data, isLoading, isError } = trpc.panoramaAdmin.listAdministradoras.useQuery(
+    segmentoFiltro === "todos" ? undefined : { codigoSegmento: segmentoFiltro },
+  );
   const { data: totais } = trpc.panoramaAdmin.mercadoTotais.useQuery();
 
-  // Filtrar resultados de busca para o select
   const filtered = useMemo(() => {
     if (!data) return [];
-    if (!search.trim()) return data;
-    const q = search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
-    return data.filter((a: { nomeAdministradora: string }) => {
-      const n = a.nomeAdministradora.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-      return n.includes(q);
-    });
-  }, [data, search]);
+    let list = data;
+    if (search.trim()) {
+      const q = search.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim();
+      list = list.filter((a: { nomeAdministradora: string }) => {
+        const n = a.nomeAdministradora.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+        return n.includes(q);
+      });
+    }
+    if (categoriaFiltro !== "todas") {
+      list = list.filter((a: { nomeAdministradora: string }) => getCategoria(a.nomeAdministradora) === categoriaFiltro);
+    }
+    return list;
+  }, [data, search, categoriaFiltro]);
 
-  // Determinar se uma administradora está selecionada (via busca ou select)
   const selectedNome = selectedOption || (filtered.length === 1 ? filtered[0].nomeAdministradora : "");
   const canAnalyze = !!selectedNome;
 
@@ -137,7 +167,6 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
     if (selectedNome) onSelect(selectedNome);
   };
 
-  // Formatar milhões
   const fmtMilhoes = (v: number) => {
     if (v >= 1_000_000) return (v / 1_000_000).toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + " milhões de";
     return v.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
@@ -147,145 +176,230 @@ function ListaAdministradoras({ onSelect }: { onSelect: (nome: string) => void }
     return v.toLocaleString("pt-BR", { maximumFractionDigits: 0 });
   };
 
-  return (
-    <div className="max-w-3xl mx-auto px-4 py-6 md:py-10">
-      {/* ─── BLOCO 1: HERO (mínimo) ─── */}
-      <div className="mb-5 md:mb-6">
-        <span className="inline-block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">
-          Panorama BC | Administradoras
-        </span>
-        <p className="text-[#4b4843] text-[13px] md:text-[14px] leading-snug font-bold">
-          Consulte dados oficiais das administradoras de consórcio publicados pelo Banco Central.
-        </p>
+  // ─── Formulário (coluna esquerda) ───
+  const formPanel = (
+    <div className="space-y-4">
+      <SectionTitle eyebrow="Panorama BC" title="Qual administradora você deseja analisar?" desc="Busque pelo nome ou selecione na lista alfabética." />
+
+      {/* Campo de busca */}
+      <div className="relative">
+        <input
+          type="search"
+          placeholder="Buscar por nome"
+          value={search}
+          onChange={(e) => { setSearch(e.target.value); setSelectedOption(""); }}
+          className="w-full px-4 py-3 pr-12 text-[15px] md:text-[16px] font-medium border border-border rounded-xl bg-background text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-[var(--orange)] focus:ring-2 focus:ring-[var(--orange)]/20 transition-all"
+        />
+        <Search className="absolute right-4 top-1/2 -translate-y-1/2 text-foreground/40 pointer-events-none w-5 h-5" />
       </div>
 
-      {/* ─── BLOCO 2: BUSCA (principal da página) ─── */}
-      <div className="bg-white border border-[#e5e0d8] rounded-2xl p-5 md:p-7 shadow-sm mb-6 md:mb-8">
-        <label htmlFor="busca-administradora" className="block text-[14px] md:text-[15px] font-bold text-[#15140f] mb-3">
-          Qual administradora você deseja analisar?
-        </label>
-        <div className="relative mb-3">
-          <input
-            id="busca-administradora"
-            type="search"
-            placeholder="Buscar por nome"
-            value={search}
-            onChange={(e) => {
-              setSearch(e.target.value);
-              setSelectedOption("");
-            }}
-            className="w-full px-4 py-3.5 pr-12 text-[15px] md:text-[16px] font-medium border border-[#d1ccc5] rounded-xl bg-white text-[#15140f] placeholder:text-[#9e9890] focus:outline-none focus:border-[#c2410c] focus:ring-2 focus:ring-[#c2410c]/20 transition-all"
-          />
-          <svg className="absolute right-4 top-1/2 -translate-y-1/2 text-[#9e9890] pointer-events-none" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+      {/* Resultados filtrados */}
+      {search.trim() && filtered.length > 0 && filtered.length <= 5 && (
+        <div className="space-y-1.5">
+          {filtered.map((adm: { nomeAdministradora: string }) => (
+            <button
+              key={adm.nomeAdministradora}
+              onClick={() => { setSelectedOption(adm.nomeAdministradora); setSearch(""); }}
+              className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-foreground bg-secondary/60 hover:bg-secondary rounded-lg transition-colors"
+            >
+              {adm.nomeAdministradora}
+            </button>
+          ))}
         </div>
+      )}
+      {search.trim() && filtered.length > 5 && (
+        <p className="text-[13px] text-foreground/60 font-bold">
+          {filtered.length} administradoras encontradas. Refine sua busca ou use a lista abaixo.
+        </p>
+      )}
+      {search.trim() && !isLoading && !isError && filtered.length === 0 && (
+        <p className="text-[13px] text-foreground/40 font-bold">Nenhuma administradora encontrada para "{search}"</p>
+      )}
 
-        {/* Resultados filtrados da busca (apenas quando digitando) */}
-        {search.trim() && filtered.length > 0 && filtered.length <= 5 && (
-          <div className="mb-3 space-y-1.5">
-            {filtered.map((adm: { nomeAdministradora: string }) => (
-              <button
-                key={adm.nomeAdministradora}
-                onClick={() => {
-                  setSelectedOption(adm.nomeAdministradora);
-                  setSearch("");
-                }}
-                className="w-full text-left px-4 py-2.5 text-[14px] font-bold text-[#15140f] bg-[#f6f3ec] hover:bg-[#f0ede5] rounded-lg transition-colors"
-              >
-                {adm.nomeAdministradora}
-              </button>
-            ))}
-          </div>
-        )}
+      {/* Divisor OU */}
+      <div className="flex items-center gap-3 py-1">
+        <div className="flex-1 h-px bg-border"></div>
+        <span className="text-[11px] uppercase tracking-wider font-bold text-foreground/40">OU</span>
+        <div className="flex-1 h-px bg-border"></div>
+      </div>
 
-        {search.trim() && filtered.length > 5 && (
-          <p className="mb-3 text-[13px] text-[#4b4843] font-bold">
-            {filtered.length} administradoras encontradas. Refine sua busca ou use a lista abaixo.
-          </p>
-        )}
-
-        {search.trim() && !isLoading && !isError && filtered.length === 0 && (
-          <p className="mb-3 text-[13px] text-[#9e9890] font-bold">Nenhuma administradora encontrada para "{search}"</p>
-        )}
-
-        {/* Divisor OU */}
-        <div className="flex items-center gap-3 my-3">
-          <div className="flex-1 h-px bg-[#e5e0d8]"></div>
-          <span className="text-[11px] uppercase tracking-wider font-bold text-[#9e9890]">OU</span>
-          <div className="flex-1 h-px bg-[#e5e0d8]"></div>
-        </div>
-
-        <label htmlFor="select-administradora" className="block text-[11px] uppercase tracking-wider font-bold text-[#4b4843] mb-2">
-          Selecione uma administradora
-        </label>
+      {/* Select alfabético */}
+      <div>
+        <label className="block text-[12px] uppercase tracking-wider font-bold text-foreground/60 mb-2">Selecione uma administradora</label>
         <select
-          id="select-administradora"
           value={selectedOption}
           disabled={isLoading || !data?.length}
           onChange={(e) => setSelectedOption(e.target.value)}
-          className="w-full px-4 py-3.5 text-[15px] md:text-[16px] font-medium border border-[#d1ccc5] rounded-xl bg-white text-[#15140f] focus:outline-none focus:border-[#c2410c] focus:ring-2 focus:ring-[#c2410c]/20 transition-all disabled:opacity-60 mb-4"
+          className="w-full px-4 py-3 text-[15px] md:text-[16px] font-medium border border-border rounded-xl bg-background text-foreground focus:outline-none focus:border-[var(--orange)] focus:ring-2 focus:ring-[var(--orange)]/20 transition-all disabled:opacity-60"
         >
           <option value="">Selecione uma administradora</option>
-          {(data || []).map((adm: { nomeAdministradora: string; cnpjAdministradora: string }) => (
+          {(filtered.length > 0 ? filtered : data || []).map((adm: { nomeAdministradora: string; cnpjAdministradora: string }) => (
             <option key={adm.cnpjAdministradora + adm.nomeAdministradora} value={adm.nomeAdministradora}>
               {adm.nomeAdministradora}
             </option>
           ))}
         </select>
-
-        <button
-          onClick={handleAnalyze}
-          disabled={!canAnalyze}
-          className="w-full px-6 py-4 text-[16px] md:text-[17px] font-bold rounded-xl transition-all active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed enabled:bg-[#c2410c] enabled:text-white enabled:hover:bg-[#a33d0a] bg-[#d1ccc5] text-[#9e9890]"
-        >
-          ANALISAR
-        </button>
-
-        {isError && (
-          <p className="mt-3 text-[13px] text-[#c2410c] font-bold text-center">Não foi possível carregar a lista. Atualize a página.</p>
-        )}
       </div>
 
-      {/* ─── BLOCO 3: MERCADO EM NÚMEROS (texto, sem cards) ─── */}
+      {/* Filtros opcionais — Categoria */}
+      <div className="border-t border-border pt-3">
+        <label className="block text-[12px] uppercase tracking-wider font-bold text-foreground/60 mb-2">Categoria</label>
+        <div className="flex flex-wrap gap-1.5">
+          {["todas", "Banco", "Administradora Independente", "Cooperativas e Associações"].map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setCategoriaFiltro(cat)}
+              className={`rounded-lg border px-3 py-1.5 text-[12px] md:text-[13px] font-bold transition-colors ${
+                categoriaFiltro === cat
+                  ? "bg-[var(--orange)] text-white border-transparent"
+                  : "bg-background text-foreground/60 border-border"
+              }`}
+            >
+              {cat === "todas" ? "Todas" : cat}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Filtros opcionais — Segmento */}
+      <div>
+        <label className="block text-[12px] uppercase tracking-wider font-bold text-foreground/60 mb-2">Segmento</label>
+        <div className="flex flex-wrap gap-1.5">
+          {["todos", "1", "2", "3", "4", "5", "6"].map((seg) => (
+            <button
+              key={seg}
+              onClick={() => {
+                setSegmentoFiltro(seg);
+                setSelectedOption("");
+              }}
+              className={`rounded-lg border px-3 py-1.5 text-[12px] md:text-[13px] font-bold transition-colors ${
+                segmentoFiltro === seg
+                  ? "bg-[var(--orange)] text-white border-transparent"
+                  : "bg-background text-foreground/60 border-border"
+              }`}
+            >
+              {seg === "todos" ? "Todos" : SEGMENTO_NOMES[seg]}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* Mercado em números */}
       {totais && (
-        <div className="mb-6 md:mb-8">
-          <h2 className="text-[12px] uppercase tracking-widest font-bold text-[#4b4843] mb-3">Mercado em Números</h2>
-          <div className="text-[#4b4843] text-[14px] md:text-[15px] leading-relaxed font-bold space-y-1">
-            <p>{totais.administradoras} administradoras.</p>
-            <p>{totais.segmentos} segmentos de consórcio.</p>
-            <p>Mais de {fmtMilhoes(totais.cotasAtivas)} cotas ativas.</p>
-            <p>Mais de {fmtMil(totais.gruposAtivos)} grupos ativos.</p>
-            <p>Histórico oficial dos últimos {totais.periodoMeses} meses.</p>
-            <p>Dados oficiais do Banco Central.</p>
+        <div className="border-t border-border pt-3">
+          <p className="text-[12px] uppercase tracking-wider font-bold text-foreground/40 mb-2">Mercado em Números</p>
+          <div className="text-foreground/70 text-[14px] md:text-[15px] leading-relaxed space-y-0.5">
+            <p>{totais.administradoras} administradoras</p>
+            <p>{fmtMilhoes(totais.cotasAtivas)} cotas ativas</p>
+            <p>Mais de {fmtMil(totais.gruposAtivos)} grupos ativos</p>
+            <p>Histórico oficial dos últimos {totais.periodoMeses} meses</p>
+            <p className="text-foreground/50">Dados oficiais do Banco Central</p>
           </div>
         </div>
       )}
 
-      {/* ─── BLOCO 4: RODAPÉ ─── */}
-      <div className="border-t border-[#e5e0d8] pt-5">
-        <p className="text-[12px] md:text-[13px] text-[#9e9890] font-bold text-center leading-relaxed">
-          Todas as análises deste módulo são realizadas exclusivamente com dados oficiais publicados pelo Banco Central do Brasil.
-        </p>
+      {/* Botão */}
+      <button
+        onClick={handleAnalyze}
+        disabled={!canAnalyze}
+        className="w-full inline-flex items-center justify-center gap-2 rounded-full bg-[var(--orange)] text-white px-4 py-3 text-[14px] md:text-[15px] font-bold uppercase tracking-widest transition-transform hover:scale-[1.01] active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed shadow-md"
+      >
+        <Search className="w-4 h-4" />
+        Analisar administradora
+      </button>
+
+      {isError && (
+        <p className="text-[13px] text-[var(--destructive)] font-bold text-center">Não foi possível carregar a lista. Atualize a página.</p>
+      )}
+    </div>
+  );
+
+  // ─── Coluna direita: O que você descobrirá ───
+  const discoveryPanel = (
+    <div className="space-y-5 px-2 sm:px-0">
+      <div className="rounded-2xl border border-border bg-card p-5 md:p-6">
+        <p className="eyebrow text-[var(--orange)] mb-3">O que você poderá descobrir?</p>
+        <div className="space-y-3 text-[14px] md:text-[15px] text-foreground/80 leading-relaxed">
+          <div className="flex gap-2.5">
+            <BarChart3 className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Qual é a <strong>participação de mercado</strong> da administradora.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <GitBranch className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Qual é seu <strong>principal segmento</strong> de atuação.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <TrendingUp className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Qual é o <strong>índice de exclusão</strong> da operação.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <Users className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Quantas <strong>cotas aguardam contemplação</strong>.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <Building2 className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Como a administradora <strong>se compara ao restante do mercado</strong>.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <Eye className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Quantas <strong>contemplações ocorrem por lance e por sorteio</strong>.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <TrendingUp className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Qual é a <strong>evolução operacional nos últimos 24 meses</strong>.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <GitBranch className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Quais <strong>segmentos possuem maior relevância</strong> dentro da operação.</span>
+          </div>
+          <div className="flex gap-2.5">
+            <Users className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+            <span>Quais <strong>grupos representam a maior parte das cotas ativas</strong>.</span>
+          </div>
+        </div>
+      </div>
+
+      <div className="rounded-2xl border border-border bg-secondary/40 p-5 md:p-6">
+        <div className="flex items-start gap-3">
+          <ShieldCheck className="w-4 h-4 text-foreground/40 shrink-0 mt-0.5" />
+          <div>
+            <p className="eyebrow text-foreground/40 mb-2">Transparência e Metodologia</p>
+            <p className="text-[14px] md:text-[15px] text-foreground/65 leading-relaxed">
+              Todas as análises deste módulo são realizadas exclusivamente com dados oficiais
+              publicados pelo Banco Central do Brasil. O resultado é uma projeção independente
+              para apoio à decisão e não substitui a leitura do seu contrato.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   );
+
+  return (
+    <RaioXLayout
+      moduleNumber={0}
+      title="Panorama BC · Administradoras"
+      description="Consulte dados oficiais das administradoras de consórcio publicados pelo Banco Central. Escolha uma administradora e descubra o raio-X completo da operação."
+      formPanel={formPanel}
+      resultsPanel={discoveryPanel}
+      hasResult={true}
+    />
+  );
 }
 
-// ─── Página: Detalhe da Administradora (Entregas 02-07) ─────────────────────
+// ═══════════════════════════════════════════════════════════════════════════════
+// RAIO-X DA ADMINISTRADORA — 8 blocos lógicos no padrão CDV
+// ═══════════════════════════════════════════════════════════════════════════════
 function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: () => void }) {
   const [segmentoSelecionado, setSegmentoSelecionado] = useState<string | null>(null);
   const [grupoBusca, setGrupoBusca] = useState("");
 
-  // Raio-X completo: indicadores + mercado + tendência (Entregas 02-05)
   const { data: raioXData, isLoading: raioXLoading, isError: raioXError } = trpc.panoramaAdmin.raioX.useQuery({
     searchTerm: nomeAdm,
   });
-
-  // Contemplações: lance vs sorteio (base trimestral dados_uf)
   const { data: contempData, isError: contempError } = trpc.panoramaAdmin.contemplacoes.useQuery({
     searchTerm: nomeAdm,
   });
-
-  // Detalhe do segmento selecionado (Entrega 06-07)
   const { data: segData, isLoading: segLoading, isError: segError } = trpc.panoramaAdmin.detalheSegmento.useQuery(
     { searchTerm: nomeAdm, codigoSegmento: segmentoSelecionado || "" },
     { enabled: !!segmentoSelecionado },
@@ -295,36 +409,25 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
   const mercado = raioXData?.mercado ?? null;
   const tendencia = raioXData?.tendencia ?? null;
 
-  // Processar contemplações (lance vs sorteio)
   const contemp = useMemo(() => {
     if (!contempData || !contempData.dataBase) return null;
     const sorteio = contempData.contemplacoesSorteio || [];
     const lance = contempData.contemplacoesLance || [];
-
     const parseNum = (v: string | undefined): number => {
       if (!v) return 0;
       return parseFloat(v.replace(/\./g, "").replace(",", ".")) || 0;
     };
-
-    const totalSorteio = sorteio.reduce((s: number, d: any) => {
-      return s + parseNum(d["Quantidade_de_consorciados_ativos_contemplados_por_sorteio"]);
-    }, 0);
-    const totalLance = lance.reduce((s: number, d: any) => {
-      return s + parseNum(d["Quantidade_de_consorciados_ativos_contemplados_por_lance"]);
-    }, 0);
+    const totalSorteio = sorteio.reduce((s: number, d: any) => s + parseNum(d["Quantidade_de_consorciados_ativos_contemplados_por_sorteio"]), 0);
+    const totalLance = lance.reduce((s: number, d: any) => s + parseNum(d["Quantidade_de_consorciados_ativos_contemplados_por_lance"]), 0);
     const total = totalSorteio + totalLance;
-
     return {
       dataBase: contempData.dataBase,
-      totalSorteio,
-      totalLance,
-      total,
+      totalSorteio, totalLance, total,
       pctLance: total > 0 ? (totalLance / total) * 100 : 0,
       pctSorteio: total > 0 ? (totalSorteio / total) * 100 : 0,
     };
   }, [contempData]);
 
-  // Grupos do segmento selecionado (do novo endpoint detalheSegmento)
   const gruposSegmento = useMemo(() => {
     if (!segData?.grupos) return [];
     let grupos = segData.grupos;
@@ -338,263 +441,247 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
   const categoria = getCategoria(nomeAdm);
   const pctFila = indicadores ? percentualSeguro(indicadores.totalNaoContempladas, indicadores.totalCotasAtivas) : null;
   const pctFilaMercado = mercado ? percentualSeguro(mercado.totalNaoContempladas, mercado.totalCotas) : null;
-  const pctFilaSegmento = segData?.segmento
-    ? percentualSeguro(segData.segmento.naoContempladas, segData.segmento.cotasAtivas)
-    : null;
+  const pctFilaSegmento = segData?.segmento ? percentualSeguro(segData.segmento.naoContempladas, segData.segmento.cotasAtivas) : null;
+
+  // ─── Loading ───
+  if (raioXLoading) {
+    return (
+      <div className="min-h-screen bg-[var(--paper)]">
+        <section className="bg-[#0A0A08] text-white pt-8 pb-16 w-full px-4 md:px-5 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <button onClick={onBack} className="inline-flex items-center gap-2 text-[#FF4E1F] font-['IBM_Plex_Mono'] text-[14px] md:text-[15px] font-semibold uppercase tracking-widest hover:text-[#FFC93C] transition-colors mb-6">
+              <ArrowLeft className="w-4 h-4" /> Voltar
+            </button>
+            <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl text-white uppercase">{nomeAdm}</h1>
+          </div>
+        </section>
+        <section className="container py-16">
+          <div className="text-center">
+            <Loader2 className="w-8 h-8 text-[var(--orange)] mx-auto mb-3 animate-spin" />
+            <p className="text-foreground/60 text-[14px] md:text-[15px]">Carregando raio-X…</p>
+          </div>
+        </section>
+      </div>
+    );
+  }
+
+  if (raioXError || (!raioXLoading && !indicadores)) {
+    return (
+      <div className="min-h-screen bg-[var(--paper)]">
+        <section className="bg-[#0A0A08] text-white pt-8 pb-16 w-full px-4 md:px-5 lg:px-8">
+          <div className="max-w-7xl mx-auto">
+            <button onClick={onBack} className="inline-flex items-center gap-2 text-[#FF4E1F] font-['IBM_Plex_Mono'] text-[14px] md:text-[15px] font-semibold uppercase tracking-widest hover:text-[#FFC93C] transition-colors mb-6">
+              <ArrowLeft className="w-4 h-4" /> Voltar
+            </button>
+            <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl text-white uppercase">{nomeAdm}</h1>
+          </div>
+        </section>
+        <section className="container py-16">
+          <div className="rounded-xl border border-border bg-card p-6 text-center">
+            <p className="text-foreground/60 text-[14px] md:text-[15px]">
+              {raioXError ? "Erro ao carregar o raio-X. Atualize a página e tente novamente." : "Nenhum dado encontrado para esta administradora."}
+            </p>
+          </div>
+        </section>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
-      {/* Header */}
-      <header className="bg-[#15140f] text-white pt-8 pb-6 px-6">
-        <div className="max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[var(--paper)]">
+      {/* ── Hero (padrão CDV) ── */}
+      <section className="bg-[#0A0A08] text-white pt-8 pb-16 w-full px-4 md:px-5 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <button
             onClick={onBack}
-            className="inline-flex items-center gap-1.5 text-[13px] font-bold text-white/60 hover:text-white transition-colors mb-4"
+            className="inline-flex items-center gap-2 text-[#FF4E1F] font-['IBM_Plex_Mono'] text-[14px] md:text-[15px] font-semibold uppercase tracking-widest hover:text-[#FFC93C] transition-colors mb-6"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m15 18-6-6 6-6"/></svg>
-            Voltar para lista
+            <ArrowLeft className="w-4 h-4" />
+            Voltar
           </button>
-          <div className="flex items-center gap-3 mb-2">
+          <div className="flex items-center gap-3 mb-3">
             <span className={`text-[10px] uppercase tracking-wider font-bold px-2.5 py-1 rounded-full whitespace-nowrap ${
-              categoria === "Banco" ? "bg-white text-[#15140f]" :
+              categoria === "Banco" ? "bg-white text-[#0A0A08]" :
               categoria === "Cooperativas e Associações" ? "bg-[#2f5233] text-white" :
               "bg-white/10 text-white"
             }`}>
               {categoria}
             </span>
+            {raioXData?.dataBase && (
+              <span className="text-white/40 text-[12px] font-mono">Data-base: {raioXData.dataBase}</span>
+            )}
           </div>
-          <h1 className="text-2xl md:text-4xl font-bold leading-tight tracking-tight">{nomeAdm}</h1>
-          {raioXData?.dataBase && (
-            <p className="text-white/50 text-[12px] font-mono mt-2">Data-base: {raioXData.dataBase}</p>
-          )}
+          <h1 className="font-['Archivo_Black'] text-2xl md:text-3xl lg:text-4xl text-white uppercase leading-tight">
+            {nomeAdm}
+          </h1>
         </div>
-      </header>
+      </section>
 
-      {/* Conteúdo */}
-      <main className="max-w-5xl mx-auto px-4 py-8 space-y-10">
-        {raioXLoading && (
-          <div className="text-center py-16">
-            <div className="inline-block animate-spin rounded-full h-8 w-8 border-2 border-[#c2410c] border-t-transparent"></div>
-            <p className="mt-3 text-[14px] text-[#4b4843] font-bold">Carregando raio-X...</p>
-          </div>
-        )}
-
-        {raioXError && (
-          <div className="text-center py-16 rounded-xl border border-orange-200 bg-orange-50">
-            <p className="text-[15px] text-[#4b4843] font-bold">Erro ao carregar o raio-X. Atualize a página e tente novamente.</p>
-          </div>
-        )}
-
-        {!raioXLoading && !raioXError && !indicadores && (
-          <div className="text-center py-16">
-            <p className="text-[15px] text-[#4b4843] font-bold">Nenhum dado encontrado para esta administradora.</p>
-          </div>
-        )}
-
-        {/* ── BLOCO 1: Resumo Executivo Automático ── */}
+      {/* ── Conteúdo: 8 blocos lógicos ── */}
+      <section className="w-full max-w-7xl mx-auto px-4 md:px-5 lg:px-8 py-8 space-y-8">
+        {/* BLOCO 1: RESUMO EXECUTIVO */}
         {indicadores && mercado && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Raio-X da administradora</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">O que importa nesta operação</h2>
+          <RaioXBlock eyebrow="Bloco 1" title="Resumo executivo da operação" icon={Eye}>
+            <div className="rounded-xl border border-border bg-card p-5 md:p-6">
+              <p className="text-[14px] md:text-[15px] text-foreground/85 leading-relaxed">
+                <strong className="font-bold">{nomeAdm}</strong> é uma <strong className="font-bold">{categoria.toLowerCase()}</strong> com{" "}
+                <strong className="font-bold text-[var(--orange)]">{fmtN(indicadores.totalGrupos)} grupos ativos</strong> e{" "}
+                <strong className="font-bold text-[var(--orange)]">{fmtN(indicadores.totalCotasAtivas)} cotas ativas</strong>.
+                A operação é mais concentrada em{" "}
+                <strong className="font-bold">{indicadores.distribuicao[0]?.nome || "seus segmentos principais"}</strong>,
+                que representa <strong className="font-bold text-[var(--orange)]">{fmtPctLocal(indicadores.distribuicao[0]?.pctAdm || 0)}</strong>{" "}
+                da administradora. {contemp && contemp.total > 0 && (
+                  <>No dado trimestral mais recente, <strong className="font-bold text-[var(--orange)]">{fmtPctLocal(contemp.pctLance)}</strong> das contemplações ocorreram por lance.</>
+                )} {" "}A taxa média de administração é{" "}
+                <strong className={`font-bold ${indicadores.taxaMedia <= mercado.taxaMedia ? "text-[var(--positive)]" : "text-[var(--orange)]"}`}>
+                  {fmtMoeda(indicadores.taxaMedia)}%
+                </strong>, {indicadores.taxaMedia <= mercado.taxaMedia ? "abaixo" : "acima"} da média do mercado ({fmtMoeda(mercado.taxaMedia)}%).
+                {" "}No mês mais recente, contemplou{" "}
+                <strong className="font-bold text-[var(--positive)]">{fmtN(indicadores.totalContempladas)} cotas</strong>{" "}
+                ({fmtPctLocal(indicadores.pctContempladas)} das ativas).{" "}
+                {pctFila !== null ? (
+                  <>A fila informada corresponde a <strong className="font-bold">{fmtPctLocal(pctFila)}</strong> das cotas ativas.</>
+                ) : (
+                  <>A base informa <strong className="font-bold">{fmtN(indicadores.totalNaoContempladas)} cotas não contempladas</strong>; como esse valor supera o total de cotas ativas da mesma data-base, o percentual não é exibido.</>
+                )}
+              </p>
             </div>
-            <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
-              <p className="text-[15px] md:text-[16px] text-[#15140f] leading-relaxed font-medium">
-                <strong className="font-bold">{nomeAdm}</strong> é uma <strong className="font-bold">{categoria.toLowerCase()}</strong> com <strong className="font-bold text-[#c2410c]">{fmtN(indicadores.totalGrupos)} grupos ativos</strong> e <strong className="font-bold text-[#c2410c]">{fmtN(indicadores.totalCotasAtivas)} cotas ativas</strong>. A operação é mais concentrada em <strong className="font-bold">{indicadores.distribuicao[0]?.nome || "seus segmentos principais"}</strong>, que representa <strong className="font-bold text-[#c2410c]">{fmtPct(indicadores.distribuicao[0]?.pctAdm || 0)}</strong> da administradora. {contemp && contemp.total > 0 && <>No dado trimestral mais recente, <strong className="font-bold text-[#c2410c]">{fmtPct(contemp.pctLance)}</strong> das contemplações ocorreram por lance.</>} {" "}A taxa média de administração é <strong className={`font-bold ${indicadores.taxaMedia <= mercado.taxaMedia ? "text-[#2f5233]" : "text-[#c2410c]"}`}>{fmtMoeda(indicadores.taxaMedia)}%</strong>, {indicadores.taxaMedia <= mercado.taxaMedia ? "abaixo" : "acima"} da média do mercado ({fmtMoeda(mercado.taxaMedia)}%). {" "}No mês mais recente, contemplou <strong className="font-bold text-[#2f5233]">{fmtN(indicadores.totalContempladas)} cotas</strong> ({fmtPct(indicadores.pctContempladas)} das ativas). {pctFila !== null ? <>A fila informada corresponde a <strong className="font-bold">{fmtPct(pctFila)}</strong> das cotas ativas.</> : <>A base informa <strong className="font-bold">{fmtN(indicadores.totalNaoContempladas)} cotas não contempladas</strong>; como esse valor supera o total de cotas ativas da mesma data-base, o percentual não é exibido.</>}</p>
-            </div>
-          </section>
+          </RaioXBlock>
         )}
 
-        {/* ── BLOCO 2: Tamanho da Operação ── */}
+        {/* BLOCO 2: TAMANHO DA OPERAÇÃO */}
         {indicadores && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Tamanho da operação</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Quão grande é esta administradora</h2>
-            </div>
+          <RaioXBlock eyebrow="Bloco 2" title="Tamanho da operação" icon={Building2}>
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
-              <IndicadorCard label="Categoria" value={categoria} />
-              <IndicadorCard label="Grupos ativos" value={fmtN(indicadores.totalGrupos)} accent />
-              <IndicadorCard label="Cotas ativas" value={fmtN(indicadores.totalCotasAtivas)} accent />
-              <IndicadorCard label="Segmentos" value={fmtN(indicadores.totalSegmentos)} />
-              <IndicadorCard label="Participação no mercado" value={fmtPct(indicadores.pctMercado)} sublabel="do total de cotas ativas" />
+              <KpiCard label="Categoria" value={categoria} />
+              <KpiCard label="Grupos ativos" value={fmtN(indicadores.totalGrupos)} highlight />
+              <KpiCard label="Cotas ativas" value={fmtN(indicadores.totalCotasAtivas)} highlight />
+              <KpiCard label="Segmentos" value={fmtN(indicadores.totalSegmentos)} />
+              <KpiCard label="Participação no mercado" value={fmtPctLocal(indicadores.pctMercado)} hint="do total de cotas ativas" />
             </div>
-          </section>
+          </RaioXBlock>
         )}
 
-        {/* ── BLOCO 3: Contemplações ── */}
+        {/* BLOCO 3: CONTEMPLAÇÕES */}
         {indicadores && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Contemplações</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Quantas cotas foram contempladas</h2>
-            </div>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-4">
-              <IndicadorCard
-                label="Contemplações no mês"
-                value={fmtN(indicadores.totalContempladas)}
-                sublabel={`${fmtPct(indicadores.pctContempladas)} das cotas ativas`}
-                accent
-              />
+          <RaioXBlock eyebrow="Bloco 3" title="Contemplações" icon={Eye}>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mb-3">
+              <KpiCard label="Contemplações no mês" value={fmtN(indicadores.totalContempladas)} hint={`${fmtPctLocal(indicadores.pctContempladas)} das cotas ativas`} highlight />
               {mercado && (
-                <IndicadorCard
-                  label="Média do mercado"
-                  value={fmtPct(mercado.pctContempladas)}
-                  sublabel="contemplações no mês sobre cotas ativas"
-                />
+                <KpiCard label="Média do mercado" value={fmtPctLocal(mercado.pctContempladas)} hint="contemplações no mês sobre cotas ativas" />
               )}
             </div>
-            {/* Comparativo de contemplações com mercado */}
             {mercado && (
-              <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm mb-4">
+              <div className="rounded-xl border border-border bg-card p-4 mb-3">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Contemplações da adm</span>
+                    <span className="block text-[10px] uppercase tracking-wider font-bold text-foreground/50 mb-1">Contemplações da adm</span>
                     <div className="flex items-baseline gap-3">
-                      <span className="font-mono text-lg font-bold text-[#15140f]">{fmtPct(indicadores.pctContempladas)}</span>
-                      <span className="text-[12px] font-bold text-[#9e9890]">Mercado: {fmtPct(mercado.pctContempladas)}</span>
+                      <span className="font-mono text-lg font-bold text-foreground">{fmtPctLocal(indicadores.pctContempladas)}</span>
+                      <span className="text-[12px] font-bold text-foreground/40">Mercado: {fmtPctLocal(mercado.pctContempladas)}</span>
                     </div>
-                    <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
+                    <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[var(--positive)]" : "text-[var(--orange)]"}`}>
                       {indicadores.pctContempladas >= mercado.pctContempladas ? "Contemplação acima da média" : "Contemplação abaixo da média"}
                     </span>
                   </div>
                   <div>
-                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Leitura</span>
-                    <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
+                    <span className="block text-[10px] uppercase tracking-wider font-bold text-foreground/50 mb-1">Leitura</span>
+                    <span className={`text-[12px] font-bold ${indicadores.pctContempladas >= mercado.pctContempladas ? "text-[var(--positive)]" : "text-[var(--orange)]"}`}>
                       {indicadores.pctContempladas >= mercado.pctContempladas ? "A administradora contempla acima da média no mês" : "A administradora contempla abaixo da média no mês"}
                     </span>
                   </div>
                 </div>
               </div>
             )}
-
             {/* Lance vs Sorteio */}
             {contemp && contemp.total > 0 ? (
-              <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
-                <div className="grid grid-cols-2 gap-6 mb-6">
+              <div className="rounded-xl border border-border bg-card p-5">
+                <div className="grid grid-cols-2 gap-6 mb-4">
                   <div className="text-center">
-                    <div className="font-mono text-3xl md:text-4xl font-bold text-[#c2410c]">{fmtPct(contemp.pctLance)}</div>
-                    <p className="text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Por Lance</p>
-                    <p className="text-[14px] font-mono text-[#15140f] mt-1">{fmtN(contemp.totalLance)} cotas</p>
+                    <div className="font-mono text-3xl md:text-4xl font-bold text-[var(--orange)]">{fmtPctLocal(contemp.pctLance)}</div>
+                    <p className="text-[12px] uppercase tracking-wider font-bold text-foreground/50 mt-1">Por Lance</p>
+                    <p className="text-[14px] font-mono text-foreground mt-1">{fmtN(contemp.totalLance)} cotas</p>
                   </div>
                   <div className="text-center">
-                    <div className="font-mono text-3xl md:text-4xl font-bold text-[#2f5233]">{fmtPct(contemp.pctSorteio)}</div>
-                    <p className="text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mt-1">Por Sorteio</p>
-                    <p className="text-[14px] font-mono text-[#15140f] mt-1">{fmtN(contemp.totalSorteio)} cotas</p>
+                    <div className="font-mono text-3xl md:text-4xl font-bold text-[var(--positive)]">{fmtPctLocal(contemp.pctSorteio)}</div>
+                    <p className="text-[12px] uppercase tracking-wider font-bold text-foreground/50 mt-1">Por Sorteio</p>
+                    <p className="text-[14px] font-mono text-foreground mt-1">{fmtN(contemp.totalSorteio)} cotas</p>
                   </div>
                 </div>
-                <div className="flex h-8 rounded-lg overflow-hidden border border-[#e5e0d8]">
-                  <div className="bg-[#c2410c] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctLance}%` }}>
+                <div className="flex h-8 rounded-lg overflow-hidden border border-border">
+                  <div className="bg-[var(--orange)] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctLance}%` }}>
                     {contemp.pctLance > 15 ? "Lance" : ""}
                   </div>
-                  <div className="bg-[#2f5233] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctSorteio}%` }}>
+                  <div className="bg-[var(--positive)] flex items-center justify-center text-white text-[12px] font-bold" style={{ width: `${contemp.pctSorteio}%` }}>
                     {contemp.pctSorteio > 15 ? "Sorteio" : ""}
                   </div>
                 </div>
-                <p className="text-[12px] text-[#9e9890] font-bold mt-3">
-                  Data-base: {contemp.dataBase} (base trimestral Dados por UF)
-                </p>
+                <p className="text-[12px] text-foreground/40 font-bold mt-2">Data-base: {contemp.dataBase} (base trimestral Dados por UF)</p>
               </div>
             ) : contempError ? (
-              <div className="bg-white border border-orange-200 rounded-xl p-6 shadow-sm">
-                <p className="text-[14px] text-[#4b4843] font-bold">
-                  Erro ao carregar dados de contemplações. Tente novamente.
-                </p>
+              <div className="rounded-xl border border-border bg-card p-5">
+                <p className="text-[14px] text-foreground/60 font-bold">Erro ao carregar dados de contemplações. Tente novamente.</p>
               </div>
             ) : (
-              <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
-                <p className="text-[14px] text-[#4b4843] font-bold">
-                  Dados de contemplações por lance e sorteio não disponíveis para esta administradora no período mais recente.
-                </p>
+              <div className="rounded-xl border border-border bg-card p-5">
+                <p className="text-[14px] text-foreground/60 font-bold">Dados de contemplações por lance e sorteio não disponíveis para esta administradora no período mais recente.</p>
               </div>
             )}
-          </section>
+          </RaioXBlock>
         )}
 
-        {/* ── BLOCO 4: Fila de Espera ── */}
+        {/* BLOCO 4: FILA DE ESPERA */}
         {indicadores && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Fila de espera</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Quantos cotistas aguardam contemplação</h2>
-            </div>
+          <RaioXBlock eyebrow="Bloco 4" title="Fila de espera" icon={Users}>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <IndicadorCard
-                label="Cotas não contempladas"
-                value={fmtN(indicadores.totalNaoContempladas)}
-                sublabel={pctFila !== null ? `${fmtPct(pctFila)} das cotas ativas` : "Percentual indisponível: valor superior às cotas ativas"}
-                accent
-              />
+              <KpiCard label="Cotas não contempladas" value={fmtN(indicadores.totalNaoContempladas)} hint={pctFila !== null ? `${fmtPctLocal(pctFila)} das cotas ativas` : "Percentual indisponível"} highlight />
               {mercado && (
                 <>
-                  <IndicadorCard
-                    label="Mercado: não contempladas"
-                    value={fmtN(mercado.totalNaoContempladas)}
-                    sublabel={pctFilaMercado !== null ? `${fmtPct(pctFilaMercado)} das cotas ativas` : "Percentual indisponível"}
-                  />
-                  <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm flex flex-col justify-center">
-                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Comparativo</span>
-                    <span className={`text-[14px] font-bold ${pctFila !== null && pctFilaMercado !== null && pctFila <= pctFilaMercado ? "text-[#2f5233]" : "text-[#c2410c]"}`}>
+                  <KpiCard label="Mercado: não contempladas" value={fmtN(mercado.totalNaoContempladas)} hint={pctFilaMercado !== null ? `${fmtPctLocal(pctFilaMercado)} das cotas ativas` : "Percentual indisponível"} />
+                  <div className="rounded-lg sm:rounded-xl p-3 border shadow-sm bg-card border-border flex flex-col justify-center">
+                    <span className="text-[14px] leading-tight font-normal uppercase tracking-wide text-gray-700">Comparativo</span>
+                    <span className={`text-[14px] md:text-[15px] font-bold mt-1 ${pctFila !== null && pctFilaMercado !== null && pctFila <= pctFilaMercado ? "text-[var(--positive)]" : "text-[var(--orange)]"}`}>
                       {pctFila !== null && pctFilaMercado !== null ? (pctFila <= pctFilaMercado ? "Fila menor que a média" : "Fila maior que a média") : "Comparativo indisponível nesta competência"}
                     </span>
                   </div>
                 </>
               )}
             </div>
-          </section>
+          </RaioXBlock>
         )}
 
-        {/* ── BLOCO 5: Exclusões ── */}
+        {/* BLOCO 5: EXCLUSÕES */}
         {indicadores && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Exclusões</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Índice de exclusão</h2>
-            </div>
+          <RaioXBlock eyebrow="Bloco 5" title="Exclusões" icon={TrendingUp}>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-              <IndicadorCard
-                label="Cotas excluídas"
-                value={fmtN(indicadores.totalExcluidas)}
-                sublabel="Quantidade cumulativa informada pelo BC"
-                accent
-              />
+              <KpiCard label="Cotas excluídas" value={fmtN(indicadores.totalExcluidas)} hint="Quantidade cumulativa informada pelo BC" highlight />
               {mercado && (
                 <>
-                  <IndicadorCard
-                    label="Mercado: excluídas"
-                    value={fmtN(mercado.totalExcluidas)}
-                    sublabel="Quantidade cumulativa informada pelo BC"
-                  />
-                  <div className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm flex flex-col justify-center">
-                    <span className="block text-[10px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">Comparativo</span>
-                    <div className="space-y-1">
-                      <span className="text-[14px] font-bold text-[#716b60]">Indisponível nesta base</span>
-                      <span className="block text-[11px] text-[#9e9890] font-bold">O BC publica exclusões acumuladas e cotas ativas como medidas de naturezas diferentes.</span>
-                    </div>
+                  <KpiCard label="Mercado: excluídas" value={fmtN(mercado.totalExcluidas)} hint="Quantidade cumulativa informada pelo BC" />
+                  <div className="rounded-lg sm:rounded-xl p-3 border shadow-sm bg-card border-border flex flex-col justify-center">
+                    <span className="text-[14px] leading-tight font-normal uppercase tracking-wide text-gray-700">Comparativo</span>
+                    <span className="text-[14px] md:text-[15px] font-bold text-foreground/50 mt-1">Indisponível nesta base</span>
+                    <span className="text-[11px] text-foreground/40 font-bold mt-0.5">O BC publica exclusões acumuladas e cotas ativas como medidas de naturezas diferentes.</span>
                   </div>
                 </>
               )}
             </div>
-          </section>
+          </RaioXBlock>
         )}
 
-        {/* ── BLOCO 6: Distribuição da Operação ── */}
+        {/* BLOCO 6: SEGMENTOS DA OPERAÇÃO */}
         {indicadores && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Distribuição da operação</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Segmentos em operação</h2>
-            </div>
-            <div className="bg-white border border-[#e5e0d8] rounded-xl overflow-hidden shadow-sm overflow-x-auto">
+          <RaioXBlock eyebrow="Bloco 6" title="Segmentos da operação" icon={GitBranch}>
+            <div className="rounded-xl border border-border bg-card overflow-hidden overflow-x-auto">
               <table className="w-full text-left min-w-[600px]">
                 <thead>
-                  <tr className="bg-[#f6f3ec] border-b border-[#e5e0d8]">
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843]">Segmento</th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843]">Leitura</th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Grupos ativos</th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Cotas ativas</th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">% na Adm</th>
-                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">% Mercado</th>
+                  <tr className="bg-secondary/60 border-b border-border">
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-foreground/50">Segmento</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-foreground/50">Leitura</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Grupos ativos</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Cotas ativas</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">% na Adm</th>
+                    <th className="px-4 py-3 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">% Mercado</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -602,180 +689,172 @@ function DetalheAdministradora({ nomeAdm, onBack }: { nomeAdm: string; onBack: (
                     <tr
                       key={seg.codigo}
                       onClick={() => setSegmentoSelecionado(segmentoSelecionado === seg.codigo ? null : seg.codigo)}
-                      className={`border-b border-[#e5e0d8] last:border-0 cursor-pointer hover:bg-[#f6f3ec] transition-colors ${segmentoSelecionado === seg.codigo ? "bg-[#c2410c]/5" : ""}`}
+                      className={`border-b border-border last:border-0 cursor-pointer hover:bg-secondary/40 transition-colors ${segmentoSelecionado === seg.codigo ? "bg-[var(--orange)]/5" : ""}`}
                     >
-                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-bold text-[#15140f]">{seg.nome}</td>
-                      <td className="px-4 py-3 text-[12px] md:text-[13px] text-[#4b4843] font-bold">{leituraSegmento(posicao, indicadores.distribuicao.length)}</td>
-                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#15140f] text-right">{fmtN(seg.grupos)}</td>
-                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#15140f] text-right">{fmtN(seg.cotas)}</td>
-                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#c2410c] text-right font-bold">{fmtPct(seg.pctAdm)}</td>
-                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[#2f5233] text-right font-bold">{fmtPct(seg.pctMercado)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-bold text-foreground">{seg.nome}</td>
+                      <td className="px-4 py-3 text-[12px] md:text-[13px] text-foreground/60 font-bold">{leituraSegmento(posicao, indicadores.distribuicao.length)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-foreground text-right">{fmtN(seg.grupos)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-foreground text-right">{fmtN(seg.cotas)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[var(--orange)] text-right font-bold">{fmtPctLocal(seg.pctAdm)}</td>
+                      <td className="px-4 py-3 text-[14px] md:text-[15px] font-mono text-[var(--positive)] text-right font-bold">{fmtPctLocal(seg.pctMercado)}</td>
                     </tr>
                   ))}
                 </tbody>
               </table>
             </div>
-            <p className="text-[12px] text-[#9e9890] font-bold mt-2">Clique em um segmento para ver os grupos.</p>
-          </section>
-        )}
+            <p className="text-[12px] text-foreground/40 font-bold mt-2">Clique em um segmento para ver os grupos.</p>
 
-        {/* ── BLOCO 7: Tendência Operacional ── */}
-        {indicadores && (
-          <section>
-            <div className="mb-4">
-              <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Tendência operacional</span>
-              <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Últimos 24 meses</h2>
-            </div>
-            <div className="bg-white border border-[#e5e0d8] rounded-xl p-5 shadow-sm">
-              {tendencia ? (
-                <>
-                  <TendenciaItemPct label="Cotas ativas" indicador="cotasAtivas" variacao={tendencia.cotasAtivas} />
-                  <TendenciaItemPct label="Contemplações no mês" indicador="contemplacoes" variacao={tendencia.contemplacoes} />
-                  <TendenciaItemPct label="Exclusões" indicador="exclusoes" variacao={tendencia.exclusoes} />
-                  <TendenciaItemPct label="Fila de espera (não contempladas)" indicador="filaEspera" variacao={tendencia.filaEspera} />
-                  <TendenciaItemPct label="Grupos ativos" indicador="gruposAtivos" variacao={tendencia.gruposAtivos} />
-                  <TendenciaItemPct label="Cotas comercializadas" indicador="cotasComercializadas" variacao={tendencia.cotasComercializadas} />
-                  <p className="text-[12px] text-[#9e9890] font-bold mt-3">
-                    Comparação entre {tendencia.periodoAntigo} e {tendencia.periodoRecente}.
-                  </p>
-                </>
-              ) : (
-                <p className="text-[14px] text-[#4b4843] font-bold py-4">
-                  Dados históricos insuficientes para calcular a tendência.
-                </p>
-              )}
-            </div>
-          </section>
-        )}
-
-        {/* ── BLOCO 8: Segmentos (detalhe) ── */}
-        {indicadores && segmentoSelecionado && (
-              <section>
-                <div className="mb-4">
-                  <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Segmento: {getNomeSegmento(segmentoSelecionado)}</span>
-                  <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">Detalhe do segmento</h2>
+            {/* Detalhe do segmento selecionado */}
+            {segmentoSelecionado && (
+              <div className="mt-4 space-y-3">
+                <div className="flex items-center gap-2">
+                  <p className="eyebrow text-[var(--orange)]">Segmento: {getNomeSegmento(segmentoSelecionado)}</p>
                 </div>
-                <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-4">
-                  {segLoading && (
-                    <div className="col-span-full text-center py-4">
-                      <div className="inline-block animate-spin rounded-full h-6 w-6 border-2 border-[#c2410c] border-t-transparent"></div>
-                    </div>
-                  )}
-                  {segError && (
-                    <div className="col-span-full text-center py-4 rounded-lg border border-orange-200 bg-orange-50">
-                      <p className="text-[14px] text-[#4b4843] font-bold">Erro ao carregar o detalhe do segmento. Tente novamente.</p>
-                    </div>
-                  )}
-                  {segData?.segmento && (
-                    <>
-                      <IndicadorCard label="Grupos ativos" value={fmtN(segData.segmento.gruposAtivos)} />
-                      <IndicadorCard label="Cotas ativas" value={fmtN(segData.segmento.cotasAtivas)} />
-                      <IndicadorCard label="Participação no mercado" value={fmtPct(segData.segmento.pctMercado)} accent />
-                      <IndicadorCard label="Taxa média" value={fmtMoeda(segData.segmento.taxaMedia) + "%"} />
-                      <IndicadorCard label="Contemplações no mês" value={fmtN(segData.segmento.contempladas)} sublabel={fmtPct(segData.segmento.pctContempladas) + " das cotas ativas"} />
-                      <IndicadorCard label="Exclusões" value={fmtN(segData.segmento.excluidas)} sublabel="Quantidade cumulativa informada pelo BC" accent />
-                      <IndicadorCard label="Fila de espera" value={fmtN(segData.segmento.naoContempladas)} sublabel={pctFilaSegmento !== null ? `${fmtPct(pctFilaSegmento)} das cotas ativas` : "Percentual indisponível nesta competência"} accent />
-                    </>
-                  )}
-                </div>
-
-                {/* ── ENTREGA 07: Grupos ── */}
-                <div className="mb-4 mt-8">
-                  <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">Grupos do segmento</span>
-                  <h3 className="text-lg md:text-xl font-bold text-[#15140f] tracking-tight">Pesquisar grupo</h3>
-                </div>
-                <div className="mb-4">
-                  <input
-                    type="search"
-                    placeholder="Buscar por código do grupo..."
-                    value={grupoBusca}
-                    onChange={(e) => setGrupoBusca(e.target.value)}
-                    className="w-full px-4 py-3 text-[14px] md:text-[15px] font-medium border border-[#d1ccc5] rounded-xl bg-white text-[#15140f] placeholder:text-[#9e9890] focus:outline-none focus:border-[#c2410c] focus:ring-2 focus:ring-[#c2410c]/20 transition-all"
-                  />
-                </div>
-                {gruposSegmento.length > 0 ? (
-                  <div className="bg-white border border-[#e5e0d8] rounded-xl overflow-hidden shadow-sm overflow-x-auto">
-                    <table className="w-full text-left min-w-[700px]">
-                      <thead>
-                        <tr className="bg-[#f6f3ec] border-b border-[#e5e0d8]">
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843]">Grupo</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Cotas</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Contempl.</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Excluídas</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Taxa adm.</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">vs. Segmento</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Prazo</th>
-                          <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-[#4b4843] text-right">Correção</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {gruposSegmento.map((g: any, i: number) => {
-                          const totalCotasSeg = segData?.segmento?.cotasAtivas || 0;
-                          const relevancia = totalCotasSeg > 0 ? (g.cotasAtivas / totalCotasSeg) * 100 : 0;
-                          return (
-                            <tr key={i} className="border-b border-[#e5e0d8] last:border-0 hover:bg-[#f6f3ec] transition-colors">
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono font-bold text-[#15140f]">
-                                {g.codigoGrupo}
-                                <span className="block text-[10px] text-[#c2410c] font-bold">{relevancia.toFixed(1)}% do segmento</span>
-                              </td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[#15140f] text-right">{fmtN(g.cotasAtivas)}</td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[#2f5233] text-right">{fmtN(g.cotasContempladas)}</td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[#c2410c] text-right">{fmtN(g.cotasExcluidas)}</td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[#15140f] text-right">{fmtMoeda(g.taxaAdm) + "%"}</td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-right">
-                                {(() => {
-                                  const segTaxa = segData?.segmento?.taxaMedia || 0;
-                                  const diff = g.taxaAdm - segTaxa;
-                                  if (Math.abs(diff) < 0.01) return <span className="text-[#716b60] font-bold">≈ média</span>;
-                                  return (
-                                    <span className={diff > 0 ? "text-[#c2410c] font-bold" : "text-[#2f5233] font-bold"}>
-                                      {diff > 0 ? "+" : ""}{fmtMoeda(diff)}%
-                                    </span>
-                                  );
-                                })()}
-                              </td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[#15140f] text-right">{g.prazoMeses > 0 ? g.prazoMeses + " meses" : "—"}</td>
-                              <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[#15140f] text-right">{g.indiceCorrecao || "—"}</td>
-                            </tr>
-                          );
-                        })}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className="bg-white border border-[#e5e0d8] rounded-xl p-6 shadow-sm">
-                    <p className="text-[14px] text-[#4b4843] font-bold">
-                      {grupoBusca ? `Nenhum grupo encontrado para "${grupoBusca}".` : "Nenhum grupo disponível para este segmento."}
-                    </p>
+                {segLoading && (
+                  <div className="text-center py-4">
+                    <Loader2 className="w-6 h-6 text-[var(--orange)] mx-auto animate-spin" />
                   </div>
                 )}
-              </section>
-            )}
+                {segError && (
+                  <div className="rounded-lg border border-[var(--orange)]/30 bg-[var(--orange)]/5 p-4">
+                    <p className="text-[14px] text-foreground/60 font-bold">Erro ao carregar o detalhe do segmento. Tente novamente.</p>
+                  </div>
+                )}
+                {segData?.segmento && (
+                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+                    <KpiCard label="Grupos ativos" value={fmtN(segData.segmento.gruposAtivos)} />
+                    <KpiCard label="Cotas ativas" value={fmtN(segData.segmento.cotasAtivas)} />
+                    <KpiCard label="Participação no mercado" value={fmtPctLocal(segData.segmento.pctMercado)} highlight />
+                    <KpiCard label="Taxa média" value={fmtMoeda(segData.segmento.taxaMedia) + "%"} />
+                    <KpiCard label="Contemplações no mês" value={fmtN(segData.segmento.contempladas)} hint={fmtPctLocal(segData.segmento.pctContempladas) + " das cotas ativas"} />
+                    <KpiCard label="Exclusões" value={fmtN(segData.segmento.excluidas)} hint="Quantidade cumulativa informada pelo BC" />
+                    <KpiCard label="Fila de espera" value={fmtN(segData.segmento.naoContempladas)} hint={pctFilaSegmento !== null ? `${fmtPctLocal(pctFilaSegmento)} das cotas ativas` : "Percentual indisponível"} />
+                  </div>
+                )}
 
-            {/* Bloco Transparência e Método */}
-            <section className="pt-4 border-t border-[#bfb8af]">
-              <div className="rounded-xl p-5 border-2 border-[#c2410c]/30 bg-[#c2410c]/5">
-                <h3 className="text-[12px] uppercase tracking-widest font-bold text-[#c2410c] mb-3">Transparência e Método</h3>
-                <div className="space-y-2 text-[13px] md:text-[14px] text-[#4b4843] leading-relaxed font-bold">
-                  <p><strong className="text-[#15140f]">Fonte:</strong> Todos os dados são oficiais do Banco Central do Brasil.</p>
-                  <p><strong className="text-[#15140f]">Período:</strong> Dados de julho/2024 a maio/2026 (últimos 24 meses disponíveis).</p>
-                  <p><strong className="text-[#15140f]">Classificação:</strong> A categoria (Banco, Administradora Independente, Cooperativas e Associações) é classificação própria do Consórcio de Verdade, não do Banco Central.</p>
-                  <p><strong className="text-[#15140f]">Médias de mercado:</strong> Calculadas sobre todas as administradoras, ponderadas por cotas ativas.</p>
-                  <p><strong className="text-[#15140f]">Leitura dos percentuais:</strong> quando a base oficial informa um valor que supera o respectivo total de cotas ativas na mesma data-base, o produto exibe a quantidade e não exibe um percentual potencialmente enganoso.</p>
-                </div>
+                {/* Grupos do segmento */}
+                {segData?.grupos && (
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="eyebrow text-[var(--orange)]">Grupos do segmento</p>
+                      <input
+                        type="search"
+                        placeholder="Buscar por código do grupo…"
+                        value={grupoBusca}
+                        onChange={(e) => setGrupoBusca(e.target.value)}
+                        className="px-3 py-2 text-[13px] md:text-[14px] font-medium border border-border rounded-lg bg-background text-foreground placeholder:text-foreground/40 focus:outline-none focus:border-[var(--orange)] focus:ring-2 focus:ring-[var(--orange)]/20 transition-all max-w-[240px]"
+                      />
+                    </div>
+                    {gruposSegmento.length > 0 ? (
+                      <div className="rounded-xl border border-border bg-card overflow-hidden overflow-x-auto">
+                        <table className="w-full text-left min-w-[700px]">
+                          <thead>
+                            <tr className="bg-secondary/60 border-b border-border">
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50">Grupo</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Cotas</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Contempl.</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Excluídas</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Taxa adm.</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">vs. Segmento</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Prazo</th>
+                              <th className="px-3 py-2.5 text-[10px] uppercase tracking-wider font-bold text-foreground/50 text-right">Correção</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {gruposSegmento.map((g: any, i: number) => {
+                              const totalCotasSeg = segData?.segmento?.cotasAtivas || 0;
+                              const relevancia = totalCotasSeg > 0 ? (g.cotasAtivas / totalCotasSeg) * 100 : 0;
+                              return (
+                                <tr key={i} className="border-b border-border last:border-0 hover:bg-secondary/40 transition-colors">
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono font-bold text-foreground">
+                                    {g.codigoGrupo}
+                                    <span className="block text-[10px] text-[var(--orange)] font-bold">{relevancia.toFixed(1)}% do segmento</span>
+                                  </td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-foreground text-right">{fmtN(g.cotasAtivas)}</td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[var(--positive)] text-right">{fmtN(g.cotasContempladas)}</td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-[var(--orange)] text-right">{fmtN(g.cotasExcluidas)}</td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-foreground text-right">{fmtMoeda(g.taxaAdm) + "%"}</td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-right">
+                                    {(() => {
+                                      const segTaxa = segData?.segmento?.taxaMedia || 0;
+                                      const diff = g.taxaAdm - segTaxa;
+                                      if (Math.abs(diff) < 0.01) return <span className="text-foreground/50 font-bold">≈ média</span>;
+                                      return <span className={diff > 0 ? "text-[var(--orange)] font-bold" : "text-[var(--positive)] font-bold"}>{diff > 0 ? "+" : ""}{fmtMoeda(diff)}%</span>;
+                                    })()}
+                                  </td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-foreground text-right">{g.prazoMeses > 0 ? g.prazoMeses + " meses" : "—"}</td>
+                                  <td className="px-3 py-2.5 text-[13px] md:text-[14px] font-mono text-foreground text-right">{g.indiceCorrecao || "—"}</td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : (
+                      <div className="rounded-xl border border-border bg-card p-5">
+                        <p className="text-[14px] text-foreground/60 font-bold">{grupoBusca ? `Nenhum grupo encontrado para "${grupoBusca}".` : "Nenhum grupo disponível para este segmento."}</p>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
-            </section>
-      </main>
+            )}
+          </RaioXBlock>
+        )}
+
+        {/* BLOCO 7: TENDÊNCIA DOS ÚLTIMOS 24 MESES */}
+        {indicadores && (
+          <RaioXBlock eyebrow="Bloco 7" title="Tendência dos últimos 24 meses" icon={BarChart3}>
+            <div className="rounded-2xl border border-border bg-[var(--ink)] text-[var(--paper)] overflow-hidden">
+              <div className="px-5 py-4">
+                {tendencia ? (
+                  <>
+                    <TendenciaItem label="Cotas ativas" indicador="cotasAtivas" variacao={tendencia.cotasAtivas} />
+                    <TendenciaItem label="Contemplações no mês" indicador="contemplacoes" variacao={tendencia.contemplacoes} />
+                    <TendenciaItem label="Exclusões" indicador="exclusoes" variacao={tendencia.exclusoes} />
+                    <TendenciaItem label="Fila de espera (não contempladas)" indicador="filaEspera" variacao={tendencia.filaEspera} />
+                    <TendenciaItem label="Grupos ativos" indicador="gruposAtivos" variacao={tendencia.gruposAtivos} />
+                    <TendenciaItem label="Cotas comercializadas" indicador="cotasComercializadas" variacao={tendencia.cotasComercializadas} />
+                    <p className="text-[12px] text-white/30 font-bold mt-3">
+                      Comparação entre {tendencia.periodoAntigo} e {tendencia.periodoRecente}.
+                    </p>
+                  </>
+                ) : (
+                  <p className="text-[14px] text-white/50 font-bold py-4">Dados históricos insuficientes para calcular a tendência.</p>
+                )}
+              </div>
+            </div>
+          </RaioXBlock>
+        )}
+
+        {/* BLOCO 8: TRANSPARÊNCIA E METODOLOGIA (último bloco, cor 50% mais forte) */}
+        <RaioXBlock eyebrow="Bloco 8" title="Transparência e Metodologia" icon={ShieldCheck}>
+          <div className="rounded-2xl border-2 border-[var(--orange)]/45 bg-[var(--orange)]/8 p-5 md:p-6">
+            <div className="flex items-start gap-3">
+              <ShieldCheck className="w-4 h-4 text-[var(--orange)] shrink-0 mt-0.5" />
+              <div className="space-y-2 text-[14px] md:text-[15px] text-foreground/70 leading-relaxed">
+                <p><strong className="text-foreground">Fonte:</strong> Todos os dados são oficiais do Banco Central do Brasil.</p>
+                <p><strong className="text-foreground">Período:</strong> Dados de julho/2024 a maio/2026 (últimos 24 meses disponíveis).</p>
+                <p><strong className="text-foreground">Classificação:</strong> A categoria (Banco, Administradora Independente, Cooperativas e Associações) é classificação própria do Consórcio de Verdade, não do Banco Central.</p>
+                <p><strong className="text-foreground">Médias de mercado:</strong> Calculadas sobre todas as administradoras, ponderadas por cotas ativas.</p>
+                <p><strong className="text-foreground">Leitura dos percentuais:</strong> quando a base oficial informa um valor que supera o respectivo total de cotas ativas na mesma data-base, o produto exibe a quantidade e não exibe um percentual potencialmente enganoso.</p>
+              </div>
+            </div>
+          </div>
+        </RaioXBlock>
+
+        {/* CTA Consultoria */}
+        <ConsultCTA context="esta análise" />
+      </section>
     </div>
   );
 }
 
-// ─── Página Principal ───────────────────────────────────────────────────────
+// ─── Página Principal ─────────────────────────────────────────────────────────
 export default function PanoramaAdministradoras() {
   const [selectedAdm, setSelectedAdm] = useState<string | null>(null);
   const [location, navigate] = useLocation();
 
-  // Sincronizar a seleção com a URL sem atualizar estado durante a renderização.
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const adm = params.get("adm");
@@ -798,9 +877,5 @@ export default function PanoramaAdministradoras() {
     return <DetalheAdministradora nomeAdm={selectedAdm} onBack={handleBack} />;
   }
 
-  return (
-    <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
-      <ListaAdministradoras onSelect={handleSelect} />
-    </div>
-  );
+  return <ListaAdministradoras onSelect={handleSelect} />;
 }
