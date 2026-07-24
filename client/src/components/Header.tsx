@@ -4,11 +4,11 @@ import { Menu, X, Instagram, Youtube, ChevronDown } from "lucide-react";
 import { LOGO, BRAND } from "@/lib/brand";
 
 const RAIOX_SUBMENU = [
-  { label: "Raio-X da Proposta", href: "/simulador/estrutura-do-plano#parametros" },
-  { label: "Raio-X do Lance", href: "/simulador/estrategia-lance#parametros" },
-  { label: "Raio-X da Contemplação", href: "/simulador/zona-contemplacao#hero" },
-  { label: "Raio-X da Exclusão", href: "/simulador/custo-cancelamento#parametros" },
-  { label: "Raio-X da Alavancagem", href: "/simulador/venda-carta-contemplada#parametros" },
+  { label: "Raio-X da Proposta", href: "/simuladores#cat-01" },
+  { label: "Raio-X do Lance", href: "/simuladores#cat-02" },
+  { label: "Raio-X da Contemplação", href: "/simuladores#cat-03" },
+  { label: "Raio-X da Exclusão", href: "/simuladores#cat-04" },
+  { label: "Raio-X da Alavancagem", href: "/simuladores#cat-05" },
 ];
 
 const INDUSTRIA_SUBMENU = [
@@ -17,16 +17,14 @@ const INDUSTRIA_SUBMENU = [
   { label: "Panorama Administradoras", href: "#", isFuture: true },
 ];
 
-const R_ICON_URL = "/manus-storage/r_ponto_minimal_transparente_limpo_c867ecfd.png";
+const R_ICON_URL = "/assets/r-icon.png";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [location] = useLocation();
   const [raioxOpen, setRaioxOpen] = useState(false);
-  const [raioxMobileOpen, setRaioxMobileOpen] = useState(false);
   const [industriaOpen, setIndustriaOpen] = useState(false);
-  const [industriaMobileOpen, setIndustriaMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8);
@@ -37,10 +35,6 @@ export default function Header() {
 
   useEffect(() => {
     setOpen(false);
-    setRaioxOpen(false);
-    setRaioxMobileOpen(false);
-    setIndustriaOpen(false);
-    setIndustriaMobileOpen(false);
   }, [location]);
 
   const raioxActive = location.startsWith("/simulador") || location === "/simuladores";
@@ -54,7 +48,7 @@ export default function Header() {
       >
         <div className="w-full px-3 md:px-4 lg:px-5 max-w-[100vw]">
           <div className="flex items-center justify-between h-14 md:h-16">
-            {/* Logo */}
+            {/* Logo - Densidade aumentada sem alterar altura do menu */}
             <Link href="/" className="flex items-center shrink-0">
               <img
                 src={LOGO.dark}
@@ -80,23 +74,23 @@ export default function Header() {
                 onMouseEnter={() => setRaioxOpen(true)}
                 onMouseLeave={() => setRaioxOpen(false)}
               >
-                <button
-                  className={`flex items-center gap-1 text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
+                <Link
+                  href="/simuladores#hero"
+                  className={`text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] flex items-center gap-1 ${
                     raioxActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
                   }`}
                 >
-                  <Link href="/simuladores#hero">raio-x do consórcio</Link>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${raioxOpen ? "rotate-180" : ""}`} />
-                </button>
-
+                  raio-x do consórcio
+                  <ChevronDown className="w-3 h-3" />
+                </Link>
                 {raioxOpen && (
                   <div className="absolute top-full left-0 pt-2 z-50">
-                    <div className="bg-white border border-border shadow-lg rounded-sm min-w-[240px] py-2">
+                    <div className="bg-[var(--paper)] border border-border rounded-md shadow-lg py-2 min-w-[220px]">
                       {RAIOX_SUBMENU.map((item) => (
                         <Link
-                          key={item.href}
+                          key={item.label}
                           href={item.href}
-                          className="block px-4 py-2.5 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[#FAF5EA] transition-colors"
+                          className="block px-4 py-2 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[var(--orange)]/5 transition-colors"
                         >
                           {item.label}
                         </Link>
@@ -112,41 +106,41 @@ export default function Header() {
                 onMouseEnter={() => setIndustriaOpen(true)}
                 onMouseLeave={() => setIndustriaOpen(false)}
               >
-                <button
-                  className={`flex items-center gap-1 text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] ${
+                <Link
+                  href="/panorama#hero"
+                  className={`text-[14px] md:text-[15px] font-normal transition-colors hover:text-[var(--orange)] flex items-center gap-1 ${
                     panoramaActive ? "text-[var(--orange)]" : "text-[var(--ink)]"
                   }`}
                 >
-                  <Link href="/panorama#hero">Indústria do Consórcio</Link>
-                  <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${industriaOpen ? "rotate-180" : ""}`} />
-                </button>
-
+                  Indústria do Consórcio
+                  <ChevronDown className="w-3 h-3" />
+                </Link>
                 {industriaOpen && (
                   <div className="absolute top-full left-0 pt-2 z-50">
-                    <div className="bg-white border border-border shadow-lg rounded-sm min-w-[240px] py-2">
-                      {INDUSTRIA_SUBMENU.map((item) => {
-                        if (item.isFuture) {
-                          return (
-                            <button
-                              key={item.label}
-                              onClick={() => alert("Em breve")}
-                              className="block w-full text-left px-4 py-2.5 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[#FAF5EA] transition-colors"
-                              style={{ filter: "saturate(0.5)", opacity: 0.6 }}
-                            >
-                              {item.label}
-                            </button>
-                          );
-                        }
-                        return (
+                    <div className="bg-[var(--paper)] border border-border rounded-md shadow-lg py-2 min-w-[220px]">
+                      {INDUSTRIA_SUBMENU.map((item) =>
+                        item.isFuture ? (
+                          <button
+                            key={item.label}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              alert("Em breve");
+                            }}
+                            className="block w-full text-left px-4 py-2 text-[13px] text-[var(--ink)] hover:bg-[var(--orange)]/5 transition-colors"
+                            style={{ filter: "saturate(0.5)", opacity: 0.6 }}
+                          >
+                            {item.label}
+                          </button>
+                        ) : (
                           <Link
-                            key={item.href}
+                            key={item.label}
                             href={item.href}
-                            className="block px-4 py-2.5 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[#FAF5EA] transition-colors"
+                            className="block px-4 py-2 text-[13px] text-[var(--ink)] hover:text-[var(--orange)] hover:bg-[var(--orange)]/5 transition-colors"
                           >
                             {item.label}
                           </Link>
-                        );
-                      })}
+                        )
+                      )}
                     </div>
                   </div>
                 )}
@@ -184,8 +178,10 @@ export default function Header() {
               </a>
               <Link
                 href="/sobre"
-                aria-label="r. — Consórcio de Verdade"
-                className={`transition-colors hover:opacity-80 ${location === "/sobre" ? "opacity-80" : ""}`}
+                className={`transition-colors hover:text-[var(--orange)] ${
+                  location === "/sobre" ? "text-[var(--orange)]" : "text-foreground/80"
+                }`}
+                aria-label="r."
               >
                 <img
                   src={R_ICON_URL}
@@ -217,63 +213,61 @@ export default function Header() {
                 Home
               </Link>
 
-              {/* raio-x do consórcio com submenu mobile */}
-              <button
-                onClick={() => setRaioxMobileOpen((v) => !v)}
-                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60 flex items-center justify-between w-full"
-              >
-                <span>raio-x do consórcio</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${raioxMobileOpen ? "rotate-180" : ""}`} />
-              </button>
-              {raioxMobileOpen && (
-                <div className="flex flex-col gap-0 pl-4 border-b border-border/60">
+              {/* raio-x do consórcio — mobile accordion */}
+              <div className="border-b border-border/60">
+                <Link
+                  href="/simuladores#hero"
+                  className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] flex items-center justify-between"
+                >
+                  raio-x do consórcio
+                </Link>
+                <div className="pb-2 pl-4 flex flex-col gap-1">
                   {RAIOX_SUBMENU.map((item) => (
                     <Link
-                      key={item.href}
+                      key={item.label}
                       href={item.href}
-                      className="py-2.5 text-[14px] text-foreground/75 hover:text-[var(--orange)]"
+                      className="py-2 text-[14px] text-foreground/70 hover:text-[var(--orange)]"
                     >
                       {item.label}
                     </Link>
                   ))}
                 </div>
-              )}
+              </div>
 
-              {/* Indústria do Consórcio com submenu mobile */}
-              <button
-                onClick={() => setIndustriaMobileOpen((v) => !v)}
-                className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] border-b border-border/60 flex items-center justify-between w-full"
-              >
-                <span>Indústria do Consórcio</span>
-                <ChevronDown className={`w-4 h-4 transition-transform duration-200 ${industriaMobileOpen ? "rotate-180" : ""}`} />
-              </button>
-              {industriaMobileOpen && (
-                <div className="flex flex-col gap-0 pl-4 border-b border-border/60">
-                  {INDUSTRIA_SUBMENU.map((item) => {
-                    if (item.isFuture) {
-                      return (
-                        <button
-                          key={item.label}
-                          onClick={() => alert("Em breve")}
-                          className="py-2.5 text-[14px] text-foreground/75 hover:text-[var(--orange)] text-left"
-                          style={{ filter: "saturate(0.5)", opacity: 0.6 }}
-                        >
-                          {item.label}
-                        </button>
-                      );
-                    }
-                    return (
+              {/* Indústria do Consórcio — mobile accordion */}
+              <div className="border-b border-border/60">
+                <Link
+                  href="/panorama#hero"
+                  className="py-3 text-base font-medium text-foreground/90 hover:text-[var(--orange)] flex items-center justify-between"
+                >
+                  Indústria do Consórcio
+                </Link>
+                <div className="pb-2 pl-4 flex flex-col gap-1">
+                  {INDUSTRIA_SUBMENU.map((item) =>
+                    item.isFuture ? (
+                      <button
+                        key={item.label}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          alert("Em breve");
+                        }}
+                        className="py-2 text-[14px] text-left text-foreground/70"
+                        style={{ filter: "saturate(0.5)", opacity: 0.6 }}
+                      >
+                        {item.label}
+                      </button>
+                    ) : (
                       <Link
-                        key={item.href}
+                        key={item.label}
                         href={item.href}
-                        className="py-2.5 text-[14px] text-foreground/75 hover:text-[var(--orange)]"
+                        className="py-2 text-[14px] text-foreground/70 hover:text-[var(--orange)]"
                       >
                         {item.label}
                       </Link>
-                    );
-                  })}
+                    )
+                  )}
                 </div>
-              )}
+              </div>
 
               <Link
                 href="/caixa-preta#hero"
@@ -289,12 +283,8 @@ export default function Header() {
                 <a href={BRAND.youtube} target="_blank" rel="noreferrer" className="text-[var(--orange)] hover:text-[#FFFF00] transition-colors">
                   <Youtube className="w-5 h-5" />
                 </a>
-                <Link href="/sobre" className="hover:opacity-80 transition-opacity">
-                  <img
-                    src={R_ICON_URL}
-                    alt="r."
-                    className="w-5 h-5 object-contain"
-                  />
+                <Link href="/sobre" className="text-[var(--orange)] hover:text-[#FFFF00] transition-colors">
+                  <img src={R_ICON_URL} alt="r." className="w-5 h-5 object-contain" />
                 </Link>
               </div>
             </nav>

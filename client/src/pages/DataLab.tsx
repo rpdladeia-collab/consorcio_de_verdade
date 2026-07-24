@@ -4,6 +4,13 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { trpc } from "@/lib/trpc";
 import { DATA_LAB_GROUP_SECTIONS } from "./dataLabCatalogGroups";
 import {
+  describeOfficialUnit,
+  formatDataBase,
+  formatOfficialMetricValue,
+  formatOfficialMetricValueWithUnit,
+  formatOfficialPeriodicity,
+} from "./dataLabFormatting";
+import {
   getActiveCustomBounds,
   resolveVisibleMetricId,
   type DataLabPeriodPreset,
@@ -20,25 +27,6 @@ const PERIOD_OPTIONS: Array<{ id: DataLabPeriodPreset; label: string }> = [
 function monthInputToDataBase(value: string): number | undefined {
   if (!/^\d{4}-\d{2}$/.test(value)) return undefined;
   return Number(value.replace("-", ""));
-}
-
-function formatDataBase(dataBase: number): string {
-  const year = Math.floor(dataBase / 100);
-  const month = dataBase % 100;
-  return new Date(year, month - 1).toLocaleString("pt-BR", { month: "short", year: "numeric" });
-}
-
-function formatMetricValue(value: number, unit: string): string {
-  if (value === null || value === undefined) return "—";
-  if (unit === "mil") return (value / 1000).toLocaleString("pt-BR", { maximumFractionDigits: 1 }) + "k";
-  if (unit === "%") return value.toLocaleString("pt-BR", { maximumFractionDigits: 2 }) + "%";
-  return value.toLocaleString("pt-BR", { maximumFractionDigits: 2 });
-}
-
-function formatAxisValue(value: number): string {
-  if (value >= 1e6) return (value / 1e6).toFixed(0) + "M";
-  if (value >= 1e3) return (value / 1e3).toFixed(0) + "k";
-  return value.toFixed(0);
 }
 
 interface GroupGlossaryItem {
@@ -258,12 +246,10 @@ export function DataLabPage() {
         </nav>
 
         <div className="mx-auto max-w-5xl px-4 py-8 sm:py-10">
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#f97316]">
-              Panorama BC · Panorama Oficial
-            </span>
-          </div>
-          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Mercado em Números</h1>
+          <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#f97316]">
+            Panorama BC · Panorama Oficial
+          </span>
+          <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Panorama oficial</h1>
           <p className="mt-3 max-w-2xl text-sm font-medium leading-relaxed text-white/70 sm:text-[15px]">
             Dados conectados ao Banco Central do Brasil. Explore mais de uma década do mercado de consórcios
             através das informações oficiais, organizadas e interpretadas matematicamente, sem estimativas,
@@ -296,7 +282,7 @@ export function DataLabPage() {
             Panorama editorial
           </a>
           <span className="shrink-0 border-b-2 border-[#f97316] px-4 py-4 text-sm font-bold text-[#c2410c]">
-            Mercado em Números
+            Panorama oficial
           </span>
         </div>
       </nav>
@@ -398,7 +384,7 @@ export function DataLabPage() {
                 </span>
                 <p className="mt-1 text-sm font-bold leading-snug">{selectedMetric.name}</p>
                 <p className="mt-2 font-mono text-xs font-semibold text-[#c2410c]">
-                  {selectedMetric.groupName} · {selectedMetric.unit}
+                  Unidade de divulgação: {describeOfficialUnit(selectedMetric.unit, selectedMetric.groupName)}
                 </p>
               </div>
             )}
@@ -545,9 +531,12 @@ export function DataLabPage() {
                         <h2 className="mt-1 text-xl font-bold leading-tight sm:text-2xl">
                           {result.metric.name}
                         </h2>
-                        <p className="mt-2 text-sm font-semibold text-[#4b4843]">
-                          {result.metric.groupName} · unidade: {result.metric.unit}
-                        </p>
+                        <div className="mt-3 space-y-1 text-sm font-semibold text-[#4b4843]">
+                          <p>Fonte: {result.source.organization}</p>
+                          <p>
+                            Unidade de divulgação: {describeOfficialUnit(result.metric.unit, result.metric.groupName)}
+                          </p>
+                        </div>
                       </div>
                       <div className="shrink-0 rounded-lg bg-[#fff3e8] px-3 py-2 text-xs font-bold text-[#9a3412]">
                         {result.period?.label}
@@ -560,7 +549,9 @@ export function DataLabPage() {
                           Valor mais recente
                         </span>
                         <strong className="mt-1 block font-mono text-lg sm:text-xl">
-                          {latestPoint ? formatMetricValue(latestPoint.value, result.metric.unit) : "—"}
+                          {latestPoint
+                            ? formatOfficialMetricValue(latestPoint.value, result.metric.unit)
+                            : "—"}
                         </strong>
                         <span className="mt-1 block text-xs font-semibold text-[#716b60]">
                           {latestPoint ? formatDataBase(latestPoint.dataBase) : "Sem observação"}
@@ -592,13 +583,16 @@ export function DataLabPage() {
                       </div>
                       <div className="rounded-lg border border-[#e5e0d8] p-3">
                         <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
-                          Cobertura completa
+                          Histórico disponível
                         </span>
                         <strong className="mt-1 block font-mono text-sm sm:text-base">
                           {formatDataBase(result.coverage.earliestDataBase)} — {formatDataBase(result.coverage.latestDataBase)}
                         </strong>
-                        <span className="mt-1 block text-xs font-semibold text-[#716b60]">
-                          {result.granularity.label}
+                        <span className="mt-2 block text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                          Periodicidade
+                        </span>
+                        <span className="mt-1 block text-xs font-semibold leading-relaxed text-[#4b4843]">
+                          {formatOfficialPeriodicity(result.granularity.code, result.granularity.label)}
                         </span>
                       </div>
                     </div>
@@ -622,7 +616,9 @@ export function DataLabPage() {
                             />
                             <YAxis
                               width={64}
-                              tickFormatter={formatAxisValue}
+                              tickFormatter={value =>
+                                formatOfficialMetricValue(Number(value), result.metric.unit)
+                              }
                               tick={{ fill: "#4b4843", fontSize: 12, fontWeight: 600 }}
                               axisLine={false}
                               tickLine={false}
@@ -630,7 +626,11 @@ export function DataLabPage() {
                             <Tooltip
                               labelFormatter={label => formatDataBase(Number(label))}
                               formatter={value => [
-                                formatMetricValue(Number(value), result.metric.unit),
+                                formatOfficialMetricValueWithUnit(
+                                  Number(value),
+                                  result.metric.unit,
+                                  result.metric.groupName,
+                                ),
                                 result.metric.name,
                               ]}
                               contentStyle={{
@@ -684,10 +684,10 @@ export function DataLabPage() {
                                 {formatDataBase(point.dataBase)}
                               </td>
                               <td className="px-4 py-3 text-right font-mono font-bold sm:px-5">
-                                {formatMetricValue(point.value, result.metric.unit)}
+                                {formatOfficialMetricValue(point.value, result.metric.unit)}
                               </td>
                               <td className="px-4 py-3 font-semibold text-[#4b4843] sm:px-5">
-                                {result.metric.unit}
+                                {describeOfficialUnit(result.metric.unit, result.metric.groupName)}
                               </td>
                               <td className="px-4 py-3 font-semibold text-[#4b4843] sm:px-5">
                                 {point.source}

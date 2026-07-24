@@ -565,7 +565,11 @@ function CorrectionsTab({ result }: { result: any }) {
         </div>
       </div>
 
-      {/* Racional + Ponto-chave (substituindo o aviso removido) */}
+
+      {/* Gráfico de degraus: parcela vs carta */}
+      <CorrectionStepChart result={result} />
+
+      {/* Racional + Ponto-chave (acima da tabela) */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-[14px] font-bold text-gray-800 mb-2">Racional</p>
@@ -602,13 +606,13 @@ function CorrectionsTab({ result }: { result: any }) {
   );
 }
 
+/* ─── Aba: Consórcio x investimentos ─────────────────────────────────────────── */
 /* ─── Accordion: Degradação de Eficiência (fechado por padrão) ──────────────── */
 function DegradacaoAccordion({ rows }: { rows: any[] }) {
   const [open, setOpen] = useState(false);
 
   return (
     <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden bg-white shadow-sm">
-      {/* Cabeçalho clicável */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
@@ -619,7 +623,6 @@ function DegradacaoAccordion({ rows }: { rows: any[] }) {
           <h3 className="text-[13px] md:text-[14px] font-bold text-foreground/80">Degradação de Eficiência</h3>
           <p className="text-[11px] md:text-[12px] text-foreground/60 mt-0.5">Mostra como a taxa de administração perde eficiência à medida que você utiliza recursos próprios no plano. · toque para {open ? "recolher" : "expandir"}</p>
         </div>
-        {/* Seta animada */}
         <svg
           className={`shrink-0 w-5 h-5 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
           fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}
@@ -628,8 +631,6 @@ function DegradacaoAccordion({ rows }: { rows: any[] }) {
           <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
         </svg>
       </button>
-
-      {/* Conteúdo expansível */}
       {open && (
         <div className="border-t border-border/30 overflow-x-auto">
           <table className="w-full text-[10px] md:text-[11px] min-w-[560px]">
@@ -662,7 +663,6 @@ function DegradacaoAccordion({ rows }: { rows: any[] }) {
   );
 }
 
-/* ─── Aba: Consórcio x investimentos ─────────────────────────────────────────── */
 function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
   if (!result || !inv) return null;
   const x = inv;

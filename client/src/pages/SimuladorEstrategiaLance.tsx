@@ -155,19 +155,19 @@ export default function SimuladorEstrategiaLance() {
       {/* KPIs */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-1.5 sm:gap-2">
         <div className="rounded-lg sm:rounded-xl border border-green-200 bg-green-50 p-2 sm:p-3">
-          <p className="text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-wider text-green-600 mb-1">Carta atualizada</p>
+          <p className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-green-600 mb-1">Carta atualizada</p>
           <p className="text-base sm:text-lg font-bold text-green-900 break-words">{money(result.c)}</p>
-          <p className="text-[11px] sm:text-[12px] md:text-[13px] text-green-700 mt-1">base simples da carta</p>
+          <p className="text-[9px] sm:text-[10px] text-green-700 mt-1">base simples da carta</p>
         </div>
         <div className="rounded-lg sm:rounded-xl border border-yellow-200 bg-yellow-50 p-2 sm:p-3">
-          <p className="text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-wider text-yellow-600 mb-1">Taxa adm. em R$</p>
+          <p className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-yellow-600 mb-1">Taxa adm. em R$</p>
           <p className="text-base sm:text-lg font-bold text-yellow-900 break-words">{money(result.adminValue)}</p>
-          <p className="text-[11px] sm:text-[12px] md:text-[13px] text-yellow-700 mt-1">{pct(result.a)} sobre a carta</p>
+          <p className="text-[9px] sm:text-[10px] text-yellow-700 mt-1">{pct(result.a)} sobre a carta</p>
         </div>
         <div className="rounded-lg sm:rounded-xl border border-red-200 bg-red-50 p-2 sm:p-3">
-          <p className="text-[11px] sm:text-[12px] md:text-[13px] font-semibold uppercase tracking-wider text-red-600 mb-1">Categoria simplificada</p>
+          <p className="text-[9px] sm:text-[10px] font-semibold uppercase tracking-wider text-red-600 mb-1">Categoria simplificada</p>
           <p className="text-base sm:text-lg font-bold text-red-900 break-words">{money(result.categoryBase)}</p>
-          <p className="text-[11px] sm:text-[12px] md:text-[13px] text-red-700 mt-1">equivale a {pct(result.categoryBasePct)} da carta</p>
+          <p className="text-[9px] sm:text-[10px] text-red-700 mt-1">equivale a {pct(result.categoryBasePct)} da carta</p>
         </div>
       </div>
 
@@ -177,74 +177,74 @@ export default function SimuladorEstrategiaLance() {
           <span className="inline-flex items-center rounded-full bg-green-100 px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-green-700 mb-1.5 sm:mb-2">
             ✓ Mais simples
           </span>
-          <h3 className="font-bold text-[14px] md:text-[15px] mb-1 sm:mb-2">Lance sobre carta de crédito</h3>
-          <p className="text-[12px] sm:text-[13px] md:text-[14px] text-foreground/70 mb-1.5 sm:mb-2">O percentual incide diretamente sobre a carta atualizada.</p>
-          <div className="rounded-lg bg-white p-1.5 sm:p-2 border border-green-200 font-mono text-[11px] sm:text-[12px] md:text-[13px] mb-1.5 sm:mb-2 overflow-x-auto">
+          <h3 className="font-bold text-[14px] md:text-[15px] sm:text-[14px] md:text-[15px] mb-1 sm:mb-2">Lance sobre carta de crédito</h3>
+          <p className="text-[9px] sm:text-[10px] text-foreground/70 mb-1.5 sm:mb-2">O percentual incide diretamente sobre a carta atualizada.</p>
+          <div className="rounded-lg bg-white p-1.5 sm:p-2 border border-green-200 font-mono text-[8px] sm:text-[9px] mb-1.5 sm:mb-2 overflow-x-auto">
             <span className="whitespace-nowrap inline-block">{money(result.c)} × {pct(result.l)} = <strong className="text-green-700">{money(result.lanceOnCredit)}</strong></span>
           </div>
-          <p className="text-[14px] md:text-[15px] font-bold text-green-700 break-words">{money(result.lanceOnCredit)}</p>
+          <p className="text-[9px] sm:text-[14px] md:text-[15px] font-bold text-green-700 break-words">{money(result.lanceOnCredit)}</p>
         </div>
 
         <div className="rounded-lg sm:rounded-xl border border-yellow-300 bg-yellow-50 p-2.5 sm:p-4">
           <span className="inline-flex items-center rounded-full bg-yellow-100 px-2 py-0.5 text-[9px] sm:text-[10px] font-bold text-yellow-700 mb-1.5 sm:mb-2">
             ⚠ Base maior
           </span>
-          <h3 className="font-bold text-[14px] md:text-[15px] mb-1 sm:mb-2">Lance sobre categoria</h3>
-          <p className="text-[12px] sm:text-[13px] md:text-[14px] text-foreground/70 mb-1.5 sm:mb-2">O percentual incide sobre carta + taxa adm.; por isso, o valor exigido sobe.</p>
-          <div className="rounded-lg bg-white p-1.5 sm:p-2 border border-yellow-200 font-mono text-[11px] sm:text-[12px] md:text-[13px] mb-1.5 sm:mb-2 overflow-x-auto">
+          <h3 className="font-bold text-[14px] md:text-[15px] sm:text-[14px] md:text-[15px] mb-1 sm:mb-2">Lance sobre categoria</h3>
+          <p className="text-[9px] sm:text-[10px] text-foreground/70 mb-1.5 sm:mb-2">O percentual incide sobre carta + taxa adm.; por isso, o valor exigido sobe.</p>
+          <div className="rounded-lg bg-white p-1.5 sm:p-2 border border-yellow-200 font-mono text-[8px] sm:text-[9px] mb-1.5 sm:mb-2 overflow-x-auto">
             <span className="whitespace-nowrap inline-block">({money(result.c)} + {money(result.adminValue)}) × {pct(result.l)} = <strong className="text-yellow-700">{money(result.lanceOnCategory)}</strong></span>
           </div>
-          <p className="text-[14px] md:text-[15px] font-bold text-yellow-700 break-words">{money(result.lanceOnCategory)}</p>
+          <p className="text-[9px] sm:text-[14px] md:text-[15px] font-bold text-yellow-700 break-words">{money(result.lanceOnCategory)}</p>
         </div>
       </div>
 
       {/* Impacto */}
       <div className="rounded-lg sm:rounded-xl border-2 border-yellow-400 bg-yellow-50 p-2.5 sm:p-4">
-        <p className="text-[11px] sm:text-[12px] md:text-[13px] font-bold uppercase tracking-wider text-yellow-600 mb-1">Diferença gerada pela base de cálculo</p>
+        <p className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-yellow-600 mb-1">Diferença gerada pela base de cálculo</p>
         <p className="text-xl sm:text-2xl font-black text-yellow-900 break-words">{money(result.diff)}</p>
-        <p className="text-[13px] md:text-[14px] text-yellow-800 mt-1.5 sm:mt-2">Esse é o valor adicional exigido quando o mesmo lance de {pct(result.l)} é calculado sobre categoria.</p>
+        <p className="text-[9px] sm:text-[13px] md:text-[14px] text-yellow-800 mt-1.5 sm:mt-2">Esse é o valor adicional exigido quando o mesmo lance de {pct(result.l)} é calculado sobre categoria.</p>
       </div>
 
       {/* Insights */}
       <div className="space-y-1.5 sm:space-y-2">
         <div className="rounded-lg border-l-4 border-green-500 bg-green-50 p-2 sm:p-3">
-          <p className="text-[13px] md:text-[14px] font-bold text-green-700 mb-0.5 sm:mb-1">✓ Leitura prática:</p>
-          <p className="text-[12px] sm:text-[13px] md:text-[14px] text-green-800">quando o contrato usa lance sobre carta, o cliente sabe exatamente quanto precisa ofertar em relação ao crédito contratado.</p>
+          <p className="text-[10px] sm:text-[13px] md:text-[14px] font-bold text-green-700 mb-0.5 sm:mb-1">✓ Leitura prática:</p>
+          <p className="text-[9px] sm:text-[10px] text-green-800">quando o contrato usa lance sobre carta, o cliente sabe exatamente quanto precisa ofertar em relação ao crédito contratado.</p>
         </div>
         <div className="rounded-lg border-l-4 border-yellow-500 bg-yellow-50 p-2 sm:p-3">
-          <p className="text-[13px] md:text-[14px] font-bold text-yellow-700 mb-0.5 sm:mb-1">⚠ Atenção:</p>
-          <p className="text-[12px] sm:text-[13px] md:text-[14px] text-yellow-800">quando a base é categoria, o mesmo percentual pode exigir mais dinheiro do cliente. No exemplo, 30% deixa de ser {money(result.lanceOnCredit)} e passa a ser {money(result.lanceOnCategory)}.</p>
+          <p className="text-[10px] sm:text-[13px] md:text-[14px] font-bold text-yellow-700 mb-0.5 sm:mb-1">⚠ Atenção:</p>
+          <p className="text-[9px] sm:text-[10px] text-yellow-800">quando a base é categoria, o mesmo percentual pode exigir mais dinheiro do cliente. No exemplo, 30% deixa de ser {money(result.lanceOnCredit)} e passa a ser {money(result.lanceOnCategory)}.</p>
         </div>
         <div className="rounded-lg border-l-4 border-red-500 bg-red-50 p-2 sm:p-3">
-          <p className="text-[13px] md:text-[14px] font-bold text-red-700 mb-0.5 sm:mb-1">🔒 Proteção técnica:</p>
-          <p className="text-[12px] sm:text-[13px] md:text-[14px] text-red-800">a regra válida é sempre a do contrato e do regulamento do grupo. Este simulador apenas compara a matemática das bases de cálculo.</p>
+          <p className="text-[10px] sm:text-[13px] md:text-[14px] font-bold text-red-700 mb-0.5 sm:mb-1">🔒 Proteção técnica:</p>
+          <p className="text-[9px] sm:text-[10px] text-red-800">a regra válida é sempre a do contrato e do regulamento do grupo. Este simulador apenas compara a matemática das bases de cálculo.</p>
         </div>
       </div>
 
       {/* Tabela de memória */}
       <div className="rounded-lg sm:rounded-lg border border-border overflow-hidden">
         <div className="bg-card px-2 sm:px-3 py-1.5 sm:py-2 border-b border-border">
-          <p className="text-[14px] md:text-[15px] font-bold uppercase tracking-wider">Memória de cálculo</p>
+          <p className="text-[10px] sm:text-[14px] md:text-[15px] font-bold uppercase tracking-wider">Memória de cálculo</p>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full text-[12px] sm:text-[13px] md:text-[14px]">
+          <table className="w-full text-[8px] sm:text-[10px]">
             <thead className="bg-[var(--ink)] text-white">
               <tr>
-                <th className="px-2 sm:px-3 py-1.5 sm:py-2 text-left">Modalidade</th>
-                <th className="px-2 sm:px-3 py-1.5 sm:py-2 text-right">Base</th>
-                <th className="px-2 sm:px-3 py-1.5 sm:py-2 text-right">Lance (R$)</th>
-                <th className="px-2 sm:px-3 py-1.5 sm:py-2 text-right">% carta</th>
-                <th className="px-2 sm:px-3 py-1.5 sm:py-2 text-right">Dif.</th>
+                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-left">Modalidade</th>
+                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-right">Base</th>
+                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-right">Lance (R$)</th>
+                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-right">% carta</th>
+                <th className="px-1 sm:px-2 py-1 sm:py-1.5 text-right">Dif.</th>
               </tr>
             </thead>
             <tbody>
               {lastRows.map((r, i) => (
                 <tr key={i} className={i === 1 ? "bg-yellow-50" : "bg-white"}>
-                  <td className="px-2 sm:px-3 py-1.5 sm:py-2 text-left font-medium text-[12px] sm:text-[13px] md:text-[14px]">{r.modalidade}</td>
-                  <td className="px-2 sm:px-3 py-1.5 sm:py-2 text-right whitespace-nowrap">{money(r.base)}</td>
-                  <td className="px-2 sm:px-3 py-1.5 sm:py-2 text-right font-bold whitespace-nowrap">{money(r.lance)}</td>
-                  <td className="px-2 sm:px-3 py-1.5 sm:py-2 text-right whitespace-nowrap">{pct(r.equivalente)}</td>
-                  <td className="px-2 sm:px-3 py-1.5 sm:py-2 text-right whitespace-nowrap">{money(r.diferenca)}</td>
+                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-left font-medium text-[7px] sm:text-[10px]">{r.modalidade}</td>
+                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right whitespace-nowrap">{money(r.base)}</td>
+                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right font-bold whitespace-nowrap">{money(r.lance)}</td>
+                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right whitespace-nowrap">{pct(r.equivalente)}</td>
+                  <td className="px-1 sm:px-2 py-1 sm:py-1.5 text-right whitespace-nowrap">{money(r.diferenca)}</td>
                 </tr>
               ))}
             </tbody>

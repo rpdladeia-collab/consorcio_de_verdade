@@ -2,12 +2,20 @@ import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
 import { publicProcedure, router } from "./_core/trpc";
-import { panoramaRouter } from "./modules/router/panorama-router";
-import { panoramaAdminRouter } from "./modules/router/panorama-admin-router";
+import { simuladoresRouter } from "./routers/simuladores";
+import { raioxRouter } from "./routers/raiox";
+import { zonaContemplacaoRouter } from "./routers/zonaContemplacao";
+import { estruturaDoPlanoRouter } from "./routers/estruturaDoPlano";
+import { panoramaRouter } from "./modules/panorama-bc/router/panorama-router";
 
 export const appRouter = router({
     // if you need to use socket.io, read and register route in server/_core/index.ts, all api should start with '/api/' so that the gateway can route correctly
   system: systemRouter,
+  simuladores: simuladoresRouter,
+  raiox: raioxRouter,
+  zonaContemplacao: zonaContemplacaoRouter,
+  estruturaDoPlano: estruturaDoPlanoRouter,
+  panorama: panoramaRouter,
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
     logout: publicProcedure.mutation(({ ctx }) => {
@@ -18,8 +26,6 @@ export const appRouter = router({
       } as const;
     }),
   }),
-  panorama: panoramaRouter,
-  panoramaAdmin: panoramaAdminRouter,
 
   // TODO: add feature routers here, e.g.
   // todo: router({

@@ -1,26 +1,63 @@
 <!doctype html>
-<html lang="en">
-
+<html lang="pt-BR">
   <head>
     <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>Panorama BC - Data Lab</title>    
-    <!-- THIS IS THE START OF A COMMENT BLOCK, BLOCK TO BE DELETED: Google Fonts here, example:
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Favicon: ícone oficial (fundo preto, r. branco, quadrado laranja) -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/png" sizes="256x256" href="/favicon.png" />
+    <link rel="apple-touch-icon" sizes="256x256" href="/favicon.png" />
+
+    <!-- PWA / App icons -->
+    <meta name="theme-color" content="#0d0d0d" />
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-RKXSPKS9M8"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-RKXSPKS9M8');
+    </script>
+
+    <!-- SEO Principal -->
+    <title>Consórcio de Verdade | Analise suas propostas</title>
+    <meta name="description" content="Plataforma de simulação e análise de consórcios. Parcela, lance, custo total, correções e contemplação — sem cadastro, sem pressão, sem promessa fácil." />
+    <meta name="keywords" content="consórcio, simulador consórcio, lance consórcio, contemplação, parcela consórcio, análise consórcio, consórcio imóvel, consórcio veículo" />
+    <meta name="author" content="Renato Ladeia — Consórcio de Verdade" />
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="https://www.consorciodeverdade.com.br" />
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Open Graph — WhatsApp, LinkedIn, Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://www.consorciodeverdade.com.br" />
+    <meta property="og:title" content="Consórcio de Verdade | Análise Independente" />
+    <meta property="og:description" content="Simule parcela, lance, custo total, correções e contemplação antes de contratar. Ferramentas gratuitas, dados reais." />
+    <meta property="og:image" content="/icons/icon-192.png" />
+    <meta property="og:image:width" content="192" />
+    <meta property="og:image:height" content="192" />
+    <meta property="og:locale" content="pt_BR" />
+    <meta property="og:site_name" content="Consórcio de Verdade" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content="Consórcio de Verdade | Análise Independente" />
+    <meta name="twitter:description" content="Simule parcela, lance, custo total e contemplação antes de contratar. Ferramentas gratuitas." />
+    <meta name="twitter:image" content="/icons/icon-192.png" />
+
+    <!-- Fontes: Playfair Display (serif editorial) + Inter (sans) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
-    THIS IS THE END OF A COMMENT BLOCK, BLOCK TO BE DELETED -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,800;1,700&family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
   </head>
-
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
-    <script
-      defer
-      src="%VITE_ANALYTICS_ENDPOINT%/umami"
-      data-website-id="%VITE_ANALYTICS_WEBSITE_ID%"></script>
   </body>
-
 </html>

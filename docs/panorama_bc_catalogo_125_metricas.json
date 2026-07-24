@@ -1,0 +1,1002 @@
+[
+  {
+    "metricId": "1",
+    "metricName": "Administradoras de Consórcio Autorizadas e Ativas pelo Unicad",
+    "groupId": "1",
+    "groupName": "Administradoras de Consórcio",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "2",
+    "metricName": "Administradoras de Consórcio\ncom grupos e cotas ativas",
+    "groupId": "1",
+    "groupName": "Administradoras de Consórcio",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "5",
+    "metricName": "Administradoras com cotas ativas de imóveis",
+    "groupId": "1",
+    "groupName": "Administradoras de Consórcio",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "6",
+    "metricName": "Administradoras com cotas ativas de veículos pesados",
+    "groupId": "1",
+    "groupName": "Administradoras de Consórcio",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "7",
+    "metricName": "Administradoras com cotas ativas de automóveis",
+    "groupId": "1",
+    "groupName": "Administradoras de Consórcio",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "8",
+    "metricName": "Administradoras com cotas ativas de motocicletas",
+    "groupId": "1",
+    "groupName": "Administradoras de Consórcio",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "3",
+    "metricName": "Patrimônio Líquido Ajustado - PLA - Total das Administradoras de Consórcios",
+    "groupId": "2",
+    "groupName": "PLA",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "4",
+    "metricName": "Disponibilidade Total - DT - Total das Administradoras de Consórcios",
+    "groupId": "3",
+    "groupName": "DT",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "9",
+    "metricName": "Grupos de Consórcio ativos - Total",
+    "groupId": "4",
+    "groupName": "Grupos ativos",
+    "unit": "unidade",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "10",
+    "metricName": "Cotas ativas - Total",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "11",
+    "metricName": "Cotas ativas - Imóveis",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "12",
+    "metricName": "Cotas ativas - Veículos Pesados",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "13",
+    "metricName": "Cotas ativas - Automóveis",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "14",
+    "metricName": "Cotas ativas - Motocicletas",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "15",
+    "metricName": "Cotas Ativas - Outros bens móveis duráveis (eletroeletrônicos, eletrodomésticos, móveis e outros)",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "16",
+    "metricName": "Cotas ativas - Serviços",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "17",
+    "metricName": "Cotas ativas - Ônibus e Micro-ônibus (cód. 21)",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "18",
+    "metricName": "Cotas Ativas - Caminhões e Caminhões-Tratores  (cód. 22)",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "19",
+    "metricName": "Cotas ativas - Equipamentos Rodoviários e Agrícolas  (cód. 23)",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "20",
+    "metricName": "Cotas ativas - Máquinas Agrícolas  (cód. 24)",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "21",
+    "metricName": "Cotas Ativas - Embarcações e Aeronaves (cód. 25)",
+    "groupId": "5",
+    "groupName": "Cotas ativas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "22",
+    "metricName": "Carteira - Total",
+    "groupId": "6",
+    "groupName": "Carteira",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "23",
+    "metricName": "Carteira - Imóveis",
+    "groupId": "6",
+    "groupName": "Carteira",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "24",
+    "metricName": "Carteira - Automóveis",
+    "groupId": "6",
+    "groupName": "Carteira",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "25",
+    "metricName": "Carteira - Motocicletas",
+    "groupId": "6",
+    "groupName": "Carteira",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "26",
+    "metricName": "Carteira - Veículos Automotores (veículos pesados, veículos comerciais leves e motocicletas) -",
+    "groupId": "6",
+    "groupName": "Carteira",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "27",
+    "metricName": "Carteira - Outros Bens Móveis e Serviços",
+    "groupId": "6",
+    "groupName": "Carteira",
+    "unit": "R$ milhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "28",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - Total",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "29",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Sorteio - Total",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "30",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Lance - Total",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "31",
+    "metricName": "Cotas ativas contempladas nos últimos 12 meses - Imóveis",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "32",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Sorteio - Imóveis",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "33",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Lance - Imóveis",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "34",
+    "metricName": "Cotas ativas contempladas nos últimos 12 meses - Automóveis",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "35",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Sorteio - Automóveis",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "36",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Lance - Automóveis",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "37",
+    "metricName": "Cotas ativas contempladas nos últimos 12 meses - Motocicletas",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mi",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "38",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Sorteio - Motocicletas",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "39",
+    "metricName": "Cotas ativas contempladas no últimos 12 meses - por Lance - Motocicletas",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "40",
+    "metricName": "Cotas ativas contempladas nos últimos 12 meses - Outros Bens Móveis e Serviços",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "41",
+    "metricName": "Cotas ativas contempladas nos últimos 12 meses - por Sorteio - Outros Bens Móveis e Serviços",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "42",
+    "metricName": "Cotas ativas contempladas nos últimos 12 meses - por Lance - Outros Bens Móveis e Serviços",
+    "groupId": "7",
+    "groupName": "Ativos Contemplados",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "43",
+    "metricName": "Cotas excluídas - Total",
+    "groupId": "8",
+    "groupName": "Cotas excluídas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "44",
+    "metricName": "Excluídos Contemplados - Total (Sorteio)",
+    "groupId": "8",
+    "groupName": "Cotas excluídas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "45",
+    "metricName": "Cotas excluídas - Total - Imóveis",
+    "groupId": "8",
+    "groupName": "Cotas excluídas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "46",
+    "metricName": "Cotas excluídas - Total - Automóveis",
+    "groupId": "8",
+    "groupName": "Cotas excluídas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "47",
+    "metricName": "Cotas excluídas - Total - Motocicletas",
+    "groupId": "8",
+    "groupName": "Cotas excluídas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "48",
+    "metricName": "Cotas excluídas - Total - Outros Bens Móveis e Serviços",
+    "groupId": "8",
+    "groupName": "Cotas excluídas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "49",
+    "metricName": "Índice de Exclusão - Total",
+    "groupId": "9",
+    "groupName": "Índice de Exclusão",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "50",
+    "metricName": "Índice de Exclusão - IE - Imóveis",
+    "groupId": "9",
+    "groupName": "Índice de Exclusão",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "51",
+    "metricName": "Índice de Exclusão - IE - Automóveis",
+    "groupId": "9",
+    "groupName": "Índice de Exclusão",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "52",
+    "metricName": "Índice de Exclusão - IE - Motocicletas",
+    "groupId": "9",
+    "groupName": "Índice de Exclusão",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "53",
+    "metricName": "Índice de Exclusão - IE - Outros Bens Móveis e Serviços",
+    "groupId": "9",
+    "groupName": "Índice de Exclusão",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "54",
+    "metricName": "Cotas Comercializadas nos últimos 12 meses - Total",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "55",
+    "metricName": "Cotas comercializadas nos últimos 12 meses - Imóveis",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "56",
+    "metricName": "Cotas comercializadas nos últimos 12 meses - Veículos Pesados",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "57",
+    "metricName": "Cotas comercializadas nos últimos 12 meses - Automóveis",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "58",
+    "metricName": "Cotas comercializadas nos últimos 12 meses - Motocicletas",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "59",
+    "metricName": "Cotas Comercializadas nos últimos 12 meses - Eletroeletrônicos, eletrodomésticos, mobiliário e outros bens móveis duráveis",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "60",
+    "metricName": "Cotas comercializadas nos últimos 12 meses - Serviços",
+    "groupId": "10",
+    "groupName": "Cotas Comercializadas",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "61",
+    "metricName": "Índice de Inadimplência - Total",
+    "groupId": "11",
+    "groupName": "Inadimplência",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "62",
+    "metricName": "Índice de Pré Inadimplência - Total",
+    "groupId": "12",
+    "groupName": "Pré Inadimplência",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "63",
+    "metricName": "Recursos Coletados nos Últimos 12 meses - Total",
+    "groupId": "13",
+    "groupName": "Recursos Coletados",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "64",
+    "metricName": "Recursos Coletados nos últimos 12 meses - Imóveis",
+    "groupId": "13",
+    "groupName": "Recursos Coletados",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "65",
+    "metricName": "Recursos Coletados nos últimos 12 meses - Automóveis",
+    "groupId": "13",
+    "groupName": "Recursos Coletados",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "66",
+    "metricName": "Recursos Coletados nos últimos 12 meses - Motocicletas",
+    "groupId": "13",
+    "groupName": "Recursos Coletados",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "67",
+    "metricName": "Recursos Coletados nos últimos 12 meses - Outros Bens Móveis e Serviços",
+    "groupId": "13",
+    "groupName": "Recursos Coletados",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "68",
+    "metricName": "Recursos a Coletar - Total",
+    "groupId": "14",
+    "groupName": "Recursos a Coletar",
+    "unit": "R$ milhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "69",
+    "metricName": "Recursos a Coletar - Imóveis",
+    "groupId": "14",
+    "groupName": "Recursos a Coletar",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "70",
+    "metricName": "Recursos a Coletar - Automóveis",
+    "groupId": "14",
+    "groupName": "Recursos a Coletar",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "71",
+    "metricName": "Recursos a Coletar - Motocicletas",
+    "groupId": "14",
+    "groupName": "Recursos a Coletar",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "72",
+    "metricName": "Recursos a Coletar - Outros Bens Móveis e Serviços",
+    "groupId": "14",
+    "groupName": "Recursos a Coletar",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "73",
+    "metricName": "RNP - Saldo Total",
+    "groupId": "15",
+    "groupName": "RNP",
+    "unit": "R$ milhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "74",
+    "metricName": "RNP - Valor \"Taxável\" -",
+    "groupId": "15",
+    "groupName": "RNP",
+    "unit": "R$ milhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "75",
+    "metricName": "RNP - Taxa Permanência Mensal Média",
+    "groupId": "15",
+    "groupName": "RNP",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "76",
+    "metricName": "RNP - Valor total de Taxa de Permanência cobrada nos últimos 12 meses",
+    "groupId": "15",
+    "groupName": "RNP",
+    "unit": "R$ milhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "77",
+    "metricName": "RNP - Valores devolvidos via SVR",
+    "groupId": "15",
+    "groupName": "RNP",
+    "unit": "R$ bilhões",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "78",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - TOTAL",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "79",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - Imóveis",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "80",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - Veículos Pesados",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "81",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - Automóveis",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "82",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - Motocicletas",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "83",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - Outros Bens Móveis",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "84",
+    "metricName": "Taxa Média Adm. dos grupos constituídos nos últimos 12 meses - Serviços",
+    "groupId": "16",
+    "groupName": "Taxa de Administração",
+    "unit": "%",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "85",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - TOTAL",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "86",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - Imóveis",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "87",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - Veículos Pesados",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "88",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - Automóveis",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "89",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - Motocicletas",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "90",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - Outros bens móveis duráveis (eletroeletrônicos, eletrodomésticos, móveis e outros)",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "91",
+    "metricName": "Valor Médio dos Créditos dos grupos constituídos nos últimos 12 meses - Serviços",
+    "groupId": "17",
+    "groupName": "Valor Médio",
+    "unit": "R$ mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "92",
+    "metricName": "Prazo médio dos grupos constituídos nos últimos 12 meses - TOTAL",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "93",
+    "metricName": "Prazo médio dos grupos constituídos nos últimos 12 meses - Imóveis",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "94",
+    "metricName": "Prazo médio dos grupos constiotuídos no ano - Veículos Pesados",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "95",
+    "metricName": "Prazo médio dos grupos constituídos nos últimos 12 meses - Automóveis",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "96",
+    "metricName": "Prazo médio dos grupos constituídos nos últimos 12 meses - Motocicletas",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "97",
+    "metricName": "Prazo médio dos grupos constituídos nos últimos 12 meses - Outros bens móveis duráveis (eletroeletrônicos, eletrodomésticos, móveis e outros)",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "98",
+    "metricName": "Prazo médio dos grupos constituídos nos últimos 12 meses - Serviços",
+    "groupId": "18",
+    "groupName": "Prazo Médio",
+    "unit": "meses",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "99",
+    "metricName": "Cotas Ativas por Estado - SP",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "100",
+    "metricName": "Cotas Ativas por Estado - MG",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "101",
+    "metricName": "Cotas Ativas por Estado - PR",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "102",
+    "metricName": "Cotas Ativas por Estado - BA",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "103",
+    "metricName": "Cotas Ativas por Estado - RS",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "104",
+    "metricName": "Cotas Ativas por Estado - SC",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "105",
+    "metricName": "Cotas Ativas por Estado - GO",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "106",
+    "metricName": "Cotas Ativas por Estado - RJ",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "107",
+    "metricName": "Cotas Ativas por Estado - PA",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "108",
+    "metricName": "Cotas Ativas por Estado - MT",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "109",
+    "metricName": "Cotas Ativas por Estado - MA",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "110",
+    "metricName": "Cotas Ativas por Estado - PE",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "111",
+    "metricName": "Cotas Ativas por Estado - CE",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "112",
+    "metricName": "Cotas Ativas por Estado - ES",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "113",
+    "metricName": "Cotas Ativas por Estado - MS",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "114",
+    "metricName": "Cotas Ativas por Estado - PI",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "115",
+    "metricName": "Cotas Ativas por Estado - PB",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "116",
+    "metricName": "Cotas Ativas por Estado - DF",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "117",
+    "metricName": "Cotas Ativas por Estado - AL",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "118",
+    "metricName": "Cotas Ativas por Estado - RO",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "119",
+    "metricName": "Cotas Ativas por Estado - TO",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "120",
+    "metricName": "Cotas Ativas por Estado - RN",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "121",
+    "metricName": "Cotas Ativas por Estado - SE",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "122",
+    "metricName": "Cotas Ativas por Estado - AM",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "123",
+    "metricName": "Cotas Ativas por Estado - AC",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "124",
+    "metricName": "Cotas Ativas por Estado - AP",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  },
+  {
+    "metricId": "125",
+    "metricName": "Cotas Ativas por Estado - RR",
+    "groupId": "19",
+    "groupName": "Cotas Ativas por Estado",
+    "unit": "mil",
+    "publicationStatus": "pendente"
+  }
+]

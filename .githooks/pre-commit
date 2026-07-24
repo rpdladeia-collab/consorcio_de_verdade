@@ -1,0 +1,5 @@
+#!/bin/sh
+set -eu
+
+printf '%s\n' 'Executando proteção obrigatória de mídias antes do commit...'
+node scripts/media-guard.mjs --verify-manifest

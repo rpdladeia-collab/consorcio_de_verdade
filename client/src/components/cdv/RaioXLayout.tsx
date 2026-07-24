@@ -7,9 +7,9 @@ import WaitingAnalysisScreen from "@/components/cdv/WaitingAnalysisScreen";
 interface RaioXLayoutProps {
   moduleNumber: number;
   title: string;
+  heroBadge?: React.ReactNode;
   description: string | React.ReactNode;
   descriptionSupport?: string;
-  heroBadge?: React.ReactNode;
   formPanel: React.ReactNode;
   resultsPanel: React.ReactNode;
   hasResult: boolean;
@@ -18,9 +18,9 @@ interface RaioXLayoutProps {
 
 export default function RaioXLayout({
   title,
+  heroBadge,
   description,
   descriptionSupport,
-  heroBadge,
   formPanel,
   resultsPanel,
   hasResult,

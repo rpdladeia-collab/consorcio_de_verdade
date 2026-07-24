@@ -9,7 +9,7 @@ function HeroSection() {
         <div className="flex flex-col md:flex-row gap-8 items-start">
           {/* Coluna de texto */}
           <div className="flex-1">
-            <span className="inline-block text-[14px] md:text-[15px] font-semibold tracking-widest uppercase text-[var(--orange)] border border-[var(--orange)] rounded-full px-3 py-1 mb-4">
+            <span className="inline-block text-[14px] md:text-[15px] font-semibold tracking-widest uppercase text-[var(--orange)] border border-[var(--orange)] rounded-full px-3 py-1 mb-2">
               Consórcio não é para todo mundo
             </span>
             <h1 className="font-serif text-3xl md:text-4xl font-bold text-[var(--ink)] leading-tight mb-3">
@@ -19,7 +19,7 @@ function HeroSection() {
             <p className="text-[14px] md:text-[15px] text-gray-800 leading-relaxed mb-2.5 max-w-xl">
               <strong>Os simuladores mostram os números. A análise individual responde uma pergunta ainda mais importante: o consórcio é realmente a melhor estratégia para o seu caso?</strong>
             </p>
-            <p className="text-[14px] md:text-[15px] text-gray-800 leading-relaxed mb-4 max-w-xl">
+            <p className="text-[14px] md:text-[15px] text-gray-800 leading-relaxed mb-2 max-w-xl">
               Aqui você simula custos, lance, contemplação, correções e capacidade real de pagamento — antes de assinar o contrato.
             </p>
             <div className="flex flex-wrap gap-2.5 mb-3">
@@ -39,7 +39,7 @@ function HeroSection() {
               </a>
             </div>
             <p className="text-[14px] md:text-[15px] text-gray-700 font-medium">
-              Dados claros. Decisão com mais consciência.
+              Simulações gratuitas. Dados claros. Decisão com mais consciência.
             </p>
           </div>
 
@@ -62,7 +62,7 @@ function ConscienciaSection() {
           Consórcio não é golpe. Mas também não é mágica.
         </h2>
 
-        <div className="flex flex-col md:flex-row gap-6 mb-4">
+        <div className="flex flex-col md:flex-row gap-6 mb-2">
           <div className="flex-1">
             <p className="text-[14px] md:text-[15px] leading-relaxed text-white/90 max-w-2xl">
               Antes de contratar: existem quatro pontos que mudam completamente a decisão.
@@ -150,12 +150,12 @@ function RaioXSection() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           {cards.map((c) => (
             <Link key={c.name} href={c.href}>
-              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-5 hover:border-[var(--orange)] hover:shadow-md hover:scale-105 transition-all cursor-pointer h-full flex flex-col min-h-[140px] md:min-h-[180px]">
-                <p className="text-[14px] md:text-[15px] font-bold text-[var(--ink)] mb-1.5 leading-tight uppercase">{c.name}</p>
-                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-1.5">
+              <div className="group bg-white border border-[var(--ink)]/10 rounded-lg p-5 hover:border-[var(--orange)] hover:shadow-md hover:scale-105 transition-all cursor-pointer h-full flex flex-col min-h-[180px]">
+                <p className="text-[14px] md:text-[15px] font-bold text-[var(--ink)] mb-2 leading-tight uppercase">{c.name}</p>
+                <p className="text-[10px] text-[var(--orange)] font-bold uppercase tracking-tighter mb-2">
                   {c.call}
                 </p>
-                <p className="text-[13px] md:text-[14px] text-gray-700 leading-snug font-normal md:mt-auto">{c.text}</p>
+                <p className="text-[13px] md:text-[14px] text-gray-700 leading-snug font-normal mt-auto">{c.text}</p>
               </div>
             </Link>
           ))}
@@ -199,13 +199,13 @@ function ZonaSection() {
   return (
     <section className="bg-[var(--ink)] py-8 md:py-10">
       <div className="max-w-5xl mx-auto px-4">
-        <p className="text-[10px] tracking-widest uppercase mb-2 font-semibold" style={{ color: "color-mix(in oklch, var(--orange) 70%, white)" }}>
+        <p className="text-[10px] tracking-widest uppercase text-[var(--orange)] mb-2 font-semibold">
           Zona de Contemplação
         </p>
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-1.5 leading-tight">
           Lance não é palpite. É disputa.
         </h2>
-        <p className="text-[14px] md:text-[15px] text-white/60 mb-4 max-w-2xl">
+        <p className="text-[14px] md:text-[15px] text-white/60 mb-2 max-w-2xl">
           Antes de ofertar um lance, veja como esse grupo realmente se comporta. A Zona de Contemplação transforma histórico em contexto para você decidir melhor.
         </p>
 
@@ -273,11 +273,13 @@ function PanoramaSection() {
         <h2 className="font-serif text-2xl md:text-3xl font-bold text-[var(--ink)] mb-1.5 leading-tight">
           Não é opinião. São os dados oficiais.
         </h2>
-        <p className="text-[14px] md:text-[15px] text-[var(--ink)]/60 mb-4 max-w-2xl">
+        <p className="text-[14px] md:text-[15px] text-[var(--ink)]/60 mb-1.5 max-w-2xl">
+          </p>
+        <p className="text-[14px] md:text-[15px] text-[var(--ink)]/60 mb-2 max-w-2xl">
           Os dados ajudam a entender a complexidade real do sistema de consórcios.
         </p>
 
-        <div className="flex flex-col md:flex-row gap-6 mb-4">
+        <div className="flex flex-col md:flex-row gap-6 mb-2">
           {/* Cards */}
           <div className="flex-1 grid grid-cols-1 sm:grid-cols-2 gap-2.5">
             {cards.map((c) => (

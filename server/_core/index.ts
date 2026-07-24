@@ -8,8 +8,6 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
-import { handleBCAdminImport } from "../modules/bc-admin/scheduled-handler";
-import { setupDailyImportHeartbeat } from "../modules/bc-admin/heartbeat-setup";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -38,10 +36,6 @@ async function startServer() {
   app.use(express.urlencoded({ limit: "50mb", extended: true }));
   registerStorageProxy(app);
   registerOAuthRoutes(app);
-  
-  // FASE 1: Scheduled handler para importação mensal do BC
-  app.post("/api/scheduled/bc-admin-import", handleBCAdminImport);
-  
   // tRPC API
   app.use(
     "/api/trpc",
@@ -58,18 +52,15 @@ async function startServer() {
   }
 
   const preferredPort = parseInt(process.env.PORT || "3000");
-  const port = await findAvailablePort(preferredPort);
-
-  if (port !== preferredPort) {
+  // In production (Railway/cloud), use PORT directly without scanning
+  const port = process.env.NODE_ENV === "production"
+    ? preferredPort
+    : await findAvailablePort(preferredPort);
+  if (process.env.NODE_ENV !== "production" && port !== preferredPort) {
     console.log(`Port ${preferredPort} is busy, using port ${port} instead`);
   }
-
-  server.listen(port, () => {
-    console.log(`Server running on http://localhost:${port}/`);
-    // FASE 6: Registrar job diário de atualização do motor de ingestão
-    setupDailyImportHeartbeat().catch((err) => {
-      console.error("[HEARTBEAT-SETUP] Failed to register daily import job:", err);
-    });
+  server.listen(port, "0.0.0.0", () => {
+    console.log(`Server running on http://0.0.0.0:${port}/`);
   });
 }
 

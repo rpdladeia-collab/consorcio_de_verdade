@@ -28,6 +28,13 @@ import {
 } from "@/lib/panoramaData";
 import { LOGO } from "@/lib/brand";
 import { gerarPdfPanorama } from "@/lib/pdfPanorama";
+import {
+  PANORAMA_EDITORIAL_CHAPTER_ONE_KPIS,
+  PANORAMA_EDITORIAL_COVERAGE_LABEL,
+  PANORAMA_EDITORIAL_HERO_STATS,
+  PANORAMA_EDITORIAL_SEGMENT_SALES_2025,
+  PANORAMA_EDITORIAL_TOTAL_SALES_2025,
+} from "./panoramaEditorialStats";
 
 // ─── Paleta alinhada ao design system ────────────────────────────────────────
 const C = {
@@ -207,11 +214,20 @@ function SecaoVendas({ onPdf }: { onPdf: () => void }) {
   const SEGS = ["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"];
   const [seg, setSeg] = useState(SEGS[0]);
 
-  const totalData = annualData.map((d) => ({ ano: String(d.ano), vendidas: d.vendidas }));
-  const segData = annualData.map((d) => {
-    const r = segmentData.find((s) => s.ano === d.ano && s.segmento === seg);
-    return { ano: String(d.ano), vendidas: r?.vendidas ?? 0 };
-  });
+  const totalData = [
+    ...annualData.map((d) => ({ ano: String(d.ano), vendidas: d.vendidas })),
+    PANORAMA_EDITORIAL_TOTAL_SALES_2025,
+  ];
+  const segData = [
+    ...annualData.map((d) => {
+      const r = segmentData.find((s) => s.ano === d.ano && s.segmento === seg);
+      return { ano: String(d.ano), vendidas: r?.vendidas ?? 0 };
+    }),
+    {
+      ano: PANORAMA_EDITORIAL_TOTAL_SALES_2025.ano,
+      vendidas: PANORAMA_EDITORIAL_SEGMENT_SALES_2025[seg] ?? 0,
+    },
+  ];
 
   return (
     <div id="vendas" className="scroll-mt-28">
@@ -222,16 +238,21 @@ function SecaoVendas({ onPdf }: { onPdf: () => void }) {
         <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
       </div>
       <Verdict tag="Leitura direta">
-        Em 2024, foram comercializadas <strong>4,53 milhões de cotas</strong> — o maior volume da série histórica.
-        O estoque ativo chegou a <strong>11,35 milhões</strong>. O crescimento é real, mas o índice de exclusão permanece acima de 48% há quase uma década.
+        Em 2025, foram comercializadas <strong>5,3 milhões de cotas</strong> — o maior volume da série histórica.
+        O estoque ativo chegou a <strong>12,8 milhões</strong>. O crescimento é real, mas o índice de exclusão permanece acima de 48% há quase uma década.
       </Verdict>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <KpiCard num="4,53 mi" label="Cotas vendidas em 2024" accent />
-        <KpiCard num="11,35 mi" label="Cotas ativas em dez/2024" />
-        <KpiCard num="+98%" label="Crescimento 2016→2024" note="de 2,28 mi para 4,53 mi" />
-        <KpiCard num="9 anos" label="de crescimento ininterrupto" />
+        {PANORAMA_EDITORIAL_CHAPTER_ONE_KPIS.map((kpi) => (
+          <KpiCard
+            key={kpi.label}
+            num={kpi.num}
+            label={kpi.label}
+            note={"note" in kpi ? kpi.note : undefined}
+            accent={"accent" in kpi ? kpi.accent : false}
+          />
+        ))}
       </div>
-      <ChartBox title="Cotas comercializadas — total" subtitle="Milhões de cotas vendidas por ano (2016–2024)">
+      <ChartBox title="Cotas comercializadas — total" subtitle="Milhões de cotas vendidas por ano (2016–2025)">
         <ScrollChart>
           <ResponsiveContainer width="100%" height={300}>
             <RBarChart data={totalData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
@@ -271,35 +292,48 @@ function SecaoExclusao({ onPdf }: { onPdf: () => void }) {
   const SEGS = ["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"];
   const [seg, setSeg] = useState(SEGS[0]);
 
-  const ieGeral = annualData.map((d) => ({
-    ano: String(d.ano),
-    ie: parseFloat((d.ie * 100).toFixed(1)),
-    excluidas: d.excluidas,
-  }));
-  const ieSeg = annualData.map((d) => {
-    const r = segmentData.find((s) => s.ano === d.ano && s.segmento === seg);
-    return { ano: String(d.ano), ie: r ? parseFloat((r.ie * 100).toFixed(1)) : 0, excluidas: r?.excluidas ?? 0 };
-  });
+  const exclusao2025PorSegmento: Record<string, { ie: number; excluidas: number }> = {
+    "Imóveis": { ie: 54.5, excluidas: 3.4 },
+    "Automóveis": { ie: 46.24, excluidas: 4.6 },
+    "Motocicletas": { ie: 48.22, excluidas: 3.0 },
+    "Outros bens e serviços": { ie: 41.89, excluidas: 1.0 },
+  };
+  const segmento2025 = exclusao2025PorSegmento[seg] ?? { ie: 0, excluidas: 0 };
+  const ieGeral = [
+    ...annualData.map((d) => ({
+      ano: String(d.ano),
+      ie: parseFloat((d.ie * 100).toFixed(1)),
+      excluidas: d.excluidas,
+    })),
+    { ano: "2025", ie: 48.4, excluidas: 12.01 },
+  ];
+  const ieSeg = [
+    ...annualData.map((d) => {
+      const r = segmentData.find((s) => s.ano === d.ano && s.segmento === seg);
+      return { ano: String(d.ano), ie: r ? parseFloat((r.ie * 100).toFixed(1)) : 0, excluidas: r?.excluidas ?? 0 };
+    }),
+    { ano: "2025", ie: segmento2025.ie, excluidas: segmento2025.excluidas },
+  ];
 
   return (
     <div id="exclusao" className="scroll-mt-28">
       <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
         <SectionHead kicker="02 — Exclusões e permanência"
           title="Quase metade não chega ao fim."
-          desc="O índice de exclusão mede a proporção de cotas excluídas em relação às ativas. Acima de 40% é alto. O consórcio brasileiro opera nessa faixa há quase uma década." />
+          desc="O índice de exclusão mede a proporção de cotas excluídas em relação às ativas." />
         <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
       </div>
       <Verdict tag="Leitura direta">
-        Em 2024, o índice de exclusão geral foi de <strong>48,6%</strong>. Isso significa que, para cada 100 cotas ativas,
-        quase 49 foram canceladas naquele ano. O dado não é novo: a série histórica mostra que esse patamar se mantém desde 2016.
+Em 2025, o índice de exclusão geral foi de <strong>48,4%</strong>. Isso significa que, para cada 100 cotas ativas,
+		        quase 48 foram canceladas naquele ano. O dado não é novo: a série histórica mostra que esse patamar se mantém desde 2016.
       </Verdict>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <KpiCard num="48,6%" label="Índice de exclusão geral 2024" accent />
-        <KpiCard num="10,75 mi" label="Cotas excluídas em 2024" />
+        <KpiCard num="48,4%" label="Índice de exclusão geral 2025" accent />
+        <KpiCard num="12,01 mi" label="Cotas excluídas em 2025" />
         <KpiCard num="50,7%" label="Pico histórico (2017)" note="Imóveis chegaram a 62,4%" />
         <KpiCard num="9 anos" label="acima de 48% consecutivos" />
       </div>
-      <ChartBox title="Índice de exclusão — geral" subtitle="% de cotas excluídas sobre ativas (2016–2024)">
+      <ChartBox title="Índice de exclusão — geral" subtitle="% de cotas excluídas sobre ativas (2016–2025)">
         <ScrollChart>
           <ResponsiveContainer width="100%" height={300}>
             <ComposedChart data={ieGeral} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
@@ -338,16 +372,16 @@ function SecaoExclusao({ onPdf }: { onPdf: () => void }) {
       </ChartBox>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2">
         {(["Imóveis", "Automóveis", "Motocicletas", "Outros bens e serviços"]).map((s) => {
-          const last = segmentData.filter((d) => d.segmento === s).at(-1);
-          return last ? (
+          const atual = exclusao2025PorSegmento[s] ?? { ie: 0, excluidas: 0 };
+          return (
             <div key={s} className="bg-white border border-[#e5e0d8] rounded-xl p-4 shadow-sm">
               <span className="inline-block w-3 h-3 rounded-full mr-2" style={{ background: SEG_COLORS[s] }} />
               <span className="font-bold text-[#15140f]">{s}</span>
               <div className="mt-2 text-[14px] md:text-[15px] text-[#9e9890]">
-                IE 2024: <strong className="text-[#15140f]">{pct(last.ie)}</strong> · {mi(last.excluidas)} excluídas
+                IE 2025: <strong className="text-[#15140f]">{String(atual.ie).replace(".", ",")}%</strong> · {atual.excluidas.toFixed(1).replace(".", ",")} mi excluídas
               </div>
             </div>
-          ) : null;
+          );
         })}
       </div>
     </div>
@@ -440,31 +474,34 @@ function SecaoReclamacoes({ onPdf }: { onPdf: () => void }) {
 
 // ─── Seção 4: Contemplações (lance e sorteio) ─────────────────────────────────
 function SecaoSorte({ onPdf }: { onPdf: () => void }) {
-  const lanceData = annualData.map((d) => ({
-    ano: String(d.ano),
-    lance: parseFloat((d.lance * 100).toFixed(1)),
-    sorteio: parseFloat(((1 - d.lance) * 100).toFixed(1)),
-  }));
+  const lanceData = [
+    ...annualData.map((d) => ({
+      ano: String(d.ano),
+      lance: parseFloat((d.lance * 100).toFixed(1)),
+      sorteio: parseFloat(((1 - d.lance) * 100).toFixed(1)),
+    })),
+    { ano: "2025", lance: 77.8, sorteio: 22.2 },
+  ];
 
   return (
     <div id="sorte" className="scroll-mt-28">
       <div className="flex items-start justify-between gap-4 mb-6 flex-wrap">
         <SectionHead kicker="04 — Contemplações: lance e sorteio"
           title="Quem contempla por sorteio é minoria. Quem paga lance, maioria."
-          desc="A contemplação por lance cresceu de forma consistente. Em 2024, mais de 78% das contemplações ocorreram por lance — não por sorteio." />
+          desc="Atenção: esta análise é baseada em todo o mercado de consórcio. A realidade de grande parte dos grupos não chega a 10% de contemplações por sorteio." />
         <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
       </div>
       <Verdict tag="O dado que o mercado não destaca">
-        Em 2024, <strong>78,3%</strong> das contemplações foram por lance. Apenas <strong>21,7%</strong> ocorreram por sorteio.
+        Em 2025, <strong>77,8%</strong> das contemplações foram por lance. Apenas <strong>22,2%</strong> ocorreram por sorteio.
         Quem planeja contar com a sorte para contemplar está apostando contra a probabilidade histórica.
       </Verdict>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-        <KpiCard num="78,3%" label="Contemplações por lance em 2024" accent />
-        <KpiCard num="21,7%" label="Contemplações por sorteio em 2024" />
+        <KpiCard num="77,8%" label="Contemplações por lance em 2025" accent />
+        <KpiCard num="22,2%" label="Contemplações por sorteio em 2025" />
         <KpiCard num="69,8%" label="Lance em 2016 (era menor)" note="Cresceu 8,5 p.p. em 9 anos" />
-        <KpiCard num="1,68 mi" label="Contemplações totais em 2024" />
+        <KpiCard num="1,88 mi" label="Contemplações totais em 2025" />
       </div>
-      <ChartBox title="Contemplações: lance vs. sorteio" subtitle="% de contemplações por modalidade (2016–2024)">
+      <ChartBox title="Contemplações: lance vs. sorteio" subtitle="% de contemplações por modalidade (2016–2025)">
         <ScrollChart>
           <ResponsiveContainer width="100%" height={300}>
             <RBarChart data={lanceData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
@@ -487,13 +524,16 @@ function SecaoSorte({ onPdf }: { onPdf: () => void }) {
 
 // ─── Seção 5: Macroeconomia ───────────────────────────────────────────────────
 function SecaoMacro({ onPdf }: { onPdf: () => void }) {
-  const macroChartData = macroData.map((d) => ({
-    ano: String(d.ano),
-    selic: parseFloat((d.selic * 100).toFixed(2)),
-    fin: parseFloat((d.financiamento_imob * 100).toFixed(2)),
-    vendidas: d.vendidas,
-    evento: d.evento,
-  }));
+  const macroChartData = [
+    ...macroData.map((d) => ({
+      ano: String(d.ano),
+      selic: parseFloat((d.selic * 100).toFixed(2)),
+      fin: parseFloat((d.financiamento_imob * 100).toFixed(2)),
+      vendidas: d.vendidas,
+      evento: d.evento,
+    })),
+    { ano: "2025", selic: 15, fin: 12, vendidas: 5.3, evento: "Selic alta / consórcio recorde" },
+  ];
 
   return (
     <div id="macro" className="scroll-mt-28">
@@ -503,7 +543,7 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
           desc="O comportamento do consórcio também pode ser observado em diferentes ciclos da economia. Esta leitura ajuda a comparar o desempenho do mercado em períodos de juros, inflação, crédito e atividade econômica distintos, sempre a partir dos dados utilizados na base." />
         <PdfButton label="Gerar PDF deste bloco" onClick={onPdf} />
       </div>
-      <ChartBox title="Juros, vendas e exclusão lado a lado" subtitle="Selic e financiamento imobiliário vs. crescimento do consórcio (2016–2024)">
+      <ChartBox title="Juros, vendas e exclusão lado a lado" subtitle="Selic e financiamento imobiliário vs. crescimento do consórcio (2016–2025)">
         <ScrollChart>
           <ResponsiveContainer width="100%" height={320}>
             <ComposedChart data={macroChartData} margin={{ top: 24, right: 30, left: 0, bottom: 0 }}>
@@ -688,9 +728,9 @@ export default function Panorama() {
         <div className="max-w-5xl mx-auto">
           <div className="mb-3 flex items-center justify-between">
             <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
-              Panorama: Dados Oficiais BCB 2016–2024
+              Panorama: Dados Oficiais BCB {PANORAMA_EDITORIAL_COVERAGE_LABEL}
             </span>
-            <span className="text-[11px] font-bold uppercase tracking-wider text-yellow-400">
+            <span className="text-xs font-bold uppercase tracking-wider text-yellow-400">
               Dados 2025
             </span>
           </div>
@@ -704,12 +744,7 @@ export default function Panorama() {
             consórcios brasileiro.
           </p>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-px bg-white/5 border border-white/5 overflow-hidden">
-            {[
-              { num: "4,53 mi", label: "cotas comercializadas em 2024" },
-              { num: "11,4 mi", label: "cotas ativas em dez/2024" },
-              { num: "48,6%",   label: "índice de exclusão geral em 2024" },
-              { num: "78,3%",   label: "contemplações por lance em 2024" },
-            ].map((c) => (
+            {PANORAMA_EDITORIAL_HERO_STATS.map((c) => (
               <div key={c.label} className="bg-[#1c1b15]/50 px-4 py-3">
                 <b className="block font-mono text-xl font-bold tracking-tight text-white">{c.num}</b>
                 <span className="block text-white/45 text-[10px] font-medium mt-0.5 leading-snug">{c.label}</span>

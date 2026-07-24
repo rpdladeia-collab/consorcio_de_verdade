@@ -1,0 +1,2340 @@
+{
+  "schemaVersion": 1,
+  "policy": "Toda mídia deve existir, conter dados válidos, estar versionada pelo Git e usar caminhos permanentes.",
+  "summary": {
+    "totalMediaFiles": 123,
+    "publicMediaFiles": 121,
+    "sourceMediaFiles": 2,
+    "referencedMediaFiles": 112,
+    "unreferencedMediaFiles": 11,
+    "totalBytes": 158627409
+  },
+  "files": [
+    {
+      "path": "client/public/assets/alerta/na-duvida-nao-faca.png",
+      "publicPath": "/assets/alerta/na-duvida-nao-faca.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1145322,
+      "sha256": "421efebd88d8316b162526c19635c16bc1c5a4223fe25219fbef34dae759fce7",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 26,
+          "kind": "public",
+          "reference": "/assets/alerta/na-duvida-nao-faca.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/apple-touch-icon.png",
+      "publicPath": "/assets/apple-touch-icon.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 4363,
+      "sha256": "02a38f26b338e658819c310136d2fad37bd615caad46aff0c0d5eee469b5dea0",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/avatar-shadcn.png",
+      "publicPath": "/assets/avatar-shadcn.png",
+      "extension": ".png",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": false,
+      "bytes": 31007,
+      "sha256": "513d06f542692036ff0bb17938f04b3efd60567ba2cae08049469d21f18e0524",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/ComponentShowcase.tsx",
+          "line": 699,
+          "kind": "public",
+          "reference": "/assets/avatar-shadcn.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/bg-caixa-preta.jpg",
+      "publicPath": "/assets/bg-caixa-preta.jpg",
+      "extension": ".jpg",
+      "detectedFormat": "png",
+      "extensionMatchesContent": false,
+      "bytes": 3874964,
+      "sha256": "de909c6dcb549521a261916a0a592e62f415bfd0e4a1ceeeaafdd0ec5e3164eb",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 400,
+          "kind": "public",
+          "reference": "/assets/bg-caixa-preta.jpg"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-01.png",
+      "publicPath": "/assets/carrossel-correcao/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1165883,
+      "sha256": "2ca1b65a0c1d5fa7fcbac608e055262dacd24fe86c36597ed26fc2a576942367",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 188,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-02.png",
+      "publicPath": "/assets/carrossel-correcao/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1945837,
+      "sha256": "9350b76f81f7536eb1908c65da1d758590f94269fa40367ae26cc5b3f437ebbb",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 189,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-03.png",
+      "publicPath": "/assets/carrossel-correcao/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1749766,
+      "sha256": "2f2928674bd672dbfd0e5fdd7cc86e80b57c53a465c4dd7501cfcb1e8726804a",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 190,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-04.png",
+      "publicPath": "/assets/carrossel-correcao/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1891867,
+      "sha256": "a77688acf3b71c57d1f2dbc12ebb4a6b184e1792b88da39459c92418c45c8024",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 191,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-05.png",
+      "publicPath": "/assets/carrossel-correcao/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1936861,
+      "sha256": "c0b81502bfaf30ee9dc102dcaa4dfd68e0efae8db9f0984e9030cb996a6a145c",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 192,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-06.png",
+      "publicPath": "/assets/carrossel-correcao/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1828639,
+      "sha256": "30b579d5b612c933b5dbf4d8a14a2be115ab13589bad7de08b3a7674789fb0ad",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 193,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-07.png",
+      "publicPath": "/assets/carrossel-correcao/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1972814,
+      "sha256": "66d9b14854e39d1d0cd2f303e1b879fe4338478430e85015dd186b39622d564e",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 194,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-08.png",
+      "publicPath": "/assets/carrossel-correcao/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1995406,
+      "sha256": "405c5ba140d0afb9f2c915c01d4e528a6d7c1b5f417fac9182b086a74bb5094b",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 195,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-correcao/slide-09.png",
+      "publicPath": "/assets/carrossel-correcao/slide-09.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 760366,
+      "sha256": "21f83fb53d38089223764ee8ff959cc55fc9629548c2199da33471ac995f918f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 196,
+          "kind": "public",
+          "reference": "/assets/carrossel-correcao/slide-09.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-01.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 2126010,
+      "sha256": "398d4f046fc795f0f4d035a19908b704b0dd117f95cbae31bd2c0f245b7e24ce",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 78,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-02.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1338896,
+      "sha256": "99f1d55e3f5e86e93337a934d5986ec6d57da27a1ed6be87f1a3def1f9e81e62",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 79,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-03.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1752402,
+      "sha256": "30685298785e8b86f108aa37f2a855bf2c41555f594a65f9f5b3cc6de3bfce9a",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 80,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-04.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1437349,
+      "sha256": "32218319942a90420b13174cbe6811d99e9f9d7f40da01064e7ae0094379005a",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 81,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-05.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 964787,
+      "sha256": "95d36e38b3465a54618d313045b53b669f005753bb9e71193c644fefc8e8aedf",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 82,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-06.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1000119,
+      "sha256": "ad96cbc0b74b94d0f138a543e9e09172030d452efff7fb5a6fe9250fe9e74886",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 83,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-07.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1314168,
+      "sha256": "402298bc77799e1cbd1f87ea754c2c5b83091865986d563f42a20c193b47a65e",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 84,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-08.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1093921,
+      "sha256": "599fdb47c4241b8e8ff0d052757b46598de3299923619c7980e5546fed412801",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 85,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-custo-oportunidade/slide-09.png",
+      "publicPath": "/assets/carrossel-custo-oportunidade/slide-09.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1145322,
+      "sha256": "421efebd88d8316b162526c19635c16bc1c5a4223fe25219fbef34dae759fce7",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 86,
+          "kind": "public",
+          "reference": "/assets/carrossel-custo-oportunidade/slide-09.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-01.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1012852,
+      "sha256": "8f5fc66c791d66b501e3de7f9d48f3b97c305cd0e3eda4482794d899cfca27b3",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 144,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-02.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1380211,
+      "sha256": "1743c71551e0d0b9db95a6d6a0c014992ec1447082d685ba37f6a24da16c54d1",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 145,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-03.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1559574,
+      "sha256": "0dd8f3d5700ecbe7be0660c7692a3bee76813f54a9325072ce16e917462a5613",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 146,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-04.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1454715,
+      "sha256": "b5f06a53d81ef00924aff186d68fb01e0891f756f1626856462b652a7a993845",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 147,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-05.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1661644,
+      "sha256": "7522a58a00d451645183fcec126a51de6f28b254f9502ce22eafa9812bebae3f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 148,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-06.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1804985,
+      "sha256": "acd3b798352ed6a238596539feb703a04471841f17ccbfb5b65a4cc6e427286d",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 149,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-07.png",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1712549,
+      "sha256": "eb37c4090308eeeb65aed9e55c4b40676731ad8d61454c7e2e4ff0ac40364f78",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 150,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-eficiencia-lance/slide-08.jpg",
+      "publicPath": "/assets/carrossel-eficiencia-lance/slide-08.jpg",
+      "extension": ".jpg",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": true,
+      "bytes": 107252,
+      "sha256": "e9dd5ceb1362f3cfa51cf442518b4ca7803db9d176c7b36de75362a486d2f799",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 151,
+          "kind": "public",
+          "reference": "/assets/carrossel-eficiencia-lance/slide-08.jpg"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-essencia/slide-01.jpg",
+      "publicPath": "/assets/carrossel-essencia/slide-01.jpg",
+      "extension": ".jpg",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": true,
+      "bytes": 107252,
+      "sha256": "e9dd5ceb1362f3cfa51cf442518b4ca7803db9d176c7b36de75362a486d2f799",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 205,
+          "kind": "public",
+          "reference": "/assets/carrossel-essencia/slide-01.jpg"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-essencia/slide-02.png",
+      "publicPath": "/assets/carrossel-essencia/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 2116625,
+      "sha256": "ee7b99b7751384866fa02373516c874ca819472017caee7347b31d7de65f6cfb",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 206,
+          "kind": "public",
+          "reference": "/assets/carrossel-essencia/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-essencia/slide-03.png",
+      "publicPath": "/assets/carrossel-essencia/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 485496,
+      "sha256": "52082c7ba7c8ca54efbc5921472d0b7a14d2ff74d5619c0a67c9fb09b8341f1b",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 207,
+          "kind": "public",
+          "reference": "/assets/carrossel-essencia/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-essencia/slide-04.png",
+      "publicPath": "/assets/carrossel-essencia/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 465284,
+      "sha256": "12291e915e1c3cabb00c6e433c2789e25c4032fe4faa6dd3040d6679240cd775",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 208,
+          "kind": "public",
+          "reference": "/assets/carrossel-essencia/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-essencia/slide-05.png",
+      "publicPath": "/assets/carrossel-essencia/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 426295,
+      "sha256": "868808d685c9ffb33438eab11c9599b3d94d8aa57849545bba171a0ecb11bf66",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 209,
+          "kind": "public",
+          "reference": "/assets/carrossel-essencia/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-essencia/slide-06.png",
+      "publicPath": "/assets/carrossel-essencia/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 832156,
+      "sha256": "3bb87fddfcec1c7969f7a864ed2884f315c28cae09e872367f008f99d795ba83",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 210,
+          "kind": "public",
+          "reference": "/assets/carrossel-essencia/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-estatisticas/slide-01.png",
+      "publicPath": "/assets/carrossel-estatisticas/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 887196,
+      "sha256": "00edc4b818ad6f064429d69784b76c662b9a711122a4de009891fe7795d8c97c",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 67,
+          "kind": "public",
+          "reference": "/assets/carrossel-estatisticas/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-estatisticas/slide-02.png",
+      "publicPath": "/assets/carrossel-estatisticas/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1258162,
+      "sha256": "ed9542275e65640d35a3518628550f7d8edc890a46376ab3d5e0d193fd2c28a9",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 68,
+          "kind": "public",
+          "reference": "/assets/carrossel-estatisticas/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-estatisticas/slide-03.jpg",
+      "publicPath": "/assets/carrossel-estatisticas/slide-03.jpg",
+      "extension": ".jpg",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": true,
+      "bytes": 107252,
+      "sha256": "e9dd5ceb1362f3cfa51cf442518b4ca7803db9d176c7b36de75362a486d2f799",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 69,
+          "kind": "public",
+          "reference": "/assets/carrossel-estatisticas/slide-03.jpg"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-01.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1359922,
+      "sha256": "a95142d55256456f48303323299e64fa63d54c7ef617e9c1fee3f196c106d7ec",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 95,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-02.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1683652,
+      "sha256": "efd0db096fcad1e96d74f991938f6f472642efbee9df70a422e2945a995039cd",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 96,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-03.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1547372,
+      "sha256": "f589455e43a69c764dbaa0d860f602112cdcb3fd10d485f66c340af1d390215f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 97,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-04.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1427831,
+      "sha256": "78540afa9c09b352feb3f3c7833fb76fa9a633462f64a10314bb6a9ccc5e42dd",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 98,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-05.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1812143,
+      "sha256": "342805fe44a1c34740d275f023e9187cf898fe052c291a0e3fdb6d393da17198",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 99,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-06.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1445966,
+      "sha256": "fdb91c029941676b6d242dc3d592965d072e6b2a572150d086b3330109bc1419",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 100,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-07.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1423958,
+      "sha256": "5c0194e0106779fe500f2e87fa615414bae557c7cd0d96e8b4e0dd7b600390f0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 101,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-categoria/slide-08.png",
+      "publicPath": "/assets/carrossel-lance-categoria/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": false,
+      "bytes": 107252,
+      "sha256": "e9dd5ceb1362f3cfa51cf442518b4ca7803db9d176c7b36de75362a486d2f799",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 102,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-categoria/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-01.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1382143,
+      "sha256": "e5ab945b929a75ffda7c2186ee357dec3a8dc4eeced12ff314ec831f544b8c87",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 111,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-02.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1791869,
+      "sha256": "ff0194dd381e0a99c52cde91bd4e7b13a2f977dc1896982cd77fe706d2d71699",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 112,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-03.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1793801,
+      "sha256": "e71a82518c16bb0f0298cd8c7b44e27cd14cf0b6720fdf60c7218823aed0a33b",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 113,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-04.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1878942,
+      "sha256": "f9d2e5ca17799000e8516f19bfe58e5eb65b32acc8ca7d7b456fb57b31a88979",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 114,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-05.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1849855,
+      "sha256": "b765212f7535638d5b14175c117f3527da5e85c34a363b7da66d0589ed0c8f98",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 115,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-06.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1726524,
+      "sha256": "42d8ee7598c7319c134c30042d76b62ece5e4aeacf058b7db7c7517dc3d1339a",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 116,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-07.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1798849,
+      "sha256": "58a543dde770e2acd59eed16d4b0645af9fa863ed764db29cdb32f145af5c9c0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 117,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-08.png",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1475114,
+      "sha256": "6f917c21f1a075209a56a812d26c62603ea48be761c3f5007c4798b753a6a1fb",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 118,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido-v2/slide-09.jpg",
+      "publicPath": "/assets/carrossel-lance-embutido-v2/slide-09.jpg",
+      "extension": ".jpg",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": true,
+      "bytes": 107252,
+      "sha256": "e9dd5ceb1362f3cfa51cf442518b4ca7803db9d176c7b36de75362a486d2f799",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 119,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido-v2/slide-09.jpg"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-01.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 964787,
+      "sha256": "95d36e38b3465a54618d313045b53b669f005753bb9e71193c644fefc8e8aedf",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 50,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-02.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1093921,
+      "sha256": "599fdb47c4241b8e8ff0d052757b46598de3299923619c7980e5546fed412801",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 51,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-03.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1072462,
+      "sha256": "0592ae0d96abab6092e784a1692c5963f52eb94291ca7681d81e8ca3aa34ef53",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 52,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-04.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1314168,
+      "sha256": "402298bc77799e1cbd1f87ea754c2c5b83091865986d563f42a20c193b47a65e",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 53,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-05.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1002092,
+      "sha256": "301d9513574e7177040a65f37e94006416ceb01acf417dfe7d980d2dfe6c8e4d",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 54,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-06.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1000119,
+      "sha256": "ad96cbc0b74b94d0f138a543e9e09172030d452efff7fb5a6fe9250fe9e74886",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 55,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-embutido/slide-07.png",
+      "publicPath": "/assets/carrossel-lance-embutido/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": false,
+      "bytes": 107252,
+      "sha256": "e9dd5ceb1362f3cfa51cf442518b4ca7803db9d176c7b36de75362a486d2f799",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 56,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-embutido/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-01.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 951027,
+      "sha256": "f59e06e9c9de7ca86c74c6fc348e65d5150822300b5097d46a924aad3c46f4bf",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 128,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-02.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1373158,
+      "sha256": "2091cf1935443e883e69bb2e55fffafff43d117424a2f5665dcbad254a0d8b9b",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 129,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-03.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1556128,
+      "sha256": "80ca41b2fad24512a888d87659d3862a0091e942ce5168e32000d5162b54c969",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 130,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-04.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1398811,
+      "sha256": "59d123aacdbbe33a82ed24eb01c6e72cbce9cbfada1b38963e3afa3cce8f1d3b",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 131,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-05.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1298694,
+      "sha256": "21c9167133fe41a6b24fd6eba2e3dec90725491fae04c06610f2812fc3d97d13",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 132,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-06.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1511438,
+      "sha256": "7715f23a425e883cf5716df3cca1123e5faebee8b4f90279daba1946182e8952",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 133,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-07.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1464163,
+      "sha256": "899566dbb26aafc785a7917eb0a7184e130cea0e9d752ba899f8f9f0248d0ac0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 134,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-lance-fixo/slide-08.png",
+      "publicPath": "/assets/carrossel-lance-fixo/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 760366,
+      "sha256": "21f83fb53d38089223764ee8ff959cc55fc9629548c2199da33471ac995f918f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 135,
+          "kind": "public",
+          "reference": "/assets/carrossel-lance-fixo/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-preferencia/slide-01.png",
+      "publicPath": "/assets/carrossel-preferencia/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 871791,
+      "sha256": "8c39d94ae5d0fb0d1927cb6a7dd02c3a8c6a4f659b6a419c1740ccd589425bc0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 176,
+          "kind": "public",
+          "reference": "/assets/carrossel-preferencia/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-preferencia/slide-02.png",
+      "publicPath": "/assets/carrossel-preferencia/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1598728,
+      "sha256": "36f3a2e48a7e8cd4e571931c6a8e49709f5dcf229f8dbe7aed44e5fec177f92f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 177,
+          "kind": "public",
+          "reference": "/assets/carrossel-preferencia/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-preferencia/slide-03.png",
+      "publicPath": "/assets/carrossel-preferencia/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1598728,
+      "sha256": "36f3a2e48a7e8cd4e571931c6a8e49709f5dcf229f8dbe7aed44e5fec177f92f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 178,
+          "kind": "public",
+          "reference": "/assets/carrossel-preferencia/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-preferencia/slide-04.png",
+      "publicPath": "/assets/carrossel-preferencia/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 677897,
+      "sha256": "720392eb1fd2e620f668dcd3b8fe5b8d5abff7dd9819230478ad24ff38cd25c1",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 179,
+          "kind": "public",
+          "reference": "/assets/carrossel-preferencia/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-renda/slide-01.png",
+      "publicPath": "/assets/carrossel-renda/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1437349,
+      "sha256": "32218319942a90420b13174cbe6811d99e9f9d7f40da01064e7ae0094379005a",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 13,
+          "kind": "public",
+          "reference": "/assets/carrossel-renda/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-renda/slide-02.png",
+      "publicPath": "/assets/carrossel-renda/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1752402,
+      "sha256": "30685298785e8b86f108aa37f2a855bf2c41555f594a65f9f5b3cc6de3bfce9a",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 14,
+          "kind": "public",
+          "reference": "/assets/carrossel-renda/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-renda/slide-03.png",
+      "publicPath": "/assets/carrossel-renda/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1441990,
+      "sha256": "896e015aaacca7ff967fd77f3839d50c6e849f099cb84f113011ebf4fdf89e0b",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 15,
+          "kind": "public",
+          "reference": "/assets/carrossel-renda/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-renda/slide-04.png",
+      "publicPath": "/assets/carrossel-renda/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 2126010,
+      "sha256": "398d4f046fc795f0f4d035a19908b704b0dd117f95cbae31bd2c0f245b7e24ce",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 16,
+          "kind": "public",
+          "reference": "/assets/carrossel-renda/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-renda/slide-05.png",
+      "publicPath": "/assets/carrossel-renda/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1338896,
+      "sha256": "99f1d55e3f5e86e93337a934d5986ec6d57da27a1ed6be87f1a3def1f9e81e62",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 17,
+          "kind": "public",
+          "reference": "/assets/carrossel-renda/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-renda/slide-06.png",
+      "publicPath": "/assets/carrossel-renda/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 760366,
+      "sha256": "21f83fb53d38089223764ee8ff959cc55fc9629548c2199da33471ac995f918f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 18,
+          "kind": "public",
+          "reference": "/assets/carrossel-renda/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-01.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1278631,
+      "sha256": "18b57e8ca24b41819986fd161a5ba5070cb314a79200053070c77f5e6b9f416f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 160,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-02.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1487514,
+      "sha256": "cbdec87060b5637ab81f760e65770edd3005ea4c4569add65a7e5810933e7385",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 161,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-03.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1504749,
+      "sha256": "46c820662ff2d2cc94f6132b75a9a702b810559abb9d40e55f70e012c7a69076",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 162,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-04.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1614204,
+      "sha256": "87c92b013f99ade3331c111c7f1710a5ff8d346aacd31e7846a916596cdb9bba",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 163,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-05.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1885488,
+      "sha256": "abd7a7c4234be333126e09fe65296c18a7ab14081f40ed010141dad9ca637b8e",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 164,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-06.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1317478,
+      "sha256": "3210f25a9da7ffb35126552728a08a3272bdc0b1e147012c65e655f470ffdccf",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 165,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-07.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1089075,
+      "sha256": "a7e4f3b39054accb39ff24ff16f36fc0bbb6d77de3e072e28b3d07ce429aa7fa",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 166,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-semaforo/slide-08.png",
+      "publicPath": "/assets/carrossel-semaforo/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 677897,
+      "sha256": "720392eb1fd2e620f668dcd3b8fe5b8d5abff7dd9819230478ad24ff38cd25c1",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 167,
+          "kind": "public",
+          "reference": "/assets/carrossel-semaforo/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-01.png",
+      "publicPath": "/assets/carrossel-taxa/slide-01.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 931704,
+      "sha256": "969656d0c756374c0c49b430af1c70605a18e007e9576412e39fa11af17ab87e",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 34,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-01.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-02.png",
+      "publicPath": "/assets/carrossel-taxa/slide-02.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 825379,
+      "sha256": "9c270ded5b6ce562bd4c4fea727553601bb2f49a27dfe8a6bf7828827edce72f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 35,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-02.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-03.png",
+      "publicPath": "/assets/carrossel-taxa/slide-03.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1084521,
+      "sha256": "8bb02c981a496e770e434c06ce20fc95ef2bbaa55c84f3c04719f17c8bf48588",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 36,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-03.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-04.png",
+      "publicPath": "/assets/carrossel-taxa/slide-04.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1020520,
+      "sha256": "ef3eff2c123934146ec99a6dbaa4d0d3f70edc477f2576132d9fe93de29ca543",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 37,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-04.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-05.png",
+      "publicPath": "/assets/carrossel-taxa/slide-05.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1115392,
+      "sha256": "56c903f0a52b632a1e2ee80aa0d4a05293fe16ca861c56111afc22c0fe8a2775",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 38,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-05.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-06.png",
+      "publicPath": "/assets/carrossel-taxa/slide-06.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 723524,
+      "sha256": "8417c12b8e2648e1337f82629cd469af206a55c8bc51e3b4fee944764fad7235",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 39,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-06.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-07.png",
+      "publicPath": "/assets/carrossel-taxa/slide-07.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1216880,
+      "sha256": "14d0905818701bf6b8a4a7b68b4c26b7b26cb386bcb62070928ff9ff954c8a90",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 40,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-07.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/carrossel-taxa/slide-08.png",
+      "publicPath": "/assets/carrossel-taxa/slide-08.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 677897,
+      "sha256": "720392eb1fd2e620f668dcd3b8fe5b8d5abff7dd9819230478ad24ff38cd25c1",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 41,
+          "kind": "public",
+          "reference": "/assets/carrossel-taxa/slide-08.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/conclusao/conclusao.png",
+      "publicPath": "/assets/conclusao/conclusao.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1082722,
+      "sha256": "55bdb75618862574b33c473fbd0322087d9e37725a4334527e9dc55f1b1bdca7",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 225,
+          "kind": "public",
+          "reference": "/assets/conclusao/conclusao.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/favicon-16.png",
+      "publicPath": "/assets/favicon-16.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 410,
+      "sha256": "1de2fae8b7ae15722e5cd942b951c5c7398738e24d41057ff276655321f16335",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/favicon-32.png",
+      "publicPath": "/assets/favicon-32.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 758,
+      "sha256": "a2eb1f2c781ba4118b03094e71bde05a23b0723063470e7b7b1a2138aed2f324",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/favicon.ico",
+      "publicPath": "/assets/favicon.ico",
+      "extension": ".ico",
+      "detectedFormat": "ico",
+      "extensionMatchesContent": true,
+      "bytes": 17675,
+      "sha256": "177680715e0134a8f26309e40ddb26c4b82ee064823d00f220968b75c8ea4905",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/favicon.png",
+      "publicPath": "/assets/favicon.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 9271,
+      "sha256": "e4766a1c8131a97f5ab4061feb7b09a11202058ae981195b998e44de95e7cacd",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/favicon.svg",
+      "publicPath": "/assets/favicon.svg",
+      "extension": ".svg",
+      "detectedFormat": "svg",
+      "extensionMatchesContent": true,
+      "bytes": 515,
+      "sha256": "c6ee575e9f368109eade02ffd61a7a09ab8a53a8934a740dfec1918bd0f3d1cc",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/lib/brand.ts",
+          "line": 20,
+          "kind": "public",
+          "reference": "/assets/favicon.svg"
+        },
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/assets/favicon.svg"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/footer-logo-new.png",
+      "publicPath": "/assets/footer-logo-new.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 318053,
+      "sha256": "586ccf0fd2fdd6b7792927023a8eced4973941f6f1bfd5a4e09cb2ebbbdccbf8",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/components/Footer.tsx",
+          "line": 15,
+          "kind": "public",
+          "reference": "/assets/footer-logo-new.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/icon-192.png",
+      "publicPath": "/assets/icon-192.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 4363,
+      "sha256": "02a38f26b338e658819c310136d2fad37bd615caad46aff0c0d5eee469b5dea0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/lib/brand.ts",
+          "line": 23,
+          "kind": "public",
+          "reference": "/assets/icon-192.png"
+        },
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/assets/icon-192.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/logo-dark.png",
+      "publicPath": "/assets/logo-dark.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 94619,
+      "sha256": "67d8a7a7ec6d6a70d6d2e46d92f24f8cb8e9535057ac840ad935ac858714d258",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/lib/brand.ts",
+          "line": 9,
+          "kind": "public",
+          "reference": "/assets/logo-dark.png"
+        },
+        {
+          "sourceFile": "client/src/lib/pdfEstruturaDaLance.ts",
+          "line": 158,
+          "kind": "public",
+          "reference": "/assets/logo-dark.png"
+        },
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/assets/logo-dark.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/logo-light.png",
+      "publicPath": "/assets/logo-light.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 69341,
+      "sha256": "60eff96f6f129ccb918066583b05cc2053c95736955be1f661cc7db63fae7c8f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/lib/brand.ts",
+          "line": 11,
+          "kind": "public",
+          "reference": "/assets/logo-light.png"
+        },
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/assets/logo-light.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/logo-new-black.png",
+      "publicPath": "/assets/logo-new-black.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 94619,
+      "sha256": "67d8a7a7ec6d6a70d6d2e46d92f24f8cb8e9535057ac840ad935ac858714d258",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/logo-new-transparent.png",
+      "publicPath": "/assets/logo-new-transparent.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 94619,
+      "sha256": "67d8a7a7ec6d6a70d6d2e46d92f24f8cb8e9535057ac840ad935ac858714d258",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/logo-official.png",
+      "publicPath": "/assets/logo-official.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 94619,
+      "sha256": "67d8a7a7ec6d6a70d6d2e46d92f24f8cb8e9535057ac840ad935ac858714d258",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/logo-renatto.png",
+      "publicPath": "/assets/logo-renatto.png",
+      "extension": ".png",
+      "detectedFormat": "jpeg",
+      "extensionMatchesContent": false,
+      "bytes": 36320,
+      "sha256": "c7afeff07a7f725ef046c8b4f90703f7a3692ceb06a310bb6caa9ae6ddbd4945",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/public/assets/meia-parcela/meia-parcela.png",
+      "publicPath": "/assets/meia-parcela/meia-parcela.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1388067,
+      "sha256": "af83cf0ca82de07df1a2626fb8b58f2864bc3f96d5c4dffdd9642fd1f40178e9",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 218,
+          "kind": "public",
+          "reference": "/assets/meia-parcela/meia-parcela.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/r-icon.png",
+      "publicPath": "/assets/r-icon.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 250171,
+      "sha256": "535aa016080c6f1cc0b5a1b3a7c0e183419ff9e8493e62ea9e76fc1c39656cbd",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/components/Header.tsx",
+          "line": 20,
+          "kind": "public",
+          "reference": "/assets/r-icon.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/video-perfil.mp4",
+      "publicPath": "/assets/video-perfil.mp4",
+      "extension": ".mp4",
+      "detectedFormat": "iso-bmff-video",
+      "extensionMatchesContent": true,
+      "bytes": 611778,
+      "sha256": "ef18293869ea073ccebb1a8a9787fc119d61e4c22ebda4b7e1144b1783983f98",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/Sobre.tsx",
+          "line": 34,
+          "kind": "public",
+          "reference": "/assets/video-perfil.mp4"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/videos-caixa-preta/video1.mp4",
+      "publicPath": "/assets/videos-caixa-preta/video1.mp4",
+      "extension": ".mp4",
+      "detectedFormat": "iso-bmff-video",
+      "extensionMatchesContent": true,
+      "bytes": 8625498,
+      "sha256": "aaef982d33d5be33a191f45c7e050b305e314d2b6f2d2dbed704ebee2dd13654",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 235,
+          "kind": "public",
+          "reference": "/assets/videos-caixa-preta/video1.mp4"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/videos-caixa-preta/video2.mov",
+      "publicPath": "/assets/videos-caixa-preta/video2.mov",
+      "extension": ".mov",
+      "detectedFormat": "iso-bmff-video",
+      "extensionMatchesContent": true,
+      "bytes": 20249228,
+      "sha256": "d2b3832752500d6daa43cf48d1e444c7d26d6bd6e6c4f2e6596cc0b766665839",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/CaixaPreta.tsx",
+          "line": 236,
+          "kind": "public",
+          "reference": "/assets/videos-caixa-preta/video2.mov"
+        }
+      ]
+    },
+    {
+      "path": "client/public/brand/logo-light.png",
+      "publicPath": "/brand/logo-light.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 69341,
+      "sha256": "60eff96f6f129ccb918066583b05cc2053c95736955be1f661cc7db63fae7c8f",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/lib/pdfAutoPagavel.ts",
+          "line": 87,
+          "kind": "public",
+          "reference": "/brand/logo-light.png"
+        },
+        {
+          "sourceFile": "client/src/lib/pdfHistoricoCorrecoes.ts",
+          "line": 82,
+          "kind": "public",
+          "reference": "/brand/logo-light.png"
+        },
+        {
+          "sourceFile": "client/src/lib/pdfPanorama.ts",
+          "line": 509,
+          "kind": "public",
+          "reference": "/brand/logo-light.png"
+        },
+        {
+          "sourceFile": "client/src/lib/pdfProporcaoTaxa.ts",
+          "line": 89,
+          "kind": "public",
+          "reference": "/brand/logo-light.png"
+        },
+        {
+          "sourceFile": "client/src/lib/pdfZonaContemplacao.ts",
+          "line": 204,
+          "kind": "public",
+          "reference": "/brand/logo-light.png"
+        },
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/brand/logo-light.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/favicon.ico",
+      "publicPath": "/favicon.ico",
+      "extension": ".ico",
+      "detectedFormat": "ico",
+      "extensionMatchesContent": true,
+      "bytes": 17675,
+      "sha256": "177680715e0134a8f26309e40ddb26c4b82ee064823d00f220968b75c8ea4905",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/index.html",
+          "line": 8,
+          "kind": "public",
+          "reference": "/favicon.ico"
+        },
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/favicon.ico"
+        }
+      ]
+    },
+    {
+      "path": "client/public/favicon.png",
+      "publicPath": "/favicon.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 406744,
+      "sha256": "b4d9414f83da119c78584964f04a177ebaf3c8ce2ccbef615dad9b4ea5eba49e",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/index.html",
+          "line": 9,
+          "kind": "public",
+          "reference": "/favicon.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/icon-192.png",
+      "publicPath": "/icon-192.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 4363,
+      "sha256": "02a38f26b338e658819c310136d2fad37bd615caad46aff0c0d5eee469b5dea0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "media-guard.config.json",
+          "line": null,
+          "kind": "required",
+          "reference": "/icon-192.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/icons/icon-192.png",
+      "publicPath": "/icons/icon-192.png",
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 4363,
+      "sha256": "02a38f26b338e658819c310136d2fad37bd615caad46aff0c0d5eee469b5dea0",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/index.html",
+          "line": 39,
+          "kind": "public",
+          "reference": "/icons/icon-192.png"
+        }
+      ]
+    },
+    {
+      "path": "client/src/assets/icon_r.png",
+      "publicPath": null,
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 628134,
+      "sha256": "7464b882fdec84c1ecb0ab8d80a272ca4665a36f960177f45acce0aeaececbf9",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    },
+    {
+      "path": "client/src/assets/icon_r_clean.png",
+      "publicPath": null,
+      "extension": ".png",
+      "detectedFormat": "png",
+      "extensionMatchesContent": true,
+      "bytes": 1062533,
+      "sha256": "2126aecf15c638da712f74fd0880af02af6f63fe055e2a86ca7e84910cb1ee24",
+      "gitTracked": true,
+      "referenced": false,
+      "referencedBy": []
+    }
+  ]
+}
