@@ -884,3 +884,65 @@ html, body {
 .cv-contact-page .bg-card { background: rgba(255,255,255,.42); }
 .cv-contact-page .text-accent, .cv-contact-page .group:hover h3 { color: var(--cv-orange) !important; }
 .cv-contact-page .bg-accent { background: var(--cv-orange) !important; }
+
+
+/* Hero correction pass — scale, crop and spacing */
+.cv-home-hero { min-height: 100svh; }
+.cv-hero-content { min-width: 0; padding-top: 116px; padding-bottom: 24px; }
+.cv-hero-main { grid-template-columns: minmax(0, 1.4fr) minmax(210px, .42fr); gap: clamp(38px, 5vw, 70px); margin-top: clamp(58px, 10vh, 104px); }
+.cv-hero-main > div { min-width: 0; }
+.cv-hero-title { max-width: 820px; font-size: clamp(3.25rem, 6.7vw, 7rem); line-height: .91; }
+.cv-hero-aside { max-width: 255px; }
+.cv-hero-bottom { margin-top: clamp(46px, 7vh, 72px); }
+.cv-hero-footer { margin-top: 24px; }
+
+@media (max-width: 900px) {
+  .cv-hero-content { padding-top: 105px; }
+  .cv-hero-main { margin-top: clamp(48px, 8vh, 78px); }
+  .cv-hero-title { max-width: 760px; font-size: clamp(3rem, 7.6vw, 5.8rem); }
+  .cv-hero-bottom { margin-top: 54px; }
+}
+
+@media (max-width: 600px) {
+  .cv-home-hero { min-height: 100svh; }
+  .cv-hero-content { min-height: 100svh; padding-top: 90px; padding-bottom: 22px; }
+  .cv-hero-main { margin-top: clamp(48px, 7vh, 70px); gap: 24px; }
+  .cv-hero-title { max-width: 100%; font-size: clamp(2.65rem, 12vw, 4.7rem); line-height: .93; }
+  .cv-hero-aside { max-width: 305px; padding-bottom: 0; }
+  .cv-hero-aside p { font-size: 11px; line-height: 1.55; }
+  .cv-hero-aside-note { margin-top: 14px !important; padding-top: 12px; font-size: 9px !important; }
+  .cv-hero-bottom { margin-top: 50px; gap: 22px; }
+  .cv-hero-actions { gap: 8px; }
+  .cv-hero-footer { margin-top: 28px; padding-top: 15px; }
+  .cv-hero-footer > span { max-width: 260px; line-height: 1.45; }
+}
+
+
+/* Final hero alignment: the content shell must keep the same horizontal inset as the header */
+.cv-hero-content.cv-shell { width: min(1280px, calc(100% - 64px)); }
+.cv-hero-title { font-size: clamp(3.05rem, 5.8vw, 6.35rem); }
+.cv-hero-main { margin-top: clamp(52px, 8vh, 88px); }
+
+@media (max-width: 900px) {
+  .cv-hero-content.cv-shell { width: min(100% - 40px, 720px); }
+  .cv-hero-title { font-size: clamp(2.9rem, 6.8vw, 5.25rem); }
+}
+
+@media (max-width: 600px) {
+  .cv-hero-content.cv-shell { width: calc(100% - 32px); }
+  .cv-hero-title { font-size: clamp(2.45rem, 10.6vw, 4.2rem); }
+  .cv-hero-main { margin-top: 52px; }
+}
+
+
+/* Shared hero scale correction across internal pages */
+.cv-tools-hero-main h1 { font-size: clamp(4rem, 8vw, 8.5rem); line-height: .9; }
+.cv-blackbox-title { font-size: clamp(3rem, 6.5vw, 6.6rem); line-height: .92; }
+.cv-panorama-hero h1 { font-size: clamp(3rem, 5.7vw, 6.2rem) !important; }
+.cv-display, .cv-hero-title, .cv-tools-hero-main h1, .cv-blackbox-title, .cv-panorama-hero h1 { overflow-wrap: break-word; }
+
+@media (max-width: 600px) {
+  .cv-tools-hero-main h1 { font-size: clamp(4rem, 18vw, 6.2rem); }
+  .cv-blackbox-title { font-size: clamp(2.7rem, 12vw, 4.8rem); }
+  .cv-panorama-hero h1 { font-size: clamp(2.9rem, 12vw, 4.5rem) !important; }
+}
