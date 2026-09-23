@@ -79,7 +79,7 @@
         },
         {
           "sourceFile": "client/src/pages/Home.tsx",
-          "line": 88,
+          "line": 81,
           "kind": "public",
           "reference": "/assets/bg-caixa-preta.jpg"
         }
@@ -1976,7 +1976,7 @@
       "referencedBy": [
         {
           "sourceFile": "client/src/pages/Home.tsx",
-          "line": 88,
+          "line": 81,
           "kind": "public",
           "reference": "/assets/hero-scan-layers.mp4"
         }
@@ -2143,7 +2143,7 @@
       "referencedBy": [
         {
           "sourceFile": "client/src/index.css",
-          "line": 1065,
+          "line": 999,
           "kind": "public",
           "reference": "/assets/r-icon.png"
         }

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, ChevronDown, ScanLine, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import { BRAND } from "@/lib/brand";
@@ -44,13 +44,6 @@ const AXES = [
     href: "/simulador/venda-carta-contemplada#parametros",
     signal: "mercado secundário",
   },
-];
-
-const TRUTHS = [
-  { eyebrow: "01 / SEM JUROS", lead: "não significa", accent: "SEM CUSTO.", tone: "bone" },
-  { eyebrow: "02 / LANCE", lead: "não é garantia.", accent: "É DISPUTA.", tone: "orange" },
-  { eyebrow: "03 / PARCELA BAIXA", lead: "pode esconder", accent: "ESFORÇO FUTURO.", tone: "bone" },
-  { eyebrow: "04 / CONTEMPLAÇÃO", lead: "não resolve", accent: "TUDO.", tone: "obsidian" },
 ];
 
 const PANORAMA_STORY = [
@@ -106,18 +99,24 @@ function HeroSection() {
 }
 
 function RealitySection() {
-  const [split, setSplit] = useState(48);
   return (
     <section id="reality" className="cv-reality-section">
       <div className="cv-shell">
         <Reveal><div className="cv-section-marker"><span>02</span><span>proposta × realidade</span><span className="cv-marker-rule" /></div></Reveal>
         <Reveal className="cv-reality-heading"><h2 className="cv-display">O contrato mostra uma camada.<br /><em>O sistema esconde outras.</em></h2><p>Parcela, prazo, crédito e taxa são o começo. A decisão aparece quando a segunda camada entra em foco.</p></Reveal>
-        <div className="cv-reality-stage" style={{ "--cv-split": `${split}%` } as CSSProperties}>
-          <div className="cv-reality-layer cv-reality-visible"><span className="cv-layer-index">CAMADA 01 / O QUE APARECE</span><div className="cv-reality-numbers"><div className="cv-reality-stat"><strong>R$ 1.500</strong><span>parcela</span></div><div className="cv-reality-stat"><strong>180</strong><span>meses</span></div><div className="cv-reality-stat"><strong>R$ 250 mil</strong><span>crédito</span></div></div><p>A proposta organiza o produto em números que cabem numa primeira conversa.</p></div>
-          <div className="cv-reality-layer cv-reality-hidden"><span className="cv-layer-index">CAMADA 02 / O QUE PRECISA SER VISTO</span><div className="cv-reality-reveal-list"><span>correção</span><span>disputa por lance</span><span>tempo</span><span>pressão do grupo</span><span>custo de cancelamento</span><span>custo de oportunidade</span><span>probabilidade</span><span>impacto no orçamento</span></div><p>Agora você está vendo o que normalmente só aparece depois da assinatura.</p></div>
-          <div className="cv-reality-divider" aria-hidden="true"><span /><b>arraste para revelar</b></div>
-          <label className="cv-reality-slider"><span>o que aparece</span><input aria-label="Mover o divisor entre as camadas completas" type="range" min="18" max="82" value={split} onChange={(event) => setSplit(Number(event.target.value))} /><span>o que fica escondido</span></label>
-          <p className="cv-reality-instruction">Arraste o divisor para comparar as duas camadas.</p>
+        <div className="cv-reality-stage">
+          <article className="cv-reality-panel cv-reality-promise">
+            <div className="cv-reality-panel-top"><span className="cv-layer-index">CAMADA 01</span><span>O MERCADO PROMETE</span></div>
+            <h3 className="cv-display">O que aparece na primeira conversa.</h3>
+            <ul className="cv-reality-points"><li><span>01</span><strong>não tem juros</strong></li><li><span>02</span><strong>contemplação rápida</strong></li><li><span>03</span><strong>parcela que cabe no bolso</strong></li><li><span>04</span><strong>crédito planejado</strong></li><li><span>05</span><strong>facilidade e previsibilidade</strong></li></ul>
+            <p className="cv-reality-panel-note">A proposta parece simples quando mostra apenas o começo da história.</p>
+          </article>
+          <article className="cv-reality-panel cv-reality-truth">
+            <div className="cv-reality-panel-top"><span className="cv-layer-index">CAMADA 02</span><span>A VERDADE</span></div>
+            <h3 className="cv-display">O que precisa entrar na conta.</h3>
+            <ul className="cv-reality-points"><li><span>01</span><strong>taxa de administração e correções</strong></li><li><span>02</span><strong>contemplação depende de sorteio e lance</strong></li><li><span>03</span><strong>parcela pode mudar ao longo do tempo</strong></li><li><span>04</span><strong>prazo é espera, não promessa</strong></li><li><span>05</span><strong>cancelamento pode reduzir o valor recebido</strong></li><li><span>06</span><strong>o dinheiro tem custo de oportunidade</strong></li></ul>
+            <p className="cv-reality-panel-note">A análise começa quando a promessa encontra as condições reais do contrato.</p>
+          </article>
         </div>
       </div>
     </section>
@@ -133,46 +132,9 @@ function RaioXSection() {
         <Reveal><div className="cv-section-marker cv-section-marker-light"><span>03</span><span>Raio-X do Consórcio</span><span className="cv-marker-rule" /></div></Reveal>
         <Reveal className="cv-raiox-intro"><div><p className="cv-kicker cv-kicker-light">Examinar antes de decidir</p><h2 className="cv-display">Uma proposta.<br /><em>Cinco perguntas.</em></h2></div><p>O Raio-X abre o produto em partes. Passe por cada eixo para ver o dado, a pergunta e a ferramenta que existe por trás.</p></Reveal>
         <div className="cv-axis-list" role="tablist" aria-label="Eixos do Raio-X">
-          {AXES.map((item, index) => <button type="button" role="tab" aria-selected={activeAxis === index} key={item.num} className={`cv-axis-row ${activeAxis === index ? "is-active" : ""}`} onMouseEnter={() => setActiveAxis(index)} onFocus={() => setActiveAxis(index)} onClick={() => setActiveAxis(index)}><span className="cv-axis-num">{item.num}</span><span className="cv-axis-title">{item.title}</span><span className="cv-axis-question-preview">{item.question}</span><ArrowUpRight /></button>)}
+          {AXES.map((item, index) => <Link href={item.href} role="tab" aria-selected={activeAxis === index} aria-label={`Abrir ${item.title.toLowerCase()}: ${item.question}`} key={item.num} className={`cv-axis-row ${activeAxis === index ? "is-active" : ""}`} onMouseEnter={() => setActiveAxis(index)} onFocus={() => setActiveAxis(index)}><span className="cv-axis-num">{item.num}</span><span className="cv-axis-title">{item.title}</span><span className="cv-axis-question-preview">{item.question}</span><ArrowUpRight /></Link>)}
         </div>
         <div className="cv-axis-detail" key={axis.num}><div className="cv-axis-detail-top"><span>eixo {axis.num}</span><span>interface de análise</span></div><h3 className="cv-display">{axis.question}</h3><p>{axis.detail}</p><Link className="cv-text-link" href={axis.href}>entrar em {axis.title.toLowerCase()} <ArrowRight /></Link></div>
-      </div>
-    </section>
-  );
-}
-
-function TruthsSection() {
-  const [activeTruth, setActiveTruth] = useState(0);
-  const [isPinned, setIsPinned] = useState(false);
-  const truthScrollRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const updateSequence = () => {
-      const node = truthScrollRef.current;
-      if (!node) return;
-      const rect = node.getBoundingClientRect();
-      setIsPinned(rect.top <= 0 && rect.bottom >= window.innerHeight);
-      const top = rect.top + window.scrollY;
-      const range = Math.max(1, node.offsetHeight - window.innerHeight);
-      const progress = Math.max(0, Math.min(0.999, (window.scrollY - top) / range));
-      const nextTruth = Math.min(TRUTHS.length - 1, Math.floor(progress * TRUTHS.length));
-      setActiveTruth((current) => current === nextTruth ? current : nextTruth);
-    };
-    updateSequence();
-    window.addEventListener("scroll", updateSequence, { passive: true });
-    window.addEventListener("resize", updateSequence);
-    return () => {
-      window.removeEventListener("scroll", updateSequence);
-      window.removeEventListener("resize", updateSequence);
-    };
-  }, []);
-
-  const truth = TRUTHS[activeTruth];
-  return (
-    <section id="verdades" className="cv-truths-section">
-      <div className="cv-truth-intro"><div className="cv-shell"><p className="cv-kicker cv-kicker-light">Por que simular antes de contratar</p><h2 className="cv-display">Consórcio não é golpe.<br /><em>Mas também não é mágica.</em></h2><p>Antes de contratar: existem quatro pontos que mudam completamente a decisão.</p></div></div>
-      <div ref={truthScrollRef} className={`cv-truth-scroll cv-truth-${truth.tone}`}>
-        <div className={`cv-truth-sticky ${isPinned ? "is-pinned" : ""}`}><div className="cv-truth-lab-grid" aria-hidden="true" /><div className="cv-shell cv-truth-stage"><div className="cv-truth-stage-top"><span>evidência / sentença completa</span><span>0{activeTruth + 1} / 04</span></div><div className="cv-truth-line" key={truth.eyebrow} aria-live="polite"><span>{truth.eyebrow.split(" / ")[1]}</span><small>{truth.lead}</small><strong>{truth.accent}</strong></div><div className="cv-truth-trace" aria-hidden="true"><i /><i /><i /><i /><span /></div><div className="cv-truth-rail" aria-label="Verdades da análise">{TRUTHS.map((item, index) => <span className={activeTruth === index ? "is-active" : ""} key={item.eyebrow}>{item.eyebrow.split(" / ")[1]}</span>)}</div><p className="cv-truth-readout">O dado não encerra a análise. Ele abre a próxima pergunta.</p></div></div>
       </div>
     </section>
   );
@@ -221,5 +183,5 @@ function ClosingSection() {
 }
 
 export default function Home() {
-  return <main className="cv-home"><HeroSection /><div className="cv-scan-transition" aria-hidden="true"><span /><i /></div><RealitySection /><RaioXSection /><TruthsSection /><ZoneSection /><PanoramaSection /><ClosingSection /></main>;
+  return <main className="cv-home"><HeroSection /><div className="cv-scan-transition" aria-hidden="true"><span /><i /></div><RealitySection /><RaioXSection /><ZoneSection /><PanoramaSection /><ClosingSection /></main>;
 }
