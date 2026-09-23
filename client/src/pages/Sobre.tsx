@@ -19,7 +19,7 @@ export default function Sobre() {
   };
 
   return (
-    <div className="bg-[var(--paper)] text-[var(--ink)] min-h-screen font-sans selection:bg-[var(--orange)] selection:text-white overflow-x-hidden">
+    <div className="cv-about-page bg-[var(--paper)] text-[var(--ink)] min-h-screen font-sans selection:bg-[var(--orange)] selection:text-white overflow-x-hidden">
       
       {/* ── HERO ────────────────────────────────────────────────────────────────── */}
       <section className="py-6 md:py-10 border-b border-[var(--ink)]/5">

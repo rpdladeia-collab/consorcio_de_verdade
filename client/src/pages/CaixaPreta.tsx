@@ -350,9 +350,9 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
   };
 
   return (
-    <div className="border border-[#E4DCC9] bg-white rounded-sm overflow-hidden group transition-all hover:border-[#FFC93C]/30 hover:shadow-sm cursor-pointer">
+    <div className="cv-film-card border border-[#E4DCC9] bg-white rounded-sm overflow-hidden group transition-all hover:border-[#FFC93C]/30 hover:shadow-sm cursor-pointer">
       {/* Container de Vídeo - Sem Capa */}
-      <div className="aspect-[9/16] bg-[#0A0A08] flex items-center justify-center relative overflow-hidden" onClick={togglePlay}>
+      <div className="cv-film-media aspect-[9/16] bg-[#0A0A08] flex items-center justify-center relative overflow-hidden" onClick={togglePlay}>
         <video
           ref={videoRef}
           src={video.src}
@@ -370,7 +370,7 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
       </div>
 
       {/* Rodapé do Card */}
-      <div className="p-3 border-t border-[#E4DCC9] flex items-center justify-between">
+      <div className="cv-film-caption p-3 border-t border-[#E4DCC9] flex items-center justify-between">
         <div className="flex flex-col">
           <span className="font-['IBM_Plex_Mono'] text-[11px] font-semibold text-[#0A0A08] uppercase tracking-wider">
             Vídeo #{video.id}
@@ -392,16 +392,16 @@ export default function CaixaPreta() {
   const [activeImage, setActiveImage] = useState<typeof CARROSSEIS[0] | null>(null);
 
   return (
-    <div className="min-h-screen bg-[#FAF5EA] text-[#0A0A08] font-sans selection:bg-[#FFC93C] selection:text-white">
+    <div className="cv-blackbox-page min-h-screen bg-[#FAF5EA] text-[#0A0A08] font-sans selection:bg-[#FFC93C] selection:text-white">
       {/* HERO SECTION */}
-      <section id="hero" className="relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-black scroll-mt-20">
+      <section id="hero" className="cv-blackbox-hero relative h-[60vh] md:h-[70vh] flex items-center justify-center overflow-hidden bg-black scroll-mt-20">
         <div 
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="cv-blackbox-backdrop absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: "url('/assets/bg-caixa-preta.jpg')" }}
         />
-        <div className="absolute inset-0 bg-black/50 md:bg-black/70" />
+        <div className="cv-blackbox-overlay absolute inset-0 bg-black/50 md:bg-black/70" />
         
-        <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
+        <div className="cv-blackbox-hero-copy relative z-10 text-center px-4 max-w-4xl mx-auto">
           <Link
             to="/#hero"
             className="inline-flex items-center gap-2 text-[#FFC93C] font-mono text-[12px] md:text-[13px] font-semibold uppercase tracking-widest hover:text-white transition-colors mb-8"
@@ -409,7 +409,7 @@ export default function CaixaPreta() {
             <ArrowLeft className="w-4 h-4" />
             Voltar
           </Link>
-          <h1 className="font-['Archivo_Black'] text-4xl md:text-6xl text-white uppercase tracking-tight leading-tight">
+          <h1 className="cv-display cv-blackbox-title font-['Archivo_Black'] text-4xl md:text-6xl text-white uppercase tracking-tight leading-tight">
             A <span className="bg-[#FFC93C] text-[#0A0A08] px-3 py-1 inline-block transform -skew-x-6">CAIXA PRETA</span> DO CONSÓRCIO
           </h1>
           <p className="mt-6 text-gray-300 text-[15px] md:text-[17px] max-w-2xl mx-auto leading-relaxed font-medium">
@@ -419,9 +419,9 @@ export default function CaixaPreta() {
       </section>
 
       {/* CONTEÚDO SOCIAL / CARROSSEIS */}
-      <section className="py-12 md:py-16 px-6">
-        <div className="max-w-[1180px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section className="cv-blackbox-dossiers py-12 md:py-16 px-6">
+        <div className="cv-shell max-w-[1180px] mx-auto">
+          <div className="cv-blackbox-dossier-head flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[#FFC93C] mb-4 font-bold font-['IBM_Plex_Mono']">
                 Conteúdo Independente
@@ -435,7 +435,7 @@ export default function CaixaPreta() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
+          <div className="cv-dossier-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4">
             {CARROSSEIS.map((item, i) => (
               <div 
                 key={i} 
@@ -443,10 +443,10 @@ export default function CaixaPreta() {
                   if (item.slides) setActiveCarrossel(item);
                   else if (item.image) setActiveImage(item);
                 }}
-                className={`border border-[#E4DCC9] bg-white p-0 rounded-sm overflow-hidden group transition-all ${(item.slides || item.image) ? 'cursor-pointer hover:border-[#FFC93C]/30 hover:shadow-sm' : 'opacity-60 grayscale'}`}
+                className={`cv-dossier-card border border-[#E4DCC9] bg-white p-0 rounded-sm overflow-hidden group transition-all ${(item.slides || item.image) ? 'cursor-pointer hover:border-[#FFC93C]/30 hover:shadow-sm' : 'opacity-60 grayscale'}`}
               >
                 {/* Imagem do Carrossel - Sem Capa */}
-                <div className="aspect-[4/5] bg-[#0A0A08] flex items-center justify-center overflow-hidden">
+                <div className="cv-dossier-media aspect-[4/5] bg-[#0A0A08] flex items-center justify-center overflow-hidden">
                   {item.slides ? (
                     <img 
                       src={item.slides[0]} 
@@ -475,7 +475,7 @@ export default function CaixaPreta() {
                 </div>
                 
                 {/* Rodapé do Card */}
-                <div className="p-3 border-t border-[#E4DCC9] flex items-center justify-between">
+                <div className="cv-dossier-caption p-3 border-t border-[#E4DCC9] flex items-center justify-between">
                   <div className="flex flex-col">
                     <span className="font-['IBM_Plex_Mono'] text-[11px] font-semibold text-[#0A0A08] uppercase tracking-wider">
                       Post #{i + 1}
@@ -511,9 +511,9 @@ export default function CaixaPreta() {
       </section>
 
       {/* SEÇÃO VÍDEOS - GRID DE CARDS */}
-      <section className="bg-[#0A0A08] py-12 md:py-16 px-6 text-white border-t-4 border-[#FFC93C]">
-        <div className="max-w-[1180px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <section className="cv-blackbox-films bg-[#0A0A08] py-12 md:py-16 px-6 text-white border-t-4 border-[#FFC93C]">
+        <div className="cv-shell max-w-[1180px] mx-auto">
+          <div className="cv-blackbox-film-head flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
               <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[#FFC93C] mb-4 font-bold font-['IBM_Plex_Mono']">
                 Análises em Vídeo
@@ -527,7 +527,7 @@ export default function CaixaPreta() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="cv-film-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {VIDEOS.map((video) => (
               <VideoCard key={video.id} video={video} />
             ))}

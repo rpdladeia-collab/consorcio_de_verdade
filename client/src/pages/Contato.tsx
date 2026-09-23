@@ -2,9 +2,9 @@ import { MessageCircle, Mail, Instagram, Linkedin } from 'lucide-react';
 
 export default function Contato() {
   return (
-    <div className="min-h-screen">
+    <div className="cv-contact-page min-h-screen">
       {/* Hero */}
-      <section className="bg-gradient-to-b from-card to-background py-16 md:py-24">
+      <section className="cv-contact-hero bg-gradient-to-b from-card to-background py-16 md:py-24">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6 text-foreground">
@@ -24,7 +24,7 @@ export default function Contato() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
               {/* WhatsApp */}
               <a 
-                href="https://wa.me/5511999999999?text=Olá%20Consórcio%20de%20Verdade" 
+                href="https://wa.me/5531996952204?text=Olá%20Consórcio%20de%20Verdade"
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="p-8 bg-card border border-border rounded-lg hover:border-accent transition-all hover:shadow-lg cursor-pointer group"

@@ -1951,7 +1951,7 @@
       "referencedBy": [
         {
           "sourceFile": "client/src/components/Footer.tsx",
-          "line": 15,
+          "line": 9,
           "kind": "public",
           "reference": "/assets/footer-logo-new.png"
         }

@@ -722,9 +722,9 @@ export default function Panorama() {
   }, []);
 
   return (
-    <div className="min-h-screen" style={{ background: "#f6f3ec" }}>
+    <div className="cv-panorama-page min-h-screen" style={{ background: "#f6f3ec" }}>
       {/* ── Hero ── */}
-      <header id="hero" className="bg-[#15140f] text-white pt-10 pb-6 px-6 scroll-mt-20">
+      <header id="hero" className="cv-panorama-hero bg-[#15140f] text-white pt-10 pb-6 px-6 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <div className="mb-3 flex items-center justify-between">
             <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
@@ -755,7 +755,7 @@ export default function Panorama() {
       </header>
 
       {/* ── Sticky nav ── */}
-      <nav className="sticky top-0 z-30 bg-white border-b border-[#e5e0d8] shadow-sm">
+      <nav className="cv-panorama-nav sticky top-0 z-30 bg-white border-b border-[#e5e0d8] shadow-sm">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex overflow-x-auto md:overflow-x-visible md:flex-wrap -mb-px">
             {/* Panorama editorial dropdown */}
@@ -815,7 +815,7 @@ export default function Panorama() {
       </nav>
 
       {/* ── Conteúdo ── */}
-      <main className="max-w-5xl mx-auto px-4 py-8">
+      <main className="cv-panorama-content max-w-5xl mx-auto px-4 py-8">
 
         {/* Resumo executivo */}
         <ResumoExecutivo onScrollTo={scrollTo} />
