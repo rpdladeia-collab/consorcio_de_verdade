@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "policy": "Toda mídia deve existir, conter dados válidos, estar versionada pelo Git e usar caminhos permanentes.",
   "summary": {
-    "totalMediaFiles": 123,
-    "publicMediaFiles": 121,
+    "totalMediaFiles": 124,
+    "publicMediaFiles": 122,
     "sourceMediaFiles": 2,
-    "referencedMediaFiles": 112,
+    "referencedMediaFiles": 113,
     "unreferencedMediaFiles": 11,
-    "totalBytes": 158627409
+    "totalBytes": 161700608
   },
   "files": [
     {
@@ -74,6 +74,12 @@
         {
           "sourceFile": "client/src/pages/CaixaPreta.tsx",
           "line": 400,
+          "kind": "public",
+          "reference": "/assets/bg-caixa-preta.jpg"
+        },
+        {
+          "sourceFile": "client/src/pages/Home.tsx",
+          "line": 88,
           "kind": "public",
           "reference": "/assets/bg-caixa-preta.jpg"
         }
@@ -1954,6 +1960,25 @@
           "line": 9,
           "kind": "public",
           "reference": "/assets/footer-logo-new.png"
+        }
+      ]
+    },
+    {
+      "path": "client/public/assets/hero-scan-layers.mp4",
+      "publicPath": "/assets/hero-scan-layers.mp4",
+      "extension": ".mp4",
+      "detectedFormat": "iso-bmff-video",
+      "extensionMatchesContent": true,
+      "bytes": 3073199,
+      "sha256": "6704c55cd4694bbf461e6d15c35bf095b98c2841954d2d4a41c403c42cdfbc9c",
+      "gitTracked": true,
+      "referenced": true,
+      "referencedBy": [
+        {
+          "sourceFile": "client/src/pages/Home.tsx",
+          "line": 88,
+          "kind": "public",
+          "reference": "/assets/hero-scan-layers.mp4"
         }
       ]
     },

@@ -1,5 +1,5 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
-import { ArrowDownRight, ArrowRight, ArrowUpRight, ChevronDown, Eye, Layers3, ScanLine, Sparkles } from "lucide-react";
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import { ArrowRight, ArrowUpRight, ChevronDown, ScanLine, Sparkles } from "lucide-react";
 import { Link } from "wouter";
 import { BRAND } from "@/lib/brand";
 
@@ -85,7 +85,7 @@ function Reveal({ children, className = "" }: { children: ReactNode; className?:
 function HeroSection() {
   return (
     <section id="hero" className="cv-home-hero" aria-labelledby="hero-title">
-      <div className="cv-hero-ambient" aria-hidden="true"><div className="cv-hero-orbit cv-hero-orbit-a" /><div className="cv-hero-orbit cv-hero-orbit-b" /><div className="cv-hero-orbit cv-hero-orbit-c" /><div className="cv-hero-scanline" /><div className="cv-hero-grid" /></div>
+      <div className="cv-hero-ambient" aria-hidden="true"><video className="cv-hero-video" src="/assets/hero-scan-layers.mp4" poster="/assets/bg-caixa-preta.jpg" autoPlay muted loop playsInline preload="metadata" /><div className="cv-hero-video-wash" /><div className="cv-hero-orbit cv-hero-orbit-a" /><div className="cv-hero-orbit cv-hero-orbit-b" /><div className="cv-hero-orbit cv-hero-orbit-c" /><div className="cv-hero-scanline" /><div className="cv-hero-grid" /></div>
       <div className="cv-hero-content cv-shell">
         <div className="cv-hero-meta"><span className="cv-signal-dot" /> entrada no sistema <span className="cv-hero-meta-index">01 / 05</span></div>
         <div className="cv-hero-main">
@@ -93,11 +93,11 @@ function HeroSection() {
             <p className="cv-kicker cv-kicker-light">Consórcio não é para todo mundo</p>
             <h1 id="hero-title" className="cv-display cv-hero-title">Antes de contratar um consórcio,<br /><em>faça a conta.</em></h1>
           </div>
-          <div className="cv-hero-aside"><span className="cv-aside-line" /><p>Os simuladores mostram os números. A análise responde se o consórcio é realmente a melhor estratégia para o seu caso.</p><p className="cv-hero-aside-note">Aqui você simula custos, lance, contemplação, correções e capacidade real de pagamento — antes de assinar o contrato.</p></div>
+          <div className="cv-hero-aside"><span className="cv-aside-line" /><p>Simule custos, lance, contemplação e correções antes de assinar. A análise responde se o consórcio realmente faz sentido para o seu caso.</p></div>
         </div>
         <div className="cv-hero-bottom">
           <div className="cv-hero-words" aria-label="Elementos analisados"><span>custos</span><span>lance</span><span>contemplação</span><span>correção</span><span>cancelamento</span></div>
-          <div className="cv-hero-actions"><Link className="cv-button cv-button-orange" href="/simuladores#hero">Começar o Raio-X <ArrowUpRight /></Link><Link className="cv-button cv-button-line" href="/simuladores#hero">Ver simuladores <ArrowRight /></Link></div>
+          <div className="cv-hero-actions"><Link className="cv-button cv-button-orange cv-button-primary" href="/simuladores#hero">Começar o Raio-X <ArrowUpRight /></Link><Link className="cv-button cv-button-line" href="/simuladores#hero">Ver simuladores <ArrowRight /></Link></div>
         </div>
         <div className="cv-hero-footer"><span>simulações gratuitas · dados claros · decisão com mais consciência</span><a href="#reality">descer para revelar <ChevronDown /></a></div>
       </div>
@@ -106,16 +106,17 @@ function HeroSection() {
 }
 
 function RealitySection() {
-  const [revealed, setRevealed] = useState(false);
+  const [split, setSplit] = useState(48);
   return (
-    <section id="reality" className={`cv-reality-section ${revealed ? "is-revealed" : ""}`}>
+    <section id="reality" className="cv-reality-section">
       <div className="cv-shell">
         <Reveal><div className="cv-section-marker"><span>02</span><span>proposta × realidade</span><span className="cv-marker-rule" /></div></Reveal>
         <Reveal className="cv-reality-heading"><h2 className="cv-display">O contrato mostra uma camada.<br /><em>O sistema esconde outras.</em></h2><p>Parcela, prazo, crédito e taxa são o começo. A decisão aparece quando a segunda camada entra em foco.</p></Reveal>
-        <div className="cv-reality-stage">
+        <div className="cv-reality-stage" style={{ "--cv-split": `${split}%` } as CSSProperties}>
           <div className="cv-reality-layer cv-reality-visible"><span className="cv-layer-index">CAMADA 01 / O QUE APARECE</span><div className="cv-reality-numbers"><strong>R$ 1.500</strong><span>parcela</span><strong>180</strong><span>meses</span><strong>R$ 250 mil</strong><span>crédito</span></div><p>A proposta organiza o produto em números que cabem numa primeira conversa.</p></div>
           <div className="cv-reality-layer cv-reality-hidden"><span className="cv-layer-index">CAMADA 02 / O QUE PRECISA SER VISTO</span><div className="cv-reality-reveal-list"><span>correção</span><span>disputa por lance</span><span>tempo</span><span>pressão do grupo</span><span>custo de cancelamento</span><span>custo de oportunidade</span><span>probabilidade</span><span>impacto no orçamento</span></div><p>Agora você está vendo o que normalmente só aparece depois da assinatura.</p></div>
-          <button type="button" className="cv-reveal-control" onClick={() => setRevealed((value) => !value)}><ScanLine />{revealed ? "voltar à primeira camada" : "revelar a segunda camada"}<ArrowRight /></button>
+          <div className="cv-reality-divider" aria-hidden="true"><span /><b>arraste para revelar</b></div>
+          <label className="cv-reality-slider"><span>proposta</span><input aria-label="Revelar a segunda camada da proposta" type="range" min="18" max="82" value={split} onChange={(event) => setSplit(Number(event.target.value))} /><span>o que fica escondido</span></label>
         </div>
       </div>
     </section>
@@ -131,7 +132,7 @@ function RaioXSection() {
         <Reveal><div className="cv-section-marker cv-section-marker-light"><span>03</span><span>Raio-X do Consórcio</span><span className="cv-marker-rule" /></div></Reveal>
         <Reveal className="cv-raiox-intro"><div><p className="cv-kicker cv-kicker-light">Examinar antes de decidir</p><h2 className="cv-display">Uma proposta.<br /><em>Cinco perguntas.</em></h2></div><p>O Raio-X abre o produto em partes. Passe por cada eixo para ver o dado, a pergunta e a ferramenta que existe por trás.</p></Reveal>
         <div className="cv-axis-list" role="tablist" aria-label="Eixos do Raio-X">
-          {AXES.map((item, index) => <button type="button" role="tab" aria-selected={activeAxis === index} key={item.num} className={`cv-axis-row ${activeAxis === index ? "is-active" : ""}`} onMouseEnter={() => setActiveAxis(index)} onFocus={() => setActiveAxis(index)} onClick={() => setActiveAxis(index)}><span className="cv-axis-num">{item.num}</span><span className="cv-axis-title">{item.title}</span><span className="cv-axis-signal">{item.signal}</span><ArrowUpRight /></button>)}
+          {AXES.map((item, index) => <button type="button" role="tab" aria-selected={activeAxis === index} key={item.num} className={`cv-axis-row ${activeAxis === index ? "is-active" : ""}`} onMouseEnter={() => setActiveAxis(index)} onFocus={() => setActiveAxis(index)} onClick={() => setActiveAxis(index)}><span className="cv-axis-num">{item.num}</span><span className="cv-axis-title">{item.title}</span><span className="cv-axis-question-preview">{item.question}</span><ArrowUpRight /></button>)}
         </div>
         <div className="cv-axis-detail" key={axis.num}><div className="cv-axis-detail-top"><span>eixo {axis.num}</span><span>interface de análise</span></div><h3 className="cv-display">{axis.question}</h3><p>{axis.detail}</p><Link className="cv-text-link" href={axis.href}>entrar em {axis.title.toLowerCase()} <ArrowRight /></Link></div>
       </div>
@@ -140,10 +141,45 @@ function RaioXSection() {
 }
 
 function TruthsSection() {
+  const [activeTruth, setActiveTruth] = useState(0);
+  const [isPinned, setIsPinned] = useState(false);
+  const truthScrollRef = useRef<HTMLDivElement>(null);
+  const truthRefs = useRef<Array<HTMLDivElement | null>>([]);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) setActiveTruth(Number((entry.target as HTMLElement).dataset.truthIndex));
+      });
+    }, { rootMargin: "-38% 0px -48% 0px", threshold: 0 });
+    truthRefs.current.forEach((node) => node && observer.observe(node));
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const updatePinnedState = () => {
+      const node = truthScrollRef.current;
+      if (!node) return;
+      const rect = node.getBoundingClientRect();
+      setIsPinned(rect.top <= 0 && rect.bottom >= window.innerHeight);
+    };
+    updatePinnedState();
+    window.addEventListener("scroll", updatePinnedState, { passive: true });
+    window.addEventListener("resize", updatePinnedState);
+    return () => {
+      window.removeEventListener("scroll", updatePinnedState);
+      window.removeEventListener("resize", updatePinnedState);
+    };
+  }, []);
+
+  const truth = TRUTHS[activeTruth];
   return (
     <section id="verdades" className="cv-truths-section">
       <div className="cv-truth-intro"><div className="cv-shell"><p className="cv-kicker cv-kicker-light">Por que simular antes de contratar</p><h2 className="cv-display">Consórcio não é golpe.<br /><em>Mas também não é mágica.</em></h2><p>Antes de contratar: existem quatro pontos que mudam completamente a decisão.</p></div></div>
-      {TRUTHS.map((truth, index) => <article className={`cv-truth-panel cv-truth-${truth.tone}`} key={truth.eyebrow}><div className="cv-shell cv-truth-inner"><span className="cv-truth-index">{truth.eyebrow}</span><div className="cv-truth-line"><span>{truth.lead}</span><strong>{truth.accent}</strong></div><span className="cv-truth-count">0{index + 1} / 04</span></div></article>)}
+      <div ref={truthScrollRef} className={`cv-truth-scroll cv-truth-${truth.tone}`}>
+        <div className={`cv-truth-sticky ${isPinned ? "is-pinned" : ""}`}><div className="cv-truth-lab-grid" aria-hidden="true" /><div className="cv-shell cv-truth-stage"><div className="cv-truth-stage-top"><span>evidência / sentença completa</span><span>0{activeTruth + 1} / 04</span></div><div className="cv-truth-line"><span>{truth.eyebrow.split(" / ")[1]}</span><small>{truth.lead}</small><strong>{truth.accent}</strong></div><div className="cv-truth-trace" aria-hidden="true"><i /><i /><i /><i /><span /></div><div className="cv-truth-rail" aria-label="Verdades da análise">{TRUTHS.map((item, index) => <span className={activeTruth === index ? "is-active" : ""} key={item.eyebrow}>{item.eyebrow.split(" / ")[1]}</span>)}</div><p className="cv-truth-readout">O dado não encerra a análise. Ele abre a próxima pergunta.</p></div></div>
+        <div className="cv-truth-steps" aria-label="Sequência de verdades">{TRUTHS.map((item, index) => <div ref={(node) => { truthRefs.current[index] = node; }} data-truth-index={index} className="cv-truth-step" key={item.eyebrow} aria-label={`${item.eyebrow}: ${item.lead} ${item.accent}`} />)}</div>
+      </div>
     </section>
   );
 }
