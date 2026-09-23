@@ -2142,8 +2142,8 @@
       "referenced": true,
       "referencedBy": [
         {
-          "sourceFile": "client/src/components/Header.tsx",
-          "line": 20,
+          "sourceFile": "client/src/index.css",
+          "line": 1065,
           "kind": "public",
           "reference": "/assets/r-icon.png"
         }

@@ -87,7 +87,7 @@ function HeroSection() {
     <section id="hero" className="cv-home-hero" aria-labelledby="hero-title">
       <div className="cv-hero-ambient" aria-hidden="true"><video className="cv-hero-video" src="/assets/hero-scan-layers.mp4" poster="/assets/bg-caixa-preta.jpg" autoPlay muted loop playsInline preload="metadata" /><div className="cv-hero-video-wash" /><div className="cv-hero-orbit cv-hero-orbit-a" /><div className="cv-hero-orbit cv-hero-orbit-b" /><div className="cv-hero-orbit cv-hero-orbit-c" /><div className="cv-hero-scanline" /><div className="cv-hero-grid" /></div>
       <div className="cv-hero-content cv-shell">
-        <div className="cv-hero-meta"><span className="cv-signal-dot" /> entrada no sistema <span className="cv-hero-meta-index">01 / 05</span></div>
+        <div className="cv-hero-meta"><span className="cv-signal-dot" /> <span>início da análise</span></div>
         <div className="cv-hero-main">
           <div>
             <p className="cv-kicker cv-kicker-light">Consórcio não é para todo mundo</p>
@@ -113,10 +113,11 @@ function RealitySection() {
         <Reveal><div className="cv-section-marker"><span>02</span><span>proposta × realidade</span><span className="cv-marker-rule" /></div></Reveal>
         <Reveal className="cv-reality-heading"><h2 className="cv-display">O contrato mostra uma camada.<br /><em>O sistema esconde outras.</em></h2><p>Parcela, prazo, crédito e taxa são o começo. A decisão aparece quando a segunda camada entra em foco.</p></Reveal>
         <div className="cv-reality-stage" style={{ "--cv-split": `${split}%` } as CSSProperties}>
-          <div className="cv-reality-layer cv-reality-visible"><span className="cv-layer-index">CAMADA 01 / O QUE APARECE</span><div className="cv-reality-numbers"><strong>R$ 1.500</strong><span>parcela</span><strong>180</strong><span>meses</span><strong>R$ 250 mil</strong><span>crédito</span></div><p>A proposta organiza o produto em números que cabem numa primeira conversa.</p></div>
+          <div className="cv-reality-layer cv-reality-visible"><span className="cv-layer-index">CAMADA 01 / O QUE APARECE</span><div className="cv-reality-numbers"><div className="cv-reality-stat"><strong>R$ 1.500</strong><span>parcela</span></div><div className="cv-reality-stat"><strong>180</strong><span>meses</span></div><div className="cv-reality-stat"><strong>R$ 250 mil</strong><span>crédito</span></div></div><p>A proposta organiza o produto em números que cabem numa primeira conversa.</p></div>
           <div className="cv-reality-layer cv-reality-hidden"><span className="cv-layer-index">CAMADA 02 / O QUE PRECISA SER VISTO</span><div className="cv-reality-reveal-list"><span>correção</span><span>disputa por lance</span><span>tempo</span><span>pressão do grupo</span><span>custo de cancelamento</span><span>custo de oportunidade</span><span>probabilidade</span><span>impacto no orçamento</span></div><p>Agora você está vendo o que normalmente só aparece depois da assinatura.</p></div>
           <div className="cv-reality-divider" aria-hidden="true"><span /><b>arraste para revelar</b></div>
-          <label className="cv-reality-slider"><span>proposta</span><input aria-label="Revelar a segunda camada da proposta" type="range" min="18" max="82" value={split} onChange={(event) => setSplit(Number(event.target.value))} /><span>o que fica escondido</span></label>
+          <label className="cv-reality-slider"><span>o que aparece</span><input aria-label="Mover o divisor entre as camadas completas" type="range" min="18" max="82" value={split} onChange={(event) => setSplit(Number(event.target.value))} /><span>o que fica escondido</span></label>
+          <p className="cv-reality-instruction">Arraste o divisor para comparar as duas camadas.</p>
         </div>
       </div>
     </section>
@@ -144,31 +145,25 @@ function TruthsSection() {
   const [activeTruth, setActiveTruth] = useState(0);
   const [isPinned, setIsPinned] = useState(false);
   const truthScrollRef = useRef<HTMLDivElement>(null);
-  const truthRefs = useRef<Array<HTMLDivElement | null>>([]);
 
   useEffect(() => {
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) setActiveTruth(Number((entry.target as HTMLElement).dataset.truthIndex));
-      });
-    }, { rootMargin: "-38% 0px -48% 0px", threshold: 0 });
-    truthRefs.current.forEach((node) => node && observer.observe(node));
-    return () => observer.disconnect();
-  }, []);
-
-  useEffect(() => {
-    const updatePinnedState = () => {
+    const updateSequence = () => {
       const node = truthScrollRef.current;
       if (!node) return;
       const rect = node.getBoundingClientRect();
       setIsPinned(rect.top <= 0 && rect.bottom >= window.innerHeight);
+      const top = rect.top + window.scrollY;
+      const range = Math.max(1, node.offsetHeight - window.innerHeight);
+      const progress = Math.max(0, Math.min(0.999, (window.scrollY - top) / range));
+      const nextTruth = Math.min(TRUTHS.length - 1, Math.floor(progress * TRUTHS.length));
+      setActiveTruth((current) => current === nextTruth ? current : nextTruth);
     };
-    updatePinnedState();
-    window.addEventListener("scroll", updatePinnedState, { passive: true });
-    window.addEventListener("resize", updatePinnedState);
+    updateSequence();
+    window.addEventListener("scroll", updateSequence, { passive: true });
+    window.addEventListener("resize", updateSequence);
     return () => {
-      window.removeEventListener("scroll", updatePinnedState);
-      window.removeEventListener("resize", updatePinnedState);
+      window.removeEventListener("scroll", updateSequence);
+      window.removeEventListener("resize", updateSequence);
     };
   }, []);
 
@@ -177,8 +172,7 @@ function TruthsSection() {
     <section id="verdades" className="cv-truths-section">
       <div className="cv-truth-intro"><div className="cv-shell"><p className="cv-kicker cv-kicker-light">Por que simular antes de contratar</p><h2 className="cv-display">Consórcio não é golpe.<br /><em>Mas também não é mágica.</em></h2><p>Antes de contratar: existem quatro pontos que mudam completamente a decisão.</p></div></div>
       <div ref={truthScrollRef} className={`cv-truth-scroll cv-truth-${truth.tone}`}>
-        <div className={`cv-truth-sticky ${isPinned ? "is-pinned" : ""}`}><div className="cv-truth-lab-grid" aria-hidden="true" /><div className="cv-shell cv-truth-stage"><div className="cv-truth-stage-top"><span>evidência / sentença completa</span><span>0{activeTruth + 1} / 04</span></div><div className="cv-truth-line"><span>{truth.eyebrow.split(" / ")[1]}</span><small>{truth.lead}</small><strong>{truth.accent}</strong></div><div className="cv-truth-trace" aria-hidden="true"><i /><i /><i /><i /><span /></div><div className="cv-truth-rail" aria-label="Verdades da análise">{TRUTHS.map((item, index) => <span className={activeTruth === index ? "is-active" : ""} key={item.eyebrow}>{item.eyebrow.split(" / ")[1]}</span>)}</div><p className="cv-truth-readout">O dado não encerra a análise. Ele abre a próxima pergunta.</p></div></div>
-        <div className="cv-truth-steps" aria-label="Sequência de verdades">{TRUTHS.map((item, index) => <div ref={(node) => { truthRefs.current[index] = node; }} data-truth-index={index} className="cv-truth-step" key={item.eyebrow} aria-label={`${item.eyebrow}: ${item.lead} ${item.accent}`} />)}</div>
+        <div className={`cv-truth-sticky ${isPinned ? "is-pinned" : ""}`}><div className="cv-truth-lab-grid" aria-hidden="true" /><div className="cv-shell cv-truth-stage"><div className="cv-truth-stage-top"><span>evidência / sentença completa</span><span>0{activeTruth + 1} / 04</span></div><div className="cv-truth-line" key={truth.eyebrow} aria-live="polite"><span>{truth.eyebrow.split(" / ")[1]}</span><small>{truth.lead}</small><strong>{truth.accent}</strong></div><div className="cv-truth-trace" aria-hidden="true"><i /><i /><i /><i /><span /></div><div className="cv-truth-rail" aria-label="Verdades da análise">{TRUTHS.map((item, index) => <span className={activeTruth === index ? "is-active" : ""} key={item.eyebrow}>{item.eyebrow.split(" / ")[1]}</span>)}</div><p className="cv-truth-readout">O dado não encerra a análise. Ele abre a próxima pergunta.</p></div></div>
       </div>
     </section>
   );

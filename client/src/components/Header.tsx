@@ -17,8 +17,6 @@ const INDUSTRIA_SUBMENU = [
   { label: "Panorama Administradoras", href: "#", isFuture: true },
 ];
 
-const R_ICON_URL = "/assets/r-icon.png";
-
 export default function Header() {
   const [open, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -67,11 +65,11 @@ export default function Header() {
           <div className={`cv-header-actions ${navClass}`}>
             <a href={BRAND.instagram} target="_blank" rel="noreferrer" aria-label="Instagram"><Instagram /></a>
             <a href={BRAND.youtube} target="_blank" rel="noreferrer" aria-label="YouTube"><Youtube /></a>
-            <Link href="/sobre" aria-label="Sobre a marca"><img src={R_ICON_URL} alt="r." /></Link>
+            <Link href="/sobre" aria-label="Sobre a marca"><span className="cv-r-icon" aria-hidden="true" /></Link>
           </div>
           <button type="button" className={`cv-mobile-trigger ${lightMode ? "is-light" : ""}`} onClick={() => setOpen((value) => !value)} aria-label={open ? "Fechar menu" : "Abrir menu"}>{open ? <X /> : <Menu />}</button>
         </div>
-        {open && <div className="cv-mobile-menu"><div className="cv-shell"><Link href="/#hero">Home</Link><div className="cv-mobile-group"><Link href="/simuladores#hero">Raio-X do Consórcio</Link>{RAIOX_SUBMENU.map((item) => <Link key={item.label} href={item.href}>{item.label}</Link>)}</div><div className="cv-mobile-group"><Link href="/panorama#hero">Indústria do Consórcio</Link>{INDUSTRIA_SUBMENU.map((item) => item.isFuture ? <button type="button" key={item.label} onClick={() => alert("Em breve")}>{item.label} · em breve</button> : <Link key={item.label} href={item.href}>{item.label}</Link>)}</div><Link href="/caixa-preta#hero">Caixa-Preta</Link><div className="cv-mobile-socials"><a href={BRAND.instagram} target="_blank" rel="noreferrer"><Instagram /></a><a href={BRAND.youtube} target="_blank" rel="noreferrer"><Youtube /></a><Link href="/sobre"><img src={R_ICON_URL} alt="r." /></Link></div></div></div>}
+        {open && <div className="cv-mobile-menu"><div className="cv-shell"><Link href="/#hero">Home</Link><div className="cv-mobile-group"><Link href="/simuladores#hero">Raio-X do Consórcio</Link>{RAIOX_SUBMENU.map((item) => <Link key={item.label} href={item.href}>{item.label}</Link>)}</div><div className="cv-mobile-group"><Link href="/panorama#hero">Indústria do Consórcio</Link>{INDUSTRIA_SUBMENU.map((item) => item.isFuture ? <button type="button" key={item.label} onClick={() => alert("Em breve")}>{item.label} · em breve</button> : <Link key={item.label} href={item.href}>{item.label}</Link>)}</div><Link href="/caixa-preta#hero">Caixa-Preta</Link><div className="cv-mobile-socials"><a href={BRAND.instagram} target="_blank" rel="noreferrer"><Instagram /></a><a href={BRAND.youtube} target="_blank" rel="noreferrer"><Youtube /></a><Link href="/sobre" aria-label="Sobre a marca"><span className="cv-r-icon" aria-hidden="true" /></Link></div></div></div>}
       </header>
       <div className={`cv-header-spacer ${location === "/" ? "is-home" : ""}`} aria-hidden="true" />
     </>
