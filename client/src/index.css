@@ -1387,3 +1387,252 @@ html, body {
   .cv-zone-result strong { font-size: 21px; }
   .cv-footer-top p { font-size: 14px; }
 }
+
+
+/* ========================================================================
+   DENSITY PASS — approved visual language, shorter functional journeys.
+   Heroes and closing moments remain spacious; tools and navigation tighten.
+   ======================================================================== */
+
+/* Home: preserve the hero; make the analytical sequence more efficient. */
+@media (min-width: 901px) {
+  .cv-reality-section { padding: 88px 0 108px; }
+  .cv-reality-heading { gap: 54px; margin-top: 32px; }
+  .cv-reality-stage { margin-top: 52px; }
+  .cv-reality-panel { min-height: 398px; padding: 26px 28px 24px; }
+  .cv-reality-panel h3 { margin-top: 38px; margin-bottom: 26px; }
+  .cv-reality-points li { padding: 10px 0; }
+  .cv-reality-panel-note { padding-top: 26px; }
+
+  .cv-raiox-section { padding: 88px 0 104px; }
+  .cv-raiox-intro { gap: 54px; margin-top: 30px; }
+  .cv-axis-list { margin-top: 58px; }
+  .cv-axis-row { min-height: 74px; }
+  .cv-axis-detail { gap: 36px; margin-top: 20px; padding-top: 18px; }
+
+  .cv-zone-section { padding: 92px 0 110px; }
+  .cv-zone-heading { gap: 54px; margin-top: 32px; }
+  .cv-zone-visual { margin-top: 56px; padding: 30px 32px 26px; }
+  .cv-question-list { margin-top: 54px; }
+  .cv-question-list a { padding-block: 18px; }
+
+  .cv-panorama-section { padding: 96px 0 112px; }
+  .cv-panorama-heading { gap: 54px; margin-top: 32px; }
+  .cv-panorama-question { margin-top: 60px; padding-block: 28px 34px; }
+  .cv-data-timeline { margin-top: 62px; }
+  .cv-panorama-links { margin-top: 56px; }
+  .cv-panorama-links a { min-height: 108px; padding-block: 16px; }
+  .cv-source-line { margin-top: 40px; padding-top: 16px; }
+}
+
+/* Raio-X index: shorten the working surface, not its hero or final CTA. */
+@media (min-width: 901px) {
+  .cv-tools-main { padding: 94px 0 112px; }
+  .cv-tools-intro { gap: 54px; }
+  .cv-tools-tabs { margin-top: 58px; }
+  .cv-tool-focus { margin-top: 52px; }
+  .cv-tool-focus-head { gap: 54px; }
+  .cv-tool-modules { margin-top: 44px; }
+  .cv-tool-modules-1 .cv-tool-module { min-height: 240px; }
+  .cv-tool-modules-2 .cv-tool-module,
+  .cv-tool-modules-3 .cv-tool-module { min-height: 270px; }
+  .cv-tool-module { padding: 21px; }
+  .cv-tool-module h3 { margin-top: 38px; margin-bottom: 14px; }
+  .cv-tool-module-cta { padding-top: 22px; }
+  .cv-tools-all { margin-top: 88px; }
+  .cv-tool-category { min-height: 98px; padding-block: 16px; }
+}
+
+@media (max-width: 900px) {
+  .cv-reality-section,
+  .cv-raiox-section { padding-block: 64px 72px; }
+  .cv-reality-heading,
+  .cv-raiox-intro { gap: 18px; margin-top: 22px; }
+  .cv-axis-list { margin-top: 30px; }
+  .cv-axis-detail { margin-top: 16px; padding-top: 18px; }
+  .cv-question-list { margin-top: 40px; }
+
+  .cv-tools-main { padding: 68px 0 78px; }
+  .cv-tools-tabs { margin-top: 46px; }
+  .cv-tool-focus { margin-top: 42px; }
+  .cv-tool-focus-head { gap: 18px; }
+  .cv-tool-modules { margin-top: 38px; }
+  .cv-tools-all { margin-top: 64px; }
+  .cv-tool-category { min-height: 96px; padding-block: 14px; }
+}
+
+@media (max-width: 600px) {
+  .cv-reality-section,
+  .cv-raiox-section,
+  .cv-zone-section,
+  .cv-panorama-section { padding-block: 60px 68px; }
+  .cv-reality-heading,
+  .cv-raiox-intro,
+  .cv-zone-heading,
+  .cv-panorama-heading { gap: 16px; margin-top: 20px; }
+  .cv-reality-stage { margin-top: 30px; }
+  .cv-reality-panel { padding: 20px 17px 22px; }
+  .cv-reality-panel h3 { margin: 26px 0 20px; }
+  .cv-reality-points li { padding: 9px 0; }
+  .cv-reality-panel-note { margin-top: 22px; padding-top: 0; }
+  .cv-zone-visual { margin-top: 38px; }
+  .cv-question-list { margin-top: 36px; }
+  .cv-question-list a { padding-block: 15px; }
+
+  .cv-tools-main { padding: 60px 0 70px; }
+  .cv-tools-tabs { margin-top: 38px; }
+  .cv-tool-focus { margin-top: 34px; }
+  .cv-tool-modules { margin-top: 30px; }
+  .cv-tool-module { padding: 17px; }
+  .cv-tool-module h3 { margin-top: 30px; }
+  .cv-tool-module-cta { padding-top: 20px; }
+  .cv-tools-all { margin-top: 52px; }
+  .cv-tool-category { min-height: 86px; padding-block: 12px; }
+  .cv-panorama-question { margin-top: 38px; padding-block: 20px 24px; }
+  .cv-data-timeline { margin-top: 48px; }
+  .cv-panorama-links { margin-top: 42px; }
+  .cv-source-line { margin-top: 34px; padding-top: 14px; }
+}
+
+
+/* Density pass v2 — remove dead space from functional sections only. */
+@media (min-width: 901px) {
+  .cv-reality-section { padding: 76px 0 92px; }
+  .cv-reality-heading { margin-top: 24px; }
+  .cv-reality-stage { margin-top: 42px; }
+  .cv-reality-panel { min-height: 0; padding: 18px 24px 20px; }
+  .cv-reality-panel h3 { margin: 28px 0 18px; }
+  .cv-reality-points li { padding: 7px 0; }
+  .cv-reality-panel-note { padding-top: 16px; }
+
+  .cv-raiox-section { padding: 76px 0 90px; }
+  .cv-raiox-intro { margin-top: 24px; }
+  .cv-axis-list { margin-top: 42px; }
+  .cv-axis-row { min-height: 72px; }
+  .cv-axis-detail { gap: 32px; margin-top: 16px; padding-top: 16px; }
+
+  .cv-zone-section { padding: 82px 0 94px; }
+  .cv-zone-heading { margin-top: 26px; }
+  .cv-zone-visual { margin-top: 44px; padding: 24px 26px 22px; }
+  .cv-zone-track { height: 132px; margin-top: 25px; }
+  .cv-zone-result { gap: 18px; margin-top: 21px; padding-top: 16px; }
+  .cv-question-list { margin-top: 44px; }
+  .cv-question-list a { padding-block: 15px; }
+
+  .cv-panorama-section { padding: 84px 0 96px; }
+  .cv-panorama-heading { margin-top: 24px; }
+  .cv-panorama-question { margin-top: 48px; padding: 24px 0 30px 28px; }
+  .cv-panorama-question h3 { margin: 16px 0 10px; }
+  .cv-panorama-question p { margin-bottom: 20px; }
+  .cv-data-timeline { margin-top: 54px; }
+  .cv-panorama-links { margin-top: 48px; }
+  .cv-panorama-links a { min-height: 98px; padding-block: 14px; }
+  .cv-source-line { margin-top: 36px; padding-top: 14px; }
+
+  .cv-tools-main { padding: 78px 0 96px; }
+  .cv-tools-intro { gap: 44px; }
+  .cv-tools-tabs { margin-top: 42px; }
+  .cv-tool-focus { margin-top: 38px; }
+  .cv-tool-focus-head { gap: 44px; }
+  .cv-tool-modules { margin-top: 32px; }
+  .cv-tool-modules-1 .cv-tool-module,
+  .cv-tool-modules-2 .cv-tool-module,
+  .cv-tool-modules-3 .cv-tool-module { min-height: 0; }
+  .cv-tool-module { padding: 18px; }
+  .cv-tool-module h3 { margin-top: 30px; margin-bottom: 12px; }
+  .cv-tool-module-cta { padding-top: 18px; }
+  .cv-tools-all { margin-top: 64px; }
+  .cv-tool-category { min-height: 0; padding-block: 14px; }
+}
+
+@media (max-width: 900px) {
+  .cv-reality-section,
+  .cv-raiox-section { padding-block: 58px 66px; }
+  .cv-reality-heading,
+  .cv-raiox-intro { margin-top: 18px; }
+  .cv-reality-stage { margin-top: 28px; }
+  .cv-axis-list { margin-top: 28px; }
+  .cv-axis-detail { margin-top: 14px; padding-top: 16px; }
+  .cv-question-list { margin-top: 34px; }
+
+  .cv-tools-main { padding: 56px 0 68px; }
+  .cv-tools-tabs { margin-top: 34px; }
+  .cv-tool-focus { margin-top: 32px; }
+  .cv-tool-modules { margin-top: 28px; }
+  .cv-tools-all { margin-top: 52px; }
+  .cv-tool-category { min-height: 0; padding-block: 12px; }
+}
+
+@media (max-width: 600px) {
+  .cv-reality-section,
+  .cv-raiox-section,
+  .cv-zone-section,
+  .cv-panorama-section { padding-block: 54px 62px; }
+  .cv-reality-heading,
+  .cv-raiox-intro,
+  .cv-zone-heading,
+  .cv-panorama-heading { margin-top: 16px; }
+  .cv-reality-stage { margin-top: 26px; }
+  .cv-reality-panel { padding: 18px 16px 20px; }
+  .cv-reality-panel h3 { margin: 24px 0 18px; }
+  .cv-reality-points li { padding: 7px 0; }
+  .cv-reality-panel-note { margin-top: 20px; padding-top: 0; }
+  .cv-zone-visual { margin-top: 34px; padding: 17px 15px 19px; }
+  .cv-zone-track { height: 126px; margin-top: 22px; }
+  .cv-zone-result { margin-top: 18px; padding-top: 14px; }
+  .cv-question-list { margin-top: 32px; }
+  .cv-question-list a { padding-block: 13px; }
+
+  .cv-tools-main { padding: 52px 0 62px; }
+  .cv-tools-tabs { margin-top: 32px; }
+  .cv-tool-focus { margin-top: 28px; }
+  .cv-tool-modules { margin-top: 24px; }
+  .cv-tool-module { padding: 16px; }
+  .cv-tool-module h3 { margin-top: 26px; }
+  .cv-tool-module-cta { padding-top: 16px; }
+  .cv-tools-all { margin-top: 44px; }
+  .cv-tool-category { min-height: 0; padding-block: 10px; }
+  .cv-panorama-question { margin-top: 32px; padding-block: 18px 22px; }
+  .cv-panorama-question h3 { margin: 14px 0 9px; }
+  .cv-data-timeline { margin-top: 42px; }
+  .cv-panorama-links { margin-top: 36px; }
+  .cv-source-line { margin-top: 30px; padding-top: 12px; }
+}
+
+
+/* Density pass v3 — final rhythm adjustment for the approved desktop layout. */
+@media (min-width: 901px) {
+  .cv-reality-section { padding-block: 66px 82px; }
+  .cv-reality-heading { margin-top: 18px; }
+  .cv-reality-stage { margin-top: 34px; }
+
+  .cv-raiox-section { padding-block: 66px 82px; }
+  .cv-raiox-intro { margin-top: 18px; }
+  .cv-axis-list { margin-top: 34px; }
+  .cv-axis-detail { margin-top: 12px; }
+
+  .cv-zone-section { padding-block: 72px 84px; }
+  .cv-zone-heading { margin-top: 20px; }
+  .cv-zone-visual { margin-top: 36px; }
+  .cv-question-list { margin-top: 36px; }
+
+  .cv-panorama-section { padding-block: 74px 86px; }
+  .cv-panorama-heading { margin-top: 18px; }
+  .cv-panorama-question { margin-top: 40px; }
+  .cv-data-timeline { margin-top: 46px; }
+  .cv-panorama-links { margin-top: 40px; }
+}
+
+
+/* Raio-X final ergonomics: compact navigation surfaces, preserve click comfort. */
+@media (min-width: 901px) {
+  .cv-tools-main { padding-block: 58px 72px; }
+  .cv-tools-tabs { margin-top: 32px; }
+  .cv-tool-focus { margin-top: 30px; }
+  .cv-tool-modules { margin-top: 24px; }
+  .cv-tool-module { padding: 16px; }
+  .cv-tool-module h3 { margin-top: 24px; margin-bottom: 10px; }
+  .cv-tool-module-cta { padding-top: 14px; }
+  .cv-tools-all { margin-top: 42px; }
+  .cv-tool-category { padding-block: 8px; }
+}
