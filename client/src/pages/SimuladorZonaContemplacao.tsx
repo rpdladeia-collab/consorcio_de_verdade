@@ -141,7 +141,7 @@ function Thermometer({ pos, label }: { pos: number; label: string }) {
           </span>
         </div>
       </div>
-      <div className="flex justify-between text-[10px] text-foreground/45 px-1">
+      <div className="flex justify-between text-[12px] text-foreground/45 px-1">
         <span>Piso</span>
         <span>Referência central</span>
         <span>Teto</span>
@@ -459,21 +459,21 @@ export default function SimuladorZonaContemplacao() {
                 {/* Texto de orientação reescrito (item 3) */}
                 <div className="rounded-xl bg-secondary/40 px-3 py-2.5">
                   <p className="font-semibold text-[13px] md:text-[14px] text-foreground/80 mb-1.5">Como preencher o histórico do grupo?</p>
-                  <p className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed">
+                  <p className="text-[14px] md:text-[13px] text-foreground/60 leading-relaxed">
                     Informe os lances vencedores das últimas assembleias do seu grupo, sempre utilizando a mesma modalidade de lance (livre, fixo ou embutido).
                   </p>
-                  <p className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed mt-1.5">
+                  <p className="text-[14px] md:text-[13px] text-foreground/60 leading-relaxed mt-1.5">
                     Em cada assembleia, informe:
                   </p>
-                  <ul className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed ml-4 list-disc mt-0.5 space-y-0.5">
+                  <ul className="text-[14px] md:text-[13px] text-foreground/60 leading-relaxed ml-4 list-disc mt-0.5 space-y-0.5">
                     <li>o menor lance contemplado;</li>
                     <li>o lance médio;</li>
                     <li>o maior lance contemplado.</li>
                   </ul>
-                  <p className="text-[12px] md:text-[13px] text-foreground/60 leading-relaxed mt-1.5">
+                  <p className="text-[14px] md:text-[13px] text-foreground/60 leading-relaxed mt-1.5">
                     Quanto maior a quantidade de assembleias informadas, mais precisa será a análise da sua posição no grupo.
                   </p>
-                  <p className="text-[12px] md:text-[13px] text-foreground/50 leading-relaxed mt-1.5 italic">
+                  <p className="text-[14px] md:text-[13px] text-foreground/50 leading-relaxed mt-1.5 italic">
                     O simulador não prevê resultados futuros nem garante contemplação. Ele apenas compara o percentual do seu lance com o comportamento histórico do grupo.
                   </p>
                 </div>
@@ -613,24 +613,24 @@ export default function SimuladorZonaContemplacao() {
                           <ResponsiveContainer width="100%" height={280}>
                             <LineChart data={chartData} margin={{ top: 10, right: 20, left: -8, bottom: 0 }}>
                               <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
-                              <XAxis dataKey="label" tick={{ fontSize: 10 }} stroke="var(--border)" />
-                              <YAxis tick={{ fontSize: 10 }} stroke="var(--border)" unit="%" domain={["auto", "auto"]} />
+                              <XAxis dataKey="label" tick={{ fontSize: 13 }} stroke="var(--border)" />
+                              <YAxis tick={{ fontSize: 13 }} stroke="var(--border)" unit="%" domain={["auto", "auto"]} />
                               <RechartsTooltip formatter={(v: number) => `${v}%`} />
                               <Legend />
                               <ReferenceLine
                                 y={parseNum(meuLance)}
                                 stroke="var(--ink)"
                                 strokeDasharray="4 4"
-                                label={{ value: "Meu lance", fontSize: 10, position: "insideTopRight" }}
+                                label={{ value: "Meu lance", fontSize: 13, position: "insideTopRight" }}
                               />
                               <Line type="monotone" dataKey="low" name="Menor" stroke="#27c07d" strokeWidth={2} dot={{ r: 4 }}>
-                                <LabelList dataKey="low" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 11, fontWeight: 700, fill: '#16a34a' }} />
+                                <LabelList dataKey="low" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fontWeight: 700, fill: '#16a34a' }} />
                               </Line>
                               <Line type="monotone" dataKey="mid" name="Médio" stroke="#F97316" strokeWidth={2.5} dot={{ r: 4 }}>
-                                <LabelList dataKey="mid" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 11, fontWeight: 700, fill: '#ea580c' }} />
+                                <LabelList dataKey="mid" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fontWeight: 700, fill: '#ea580c' }} />
                               </Line>
                               <Line type="monotone" dataKey="high" name="Maior" stroke="#111" strokeWidth={2} dot={{ r: 4 }}>
-                                <LabelList dataKey="high" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 11, fontWeight: 700, fill: '#111' }} />
+                                <LabelList dataKey="high" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fontWeight: 700, fill: '#111' }} />
                               </Line>
                             </LineChart>
                           </ResponsiveContainer>
@@ -688,7 +688,7 @@ export default function SimuladorZonaContemplacao() {
               <div className="overflow-x-auto">
                 <table className="w-full text-[14px] md:text-[15px]">
                   <thead>
-                    <tr className="bg-[var(--ink)] text-white text-[10px] uppercase tracking-wide">
+                    <tr className="bg-[var(--ink)] text-white text-[12px] uppercase tracking-wide">
                       <th className="text-left font-medium px-3 py-3">Ass.</th>
                       <th className="text-left font-medium px-3 py-3 border-l-2 border-[var(--orange)]">Base Geral</th>
                       <th className="text-left font-medium px-3 py-3 border-l-2 border-[var(--orange)]">Part. 30%</th>

@@ -79,63 +79,63 @@ export default function SimuladorCancelamento() {
     <div className="space-y-1.5">
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Carta (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Carta (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.credit} onChange={(e) => set("credit", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Atualizada</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Atualizada</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Prazo</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Prazo</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.totalMonths} onChange={(e) => set("totalMonths", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Meses total</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Meses total</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Mês Canc.</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Mês Canc.</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.canceledMonth} onChange={(e) => set("canceledMonth", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">No mês</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">No mês</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Seguro (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Seguro (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.insurancePct} onChange={(e) => set("insurancePct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">s/ saldo</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">s/ saldo</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Taxa Adm (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Taxa Adm (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.adminRatePct} onChange={(e) => set("adminRatePct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Reserva (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Reserva (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.reserveRatePct} onChange={(e) => set("reserveRatePct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Reajuste (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Reajuste (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.reajustPct} onChange={(e) => set("reajustPct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Anual</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Anual</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Multa (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Multa (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.penaltyRatePct} onChange={(e) => set("penaltyRatePct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Cancelamento</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Cancelamento</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Dev. Reserva?</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Dev. Reserva?</label>
           <div className="mt-auto flex items-center h-[34px]">
             <input 
               type="checkbox" 
@@ -143,7 +143,7 @@ export default function SimuladorCancelamento() {
               checked={form.reserveReturnable} 
               onChange={(e) => set("reserveReturnable", e.target.checked)} 
             />
-            <span className="ml-2 text-[12px] font-bold text-gray-700">Sim</span>
+            <span className="ml-2 text-[14px] font-bold text-gray-700">Sim</span>
           </div>
         </div>
       </div>
@@ -264,7 +264,7 @@ export default function SimuladorCancelamento() {
             <span>Valor Líquido a Receber</span>
             <span>{formatBRL(result.breakdown.return.baseAposMulta)}</span>
           </div>
-          <p className="text-[10px] text-gray-500 italic mt-2">
+          <p className="text-[12px] text-gray-500 italic mt-2">
             * O valor líquido é calculado subtraindo as taxas retidas e multas do total que você pagou.
           </p>
         </div>
@@ -300,16 +300,16 @@ export default function SimuladorCancelamento() {
                 Antes de cancelar, considere <strong className="text-white">vender sua cota</strong> para investidores. No mercado secundário, você pode recuperar uma porcentagem maior do que a devolução da administradora, pois o comprador assume o plano.
               </p>
               <div className="flex items-center gap-3">
-                <button className="text-[10px] font-bold text-white bg-white/10 px-3 py-2 rounded uppercase tracking-tighter hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed">
+                <button className="text-[12px] font-bold text-white bg-white/10 px-3 py-2 rounded uppercase tracking-tighter hover:bg-white/20 transition-colors opacity-50 cursor-not-allowed">
                   Simular venda de cota
                 </button>
-                <span className="bg-[#FFD700] text-black text-[9px] font-black px-2 py-1 rounded uppercase tracking-tighter">
+                <span className="bg-[#FFD700] text-black text-[12px] font-black px-2 py-1 rounded uppercase tracking-tighter">
                   Em Breve
                 </span>
               </div>
             </div>
             <div className="p-1">
-              <p className="text-[10px] text-gray-400 leading-tight italic">
+              <p className="text-[12px] text-gray-400 leading-tight italic">
                 * Importante: Cada administradora possui um contrato específico. Este simulador utiliza os parâmetros mais comuns do mercado. Consulte sempre o seu regulamento oficial.
               </p>
             </div>
@@ -335,7 +335,7 @@ export default function SimuladorCancelamento() {
         {tableOpen && (
           <div className="overflow-x-auto border-t border-border">
             <table className="w-full text-[13px] md:text-[14px] text-left border-collapse">
-              <thead className="bg-gray-50 text-gray-500 uppercase text-[9px] font-bold tracking-wider">
+              <thead className="bg-gray-50 text-gray-500 uppercase text-[12px] font-bold tracking-wider">
                 <tr>
                   <th className="px-4 py-3 border-b border-border">Mês</th>
                   <th className="px-4 py-3 border-b border-border text-right">Saldo Inicial</th>
@@ -366,7 +366,7 @@ export default function SimuladorCancelamento() {
                     <td className="px-4 py-2 text-right font-mono">{formatBRL(row.seguro)}</td>
                     <td className="px-4 py-2 text-right font-mono font-bold text-[var(--orange)]">{formatBRL(row.parcela)}</td>
                     <td className="px-4 py-2 text-right font-mono">{formatBRL(row.saldoDevedorFinal)}</td>
-                    <td className="px-4 py-2 text-[9px] font-bold uppercase">
+                    <td className="px-4 py-2 text-[12px] font-bold uppercase">
                       {row.isReajust && <span className="text-amber-800">⭐ Reajuste</span>}
                       {row.mes === parseInt(form.canceledMonth) && <span className="text-red-800 ml-2">🛑 Cancelado</span>}
                     </td>
@@ -374,12 +374,12 @@ export default function SimuladorCancelamento() {
                 ))}
                 {/* Linha de Totais */}
                 <tr className="bg-gray-100 font-bold border-t-2 border-gray-300">
-                  <td className="px-4 py-3 uppercase text-[10px] tracking-widest" colSpan={2}>Totais Acumulados</td>
-                  <td className="px-4 py-3 text-right font-mono text-[12px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.fundoComum, 0))}</td>
-                  <td className="px-4 py-3 text-right font-mono text-[12px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.taxaAdm, 0))}</td>
-                  <td className="px-4 py-3 text-right font-mono text-[12px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.fundoReserva, 0))}</td>
-                  <td className="px-4 py-3 text-right font-mono text-[12px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.seguro, 0))}</td>
-                  <td className="px-4 py-3 text-right font-mono text-[12px] text-[var(--orange)]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.parcela, 0))}</td>
+                  <td className="px-4 py-3 uppercase text-[12px] tracking-widest" colSpan={2}>Totais Acumulados</td>
+                  <td className="px-4 py-3 text-right font-mono text-[14px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.fundoComum, 0))}</td>
+                  <td className="px-4 py-3 text-right font-mono text-[14px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.taxaAdm, 0))}</td>
+                  <td className="px-4 py-3 text-right font-mono text-[14px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.fundoReserva, 0))}</td>
+                  <td className="px-4 py-3 text-right font-mono text-[14px]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.seguro, 0))}</td>
+                  <td className="px-4 py-3 text-right font-mono text-[14px] text-[var(--orange)]">{formatBRL(result.table.reduce((acc: number, r: any) => acc + r.parcela, 0))}</td>
                   <td className="px-4 py-3" colSpan={2}></td>
                 </tr>
               </tbody>

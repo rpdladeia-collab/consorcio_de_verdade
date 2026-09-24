@@ -87,7 +87,7 @@ function FieldRow({ label, hint, children }: { label: React.ReactNode; hint?: Re
       <label className="block text-[13px] md:text-[14px] font-bold text-gray-800 mb-0.5 leading-tight">{label}</label>
       <div className="mt-auto">
         {children}
-        {hint && <p className="text-[10px] text-gray-500 mt-0.5 leading-tight">{hint}</p>}
+        {hint && <p className="text-[12px] text-gray-500 mt-0.5 leading-tight">{hint}</p>}
       </div>
     </div>
   );
@@ -103,7 +103,7 @@ function TextInput({ value, onChange, placeholder, suffix }: {
         className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-2 text-[14px] md:text-[15px] focus:outline-none focus:ring-2 focus:ring-[#FF4E1F] pr-8"
       />
       {suffix && (
-        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[10px] text-gray-400 pointer-events-none font-bold">
+        <span className="absolute right-2 top-1/2 -translate-y-1/2 text-[12px] text-gray-400 pointer-events-none font-bold">
           {suffix}
         </span>
       )}
@@ -124,7 +124,7 @@ function ProposalTable({ rows }: { rows: any[] }) {
           <span className="text-[13px] font-bold text-gray-700 uppercase tracking-wider">Memória de cálculo da proposta</span>
           <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-200 ${open ? "rotate-180" : ""}`} />
         </button>
-        <span className="text-[11px] text-gray-500 hidden sm:block">Componentes mês a mês, com destaque apenas nos meses de correção.</span>
+        <span className="text-[13px] text-gray-500 hidden sm:block">Componentes mês a mês, com destaque apenas nos meses de correção.</span>
       </div>
       {open && (
         <div className="w-full overflow-x-auto max-h-[600px] overflow-y-auto">
@@ -132,7 +132,7 @@ function ProposalTable({ rows }: { rows: any[] }) {
             <thead className="bg-gray-100 sticky top-0 z-10">
               <tr>
                 {["Mês", "Crédito atualizado", "Saldo antes", "Correção", "Fundo comum", "Taxa adm.", "Fundo reserva", "Seguro", "Ajuste política", "Parcela", "Saldo final", "Evento"].map((h) => (
-                  <th key={h} className="px-2 py-3 text-left text-[11px] font-bold uppercase tracking-wider whitespace-nowrap text-gray-700">{h}</th>
+                  <th key={h} className="px-2 py-3 text-left text-[13px] font-bold uppercase tracking-wider whitespace-nowrap text-gray-700">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -155,7 +155,7 @@ function ProposalTable({ rows }: { rows: any[] }) {
                     <td className="px-2 py-2 font-mono text-gray-700">{formatBRLCents(r.saldoFinal)}</td>
                     <td className="px-2 py-2">
                       {eventText !== "—" ? (
-                        <span className="text-[#FF4E1F] font-bold text-[10px] uppercase">{eventText}</span>
+                        <span className="text-[#FF4E1F] font-bold text-[12px] uppercase">{eventText}</span>
                       ) : (
                         <span className="text-gray-300">—</span>
                       )}
@@ -176,7 +176,7 @@ function HelpDot({ text }: { text: string }) {
   return (
     <span className="relative inline-flex align-middle group">
       <HelpCircle className="w-3.5 h-3.5 text-gray-400 hover:text-[#FF4E1F] cursor-help transition-colors" />
-      <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 rounded-lg bg-gray-900 text-white text-[11px] leading-relaxed p-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none shadow-lg">
+      <span className="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 w-56 rounded-lg bg-gray-900 text-white text-[13px] leading-relaxed p-2.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 pointer-events-none shadow-lg">
         {text}
       </span>
     </span>
@@ -213,9 +213,9 @@ function CostsTab({ result }: { result: any }) {
       <div className="grid grid-cols-[repeat(auto-fit,minmax(128px,1fr))] gap-2.5">
         {kpis.map((k) => (
           <div key={k.label} className={`min-w-0 rounded-xl border border-gray-200 border-l-4 ${kpiColors[k.color]} bg-white p-2.5 sm:p-3 min-h-[116px] flex flex-col justify-between`}>
-            <span className="block text-[9px] sm:text-[10px] leading-snug text-gray-500 uppercase tracking-[0.05em] font-bold break-words">{k.label}</span>
-            <strong className="block text-gray-900 text-[12px] min-[1180px]:text-[13px] mt-1.5 font-mono leading-tight tabular-nums whitespace-nowrap">{formatBRLCents(k.value)}</strong>
-            <span className="block text-gray-500 text-[10px] sm:text-[11px] mt-1.5 leading-snug break-words">{k.sub}</span>
+            <span className="block text-[12px] sm:text-[12px] leading-snug text-gray-500 uppercase tracking-[0.05em] font-bold break-words">{k.label}</span>
+            <strong className="block text-gray-900 text-[14px] min-[1180px]:text-[13px] mt-1.5 font-mono leading-tight tabular-nums whitespace-nowrap">{formatBRLCents(k.value)}</strong>
+            <span className="block text-gray-500 text-[12px] sm:text-[13px] mt-1.5 leading-snug break-words">{k.sub}</span>
           </div>
         ))}
       </div>
@@ -223,11 +223,11 @@ function CostsTab({ result }: { result: any }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
         <div className="min-w-0 rounded-xl border border-gray-200 bg-[#FAF8F2] p-4 overflow-hidden">
           <h4 className="text-[13px] font-bold text-gray-800 mb-2">O que compõe o custo da operação</h4>
-          <p className="text-[12px] sm:text-[12.5px] text-gray-700 leading-relaxed">A taxa de administração (contratual + correções), o fundo de reserva e o seguro informado separadamente. A correção da carta e o fundo comum não são custo — são o próprio crédito sendo atualizado.</p>
+          <p className="text-[14px] sm:text-[14px] text-gray-700 leading-relaxed">A taxa de administração (contratual + correções), o fundo de reserva e o seguro informado separadamente. A correção da carta e o fundo comum não são custo — são o próprio crédito sendo atualizado.</p>
         </div>
         <div className="min-w-0 rounded-xl border border-gray-200 bg-[#FAF8F2] p-4 overflow-hidden">
           <h4 className="text-[13px] font-bold text-gray-800 mb-2">Composição do custo da operação</h4>
-          <div className="space-y-2 text-[12px] sm:text-[12.5px] text-gray-700">
+          <div className="space-y-2 text-[14px] sm:text-[14px] text-gray-700">
             <div className="flex items-center justify-between gap-2"><span className="min-w-0 break-words">Taxa adm. contratual</span><b className="font-mono break-words text-right">{formatBRLCents(c.contractualAdmin)}</b></div>
             <div className="flex items-center justify-between gap-2"><span className="min-w-0 break-words">Adm. sobre correções</span><b className="font-mono break-words text-right">{formatBRLCents(c.correcaoAdm)}</b></div>
             <div className="flex items-center justify-between gap-2"><span className="min-w-0 break-words">Fundo reserva projetado</span><b className="font-mono break-words text-right">{formatBRLCents(c.fundoReservaProjetado)}</b></div>
@@ -239,26 +239,26 @@ function CostsTab({ result }: { result: any }) {
 
       <div>
         <div className="mb-2">
-          <h3 className="text-[11px] font-bold text-gray-700 uppercase tracking-wider">Composição do custo da operação</h3>
-          <p className="text-[10.5px] text-gray-400 font-medium mt-0.5">Encargos que remuneram ou oneram diretamente a operação</p>
+          <h3 className="text-[13px] font-bold text-gray-700 uppercase tracking-wider">Composição do custo da operação</h3>
+          <p className="text-[13px] text-gray-400 font-medium mt-0.5">Encargos que remuneram ou oneram diretamente a operação</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[500px] table-fixed">
               <thead className="bg-gray-900 text-white">
                 <tr>
-                  <th className="w-[28%] px-2 sm:px-3 py-2.5 text-left text-[9px] font-bold uppercase tracking-wider">Item</th>
-                  <th className="w-[20%] px-2 sm:px-3 py-2.5 text-left text-[9px] font-bold uppercase tracking-wider">Valor projetado</th>
-                  <th className="w-[18%] px-2 sm:px-3 py-2.5 text-left text-[9px] font-bold uppercase tracking-wider">Classificação</th>
-                  <th className="w-[34%] px-2 sm:px-3 py-2.5 text-left text-[9px] font-bold uppercase tracking-wider">Leitura correta</th>
+                  <th className="w-[28%] px-2 sm:px-3 py-2.5 text-left text-[12px] font-bold uppercase tracking-wider">Item</th>
+                  <th className="w-[20%] px-2 sm:px-3 py-2.5 text-left text-[12px] font-bold uppercase tracking-wider">Valor projetado</th>
+                  <th className="w-[18%] px-2 sm:px-3 py-2.5 text-left text-[12px] font-bold uppercase tracking-wider">Classificação</th>
+                  <th className="w-[34%] px-2 sm:px-3 py-2.5 text-left text-[12px] font-bold uppercase tracking-wider">Leitura correta</th>
                 </tr>
               </thead>
-              <tbody className="text-[11px]">
-                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Taxa de administração contratual</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.contractualAdmin)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold bg-red-50 text-red-700 uppercase">Custo explícito</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Remuneração contratual calculada sobre a carta inicial.</td></tr>
-                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Atualização da taxa administrativa</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.correcaoAdm)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold bg-orange-50 text-orange-700 uppercase">Custo projetado</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Acréscimo projetado da taxa decorrente das correções do saldo.</td></tr>
-                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Fundo reserva projetado</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.fundoReservaProjetado)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold bg-blue-50 text-blue-700 uppercase">Custo contratual</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Fundo de reserva contratual corrigido pelas atualizações do saldo.</td></tr>
-                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Seguro informado à parte</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.projectedInsurance)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold bg-gray-100 text-gray-700 uppercase">Custo explícito</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Considerado somente quando o seguro é informado separadamente.</td></tr>
-                <tr className="border-t-2 border-gray-200 bg-red-50/40"><td className="px-2 sm:px-3 py-3 font-bold text-gray-900">Custo total da operação</td><td className="px-2 sm:px-3 py-3 font-mono font-bold text-red-700 break-words">{formatBRLCents(custoTotal)}</td><td className="px-2 sm:px-3 py-3"><span className="inline-flex px-2 py-0.5 rounded-full text-[9px] font-bold bg-red-100 text-red-700 uppercase">Total</span></td><td className="px-2 sm:px-3 py-3 text-gray-700">Taxa administrativa total projetada + fundo reserva + seguro.</td></tr>
+              <tbody className="text-[13px]">
+                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Taxa de administração contratual</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.contractualAdmin)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[12px] font-bold bg-red-50 text-red-700 uppercase">Custo explícito</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Remuneração contratual calculada sobre a carta inicial.</td></tr>
+                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Atualização da taxa administrativa</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.correcaoAdm)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[12px] font-bold bg-orange-50 text-orange-700 uppercase">Custo projetado</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Acréscimo projetado da taxa decorrente das correções do saldo.</td></tr>
+                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Fundo reserva projetado</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.fundoReservaProjetado)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[12px] font-bold bg-blue-50 text-blue-700 uppercase">Custo contratual</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Fundo de reserva contratual corrigido pelas atualizações do saldo.</td></tr>
+                <tr className="border-t border-gray-100"><td className="px-2 sm:px-3 py-2.5 text-gray-800 break-words">Seguro informado à parte</td><td className="px-2 sm:px-3 py-2.5 font-mono font-bold text-red-600 break-words">{formatBRLCents(c.projectedInsurance)}</td><td className="px-2 sm:px-3 py-2.5"><span className="inline-flex px-2 py-0.5 rounded-full text-[12px] font-bold bg-gray-100 text-gray-700 uppercase">Custo explícito</span></td><td className="px-2 sm:px-3 py-2.5 text-gray-600 break-words">Considerado somente quando o seguro é informado separadamente.</td></tr>
+                <tr className="border-t-2 border-gray-200 bg-red-50/40"><td className="px-2 sm:px-3 py-3 font-bold text-gray-900">Custo total da operação</td><td className="px-2 sm:px-3 py-3 font-mono font-bold text-red-700 break-words">{formatBRLCents(custoTotal)}</td><td className="px-2 sm:px-3 py-3"><span className="inline-flex px-2 py-0.5 rounded-full text-[12px] font-bold bg-red-100 text-red-700 uppercase">Total</span></td><td className="px-2 sm:px-3 py-3 text-gray-700">Taxa administrativa total projetada + fundo reserva + seguro.</td></tr>
               </tbody>
             </table>
           </div>
@@ -267,9 +267,9 @@ function CostsTab({ result }: { result: any }) {
 
       {/* Destaque: custo total vs carta corrigida */}
       <div className="rounded-xl border-2 border-[#FF4E1F] bg-gradient-to-r from-orange-50 to-amber-50 p-5 text-center">
-        <p className="text-[12px] text-gray-600 uppercase tracking-wider font-bold">Custo total sobre a carta corrigida</p>
+        <p className="text-[14px] text-gray-600 uppercase tracking-wider font-bold">Custo total sobre a carta corrigida</p>
         <p className="text-2xl md:text-3xl font-bold text-[#FF4E1F] mt-2 font-mono">{pctSobreCartaCorrigida.toFixed(2)}%</p>
-        <p className="text-[12.5px] text-gray-700 mt-2 leading-relaxed max-w-2xl mx-auto">
+        <p className="text-[14px] text-gray-700 mt-2 leading-relaxed max-w-2xl mx-auto">
           Considerando o valor da carta corrigida até o final do plano ({formatBRLCents(cartaCorrigidaFinal)}),
           o custo total da operação de {formatBRLCents(custoTotal)} equivale a{" "}
           <b className="text-[#FF4E1F]">{pctSobreCartaCorrigida.toFixed(2)}%</b> da carta de crédito projetada.
@@ -292,21 +292,21 @@ function CorrectionChartTooltip({ active, payload }: { active?: boolean; payload
 
   return (
     <div className="min-w-[210px] rounded-xl border border-gray-200 bg-white p-3 shadow-xl">
-      <p className="text-[11px] font-bold uppercase tracking-wider text-gray-500">Mês {point.month}</p>
+      <p className="text-[13px] font-bold uppercase tracking-wider text-gray-500">Mês {point.month}</p>
       <div className="mt-2 space-y-2">
         <div className="rounded-lg bg-green-50 px-2.5 py-2">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[11px] font-semibold text-green-800">Carta de crédito</span>
-            <span className="font-mono text-[12px] font-bold text-green-900">{formatBRLCents(point.credit)}</span>
+            <span className="text-[13px] font-semibold text-green-800">Carta de crédito</span>
+            <span className="font-mono text-[14px] font-bold text-green-900">{formatBRLCents(point.credit)}</span>
           </div>
-          <p className="mt-0.5 text-[10px] font-semibold text-green-700">Degrau: {increaseLabel(point.creditIncrease)}</p>
+          <p className="mt-0.5 text-[12px] font-semibold text-green-700">Degrau: {increaseLabel(point.creditIncrease)}</p>
         </div>
         <div className="rounded-lg bg-orange-50 px-2.5 py-2">
           <div className="flex items-center justify-between gap-3">
-            <span className="text-[11px] font-semibold text-orange-800">Parcela</span>
-            <span className="font-mono text-[12px] font-bold text-orange-900">{formatBRLCents(point.payment)}</span>
+            <span className="text-[13px] font-semibold text-orange-800">Parcela</span>
+            <span className="font-mono text-[14px] font-bold text-orange-900">{formatBRLCents(point.payment)}</span>
           </div>
-          <p className="mt-0.5 text-[10px] font-semibold text-orange-700">Degrau: {increaseLabel(point.paymentIncrease)}</p>
+          <p className="mt-0.5 text-[12px] font-semibold text-orange-700">Degrau: {increaseLabel(point.paymentIncrease)}</p>
         </div>
       </div>
     </div>
@@ -351,7 +351,7 @@ function CorrectionStepChart({ result }: { result: any }) {
     <div className="rounded-2xl border border-gray-200 bg-white overflow-hidden shadow-sm">
       <div className="px-4 sm:px-5 py-3.5 border-b border-gray-100 bg-gray-50">
         <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-700 uppercase tracking-wider">Evolução da parcela vs carta de crédito</h3>
-        <p className="text-[11px] sm:text-[12px] text-gray-500 mt-0.5">A cada degrau de correção, a parcela sobe pouco — mas a carta de crédito sobe muito. Passe o cursor ou toque no gráfico para ver os valores exatos.</p>
+        <p className="text-[13px] sm:text-[14px] text-gray-500 mt-0.5">A cada degrau de correção, a parcela sobe pouco — mas a carta de crédito sobe muito. Passe o cursor ou toque no gráfico para ver os valores exatos.</p>
       </div>
       <div className="p-2 sm:p-4">
         <ChartContainer
@@ -362,18 +362,18 @@ function CorrectionStepChart({ result }: { result: any }) {
             <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
             <XAxis
               dataKey="month"
-              tick={{ fontSize: 10, fill: "#6b7280" }}
+              tick={{ fontSize: 12, fill: "#6b7280" }}
               tickLine={false}
               axisLine={{ stroke: "#d1d5db" }}
               interval="preserveStartEnd"
               minTickGap={28}
-              label={{ value: "Mês", position: "insideBottom", offset: -2, style: { fontSize: 10, fill: "#9ca3af" } }}
+              label={{ value: "Mês", position: "insideBottom", offset: -2, style: { fontSize: 12, fill: "#9ca3af" } }}
             />
             <YAxis
               yAxisId="credit"
               orientation="left"
               tickFormatter={formatAxisBRL}
-              tick={{ fontSize: 10, fill: "#16a34a" }}
+              tick={{ fontSize: 12, fill: "#16a34a" }}
               tickLine={false}
               axisLine={{ stroke: "#16a34a", strokeOpacity: 0.45 }}
               width={58}
@@ -383,7 +383,7 @@ function CorrectionStepChart({ result }: { result: any }) {
               yAxisId="payment"
               orientation="right"
               tickFormatter={formatAxisBRL}
-              tick={{ fontSize: 10, fill: "#FF4E1F" }}
+              tick={{ fontSize: 12, fill: "#FF4E1F" }}
               tickLine={false}
               axisLine={{ stroke: "#FF4E1F", strokeOpacity: 0.45 }}
               width={48}
@@ -425,7 +425,7 @@ function CorrectionStepChart({ result }: { result: any }) {
         </ChartContainer>
       </div>
       {/* Legenda explicativa abaixo do gráfico */}
-      <div className="px-4 sm:px-5 pb-3 pt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[10px] sm:text-[11px] text-gray-500">
+      <div className="px-4 sm:px-5 pb-3 pt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-[12px] sm:text-[13px] text-gray-500">
         <span className="flex items-center gap-1.5">
           <span className="inline-block w-3 h-0.5 bg-[#16a34a] rounded-full" />
           Carta de crédito
@@ -459,7 +459,7 @@ function CorrectionsHistoryAccordion({ yearly }: { yearly: any[] }) {
       >
         <div className="flex-1 min-w-0">
           <h3 className="text-[13px] sm:text-[14px] font-bold text-gray-700 uppercase tracking-wider">Histórico de correções ano a ano</h3>
-          <p className="text-[11px] sm:text-[12px] text-gray-500 mt-0.5">{yearly.length} anos · {correctionsCount} com correções · toque para {open ? "recolher" : "expandir"}</p>
+          <p className="text-[13px] sm:text-[14px] text-gray-500 mt-0.5">{yearly.length} anos · {correctionsCount} com correções · toque para {open ? "recolher" : "expandir"}</p>
         </div>
         {/* Seta animada */}
         <svg
@@ -480,7 +480,7 @@ function CorrectionsHistoryAccordion({ yearly }: { yearly: any[] }) {
               <thead className="bg-gray-100">
                 <tr>
                   {["Ano", "Correções", "Pago no ano", "Correção da carta", "Correção do saldo", "Carta no fim", "Saldo no fim", "Leitura"].map((h) => (
-                    <th key={h} className="px-3 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-gray-700 whitespace-nowrap">{h}</th>
+                    <th key={h} className="px-3 py-3 text-left text-[13px] font-bold uppercase tracking-wider text-gray-700 whitespace-nowrap">{h}</th>
                   ))}
                 </tr>
               </thead>
@@ -495,7 +495,7 @@ function CorrectionsHistoryAccordion({ yearly }: { yearly: any[] }) {
                     <td className="px-3 py-2 font-mono text-gray-700">{formatBRLCents(y.cartaFim)}</td>
                     <td className="px-3 py-2 font-mono text-gray-700">{formatBRLCents(y.saldoFim)}</td>
                     <td className="px-3 py-2">
-                      <span className={y.events > 0 ? "text-[#FF4E1F] font-bold text-[11px] uppercase" : "text-gray-300"}>{y.leitura}</span>
+                      <span className={y.events > 0 ? "text-[#FF4E1F] font-bold text-[13px] uppercase" : "text-gray-300"}>{y.leitura}</span>
                     </td>
                   </tr>
                 ))}
@@ -508,7 +508,7 @@ function CorrectionsHistoryAccordion({ yearly }: { yearly: any[] }) {
               <div key={i} className={`px-4 py-3 ${y.events > 0 ? "bg-amber-50" : ""}`}>
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-[14px] font-bold text-gray-900">Ano {y.year}</span>
-                  <span className={`text-[11px] font-bold uppercase ${y.events > 0 ? "text-[#FF4E1F]" : "text-gray-300"}`}>{y.leitura}</span>
+                  <span className={`text-[13px] font-bold uppercase ${y.events > 0 ? "text-[#FF4E1F]" : "text-gray-300"}`}>{y.leitura}</span>
                 </div>
                 <div className="grid grid-cols-2 gap-x-3 gap-y-1.5 text-[12px]">
                   <div>
@@ -554,14 +554,14 @@ function CorrectionsTab({ result }: { result: any }) {
       {/* Destaques */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <div className="rounded-xl border border-green-300 bg-green-50 p-4 text-center">
-          <p className="text-[12px] text-gray-600 uppercase tracking-wider">Carta final atualizada</p>
+          <p className="text-[14px] text-gray-600 uppercase tracking-wider">Carta final atualizada</p>
           <p className="text-xl md:text-2xl font-bold text-green-800 mt-1">{formatBRLCents(result.last.credit)}</p>
-          <p className="text-[12px] text-gray-500 mt-1">crédito projetado ao fim do plano</p>
+          <p className="text-[14px] text-gray-500 mt-1">crédito projetado ao fim do plano</p>
         </div>
         <div className="rounded-xl border border-orange-300 bg-orange-50 p-4 text-center">
-          <p className="text-[12px] text-gray-600 uppercase tracking-wider">Total desembolsado pelo cliente</p>
+          <p className="text-[14px] text-gray-600 uppercase tracking-wider">Total desembolsado pelo cliente</p>
           <p className="text-xl md:text-2xl font-bold text-orange-800 mt-1">{formatBRLCents(result.sums.payment)}</p>
-          <p className="text-[12px] text-gray-500 mt-1">principal + taxas + seguro + correções</p>
+          <p className="text-[14px] text-gray-500 mt-1">principal + taxas + seguro + correções</p>
         </div>
       </div>
 
@@ -621,7 +621,7 @@ function DegradacaoAccordion({ rows }: { rows: any[] }) {
       >
         <div className="flex-1 min-w-0">
           <h3 className="text-[13px] md:text-[14px] font-bold text-foreground/80">Degradação de Eficiência</h3>
-          <p className="text-[11px] md:text-[12px] text-foreground/60 mt-0.5">Mostra como a taxa de administração perde eficiência à medida que você utiliza recursos próprios no plano. · toque para {open ? "recolher" : "expandir"}</p>
+          <p className="text-[13px] md:text-[14px] text-foreground/60 mt-0.5">Mostra como a taxa de administração perde eficiência à medida que você utiliza recursos próprios no plano. · toque para {open ? "recolher" : "expandir"}</p>
         </div>
         <svg
           className={`shrink-0 w-5 h-5 text-gray-500 transition-transform duration-200 ${open ? "rotate-180" : ""}`}
@@ -633,26 +633,26 @@ function DegradacaoAccordion({ rows }: { rows: any[] }) {
       </button>
       {open && (
         <div className="border-t border-border/30 overflow-x-auto">
-          <table className="w-full text-[10px] md:text-[11px] min-w-[560px]">
+          <table className="w-full text-[12px] md:text-[13px] min-w-[560px]">
             <thead className="bg-[var(--ink)] text-white sticky top-0 z-10">
               <tr>
-                <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Parcela</th>
-                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Desembolso</th>
-                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Dinheiro Novo</th>
-                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Taxa Efetiva</th>
-                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Eficiência</th>
-                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Degradação</th>
+                <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[12px]">Parcela</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Desembolso</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Dinheiro Novo</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Taxa Efetiva</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Eficiência</th>
+                <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Degradação</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-border/30">
               {rows.map((row: any) => (
                 <tr key={row.parcela} className="hover:bg-gray-50 transition-colors">
-                  <td className="px-2 py-1 font-mono text-foreground/70 text-[11.9px]">{row.parcela}</td>
-                  <td className="px-2 py-1 text-right font-mono text-[11.9px]">{formatBRL(row.desembolsoAcumulado)}</td>
-                  <td className="px-2 py-1 text-right font-mono text-[11.9px]">{formatBRL(row.dinheiroNovo)}</td>
-                  <td className="px-2 py-1 text-right font-mono text-[11.9px]">{row.taxaEfetiva.toFixed(2)}%</td>
-                  <td className="px-2 py-1 text-right font-mono font-bold text-[11.9px]">{row.eficiencia.toFixed(1)}%</td>
-                  <td className={`px-2 py-1 text-right font-mono font-bold text-[11.9px] ${row.degradacao > 20 ? "text-red-600" : row.degradacao > 10 ? "text-orange-600" : "text-green-600"}`}>{row.degradacao.toFixed(1)}%</td>
+                  <td className="px-2 py-1 font-mono text-foreground/70 text-[13px]">{row.parcela}</td>
+                  <td className="px-2 py-1 text-right font-mono text-[13px]">{formatBRL(row.desembolsoAcumulado)}</td>
+                  <td className="px-2 py-1 text-right font-mono text-[13px]">{formatBRL(row.dinheiroNovo)}</td>
+                  <td className="px-2 py-1 text-right font-mono text-[13px]">{row.taxaEfetiva.toFixed(2)}%</td>
+                  <td className="px-2 py-1 text-right font-mono font-bold text-[13px]">{row.eficiencia.toFixed(1)}%</td>
+                  <td className={`px-2 py-1 text-right font-mono font-bold text-[13px] ${row.degradacao > 20 ? "text-red-600" : row.degradacao > 10 ? "text-orange-600" : "text-green-600"}`}>{row.degradacao.toFixed(1)}%</td>
                 </tr>
               ))}
             </tbody>
@@ -676,7 +676,7 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
       {/* Seção 1: Fluxo importado */}
       <div>
         <p className="text-[14px] font-bold text-gray-800 uppercase tracking-wider mb-1">1. Fluxo importado da proposta</p>
-        <p className="text-[12px] text-gray-500 mb-3">Nenhum fluxo é digitado nesta aba. O motor usa a memória da aba 1: parcela por parcela, do mês 1 ao mês {result.term}.</p>
+        <p className="text-[14px] text-gray-500 mb-3">Nenhum fluxo é digitado nesta aba. O motor usa a memória da aba 1: parcela por parcela, do mês 1 ao mês {result.term}.</p>
         <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
           <KpiCard label="Total desembolsado no consórcio" value={formatBRLCents(x.totalPaid)} hint="soma das parcelas da aba 1" tone="negative" />
           <KpiCard label="Carta final corrigida" value={formatBRLCents(x.finalCredit)} hint="referência de comparação" tone="positive" />
@@ -704,7 +704,7 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
       {/* Seção 2: Mesmo esforço em renda fixa */}
       <div>
         <p className="text-[14px] font-bold text-gray-800 uppercase tracking-wider mb-1">2. Mesmo esforço em renda fixa</p>
-        <p className="text-[12px] text-gray-500 mb-3">Cada parcela projetada no consórcio é aplicada em investimentos até o fim do mesmo prazo.</p>
+        <p className="text-[14px] text-gray-500 mb-3">Cada parcela projetada no consórcio é aplicada em investimentos até o fim do mesmo prazo.</p>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <KpiCard label="Poupança · mesmo fluxo" value={formatBRLCents(x.savings.net)} hint={`${formatBRLCents(x.savingsVsCredit)} contra a carta final`} tone="positive" />
           <KpiCard label="CDB 100% CDI líquido" value={formatBRLCents(x.cdb.net)} hint={`${formatBRLCents(x.cdbNetVsCredit)} contra a carta final`} tone="positive" />
@@ -732,7 +732,7 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
                 <span className="text-[14px] font-bold text-gray-900">Mês {r.month}</span>
                 <span className="text-[15px] font-mono font-bold text-gray-900">{formatBRLCents(r.saldoInvestimento)}</span>
               </div>
-              <div className="grid grid-cols-2 gap-3 text-[12px]">
+              <div className="grid grid-cols-2 gap-3 text-[14px]">
                 <div>
                   <span className="block text-gray-500 mb-0.5">Parcela (aporte)</span>
                   <span className="font-mono font-semibold text-gray-800">{formatBRLCents(r.aporte)}</span>
@@ -749,10 +749,10 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
           <table className="w-full min-w-[620px] table-fixed">
             <thead className="bg-gray-100">
               <tr>
-                <th className="px-4 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Mês</th>
-                <th className="px-4 py-3 text-right text-[11px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Parcela (Aporte)</th>
-                <th className="px-4 py-3 text-right text-[11px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Carta Atualizada</th>
-                <th className="px-4 py-3 text-right text-[11px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Saldo Investimento</th>
+                <th className="px-4 py-3 text-left text-[13px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Mês</th>
+                <th className="px-4 py-3 text-right text-[13px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Parcela (Aporte)</th>
+                <th className="px-4 py-3 text-right text-[13px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Carta Atualizada</th>
+                <th className="px-4 py-3 text-right text-[13px] font-bold uppercase tracking-wider text-gray-700 w-1/4">Saldo Investimento</th>
               </tr>
             </thead>
             <tbody className="text-[13px]">
@@ -779,7 +779,7 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
             <thead className="bg-gray-100">
               <tr>
                 {['Camada', 'Cenário', 'Valor', 'Diferença', 'Como interpretar'].map((h) => (
-                  <th key={h} className="px-3 py-3 text-left text-[11px] font-bold uppercase tracking-wider text-gray-700">{h}</th>
+                  <th key={h} className="px-3 py-3 text-left text-[13px] font-bold uppercase tracking-wider text-gray-700">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -790,7 +790,7 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
                   <td className="px-3 py-2 text-left text-gray-700">{r.scenario}</td>
                   <td className="px-3 py-2 font-mono font-bold text-gray-900">{formatBRLCents(r.value)}</td>
                   <td className="px-3 py-2 font-mono font-bold text-gray-900">{formatBRLCents(r.diff)}</td>
-                  <td className="px-3 py-2 text-gray-600 text-[12px]">{r.leitura}</td>
+                  <td className="px-3 py-2 text-gray-600 text-[14px]">{r.leitura}</td>
                 </tr>
               ))}
             </tbody>
@@ -1039,20 +1039,20 @@ export default function EstruturaDoPlano() {
         <div className="rounded-lg border border-gray-200 bg-gray-50 p-3 space-y-2">
           <div className="flex items-center justify-between">
             <b className="text-[13px] text-gray-800">Faixas de parcelas</b>
-            <button type="button" onClick={addRange} className="flex items-center gap-1 px-2 py-1 text-[11px] font-bold uppercase rounded-full bg-[#FF4E1F] text-white hover:opacity-90 transition-opacity">
+            <button type="button" onClick={addRange} className="flex items-center gap-1 px-2 py-1 text-[13px] font-bold uppercase rounded-full bg-[#FF4E1F] text-white hover:opacity-90 transition-opacity">
               <Plus className="w-3 h-3" /> Adicionar faixa
             </button>
           </div>
           {ranges.map((r, i) => (
             <div key={i} className="grid grid-cols-[1fr_1fr_1fr_1fr_auto] gap-1 items-end">
-              <div><label className="text-[10px] text-gray-500">Início</label><input type="number" min={1} value={r.start} onChange={(e) => updateRange(i, "start", parseInt(e.target.value) || 1)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <div><label className="text-[10px] text-gray-500">Fim</label><input type="number" min={1} value={r.end} onChange={(e) => updateRange(i, "end", parseInt(e.target.value) || 1)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <div><label className="text-[10px] text-gray-500">Tipo</label><select value={r.type} onChange={(e) => updateRange(i, "type", e.target.value as RangeType)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]"><option value="value">Valor</option><option value="percent">% cheia</option></select></div>
-              <div><label className="text-[10px] text-gray-500">Valor</label><input type="number" min={0} step="0.01" value={r.value} onChange={(e) => updateRange(i, "value", parseFloat(e.target.value) || 0)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div><label className="text-[12px] text-gray-500">Início</label><input type="number" min={1} value={r.start} onChange={(e) => updateRange(i, "start", parseInt(e.target.value) || 1)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div><label className="text-[12px] text-gray-500">Fim</label><input type="number" min={1} value={r.end} onChange={(e) => updateRange(i, "end", parseInt(e.target.value) || 1)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div><label className="text-[12px] text-gray-500">Tipo</label><select value={r.type} onChange={(e) => updateRange(i, "type", e.target.value as RangeType)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]"><option value="value">Valor</option><option value="percent">% cheia</option></select></div>
+              <div><label className="text-[12px] text-gray-500">Valor</label><input type="number" min={0} step="0.01" value={r.value} onChange={(e) => updateRange(i, "value", parseFloat(e.target.value) || 0)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
               <button type="button" onClick={() => removeRange(i)} className="p-1.5 text-red-500 hover:bg-red-50 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
             </div>
           ))}
-          <p className="text-[11px] text-gray-500 leading-tight">Cada faixa pode ser informada como valor de parcela ou percentual da parcela cheia. O valor informado considera a parcela total do mês. Se houver seguro, ele é preservado e o restante amortiza o saldo proporcionalmente.</p>
+          <p className="text-[13px] text-gray-500 leading-tight">Cada faixa pode ser informada como valor de parcela ou percentual da parcela cheia. O valor informado considera a parcela total do mês. Se houver seguro, ele é preservado e o restante amortiza o saldo proporcionalmente.</p>
         </div>
       )}
 
@@ -1111,7 +1111,7 @@ export default function EstruturaDoPlano() {
         {mutation.isPending ? "Calculando…" : "Calcular proposta"}
       </button>
 
-      <p className="text-[11px] text-gray-500 leading-relaxed"><b>Proteção técnica:</b> a memória é uma projeção matemática com base nos dados informados. O contrato, a assembleia, o índice efetivo e as regras da administradora sempre prevalecem.</p>
+      <p className="text-[13px] text-gray-500 leading-relaxed"><b>Proteção técnica:</b> a memória é uma projeção matemática com base nos dados informados. O contrato, a assembleia, o índice efetivo e as regras da administradora sempre prevalecem.</p>
     </form>
   );
 
@@ -1188,8 +1188,8 @@ export default function EstruturaDoPlano() {
                   result.eficienciaTaxa.degradacao.alerta.nivel === 'atencao' ? 'bg-yellow-50 border-yellow-200' :
                   'bg-green-50 border-green-200'
                 }`}>
-                  <h4 className="font-bold text-[12px] md:text-[13px] mb-1">{result.eficienciaTaxa.degradacao.alerta.titulo}</h4>
-                  <p className="text-[11px] md:text-[12px] text-foreground/70">{result.eficienciaTaxa.degradacao.alerta.mensagem}</p>
+                  <h4 className="font-bold text-[14px] md:text-[13px] mb-1">{result.eficienciaTaxa.degradacao.alerta.titulo}</h4>
+                  <p className="text-[13px] md:text-[14px] text-foreground/70">{result.eficienciaTaxa.degradacao.alerta.mensagem}</p>
                 </div>
               )}
             </div>
@@ -1232,7 +1232,7 @@ export default function EstruturaDoPlano() {
               </div>
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-[13px] md:text-[14px] sm:text-[14px] md:text-[15px] mb-1">Diagnóstico do lance.</h3>
-                <p className="text-[12px] md:text-[13px] sm:text-[13px] md:text-[14px] leading-relaxed text-foreground/70">
+                <p className="text-[14px] md:text-[13px] sm:text-[13px] md:text-[14px] leading-relaxed text-foreground/70">
                   Seu lance representa {((result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100).toFixed(1)}% da carta. Desse total, {formatBRL((result.contemplation?.event.own || 0) + (result.contemplation?.event.fgts || 0))} saem do seu patrimônio e {formatBRL(result.contemplation?.event.embedded || 0)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {formatBRLCents(result.contemplation?.firstPostPayment || 0)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
                 </p>
               </div>
@@ -1247,7 +1247,7 @@ export default function EstruturaDoPlano() {
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={(e) => { e.stopPropagation(); }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFC93C] text-[#0A0A08] text-[10px] font-bold uppercase rounded-full hover:bg-[#FFD700] transition-colors shadow-sm"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFC93C] text-[#0A0A08] text-[12px] font-bold uppercase rounded-full hover:bg-[#FFD700] transition-colors shadow-sm"
                   >
                     <HelpCircle className="w-3 h-3" />
                     Racional
@@ -1257,7 +1257,7 @@ export default function EstruturaDoPlano() {
                       e.stopPropagation();
                       handleDownloadPdfLance();
                     }}
-                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-black text-[10px] font-bold uppercase rounded-full hover:bg-white/20 transition-colors shadow-sm border border-white/10"
+                    className="flex items-center gap-1.5 px-3 py-1.5 bg-white/10 text-black text-[12px] font-bold uppercase rounded-full hover:bg-white/20 transition-colors shadow-sm border border-white/10"
                   >
                     <Download className="w-3 h-3" />
                     PDF
@@ -1267,23 +1267,23 @@ export default function EstruturaDoPlano() {
               <div className="rounded-lg sm:rounded-xl border border-border overflow-hidden bg-white shadow-sm">
                 <div className="w-full">
                   <div className="max-h-[400px] overflow-x-auto overflow-y-auto">
-                    <table className="w-full text-[10px] md:text-[11px] min-w-[560px]">
+                    <table className="w-full text-[12px] md:text-[13px] min-w-[560px]">
                     <thead className="bg-[var(--ink)] text-white sticky top-0 z-10">
                       <tr>
-                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Mês</th>
-                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Carta</th>
-                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[9px]">Evento</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Lance</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Parcela</th>
-                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[9px]">Saldo</th>
+                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[12px]">Mês</th>
+                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[12px]">Carta</th>
+                        <th className="px-2 py-1.5 text-left font-semibold uppercase tracking-wider text-white/80 text-[12px]">Evento</th>
+                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Lance</th>
+                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Parcela</th>
+                        <th className="px-2 py-1.5 text-right font-semibold uppercase tracking-wider text-white/80 text-[12px]">Saldo</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-border/30">
                       {(result.contemplation?.rows || []).slice(0, expandedLance ? undefined : 10).map((r: any) => (
                         <tr key={r.month} className={`transition-colors ${r.tags?.some((t: string) => ['CORREÇÃO', 'LANCE APÓS PARCELA', 'AUMENTO', 'POLÍTICA DE PARCELA'].includes(t)) ? "bg-yellow-50" : "bg-white"}`}>
-                          <td className="px-2 py-1 font-mono text-foreground/70 text-[11.9px]">{r.month}</td>
-                          <td className="px-2 py-1 font-mono text-[11.9px] font-semibold">{formatBRL(r.credit)}</td>
-                          <td className="px-2 py-1 font-medium text-[11.9px]">
+                          <td className="px-2 py-1 font-mono text-foreground/70 text-[13px]">{r.month}</td>
+                          <td className="px-2 py-1 font-mono text-[13px] font-semibold">{formatBRL(r.credit)}</td>
+                          <td className="px-2 py-1 font-medium text-[13px]">
                             {r.tags?.includes('LANCE APÓS PARCELA') ? (
                               <span className="text-[var(--orange)] flex items-center gap-0.5 font-bold">
                                 <ArrowUpRight className="w-2 h-2" />
@@ -1291,11 +1291,11 @@ export default function EstruturaDoPlano() {
                               </span>
                             ) : r.phase}
                           </td>
-                          <td className="px-2 py-1 text-right font-mono text-[11.9px] text-foreground/80">{r.totalLance > 0 ? formatBRL(r.totalLance) : "—"}</td>
-                          <td className={`px-2 py-1 text-right font-mono font-bold text-[11.9px] ${r.tags?.includes('LANCE APÓS PARCELA') ? "text-[var(--orange)]" : "text-foreground"}`}>
+                          <td className="px-2 py-1 text-right font-mono text-[13px] text-foreground/80">{r.totalLance > 0 ? formatBRL(r.totalLance) : "—"}</td>
+                          <td className={`px-2 py-1 text-right font-mono font-bold text-[13px] ${r.tags?.includes('LANCE APÓS PARCELA') ? "text-[var(--orange)]" : "text-foreground"}`}>
                             {r.payment > 0 ? formatBRLCents(r.payment) : "—"}
                           </td>
-                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[11.9px]">{formatBRL(r.saldoFinal)}</td>
+                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[13px]">{formatBRL(r.saldoFinal)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1303,7 +1303,7 @@ export default function EstruturaDoPlano() {
                   </div>
                 </div>
                 {(result.contemplation?.rows?.length || 0) > 10 && (
-                  <button onClick={() => setExpandedLance(!expandedLance)} className="w-full flex items-center justify-center gap-2 py-2 text-[10px] font-bold text-[var(--orange)] bg-secondary/5 hover:bg-secondary/20 border-t border-border transition-all">
+                  <button onClick={() => setExpandedLance(!expandedLance)} className="w-full flex items-center justify-center gap-2 py-2 text-[12px] font-bold text-[var(--orange)] bg-secondary/5 hover:bg-secondary/20 border-t border-border transition-all">
                     <ChevronDown className={`w-3 h-3 transition-transform ${expandedLance ? 'rotate-180' : ''}`} />
                     {expandedLance ? 'Recolher' : 'Ver todas'} ({result.contemplation?.rows?.length || 0})
                   </button>

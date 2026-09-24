@@ -333,14 +333,14 @@ function TipBox({
         borderRadius: 12,
         padding: "10px 12px",
         boxShadow: "0 16px 34px rgba(0,0,0,.45)",
-        fontSize: 12,
+        fontSize: 14,
         lineHeight: 1.38,
         pointerEvents: "none",
       }}
     >
       <div
         style={{
-          fontSize: 10,
+          fontSize: 12,
           textTransform: "uppercase",
           letterSpacing: ".08em",
           color: "#f26a21",
@@ -392,7 +392,7 @@ function HelpBtn({ tip }: { tip: string }) {
           borderRadius: "50%",
           background: "transparent",
           color: "#f26a21",
-          fontSize: 12,
+          fontSize: 14,
           fontWeight: 950,
           lineHeight: 1,
           cursor: "help",
@@ -706,7 +706,7 @@ export default function ZonaContemplacao() {
     borderRadius: 11,
     padding: "9px 11px",
     fontWeight: 950,
-    fontSize: 12,
+    fontSize: 14,
     cursor: "pointer",
     background: variant === "primary" ? S.orange : variant === "danger" ? "#3a1010" : S.green2,
     color: variant === "primary" ? "#070707" : variant === "danger" ? "#ffb1b1" : S.off,
@@ -718,7 +718,7 @@ export default function ZonaContemplacao() {
     gap: 5,
     margin: "0 0 4px",
     color: "#c3cbc7",
-    fontSize: 10,
+    fontSize: 12,
     textTransform: "uppercase",
     letterSpacing: ".04em",
     fontWeight: 850,
@@ -738,7 +738,7 @@ export default function ZonaContemplacao() {
     border: green ? "1px solid rgba(39,192,125,.35)" : "none",
     borderRadius: 999,
     padding: "4px 8px",
-    fontSize: 10,
+    fontSize: 12,
     fontWeight: 950,
     whiteSpace: "nowrap",
   });
@@ -757,7 +757,7 @@ export default function ZonaContemplacao() {
     color: "#fff",
     zIndex: 2,
     textTransform: "uppercase",
-    fontSize: 9,
+    fontSize: 12,
     letterSpacing: ".06em",
     lineHeight: 1.15,
     padding: "7px 6px",
@@ -770,18 +770,18 @@ export default function ZonaContemplacao() {
     padding: "7px 6px",
     textAlign: "center",
     verticalAlign: "middle",
-    fontSize: 10.5,
+    fontSize: 13,
   };
 
   const healthThStyle: React.CSSProperties = {
     ...thStyle,
-    fontSize: 7.2,
+    fontSize: 12,
     padding: "3px 2px",
   };
 
   const healthTdStyle: React.CSSProperties = {
     ...tdStyle,
-    fontSize: 8.8,
+    fontSize: 12,
     padding: "3px 2px",
   };
 
@@ -791,7 +791,7 @@ export default function ZonaContemplacao() {
     borderRadius: 13,
     padding: 10,
     color: "#e8eee9",
-    fontSize: 11.5,
+    fontSize: 14,
     marginTop: 9,
   });
 
@@ -883,7 +883,7 @@ export default function ZonaContemplacao() {
             >
               ZONA DE CONTEMPLAÇÃO.2026
             </h1>
-            <p style={{ margin: "5px 0 0", color: "#d7ddd9", fontSize: 12.5, maxWidth: 930 }}>
+            <p style={{ margin: "5px 0 0", color: "#d7ddd9", fontSize: 13, maxWidth: 930 }}>
               Leitura histórica de lances e quantitativo de contemplações. Ferramenta educativa para entender pressão, faixa de entrada e ritmo do grupo.
             </p>
           </div>
@@ -892,7 +892,7 @@ export default function ZonaContemplacao() {
               <span style={{ width: 13, height: 13, borderRadius: 3, background: S.orange, display: "inline-block" }} />
               renatto
             </div>
-            <div style={{ fontSize: 8.5, letterSpacing: ".18em", textTransform: "uppercase", color: "#cfd6d2", marginTop: 3 }}>
+            <div style={{ fontSize: 12, letterSpacing: ".18em", textTransform: "uppercase", color: "#cfd6d2", marginTop: 3 }}>
               Consórcio de verdade
             </div>
           </div>
@@ -913,7 +913,7 @@ export default function ZonaContemplacao() {
                   color: active ? "#0b0b0b" : "#dce3df",
                   borderRadius: 999,
                   padding: "9px 13px",
-                  fontSize: 12,
+                  fontSize: 14,
                   fontWeight: 900,
                   cursor: "pointer",
                 }}
@@ -942,7 +942,7 @@ export default function ZonaContemplacao() {
               {/* Coluna esquerda: Parâmetros */}
               <div style={{ ...card, padding: 13 }}>
                 <div style={sectionTitle}>
-                  <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Parâmetros do histórico</h2>
+                  <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Parâmetros do histórico</h2>
                   <span style={pill()}>base</span>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
@@ -983,7 +983,7 @@ export default function ZonaContemplacao() {
                       <option value="media">Média simples</option>
                       <option value="mediana">Mediana</option>
                     </select>
-                    <div style={{ fontSize: 10, color: "#9aa8a1", marginTop: 5 }}>Use mediana quando houver lances claramente fora da curva.</div>
+                    <div style={{ fontSize: 12, color: "#9aa8a1", marginTop: 5 }}>Use mediana quando houver lances claramente fora da curva.</div>
                   </div>
                   <div style={{ gridColumn: "1/-1" }}>
                     <label style={label}>Grupos salvos <HelpBtn tip="Salva os dados no navegador. Não envia informações para servidor." /></label>
@@ -1017,11 +1017,11 @@ export default function ZonaContemplacao() {
               {/* Coluna direita: Tabela histórico */}
               <div style={{ ...card, padding: 13 }}>
                 <div style={sectionTitle}>
-                  <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Histórico mensal</h2>
+                  <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Histórico mensal</h2>
                   <span style={pill()}>última assembleia → anteriores</span>
                 </div>
                 <div style={{ ...tableWrap, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-                  <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 10.5, tableLayout: "fixed", minWidth: 480 }}>
+                  <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 13, tableLayout: "fixed", minWidth: 480 }}>
                     <thead>
                       <tr>
                         <th style={{ ...thStyle, width: "20%" }}>Assembleia <HelpBtn tip="Comece pela última assembleia realizada e siga para as anteriores. O campo é editável." /></th>
@@ -1035,32 +1035,32 @@ export default function ZonaContemplacao() {
                       {historicoRows.map((row, idx) => (
                         <tr key={idx}>
                           <td style={tdStyle}>
-                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 11, textAlign: "center", borderRadius: 8 }}
+                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 13, textAlign: "center", borderRadius: 8 }}
                               type="number" min="1" value={row.ass}
                               onChange={(e) => updateHistoricoRow(idx, "ass", e.target.value)} />
                           </td>
                           <td style={tdStyle}>
-                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 11, textAlign: "center", borderRadius: 8 }}
+                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 13, textAlign: "center", borderRadius: 8 }}
                               type="number" step="0.01" min="0" value={row.low}
                               onChange={(e) => updateHistoricoRow(idx, "low", e.target.value)} />
                           </td>
                           <td style={tdStyle}>
-                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 11, textAlign: "center", borderRadius: 8 }}
+                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 13, textAlign: "center", borderRadius: 8 }}
                               type="number" step="0.01" min="0" value={row.mid}
                               onChange={(e) => updateHistoricoRow(idx, "mid", e.target.value)} />
                           </td>
                           <td style={tdStyle}>
-                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 11, textAlign: "center", borderRadius: 8 }}
+                            <input style={{ ...inputStyle, minHeight: 30, padding: "5px 4px", fontSize: 13, textAlign: "center", borderRadius: 8 }}
                               type="number" step="0.01" min="0" value={row.high}
                               onChange={(e) => updateHistoricoRow(idx, "high", e.target.value)} />
                           </td>
-                          <td style={{ ...tdStyle, color: "#aeb8b4", fontSize: 10 }}>Use sempre a mesma modalidade</td>
+                          <td style={{ ...tdStyle, color: "#aeb8b4", fontSize: 12 }}>Use sempre a mesma modalidade</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
                 </div>
-                <div style={{ textAlign: "center", color: "#a8b2ad", fontSize: 10.5, marginTop: 6 }}>
+                <div style={{ textAlign: "center", color: "#a8b2ad", fontSize: 13, marginTop: 6 }}>
                   As colunas de lance foram reduzidas e centralizadas para leitura rápida.
                 </div>
               </div>
@@ -1069,7 +1069,7 @@ export default function ZonaContemplacao() {
             {/* Zona de Contemplação integrada */}
             <div style={{ marginTop: 14 }}>
               <div style={{ ...sectionTitle, marginTop: 16 }}>
-                <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Zona de Contemplação</h2>
+                <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Zona de Contemplação</h2>
                 <span style={{ ...pill(), background: S.orange }}>integrada ao histórico</span>
               </div>
               <div style={notice()}>
@@ -1081,30 +1081,30 @@ export default function ZonaContemplacao() {
                 {/* Resumo da zona */}
                 <div style={{ ...card, padding: 13 }}>
                   <div style={sectionTitle}>
-                    <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Resumo da zona</h2>
+                    <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Resumo da zona</h2>
                     <span style={pill()}>histórico</span>
                   </div>
                   <div style={{ display: "grid", gridTemplateColumns: "repeat(3,1fr)", gap: 8 }}>
                     <div style={kpi("green")}>
-                      <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Piso histórico</div>
+                      <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Piso histórico</div>
                       <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{zonaResult ? fmt(zonaResult.low) : "—"}</div>
-                      <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>média dos menores lances</div>
+                      <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>média dos menores lances</div>
                     </div>
                     <div style={kpi("yellow")}>
-                      <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Zona média</div>
+                      <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Zona média</div>
                       <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{zonaResult ? fmt(zonaResult.mid) : "—"}</div>
-                      <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>média dos lances médios</div>
+                      <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>média dos lances médios</div>
                     </div>
                     <div style={kpi("blackline")}>
-                      <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 900 }}>Teto histórico</div>
+                      <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", fontWeight: 900 }}>Teto histórico</div>
                       <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{zonaResult ? fmt(zonaResult.high) : "—"}</div>
-                      <div style={{ fontSize: 10, color: "#555", marginTop: 4 }}>média dos maiores lances</div>
+                      <div style={{ fontSize: 12, color: "#555", marginTop: 4 }}>média dos maiores lances</div>
                     </div>
                     {zonaResult && (
                       <div style={{ ...kpi("orange"), borderLeftColor: trendBorderColor(zonaResult.trend.cls), gridColumn: "1/-1" }}>
-                        <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#d4d4d4", fontWeight: 900 }}>Tendência</div>
+                        <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#d4d4d4", fontWeight: 900 }}>Tendência</div>
                         <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{zonaResult.trend.label}</div>
-                        <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>{zonaResult.trend.detail}</div>
+                        <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>{zonaResult.trend.detail}</div>
                       </div>
                     )}
                   </div>
@@ -1113,25 +1113,25 @@ export default function ZonaContemplacao() {
                 {/* Zona de entrada */}
                 <div style={{ ...card, padding: 13 }}>
                   <div style={sectionTitle}>
-                    <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Zona de entrada</h2>
+                    <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Zona de entrada</h2>
                     <span style={pill()}>posição</span>
                   </div>
                   <div style={radar}>
                     <div style={{ fontSize: 28, lineHeight: 1, fontWeight: 950, letterSpacing: "-.04em" }}>
                       {zonaResult ? zonaResult.position.title : "Sem dados suficientes"}
-                      <small style={{ display: "block", fontSize: 11, color: "#b6c0bc", marginTop: 6, fontWeight: 650, letterSpacing: 0 }}>
+                      <small style={{ display: "block", fontSize: 13, color: "#b6c0bc", marginTop: 6, fontWeight: 650, letterSpacing: 0 }}>
                         {zonaResult ? zonaResult.position.detail : "Preencha menor, médio e maior lance."}
                       </small>
                     </div>
                     <div style={meter}>
                       <div style={pin(zonaResult ? zonaResult.position.pos : 0)} />
                     </div>
-                    <div style={{ display: "flex", justifyContent: "space-between", color: "#aab4b0", fontSize: 9.5 }}>
+                    <div style={{ display: "flex", justifyContent: "space-between", color: "#aab4b0", fontSize: 12 }}>
                       <span>abaixo</span><span>piso</span><span>média</span><span>teto</span><span>acima</span>
                     </div>
                     <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginTop: 9 }}>
                       {zonaResult?.chips.map((c, i) => (
-                        <span key={i} style={{ fontSize: 11, padding: "6px 8px", borderRadius: 999, fontWeight: 950, ...chipStyle(c.cls) }}>
+                        <span key={i} style={{ fontSize: 13, padding: "6px 8px", borderRadius: 999, fontWeight: 950, ...chipStyle(c.cls) }}>
                           {c.text}
                         </span>
                       ))}
@@ -1143,13 +1143,13 @@ export default function ZonaContemplacao() {
               {/* Pressão competitiva */}
               <div style={{ ...card, padding: 13, marginBottom: 12 }}>
                 <div style={sectionTitle}>
-                  <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Pressão competitiva</h2>
+                  <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Pressão competitiva</h2>
                   <span style={pill()}>amplitude</span>
                 </div>
                 <div style={radar}>
                   <div style={{ fontSize: 28, lineHeight: 1, fontWeight: 950, letterSpacing: "-.04em" }}>
                     {zonaResult ? zonaResult.pressao.label : "—"}
-                    <small style={{ display: "block", fontSize: 11, color: "#b6c0bc", marginTop: 6, fontWeight: 650, letterSpacing: 0 }}>
+                    <small style={{ display: "block", fontSize: 13, color: "#b6c0bc", marginTop: 6, fontWeight: 650, letterSpacing: 0 }}>
                       {zonaResult ? zonaResult.pressao.detail : "Amplitude entre menor e maior lance."}
                     </small>
                   </div>
@@ -1164,8 +1164,8 @@ export default function ZonaContemplacao() {
                 <div style={{ ...card, padding: 13 }}>
                   <div style={{ background: "#0c1210", border: `1px solid ${S.line}`, borderRadius: 16, padding: 10 }}>
                     <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 10, marginBottom: 8 }}>
-                      <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Gráfico da zona</h2>
-                      <div style={{ display: "flex", gap: 7, flexWrap: "wrap", color: "#b8c2bd", fontSize: 10 }}>
+                      <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Gráfico da zona</h2>
+                      <div style={{ display: "flex", gap: 7, flexWrap: "wrap", color: "#b8c2bd", fontSize: 12 }}>
                         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><i style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", background: "#27c07d" }} /> menor</span>
                         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><i style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", background: "#f4d34f" }} /> médio</span>
                         <span style={{ display: "flex", alignItems: "center", gap: 4 }}><i style={{ display: "inline-block", width: 10, height: 10, borderRadius: "50%", background: "#000", border: "1px solid #fff" }} /> maior</span>
@@ -1177,7 +1177,7 @@ export default function ZonaContemplacao() {
                         <canvas ref={canvasRef} width={980} height={480} style={{ display: "block", width: "100%", height: 480 }} />
                       </div>
                     </div>
-                    <div style={{ fontSize: 10.5, color: "#aab4b0", marginTop: 6 }}>
+                    <div style={{ fontSize: 13, color: "#aab4b0", marginTop: 6 }}>
                       A faixa vermelha e a etiqueta destacam o lance pretendido do usuário sobre o histórico informado.
                     </div>
                     <div style={{ display: "flex", gap: 8, flexWrap: "wrap", marginTop: 10 }}>
@@ -1189,7 +1189,7 @@ export default function ZonaContemplacao() {
                 {/* Lance pretendido */}
                 <div style={{ background: "#0c1210", border: `1px solid ${S.line}`, borderRadius: 16, padding: 12, display: "flex", flexDirection: "column", gap: 10 }}>
                   <div style={sectionTitle}>
-                    <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Lance pretendido</h2>
+                    <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Lance pretendido</h2>
                     <span style={pill()}>%</span>
                   </div>
                   <div>
@@ -1232,11 +1232,11 @@ export default function ZonaContemplacao() {
             {/* Tabela quantitativo */}
             <div style={{ ...card, padding: 13 }}>
               <div style={sectionTitle}>
-                <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Estatística</h2>
+                <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Estatística</h2>
                 <span style={pill()}>base mensal</span>
               </div>
               <div style={{ ...tableWrap, overflowX: "auto", WebkitOverflowScrolling: "touch" }}>
-                <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 8.8, tableLayout: "fixed", minWidth: 900 }}>
+                <table style={{ borderCollapse: "collapse", width: "100%", fontSize: 12, tableLayout: "fixed", minWidth: 900 }}>
                   <thead>
                     <tr>
                       <th style={{ ...healthThStyle, background: "#07100e" }}>Assembleia <HelpBtn tip="Comece pela última assembleia realizada. Este campo é editável." /></th>
@@ -1271,18 +1271,18 @@ export default function ZonaContemplacao() {
                         >
                           <td style={healthTdStyle}>
                             <div style={{ display: "grid", gridTemplateColumns: "1fr 26px", gap: 4, alignItems: "center" }}>
-                              <input style={{ ...inputStyle, width: "100%", minWidth: 0, minHeight: 25, padding: 2, fontSize: 9.5, textAlign: "center" }}
+                              <input style={{ ...inputStyle, width: "100%", minWidth: 0, minHeight: 25, padding: 2, fontSize: 12, textAlign: "center" }}
                                 type="number" min="1" value={row.ass}
                                 onChange={(e) => updateQuantRow(idx, "ass", e.target.value)} />
                               <button
                                 onClick={() => removeHealthRow(idx)}
-                                style={{ border: "1px solid rgba(229,72,72,.35)", background: "#2b0c0c", color: "#ffaaaa", borderRadius: 8, height: 25, cursor: "pointer", fontWeight: 950, fontSize: 11 }}
+                                style={{ border: "1px solid rgba(229,72,72,.35)", background: "#2b0c0c", color: "#ffaaaa", borderRadius: 8, height: 25, cursor: "pointer", fontWeight: 950, fontSize: 13 }}
                               >×</button>
                             </div>
                           </td>
                           {(["sg", "p30", "p50", "clivre", "clim", "c30", "c50", "csort", "outras"] as const).map((k) => (
                             <td key={k} style={healthTdStyle}>
-                              <input style={{ ...inputStyle, width: "100%", minWidth: 0, minHeight: 25, padding: 2, fontSize: 9.5, textAlign: "center" }}
+                              <input style={{ ...inputStyle, width: "100%", minWidth: 0, minHeight: 25, padding: 2, fontSize: 12, textAlign: "center" }}
                                 type="number" min="0" value={row[k]}
                                 onChange={(e) => updateQuantRow(idx, k, e.target.value)} />
                             </td>
@@ -1306,7 +1306,7 @@ export default function ZonaContemplacao() {
               {/* Diagnóstico */}
               <div style={{ ...card, padding: 13 }}>
                 <div style={sectionTitle}>
-                  <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Diagnóstico</h2>
+                  <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Diagnóstico</h2>
                   <span style={pill(true)}>seleção</span>
                 </div>
                 <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }} className="!grid-cols-1 sm:!grid-cols-2">
@@ -1338,54 +1338,54 @@ export default function ZonaContemplacao() {
                 {/* 5 KPIs */}
                 <div style={{ display: "grid", gridTemplateColumns: "repeat(5,1fr)", gap: 8, marginTop: 10 }} className="!grid-cols-2 sm:!grid-cols-3 lg:!grid-cols-5">
                   <div style={kpi("green")}>
-                    <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Total selecionado</div>
+                    <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Total selecionado</div>
                     <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{quantResult?.totalCont ?? "—"}</div>
-                    <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>contemplações somadas</div>
+                    <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>contemplações somadas</div>
                   </div>
                   <div style={kpi("yellow")}>
-                    <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Taxa hist. do recorte <HelpBtn tip="Razão entre as contemplações totais selecionadas e a soma das bases gerais do período." /></div>
+                    <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Taxa hist. do recorte <HelpBtn tip="Razão entre as contemplações totais selecionadas e a soma das bases gerais do período." /></div>
                     <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{quantResult ? fmt(quantResult.indice) : "—"}</div>
-                    <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>contemplações / base acumulada</div>
+                    <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>contemplações / base acumulada</div>
                   </div>
                   <div style={kpi("orange")}>
-                    <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#d4d4d4", fontWeight: 900 }}>Média necessária</div>
+                    <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#d4d4d4", fontWeight: 900 }}>Média necessária</div>
                     <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>
                       {quantResult ? quantResult.nec.toLocaleString("pt-BR", { minimumFractionDigits: 1, maximumFractionDigits: 1 }) : "—"}
                     </div>
-                    <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>participantes / prazo restante</div>
+                    <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>participantes / prazo restante</div>
                   </div>
                   <div style={kpi("red")}>
-                    <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Cobertura</div>
+                    <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#b6c0bc", fontWeight: 900 }}>Cobertura</div>
                     <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>
                       {quantResult ? (quantResult.cob || 0).toLocaleString("pt-BR", { maximumFractionDigits: 0 }) + "%" : "—"}
                     </div>
-                    <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>média realizada / necessária</div>
+                    <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>média realizada / necessária</div>
                   </div>
                   <div style={kpi("orange")}>
-                    <div style={{ fontSize: 9.5, textTransform: "uppercase", letterSpacing: ".08em", color: "#d4d4d4", fontWeight: 900 }}>Taxa sorteio geral <HelpBtn tip="Taxa histórica observada: contemplações por sorteio geral divididas pela base geral do recorte selecionado." /></div>
+                    <div style={{ fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em", color: "#d4d4d4", fontWeight: 900 }}>Taxa sorteio geral <HelpBtn tip="Taxa histórica observada: contemplações por sorteio geral divididas pela base geral do recorte selecionado." /></div>
                     <div style={{ fontSize: 22, fontWeight: 950, letterSpacing: "-.04em", marginTop: 3 }}>{quantResult ? fmt(quantResult.probSorteioGeral) : "—"}</div>
-                    <div style={{ fontSize: 10, color: "#92a09a", marginTop: 4 }}>{quantResult?.probSorteioDetalhe ?? "sorteio geral / base geral"}</div>
+                    <div style={{ fontSize: 12, color: "#92a09a", marginTop: 4 }}>{quantResult?.probSorteioDetalhe ?? "sorteio geral / base geral"}</div>
                   </div>
                 </div>
 
                 {/* Pulso do grupo */}
                 <div style={{ ...radar, marginTop: 10 }}>
-                  <h3 style={{ margin: "0 0 8px", fontSize: 12, color: S.white }}>Pulso do grupo</h3>
+                  <h3 style={{ margin: "0 0 8px", fontSize: 14, color: S.white }}>Pulso do grupo</h3>
                   <div style={{ fontSize: 28, lineHeight: 1, fontWeight: 950, letterSpacing: "-.04em" }}>
                     {quantResult ? quantResult.hStatus.title : "Sem base suficiente"}
-                    <small style={{ display: "block", fontSize: 11, color: "#b6c0bc", marginTop: 6, fontWeight: 650, letterSpacing: 0 }}>
+                    <small style={{ display: "block", fontSize: 13, color: "#b6c0bc", marginTop: 6, fontWeight: 650, letterSpacing: 0 }}>
                       {quantResult ? quantResult.hStatus.detail : "Selecione assembleias para analisar."}
                     </small>
                   </div>
                   <div style={healthMeter}>
                     <div style={healthPin(quantResult?.hStatus.pin ?? 0)} />
                   </div>
-                  <div style={{ display: "flex", justifyContent: "space-between", color: "#aab4b0", fontSize: 9.5 }}>
+                  <div style={{ display: "flex", justifyContent: "space-between", color: "#aab4b0", fontSize: 12 }}>
                     <span>fraco</span><span>pressionado</span><span>compatível</span><span>forte</span>
                   </div>
                   <div style={{ display: "flex", gap: 7, flexWrap: "wrap", marginTop: 9 }}>
                     {quantResult?.chips.map((c, i) => (
-                      <span key={i} style={{ fontSize: 11, padding: "6px 8px", borderRadius: 999, fontWeight: 950, ...chipStyle(c.cls) }}>
+                      <span key={i} style={{ fontSize: 13, padding: "6px 8px", borderRadius: 999, fontWeight: 950, ...chipStyle(c.cls) }}>
                         {c.text}
                       </span>
                     ))}
@@ -1401,10 +1401,10 @@ export default function ZonaContemplacao() {
               {/* Lance fixo */}
               <div style={{ ...card, padding: 13 }}>
                 <div style={sectionTitle}>
-                  <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: "#ffb1b1" }}>Lance fixo</h2>
+                  <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: "#ffb1b1" }}>Lance fixo</h2>
                   <span style={pill()}>taxa histórica</span>
                 </div>
-                <div style={{ display: "grid", gap: 7, fontSize: 12, color: "#ddd" }}>
+                <div style={{ display: "grid", gap: 7, fontSize: 14, color: "#ddd" }}>
                   <div style={{ background: "#0c1210", border: `1px solid ${S.line}`, borderRadius: 10, padding: 8 }}>
                     <b>Fixo 30%:</b> {quantResult ? quantResult.fixo30.txt : "sem dados"}
                   </div>
@@ -1437,7 +1437,7 @@ export default function ZonaContemplacao() {
                 <div style={notice(true)}>
                   <b>Leitura franca:</b> lance fixo vira sorteio/desempate entre cotas participantes quando todos ofertam o mesmo percentual.
                 </div>
-                <div style={{ display: "grid", gap: 7, fontSize: 12, color: "#ddd", marginTop: 10 }}>
+                <div style={{ display: "grid", gap: 7, fontSize: 14, color: "#ddd", marginTop: 10 }}>
                   <div style={{ background: "#0c1210", border: `1px solid ${S.line}`, borderRadius: 10, padding: 8 }}>
                     <b>Distribuição:</b> {quantResult?.distribText ?? "—"}
                   </div>
@@ -1463,7 +1463,7 @@ export default function ZonaContemplacao() {
             </div>
             <div style={{ ...card, padding: 13 }}>
               <div style={sectionTitle}>
-                <h2 style={{ margin: 0, fontSize: 12.5, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Leitura técnica</h2>
+                <h2 style={{ margin: 0, fontSize: 13, textTransform: "uppercase", letterSpacing: ".12em", color: S.white }}>Leitura técnica</h2>
                 <span style={pill()}>sem promessa</span>
               </div>
               <div style={notice()}>
@@ -1474,7 +1474,7 @@ export default function ZonaContemplacao() {
         )}
 
         {/* Footer */}
-        <div style={{ textAlign: "center", color: "#aeb8b4", fontSize: 11, padding: 18 }}>
+        <div style={{ textAlign: "center", color: "#aeb8b4", fontSize: 13, padding: 18 }}>
           consorciodeverdade.com.br · Simulação educativa, sem garantia de contemplação.
         </div>
       </div>

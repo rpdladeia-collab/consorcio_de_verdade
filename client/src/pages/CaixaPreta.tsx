@@ -244,7 +244,7 @@ function CarrosselModal({ isOpen, onClose, slides, title }: { isOpen: boolean; o
   return (
     <div className="fixed inset-0 z-[100] bg-[#0A0A08]/98 backdrop-blur-sm flex items-center justify-center p-4">
       <div className="absolute top-6 right-6 flex items-center gap-4">
-        <span className="font-['IBM_Plex_Mono'] text-[11px] text-white/40 uppercase tracking-[0.2em]">
+        <span className="font-['IBM_Plex_Mono'] text-[13px] text-white/40 uppercase tracking-[0.2em]">
           Slide {current + 1} de {slides.length}
         </span>
         <button 
@@ -372,10 +372,10 @@ function VideoCard({ video }: { video: typeof VIDEOS[0] }) {
       {/* Rodapé do Card */}
       <div className="cv-film-caption p-3 border-t border-[#E4DCC9] flex items-center justify-between">
         <div className="flex flex-col">
-          <span className="font-['IBM_Plex_Mono'] text-[11px] font-semibold text-[#0A0A08] uppercase tracking-wider">
+          <span className="font-['IBM_Plex_Mono'] text-[13px] font-semibold text-[#0A0A08] uppercase tracking-wider">
             Vídeo #{video.id}
           </span>
-          <span className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
+          <span className="text-[14px] text-gray-500 line-clamp-1 mt-0.5">
             {video.description}
           </span>
         </div>
@@ -404,7 +404,7 @@ export default function CaixaPreta() {
         <div className="cv-blackbox-hero-copy relative z-10 text-center px-4 max-w-4xl mx-auto">
           <Link
             to="/#hero"
-            className="inline-flex items-center gap-2 text-[#FFC93C] font-mono text-[12px] md:text-[13px] font-semibold uppercase tracking-widest hover:text-white transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-[#FFC93C] font-mono text-[14px] md:text-[13px] font-semibold uppercase tracking-widest hover:text-white transition-colors mb-8"
           >
             <ArrowLeft className="w-4 h-4" />
             Voltar
@@ -423,7 +423,7 @@ export default function CaixaPreta() {
         <div className="cv-shell max-w-[1180px] mx-auto">
           <div className="cv-blackbox-dossier-head flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[#FFC93C] mb-4 font-bold font-['IBM_Plex_Mono']">
+              <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.2em] uppercase text-[#FFC93C] mb-4 font-bold font-['IBM_Plex_Mono']">
                 Conteúdo Independente
               </span>
               <h2 className="font-['Archivo_Black'] text-3xl md:text-4xl text-[#0A0A08] uppercase leading-none">
@@ -461,13 +461,13 @@ export default function CaixaPreta() {
                     />
                   ) : (
                     <div className="p-8 flex flex-col items-center text-center text-white/20">
-                      <span className="text-[10px] tracking-[0.2em] uppercase mb-4 font-bold font-['IBM_Plex_Mono']">
+                      <span className="text-[12px] tracking-[0.2em] uppercase mb-4 font-bold font-['IBM_Plex_Mono']">
                         {item.tag}
                       </span>
                       <h3 className="font-['Archivo_Black'] text-xl md:text-2xl uppercase leading-tight tracking-tight">
                         {item.title}
                       </h3>
-                      <div className="mt-8 bg-[#FFC93C] text-black text-[10px] px-3 py-1 font-black uppercase tracking-tighter rounded-sm">
+                      <div className="mt-8 bg-[#FFC93C] text-black text-[12px] px-3 py-1 font-black uppercase tracking-tighter rounded-sm">
                         Em breve
                       </div>
                     </div>
@@ -477,10 +477,10 @@ export default function CaixaPreta() {
                 {/* Rodapé do Card */}
                 <div className="cv-dossier-caption p-3 border-t border-[#E4DCC9] flex items-center justify-between">
                   <div className="flex flex-col">
-                    <span className="font-['IBM_Plex_Mono'] text-[11px] font-semibold text-[#0A0A08] uppercase tracking-wider">
+                    <span className="font-['IBM_Plex_Mono'] text-[13px] font-semibold text-[#0A0A08] uppercase tracking-wider">
                       Post #{i + 1}
                     </span>
-                    <span className="text-[12px] text-gray-500 line-clamp-1 mt-0.5">
+                    <span className="text-[14px] text-gray-500 line-clamp-1 mt-0.5">
                       {item.description}
                     </span>
                   </div>
@@ -515,7 +515,7 @@ export default function CaixaPreta() {
         <div className="cv-shell max-w-[1180px] mx-auto">
           <div className="cv-blackbox-film-head flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
             <div>
-              <span className="inline-flex items-center gap-2 text-[11px] tracking-[0.2em] uppercase text-[#FFC93C] mb-4 font-bold font-['IBM_Plex_Mono']">
+              <span className="inline-flex items-center gap-2 text-[13px] tracking-[0.2em] uppercase text-[#FFC93C] mb-4 font-bold font-['IBM_Plex_Mono']">
                 Análises em Vídeo
               </span>
               <h2 className="font-['Archivo_Black'] text-3xl md:text-4xl uppercase leading-none">

@@ -462,7 +462,7 @@ export function VideoBlock({ title }: { title: string }) {
       <PlayCircle className="w-8 h-8 text-[var(--orange)] mb-3" />
       <div className="flex items-center gap-2 mb-1">
         <p className="font-semibold text-lg">{title}</p>
-        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-[#F5C518] text-black tracking-wide uppercase">
+        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[12px] font-bold bg-[#F5C518] text-black tracking-wide uppercase">
           Em breve
         </span>
       </div>

@@ -27,7 +27,7 @@ export default function WaitingAnalysisScreen({
         className="relative z-10 h-10 md:h-12 w-auto object-contain opacity-90"
       />
 
-      <p className="absolute bottom-5 right-5 z-10 max-w-[70%] text-right font-['IBM_Plex_Mono'] text-[10px] font-bold uppercase tracking-[0.2em] text-[#1C1A16]/40 sm:bottom-6 sm:right-6">
+      <p className="absolute bottom-5 right-5 z-10 max-w-[70%] text-right font-['IBM_Plex_Mono'] text-[12px] font-bold uppercase tracking-[0.2em] text-[#1C1A16]/40 sm:bottom-6 sm:right-6">
         {label}
       </p>
     </div>

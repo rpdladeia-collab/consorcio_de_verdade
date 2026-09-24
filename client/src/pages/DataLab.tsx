@@ -246,7 +246,7 @@ export function DataLabPage() {
         </nav>
 
         <div className="mx-auto max-w-5xl px-4 py-8 sm:py-10">
-          <span className="font-mono text-xs font-bold uppercase tracking-widest text-[#f97316]">
+          <span className="font-mono text-[13px] font-bold uppercase tracking-widest text-[#f97316]">
             Panorama BC · Panorama Oficial
           </span>
           <h1 className="mt-2 text-3xl font-bold sm:text-4xl">Panorama oficial</h1>
@@ -259,15 +259,15 @@ export function DataLabPage() {
           <div className="mt-6 flex gap-4 sm:gap-6">
             <div className="bg-[#1c1b15] p-3">
               <strong className="block font-mono text-xl text-white">125</strong>
-              <span className="block text-xs font-semibold leading-tight text-white/50">métricas oficiais</span>
+              <span className="block text-[13px] font-semibold leading-tight text-white/50">métricas oficiais</span>
             </div>
             <div className="bg-[#1c1b15] p-3">
               <strong className="block font-mono text-xl text-white">10+</strong>
-              <span className="block text-xs font-semibold leading-tight text-white/50">anos de histórico</span>
+              <span className="block text-[13px] font-semibold leading-tight text-white/50">anos de histórico</span>
             </div>
             <div className="bg-[#1c1b15] p-3">
               <strong className="block font-mono text-xl text-white">19</strong>
-              <span className="block text-xs font-semibold leading-tight text-white/50">grupos de dados</span>
+              <span className="block text-[13px] font-semibold leading-tight text-white/50">grupos de dados</span>
             </div>
           </div>
         </div>
@@ -292,7 +292,7 @@ export function DataLabPage() {
           <aside className="rounded-xl border border-[#d1ccc5] bg-white p-4 shadow-sm sm:p-5">
             <div className="flex items-center justify-between gap-3">
               <div>
-                <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#c2410c]">
+                <span className="font-mono text-[12px] font-bold uppercase tracking-widest text-[#c2410c]">
                   Passo 01
                 </span>
                 <h2 id="selecao-title" className="mt-1 text-lg font-bold">
@@ -371,7 +371,7 @@ export function DataLabPage() {
                     ))
                   )}
                 </select>
-                <p className="mt-2 text-xs font-semibold leading-relaxed text-[#716b60]">
+                <p className="mt-2 text-[13px] font-semibold leading-relaxed text-[#716b60]">
                   {filteredMetrics.length} de 125 métricas visíveis no filtro atual.
                 </p>
               </>
@@ -379,18 +379,18 @@ export function DataLabPage() {
 
             {selectedMetric && (
               <div className="mt-5 border-t border-[#e5e0d8] pt-4">
-                <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                <span className="text-[12px] font-bold uppercase tracking-wider text-[#716b60]">
                   Seleção atual
                 </span>
                 <p className="mt-1 text-sm font-bold leading-snug">{selectedMetric.name}</p>
-                <p className="mt-2 font-mono text-xs font-semibold text-[#c2410c]">
+                <p className="mt-2 font-mono text-[13px] font-semibold text-[#c2410c]">
                   Unidade de divulgação: {describeOfficialUnit(selectedMetric.unit, selectedMetric.groupName)}
                 </p>
               </div>
             )}
 
             <details className="mt-5 border-t border-[#e5e0d8] pt-4 group">
-              <summary className="flex cursor-pointer items-center justify-between text-[10px] font-bold uppercase tracking-wider text-[#716b60] select-none">
+              <summary className="flex cursor-pointer items-center justify-between text-[12px] font-bold uppercase tracking-wider text-[#716b60] select-none">
                 Interpretando as métricas
                 <svg className="h-3 w-3 text-[#716b60] transition-transform duration-200 group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
                   <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
@@ -399,7 +399,7 @@ export function DataLabPage() {
               <div className="mt-3 space-y-3">
                 {organizedGroups.map(section => (
                   <div key={section.label}>
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-[#4b4843]">{section.label}</p>
+                    <p className="text-[12px] font-bold uppercase tracking-wider text-[#4b4843]">{section.label}</p>
                     <div className="mt-1 space-y-1">
                       {section.groups.map(group => (
                         <button
@@ -408,7 +408,7 @@ export function DataLabPage() {
                             const glossaryItem = GROUP_GLOSSARY[group.id];
                             if (glossaryItem) setSelectedGroupForGlossary(glossaryItem);
                           }}
-                          className="block w-full text-left rounded px-2 py-1 text-xs font-semibold text-[#c2410c] hover:bg-[#f6f3ec]"
+                          className="block w-full text-left rounded px-2 py-1 text-[13px] font-semibold text-[#c2410c] hover:bg-[#f6f3ec]"
                         >
                           {group.name}
                         </button>
@@ -432,7 +432,7 @@ export function DataLabPage() {
               <div className="mt-4">
                 <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
                   <div>
-                    <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#c2410c]">
+                    <span className="font-mono text-[12px] font-bold uppercase tracking-widest text-[#c2410c]">
                       Passo 02
                     </span>
                     <h2 className="mt-1 text-lg font-bold">Defina o período</h2>
@@ -525,7 +525,7 @@ export function DataLabPage() {
                   <section className="rounded-xl border border-[#d1ccc5] bg-white p-4 shadow-sm sm:p-6">
                     <div className="flex flex-col gap-4 border-b border-[#e5e0d8] pb-5 sm:flex-row sm:items-start sm:justify-between">
                       <div className="min-w-0">
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#c2410c]">
+                        <span className="font-mono text-[12px] font-bold uppercase tracking-widest text-[#c2410c]">
                           Série histórica
                         </span>
                         <h2 className="mt-1 text-xl font-bold leading-tight sm:text-2xl">
@@ -538,14 +538,14 @@ export function DataLabPage() {
                           </p>
                         </div>
                       </div>
-                      <div className="shrink-0 rounded-lg bg-[#fff3e8] px-3 py-2 text-xs font-bold text-[#9a3412]">
+                      <div className="shrink-0 rounded-lg bg-[#fff3e8] px-3 py-2 text-[13px] font-bold text-[#9a3412]">
                         {result.period?.label}
                       </div>
                     </div>
 
                     <div className="mt-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
                       <div className="rounded-lg border border-[#e5e0d8] p-3">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-[#716b60]">
                           Valor mais recente
                         </span>
                         <strong className="mt-1 block font-mono text-lg sm:text-xl">
@@ -553,12 +553,12 @@ export function DataLabPage() {
                             ? formatOfficialMetricValue(latestPoint.value, result.metric.unit)
                             : "—"}
                         </strong>
-                        <span className="mt-1 block text-xs font-semibold text-[#716b60]">
+                        <span className="mt-1 block text-[13px] font-semibold text-[#716b60]">
                           {latestPoint ? formatDataBase(latestPoint.dataBase) : "Sem observação"}
                         </span>
                       </div>
                       <div className="rounded-lg border border-[#e5e0d8] p-3">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-[#716b60]">
                           Variação no recorte
                         </span>
                         <strong
@@ -568,30 +568,30 @@ export function DataLabPage() {
                             ? "—"
                             : `${variation >= 0 ? "+" : ""}${variation.toLocaleString("pt-BR", { maximumFractionDigits: 2 })}%`}
                         </strong>
-                        <span className="mt-1 block text-xs font-semibold text-[#716b60]">
+                        <span className="mt-1 block text-[13px] font-semibold text-[#716b60]">
                           primeiro × último ponto
                         </span>
                       </div>
                       <div className="rounded-lg border border-[#e5e0d8] p-3">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-[#716b60]">
                           Observações exibidas
                         </span>
                         <strong className="mt-1 block font-mono text-lg sm:text-xl">{series.length}</strong>
-                        <span className="mt-1 block text-xs font-semibold text-[#716b60]">
+                        <span className="mt-1 block text-[13px] font-semibold text-[#716b60]">
                           de {result.coverage.observationCount} disponíveis
                         </span>
                       </div>
                       <div className="rounded-lg border border-[#e5e0d8] p-3">
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                        <span className="text-[12px] font-bold uppercase tracking-wider text-[#716b60]">
                           Histórico disponível
                         </span>
                         <strong className="mt-1 block font-mono text-sm sm:text-base">
                           {formatDataBase(result.coverage.earliestDataBase)} — {formatDataBase(result.coverage.latestDataBase)}
                         </strong>
-                        <span className="mt-2 block text-[10px] font-bold uppercase tracking-wider text-[#716b60]">
+                        <span className="mt-2 block text-[12px] font-bold uppercase tracking-wider text-[#716b60]">
                           Periodicidade
                         </span>
-                        <span className="mt-1 block text-xs font-semibold leading-relaxed text-[#4b4843]">
+                        <span className="mt-1 block text-[13px] font-semibold leading-relaxed text-[#4b4843]">
                           {formatOfficialPeriodicity(result.granularity.code, result.granularity.label)}
                         </span>
                       </div>
@@ -609,7 +609,7 @@ export function DataLabPage() {
                             <XAxis
                               dataKey="dataBase"
                               tickFormatter={formatDataBase}
-                              tick={{ fill: "#4b4843", fontSize: 12, fontWeight: 600 }}
+                              tick={{ fill: "#4b4843", fontSize: 14, fontWeight: 600 }}
                               axisLine={{ stroke: "#9e9890" }}
                               tickLine={false}
                               minTickGap={24}
@@ -619,7 +619,7 @@ export function DataLabPage() {
                               tickFormatter={value =>
                                 formatOfficialMetricValue(Number(value), result.metric.unit)
                               }
-                              tick={{ fill: "#4b4843", fontSize: 12, fontWeight: 600 }}
+                              tick={{ fill: "#4b4843", fontSize: 14, fontWeight: 600 }}
                               axisLine={false}
                               tickLine={false}
                             />
@@ -660,7 +660,7 @@ export function DataLabPage() {
                   <section className="overflow-hidden rounded-xl border border-[#d1ccc5] bg-white shadow-sm">
                     <div className="flex items-center justify-between gap-3 border-b border-[#e5e0d8] p-4 sm:p-5">
                       <div>
-                        <span className="font-mono text-[10px] font-bold uppercase tracking-widest text-[#c2410c]">
+                        <span className="font-mono text-[12px] font-bold uppercase tracking-widest text-[#c2410c]">
                           Dados brutos
                         </span>
                         <h2 className="mt-1 text-lg font-bold">Tabela da série exibida</h2>
@@ -669,7 +669,7 @@ export function DataLabPage() {
                     </div>
                     <div className="overflow-x-auto">
                       <table className="w-full min-w-[560px] border-collapse text-left text-sm">
-                        <thead className="bg-[#f6f3ec] text-[11px] uppercase tracking-wider text-[#4b4843]">
+                        <thead className="bg-[#f6f3ec] text-[13px] uppercase tracking-wider text-[#4b4843]">
                           <tr>
                             <th className="px-4 py-3 font-bold sm:px-5">Competência</th>
                             <th className="px-4 py-3 text-right font-bold sm:px-5">Valor</th>
@@ -708,7 +708,7 @@ export function DataLabPage() {
           <div className="flex items-start gap-3">
             <TrendingUp className="mt-0.5 h-5 w-5 shrink-0 text-[#f97316]" />
             <div>
-              <span className="font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-[#f97316]">
+              <span className="font-mono text-[12px] font-bold uppercase tracking-[0.2em] text-[#f97316]">
                 Transparência e método
               </span>
               <h2 className="mt-2 text-xl font-bold">Uma fonte, nenhuma interpolação.</h2>

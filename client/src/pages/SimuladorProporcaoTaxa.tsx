@@ -220,53 +220,53 @@ export default function SimuladorProporcaoTaxa() {
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Carta (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Carta (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.credit} onChange={(e) => set("credit", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Valor nominal</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Valor nominal</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Taxa Adm (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Taxa Adm (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.adminPct} onChange={(e) => set("adminPct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Total plano</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Pagas</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Pagas</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.paid} onChange={(e) => set("paid", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Parcelas</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Parcelas</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Próprio (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Próprio (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.own} onChange={(e) => set("own", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Recurso livre</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Recurso livre</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">FGTS (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">FGTS (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.fgts} onChange={(e) => set("fgts", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Uso imobiliário</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Uso imobiliário</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Embutido (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Embutido (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.embedded} onChange={(e) => set("embedded", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Reduz a carta</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Reduz a carta</p>
           </div>
         </div>
 
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Correção (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Correção (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={form.correcaoAnualPct} onChange={(e) => set("correcaoAnualPct", e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Anual projetada</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Anual projetada</p>
           </div>
         </div>
       </div>
@@ -286,7 +286,7 @@ export default function SimuladorProporcaoTaxa() {
       </div>
 
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
-        <p className="text-[10px] font-bold uppercase text-amber-800 mb-2">Termômetro de Proporção</p>
+        <p className="text-[12px] font-bold uppercase text-amber-800 mb-2">Termômetro de Proporção</p>
         <div className="h-3 w-full bg-amber-200 rounded-full overflow-hidden">
           <div className="h-full bg-amber-500 transition-all duration-500" style={{ width: `${Math.min(100, (taxOnNewMoney / 50) * 100)}%` }}></div>
         </div>
@@ -299,10 +299,10 @@ export default function SimuladorProporcaoTaxa() {
 
       <div className="bg-white border border-border rounded-xl overflow-hidden">
         <div className="bg-ink p-3 text-white flex items-center justify-between">
-          <span className="text-[10px] font-bold uppercase">Tabela de Indicadores</span>
+          <span className="text-[12px] font-bold uppercase">Tabela de Indicadores</span>
           <button 
             onClick={() => setShowRacional(true)}
-            className="flex items-center gap-1.5 px-2 py-1 bg-[#FFC93C] text-black rounded text-[10px] font-bold uppercase hover:bg-white transition-colors"
+            className="flex items-center gap-1.5 px-2 py-1 bg-[#FFC93C] text-black rounded text-[12px] font-bold uppercase hover:bg-white transition-colors"
           >
             <Info className="w-3 h-3" />
             Racional

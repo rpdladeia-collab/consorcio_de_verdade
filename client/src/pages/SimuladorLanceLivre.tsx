@@ -121,24 +121,24 @@ export default function SimuladorLanceLivre() {
             <div className="rounded-xl border border-border bg-card p-2 sm:p-3 space-y-1.5">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
                 <div className="flex flex-col h-full">
-                  <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Carta (R$)</label>
+                  <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Carta (R$)</label>
                   <div className="mt-auto">
                     <input type="text" inputMode="decimal" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] font-bold focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={credit} onChange={(e) => setCredit(e.target.value)} />
-                    <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Valor nominal</p>
+                    <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Valor nominal</p>
                   </div>
                 </div>
                 <div className="flex flex-col h-full">
-                  <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Lance (%)</label>
+                  <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Lance (%)</label>
                   <div className="mt-auto">
                     <input type="text" inputMode="decimal" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] font-bold focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={bidPct} onChange={(e) => setBidPct(e.target.value)} />
                     <input type="range" min={0} max={80} step={1} value={parseFloat(bidPct) || 0} onChange={(e) => setBidPct(e.target.value)} className="w-full mt-1 h-1 accent-[var(--orange)]" />
                   </div>
                 </div>
                 <div className="flex flex-col h-full">
-                  <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Ref. Hist.</label>
+                  <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate uppercase">Ref. Hist.</label>
                   <div className="mt-auto">
                     <input type="text" inputMode="decimal" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] font-bold focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={referenceBidPct} onChange={(e) => setReferenceBidPct(e.target.value)} />
-                    <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Lance médio (%)</p>
+                    <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Lance médio (%)</p>
                   </div>
                 </div>
               </div>
@@ -151,32 +151,32 @@ export default function SimuladorLanceLivre() {
                 <p className="font-bold text-[13px] md:text-[14px] text-gray-800 uppercase tracking-wider mb-1">Modo avançado</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
                   <div className="flex flex-col h-full">
-                    <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Taxa Adm (%)</label>
+                    <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Taxa Adm (%)</label>
                     <div className="mt-auto">
                       <input type="text" inputMode="decimal" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={adminRate} onChange={(e) => setAdminRate(e.target.value)} />
-                      <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Taxa de administração</p>
+                      <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Taxa de administração</p>
                     </div>
                   </div>
                   <div className="flex flex-col h-full">
-                    <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Prazo (meses)</label>
+                    <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Prazo (meses)</label>
                     <div className="mt-auto">
                       <input type="text" inputMode="decimal" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={term} onChange={(e) => setTerm(e.target.value)} />
-                      <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total do plano</p>
+                      <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Total do plano</p>
                     </div>
                   </div>
                   <div className="flex flex-col h-full">
-                    <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Pagas</label>
+                    <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Pagas</label>
                     <div className="mt-auto">
                       <input type="text" inputMode="decimal" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={paidInstallments} onChange={(e) => setPaidInstallments(e.target.value)} />
-                      <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Parcelas</p>
+                      <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Parcelas</p>
                     </div>
                   </div>
                 </div>
                 <div className="mt-1.5">
-                  <label className="text-[12px] md:text-[13px] font-bold text-gray-800 mb-1 block">Destino do lance</label>
+                  <label className="text-[14px] md:text-[13px] font-bold text-gray-800 mb-1 block">Destino do lance</label>
                   <div className="flex gap-1">
                     {(["abater_parcela", "reduzir_prazo"] as const).map((m) => (
-                      <button key={m} onClick={() => setLanceUse(m)} className={`flex-1 rounded-lg border px-2 py-1.5 text-[12px] md:text-[13px] font-bold transition-colors ${lanceUse === m ? "bg-[var(--orange)] text-white border-transparent" : "bg-background text-foreground/60 border-border"}`}>
+                      <button key={m} onClick={() => setLanceUse(m)} className={`flex-1 rounded-lg border px-2 py-1.5 text-[14px] md:text-[13px] font-bold transition-colors ${lanceUse === m ? "bg-[var(--orange)] text-white border-transparent" : "bg-background text-foreground/60 border-border"}`}>
                         {m === "abater_parcela" ? "Abater parcela" : "Reduzir prazo"}
                       </button>
                     ))}
@@ -198,7 +198,7 @@ export default function SimuladorLanceLivre() {
               <div className="space-y-4 animate-[fadeIn_0.4s_ease-out] px-2 sm:px-0">
                 {result.warnings.length > 0 && (
                   <div className="rounded-lg border border-[color-mix(in_oklch,var(--orange)_35%,transparent)] bg-[color-mix(in_oklch,var(--orange)_10%,transparent)] p-2 sm:p-3 space-y-1">
-                    {result.warnings.map((w, i) => (<p key={i} className="text-[10px] sm:text-[14px] md:text-[15px] text-foreground/75">{w}</p>))}
+                    {result.warnings.map((w, i) => (<p key={i} className="text-[12px] sm:text-[14px] md:text-[15px] text-foreground/75">{w}</p>))}
                   </div>
                 )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -219,18 +219,18 @@ export default function SimuladorLanceLivre() {
 
                 <DiagnosticCard
                   verdict={mapVerdict(result.verdict)}
-                  narrative={<p className="text-[10px] sm:text-[14px] md:text-[15px]">{result.decisionText}</p>}
+                  narrative={<p className="text-[12px] sm:text-[14px] md:text-[15px]">{result.decisionText}</p>}
                 />
 
                 <MeaningBlock label="Lance Livre">
-                  <p className="text-[10px] sm:text-[14px] md:text-[15px]">
+                  <p className="text-[12px] sm:text-[14px] md:text-[15px]">
                     Para uma carta de <strong>{formatBRL(result.inputs.credit)}</strong>, um lance livre de{" "}
                     <strong>{formatPct(result.inputs.bidPct)}</strong> exige{" "}
                     <strong>{formatBRL(result.bidValue)}</strong> em recurso próprio. Frente à referência de{" "}
                     <strong>{formatPct(result.inputs.referenceBidPct)}</strong>, isso representa uma competitividade de{" "}
                     <strong>{formatPct(result.competitiveness)}</strong>.
                   </p>
-                  <p className="text-[10px] sm:text-[14px] md:text-[15px]">
+                  <p className="text-[12px] sm:text-[14px] md:text-[15px]">
                     Diferente do lance embutido, o lance livre não reduz o crédito que você recebe — mas exige dinheiro à vista no momento da oferta.
                   </p>
                 </MeaningBlock>
@@ -239,7 +239,7 @@ export default function SimuladorLanceLivre() {
 
                 <div className="flex flex-wrap items-center gap-2">
                   <PdfButton onClick={() => toast.info("Geração de PDF de Auditoria em implementação.")} />
-                  <span className="inline-flex items-center gap-1 text-[10px] sm:text-[14px] md:text-[15px] text-foreground/45">
+                  <span className="inline-flex items-center gap-1 text-[12px] sm:text-[14px] md:text-[15px] text-foreground/45">
                     <ShieldCheck className="w-3 h-3" /> Relatório de Auditoria Independente
                   </span>
                 </div>
@@ -254,9 +254,9 @@ export default function SimuladorLanceLivre() {
                   </CollapsibleTrigger>
                   <CollapsibleContent className="space-y-4 pt-2">
                     <div className="overflow-x-auto">
-                      <table className="w-full text-[8px] sm:text-[14px] md:text-[15px] border-collapse min-w-[400px]">
+                      <table className="w-full text-[12px] sm:text-[14px] md:text-[15px] border-collapse min-w-[400px]">
                         <thead>
-                          <tr className="text-left text-foreground/50 text-[7px] sm:text-[14px] md:text-[15px] uppercase tracking-wide">
+                          <tr className="text-left text-foreground/50 text-[12px] sm:text-[14px] md:text-[15px] uppercase tracking-wide">
                             <th className="py-1.5 pr-2 font-medium">% Lance</th>
                             <th className="py-1.5 px-2 font-medium text-right">Desembolso</th>
                             <th className="py-1.5 px-2 font-medium text-right">Competitividade</th>
@@ -294,7 +294,7 @@ export default function SimuladorLanceLivre() {
             "Cálculos executados no servidor e reproduzíveis pela memória de cálculo",
           ]}
         >
-                  <p className="text-[10px] sm:text-[14px] md:text-[15px]">
+                  <p className="text-[12px] sm:text-[14px] md:text-[15px]">
                     A competitividade é medida pela razão entre o seu lance e uma referência histórica. O efeito no fluxo é estimado a partir do saldo devedor projetado, sem considerar correções futuras do indexador.
                   </p>
         </MethodologyBlock>

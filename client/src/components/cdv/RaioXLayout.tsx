@@ -37,7 +37,7 @@ export default function RaioXLayout({
           </div>
           <div className="text-right">
             <h1 className="text-xl font-bold text-black uppercase tracking-tight">Relatório de Simulação: {title}</h1>
-            <p className="text-[10px] text-gray-600 uppercase tracking-widest mt-1">
+            <p className="text-[12px] text-gray-600 uppercase tracking-widest mt-1">
               {new Date().toLocaleDateString('pt-BR')} • Consórcio de Verdade
             </p>
           </div>

@@ -123,7 +123,7 @@ export function GlossaryPanel({ isOpen = false }: Props) {
         </h3>
         <button
           onClick={toggleAll}
-          className="text-[12px] font-bold text-[var(--orange)] hover:opacity-70 transition-opacity"
+          className="text-[14px] font-bold text-[var(--orange)] hover:opacity-70 transition-opacity"
         >
           {allOpen ? 'Fechar tudo' : 'Abrir tudo'}
         </button>
@@ -146,16 +146,16 @@ export function GlossaryPanel({ isOpen = false }: Props) {
             {expandedTerms[item.term] && (
               <div className="px-4 py-3 bg-secondary/30 border-t border-border/50 space-y-2">
                 <div>
-                  <p className="text-[11px] md:text-[12px] font-semibold text-foreground/60 uppercase tracking-wider">Definição</p>
-                  <p className="text-[12px] md:text-[13px] text-foreground/80 leading-relaxed">{item.definition}</p>
+                  <p className="text-[13px] md:text-[14px] font-semibold text-foreground/60 uppercase tracking-wider">Definição</p>
+                  <p className="text-[14px] md:text-[13px] text-foreground/80 leading-relaxed">{item.definition}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] md:text-[12px] font-semibold text-foreground/60 uppercase tracking-wider">Como é Calculado</p>
-                  <p className="text-[12px] md:text-[13px] font-mono text-foreground/80 leading-relaxed">{item.calculation}</p>
+                  <p className="text-[13px] md:text-[14px] font-semibold text-foreground/60 uppercase tracking-wider">Como é Calculado</p>
+                  <p className="text-[14px] md:text-[13px] font-mono text-foreground/80 leading-relaxed">{item.calculation}</p>
                 </div>
                 <div>
-                  <p className="text-[11px] md:text-[12px] font-semibold text-foreground/60 uppercase tracking-wider">Localização</p>
-                  <p className="text-[12px] md:text-[13px] text-[var(--orange)] font-semibold">{item.location}</p>
+                  <p className="text-[13px] md:text-[14px] font-semibold text-foreground/60 uppercase tracking-wider">Localização</p>
+                  <p className="text-[14px] md:text-[13px] text-[var(--orange)] font-semibold">{item.location}</p>
                 </div>
               </div>
             )}

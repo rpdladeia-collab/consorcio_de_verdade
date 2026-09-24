@@ -142,7 +142,12 @@ function RaioXSection() {
 
 function ZoneSection() {
   const [bid, setBid] = useState(34);
-  const zone = bid < 25 ? "zona fraca" : bid < 45 ? "zona média" : "zona competitiva";
+  const zone = bid <= 49 ? "zona fraca" : bid <= 60 ? "zona média" : "zona quente";
+  const zoneReading = bid <= 49
+    ? "Zona fraca: até 49% — o lance ainda está abaixo da faixa média."
+    : bid <= 60
+      ? "Zona média: de 50% a 60% — a disputa merece contexto."
+      : "Zona quente: 61% ou mais — a disputa fica mais pressionada.";
   const questions = [
     ["Quanto normalmente foi preciso para contemplar?", "O grupo tem memória. Use isso antes de ofertar.", "/zona-contemplacao#parametros"],
     ["Quantas pessoas realmente disputam a contemplação?", "Seu lance não concorre com a tabela. Concorre com pessoas.", "/zona-contemplacao#parametros-quant"],
@@ -154,7 +159,7 @@ function ZoneSection() {
       <div className="cv-shell">
         <Reveal><div className="cv-section-marker"><span>04</span><span>Zona de Contemplação</span><span className="cv-marker-rule" /></div></Reveal>
         <Reveal className="cv-zone-heading"><div><p className="cv-kicker">Simular a disputa</p><h2 className="cv-display">Lance não é palpite.<br /><em>É posição.</em></h2></div><p>Altere o lance e veja a sua posição se mover na faixa de pressão do grupo. A ferramenta transforma histórico em contexto.</p></Reveal>
-        <div className="cv-zone-visual"><div className="cv-zone-visual-head"><span>simulação rápida · lance sobre o crédito</span><strong>{bid}%</strong></div><div className="cv-zone-track"><div className="cv-zone-track-line" /><div className="cv-zone-zones"><span>zona fraca</span><span>zona média</span><span>zona competitiva</span></div><div className="cv-zone-marker" style={{ left: `${bid}%` }}><i /><b>{zone}</b></div></div><input aria-label="Percentual de lance" className="cv-zone-range" type="range" min="5" max="80" value={bid} onChange={(event) => setBid(Number(event.target.value))} /><div className="cv-zone-result"><span>leitura do movimento</span><strong>{bid >= 45 ? "A faixa começa a competir." : bid >= 25 ? "Você está dentro de uma faixa que merece contexto." : "O lance ainda parece fraco diante do grupo."}</strong><Link className="cv-text-link" href="/zona-contemplacao#parametros">testar meu lance <ArrowRight /></Link></div></div>
+        <div className="cv-zone-visual"><div className="cv-zone-visual-head"><span>simulação rápida · lance sobre o crédito</span><strong>{bid}%</strong></div><div className="cv-zone-track"><div className="cv-zone-track-line" /><div className="cv-zone-zones"><span>zona fraca<br /><b>0–49%</b></span><span>zona média<br /><b>50–60%</b></span><span>zona quente<br /><b>61%+</b></span></div><div className="cv-zone-marker" style={{ left: `${bid}%` }}><i /><b>{zone}</b></div></div><input aria-label="Percentual de lance" className="cv-zone-range" type="range" min="0" max="100" value={bid} onChange={(event) => setBid(Number(event.target.value))} /><div className="cv-zone-result"><span>leitura do movimento</span><strong>{zoneReading}</strong><Link className="cv-text-link" href="/zona-contemplacao#parametros">testar meu lance <ArrowRight /></Link></div></div>
         <div className="cv-question-list">{questions.map(([title, text, href], index) => <Link href={href} key={title}><span>0{index + 1}</span><div><strong>{title}</strong><small>{text}</small></div><ArrowUpRight /></Link>)}</div>
       </div>
     </section>

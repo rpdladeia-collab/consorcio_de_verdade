@@ -1233,3 +1233,157 @@ html, body {
   .cv-reality-points li { padding: 10px 0; }
   .cv-reality-panel-note { margin-top: 28px; padding-top: 0; }
 }
+
+
+/* ========================================================================
+   FINAL READABILITY PASS — same composition, less visual strain.
+   Informative copy stays comfortably readable on notebook and mobile.
+   ======================================================================== */
+.cv-kicker,
+.cv-text-link,
+.cv-section-marker,
+.cv-desktop-nav,
+.cv-nav-flyout a,
+.cv-nav-flyout button,
+.cv-hero-meta,
+.cv-hero-footer,
+.cv-hero-words,
+.cv-layer-index,
+.cv-axis-num,
+.cv-axis-signal,
+.cv-axis-detail-top,
+.cv-zone-visual-head span,
+.cv-zone-marker b,
+.cv-zone-result > span,
+.cv-question-list a > span,
+.cv-panorama-question > span,
+.cv-data-label,
+.cv-panorama-links span,
+.cv-source-line,
+.cv-closing-principles,
+.cv-footer-bottom {
+  font-size: 12px;
+}
+
+.cv-mobile-menu a,
+.cv-mobile-menu button,
+.cv-mobile-group > a:not(:first-child),
+.cv-mobile-group > button {
+  font-size: 13px;
+}
+
+.cv-hero-aside p,
+.cv-reality-heading p,
+.cv-raiox-intro > p,
+.cv-zone-heading > p,
+.cv-panorama-heading > p,
+.cv-panorama-question p,
+.cv-tools-hero-copy p,
+.cv-tools-intro > p,
+.cv-tool-focus-head p,
+.cv-tools-cta p:not(.cv-kicker),
+.cv-blackbox-hero-copy > p,
+.cv-blackbox-dossier-head > p,
+.cv-blackbox-film-head > p,
+.cv-panorama-hero p,
+.cv-contact-hero p {
+  font-size: 16px;
+  line-height: 1.65;
+}
+
+.cv-hero-aside p,
+.cv-panorama-hero p,
+.cv-contact-hero p { color: rgba(242, 239, 233, .72) !important; }
+.cv-reality-heading p,
+.cv-zone-heading > p,
+.cv-tools-intro > p,
+.cv-tool-focus-head p { color: rgba(8, 9, 8, .7); }
+.cv-raiox-intro > p,
+.cv-panorama-heading > p { color: rgba(242, 239, 233, .72); }
+
+.cv-button { font-size: 12px; }
+.cv-text-link { font-size: 12px; }
+.cv-hero-aside-note { font-size: 13px !important; color: rgba(242, 239, 233, .58) !important; }
+.cv-hero-footer { line-height: 1.45; }
+
+.cv-reality-panel-top { font-size: 12px; }
+.cv-reality-points li > span { font-size: 12px; }
+.cv-reality-panel-note { font-size: 14px; line-height: 1.55; opacity: .72; }
+
+.cv-axis-detail p { font-size: 16px; line-height: 1.7; }
+.cv-axis-question-preview { font-size: clamp(1rem, 1.35vw, 1.2rem); }
+
+.cv-zone-track-line {
+  background: linear-gradient(90deg, var(--cv-steel) 0 49%, var(--cv-yellow) 49% 61%, var(--cv-orange) 61% 100%);
+}
+.cv-zone-track-line::after {
+  background: linear-gradient(90deg, transparent 0 49%, rgba(239, 194, 56, .16) 49% 61%, rgba(255, 74, 23, .14) 61% 100%);
+}
+.cv-zone-zones {
+  display: grid;
+  grid-template-columns: 49fr 12fr 39fr;
+  gap: 0;
+  font-size: 13px;
+  line-height: 1.2;
+  letter-spacing: .08em;
+}
+.cv-zone-zones span:nth-child(2) { text-align: center; }
+.cv-zone-zones span:nth-child(3) { text-align: right; }
+.cv-zone-zones b { display: inline-block; margin-top: 5px; color: rgba(8, 9, 8, .64); font-size: 12px; letter-spacing: .08em; }
+.cv-zone-marker b { font-size: 12px; }
+.cv-zone-result > span { color: rgba(8, 9, 8, .62); }
+.cv-zone-result strong { line-height: 1.2; }
+.cv-question-list small { font-size: 14px; line-height: 1.55; color: rgba(8, 9, 8, .64); }
+
+.cv-data-point p { font-size: 14px; line-height: 1.65; color: rgba(242, 239, 233, .66); }
+.cv-panorama-links span { font-size: 12px; }
+.cv-source-line { color: rgba(242, 239, 233, .62); line-height: 1.4; }
+.cv-footer-top p { font-size: 14px; line-height: 1.7; color: rgba(242, 239, 233, .62); }
+.cv-footer-bottom { color: rgba(242, 239, 233, .6); }
+
+.cv-tools-crumb,
+.cv-tools-stat-label span,
+.cv-tools-stat span,
+.cv-tools-stat small,
+.cv-tools-source,
+.cv-tools-tabs button,
+.cv-tools-tabs button span,
+.cv-tool-module-category,
+.cv-tool-module-cta,
+.cv-tool-future,
+.cv-tool-category-num,
+.cv-blackbox-hero-copy > a,
+.cv-blackbox-dossiers::before,
+.cv-blackbox-films::before,
+.cv-panorama-hero::before,
+.cv-panorama-nav button,
+.cv-panorama-nav a {
+  font-size: 12px;
+}
+.cv-tools-source { color: rgba(242, 239, 233, .55); }
+.cv-tool-module p,
+.cv-tool-category-copy p { font-size: 16px; line-height: 1.6; color: rgba(8, 9, 8, .66); }
+.cv-tool-module-cta,
+.cv-tool-future { line-height: 1.35; }
+.cv-blackbox-dossier-head > div > span,
+.cv-blackbox-film-head > div > span { font-size: 12px !important; }
+.cv-blackbox-dossier-head > p,
+.cv-blackbox-film-head > p { font-size: 16px !important; color: rgba(8, 9, 8, .68) !important; }
+.cv-dossier-media::after { font-size: 12px; }
+.cv-dossier-caption span:first-child,
+.cv-film-caption span:first-child { font-size: 12px !important; }
+.cv-dossier-caption span:last-child,
+.cv-film-caption span:last-child { font-size: 13px !important; }
+
+@media (max-width: 600px) {
+  .cv-hero-aside p,
+  .cv-panorama-hero p,
+  .cv-contact-hero p { font-size: 16px; }
+  .cv-hero-aside-note { font-size: 13px !important; }
+  .cv-zone-zones { grid-template-columns: repeat(3, minmax(0, 1fr)); font-size: 11px; }
+  .cv-zone-zones span:nth-child(2),
+  .cv-zone-zones span:nth-child(3) { text-align: center; }
+  .cv-zone-zones b { font-size: 11px; }
+  .cv-zone-result strong { font-size: 21px; }
+  .cv-footer-top p { font-size: 14px; }
+}

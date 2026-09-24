@@ -223,8 +223,8 @@ export default function SimuladorVendaCartaContemplada() {
         <button type="button" onClick={() => setHasCalculated(false)} className="flex-1 rounded-lg bg-gray-200 text-foreground py-2.5 text-[14px] md:text-[15px] font-bold uppercase tracking-widest hover:bg-gray-300 transition-all">Reset</button>
       </div>
       <div className="p-3 bg-gray-50 rounded-xl border border-border mt-4">
-        <p className="text-[10px] font-bold uppercase mb-2">Resumo da lógica</p>
-        <ul className="space-y-1 text-[9px] text-foreground/70 list-disc pl-3">
+        <p className="text-[12px] font-bold uppercase mb-2">Resumo da lógica</p>
+        <ul className="space-y-1 text-[12px] text-foreground/70 list-disc pl-3">
           <li>Tabela de evolução: mostra mês a mês até a contemplação com correções a cada 12 meses.</li>
           <li>Cálculos usam valores de referência NO MÊS DA CONTEMPLAÇÃO.</li>
           <li>PV das parcelas = soma da parcela descontada pela taxa de repasse.</li>
@@ -243,40 +243,40 @@ export default function SimuladorVendaCartaContemplada() {
         <div className="space-y-4">
           <div className="grid grid-cols-2 gap-3">
             <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-              <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">PV DAS PARCELAS RESTANTES</p>
+              <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">PV DAS PARCELAS RESTANTES</p>
               <p className="text-lg font-bold">{toBRL(scenarioResult.pv)}</p>
             </div>
             <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-              <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">VALOR BRUTO ESTIMADO</p>
+              <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">VALOR BRUTO ESTIMADO</p>
               <p className="text-lg font-bold text-[var(--orange)]">{toBRL(scenarioResult.valorBruto)}</p>
             </div>
             <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-              <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">RETORNO LÍQUIDO</p>
+              <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">RETORNO LÍQUIDO</p>
               <p className="text-lg font-bold">{toBRL(scenarioResult.retornoLiquido)}</p>
             </div>
             <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-              <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">GANHO (%)</p>
+              <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">GANHO (%)</p>
               <p className="text-lg font-bold">{toPct(scenarioResult.ganhoPerc)}</p>
             </div>
             <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-              <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">RETORNO MENSAL (IRR)</p>
+              <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">RETORNO MENSAL (IRR)</p>
               <p className="text-lg font-bold">{toPct(scenarioResult.irrMonthly)}</p>
             </div>
             <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-              <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">PARCELA (REFERÊNCIA)</p>
+              <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">PARCELA (REFERÊNCIA)</p>
               <p className="text-lg font-bold">{toBRL(scenarioResult.parcelaReferencia)}</p>
             </div>
           </div>
           <div className="p-3 bg-white border border-border rounded-xl shadow-sm">
-            <p className="text-[9px] font-bold uppercase text-foreground/40 mb-1">CARTA DE CRÉDITO (REFERÊNCIA)</p>
+            <p className="text-[12px] font-bold uppercase text-foreground/40 mb-1">CARTA DE CRÉDITO (REFERÊNCIA)</p>
             <p className="text-lg font-bold">{toBRL(scenarioResult.cartaReferencia)}</p>
           </div>
 
           <div className="rounded-xl border border-border overflow-hidden bg-white shadow-sm">
             <div className="bg-gray-50 px-3 py-2 border-b border-border">
-              <p className="text-[10px] font-bold uppercase">CONTEMPLAÇÃO POR SORTEIO (PRAZOS FIXOS)</p>
+              <p className="text-[12px] font-bold uppercase">CONTEMPLAÇÃO POR SORTEIO (PRAZOS FIXOS)</p>
             </div>
-            <table className="w-full text-[10px]">
+            <table className="w-full text-[12px]">
               <thead className="bg-[var(--ink)] text-white">
                 <tr>
                   <th className="px-2 py-2 text-left">Prazo</th>
@@ -302,9 +302,9 @@ export default function SimuladorVendaCartaContemplada() {
 
           <div className="rounded-xl border border-border overflow-hidden bg-white shadow-sm">
             <div className="bg-gray-50 px-3 py-2 border-b border-border">
-              <p className="text-[10px] font-bold uppercase">EVOLUÇÃO DO CONSÓRCIO</p>
+              <p className="text-[12px] font-bold uppercase">EVOLUÇÃO DO CONSÓRCIO</p>
             </div>
-            <table className="w-full text-[10px]">
+            <table className="w-full text-[12px]">
               <thead className="bg-[var(--ink)] text-white">
                 <tr>
                   <th className="px-2 py-2 text-left">Mês</th>

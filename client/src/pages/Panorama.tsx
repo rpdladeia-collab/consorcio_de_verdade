@@ -62,7 +62,7 @@ function fmtN(v: number) { return v.toLocaleString("pt-BR"); }
 function Verdict({ tag, children }: { tag: string; children: React.ReactNode }) {
   return (
     <div className="rounded-lg border-l-4 border-[#c2410c] bg-white border border-[#d1ccc5] p-3 mb-4 shadow-sm">
-      <span className="block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] mb-1 font-mono">{tag}</span>
+      <span className="block text-[12px] uppercase tracking-widest font-bold text-[#c2410c] mb-1 font-mono">{tag}</span>
       <p className="m-0 text-[14px] md:text-[15px] leading-relaxed font-bold text-[#15140f]">{children}</p>
     </div>
   );
@@ -71,9 +71,9 @@ function Verdict({ tag, children }: { tag: string; children: React.ReactNode }) 
 function KpiCard({ num, label, note, accent = false }: { num: string; label: string; note?: string; accent?: boolean }) {
   return (
     <div className={`rounded-lg p-3 border shadow-sm ${accent ? "bg-orange-50 border-orange-200" : "bg-white border-[#d1ccc5]"}`}>
-      <span className="block text-[9px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">{label}</span>
+      <span className="block text-[12px] uppercase tracking-wider font-bold text-[#4b4843] mb-1">{label}</span>
       <div className={`font-mono text-xl font-bold tracking-tight ${accent ? "text-[#c2410c]" : "text-[#15140f]"}`}>{num}</div>
-      {note && <p className="mt-1 text-[10px] text-[#4b4843] leading-snug font-bold">{note}</p>}
+      {note && <p className="mt-1 text-[12px] text-[#4b4843] leading-snug font-bold">{note}</p>}
     </div>
   );
 }
@@ -81,7 +81,7 @@ function KpiCard({ num, label, note, accent = false }: { num: string; label: str
 function SectionHead({ kicker, title, desc, id }: { kicker: string; title: string; desc?: string; id?: string }) {
   return (
     <div className="mb-4" id={id}>
-      <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">{kicker}</span>
+      <span className="inline-block text-[12px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1">{kicker}</span>
       <h2 className="text-xl md:text-2xl font-bold text-[#15140f] leading-tight mb-2 tracking-tight">{title}</h2>
       {desc && <p className="text-[#2d2b27] text-[14px] md:text-[15px] leading-relaxed max-w-2xl font-bold">{desc}</p>}
     </div>
@@ -91,9 +91,9 @@ function SectionHead({ kicker, title, desc, id }: { kicker: string; title: strin
 function ChapterDivider({ num, title }: { num: string; title: string }) {
   return (
     <div className="flex items-center gap-4 py-2 mb-1">
-      <span className="font-mono text-[10px] font-bold text-[#c2410c] shrink-0">{num}</span>
+      <span className="font-mono text-[12px] font-bold text-[#c2410c] shrink-0">{num}</span>
       <div className="flex-1 h-px bg-[#bfb8af]" />
-      <span className="text-[9px] uppercase tracking-[0.2em] font-bold text-[#f97316] bg-[#15140f] px-3 py-1 rounded shrink-0">{title}</span>
+      <span className="text-[12px] uppercase tracking-[0.2em] font-bold text-[#f97316] bg-[#15140f] px-3 py-1 rounded shrink-0">{title}</span>
     </div>
   );
 }
@@ -180,7 +180,7 @@ function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
   return (
     <section className="mb-8">
       <div className="mb-3 border-b border-[#e5e0d8] pb-2">
-        <span className="inline-block text-[9px] uppercase tracking-[0.2em] font-bold text-[#c2410c] font-mono mb-0.5">
+        <span className="inline-block text-[12px] uppercase tracking-[0.2em] font-bold text-[#c2410c] font-mono mb-0.5">
           Leitura rápida
         </span>
         <h2 className="text-xl md:text-2xl font-bold text-[#15140f] tracking-tight">O que você vai encontrar neste painel</h2>
@@ -192,14 +192,14 @@ function ResumoExecutivo({ onScrollTo }: { onScrollTo: (id: string) => void }) {
             onClick={() => onScrollTo(card.id)}
             className="text-left bg-white p-3 hover:bg-[#f6f3ec] transition-all group"
           >
-            <span className="block text-[10px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
+            <span className="block text-[12px] uppercase tracking-widest font-bold text-[#c2410c] font-mono mb-1.5">
               Cap. {card.num}
             </span>
             <h3 className="font-bold text-[#15140f] text-[16px] md:text-[18px] mb-1 group-hover:text-[#c2410c] transition-colors leading-tight">
               {card.title}
             </h3>
-            <p className="text-[12px] text-[#4b4843] leading-snug mb-2 font-bold">{card.desc}</p>
-            <span className="text-[10px] font-bold uppercase tracking-widest text-[#c2410c] border-b border-[#c2410c]/20 pb-0.5">
+            <p className="text-[14px] text-[#4b4843] leading-snug mb-2 font-bold">{card.desc}</p>
+            <span className="text-[12px] font-bold uppercase tracking-widest text-[#c2410c] border-b border-[#c2410c]/20 pb-0.5">
               Acessar →
             </span>
           </button>
@@ -257,11 +257,11 @@ function SecaoVendas({ onPdf }: { onPdf: () => void }) {
           <ResponsiveContainer width="100%" height={300}>
             <RBarChart data={totalData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number) => [`${v.toFixed(2)} mi`, "Vendidas"]} />
               <Bar dataKey="vendidas" name="Vendidas" fill={C.terra} radius={[3, 3, 0, 0]}>
-                <LabelList dataKey="vendidas" position="top" formatter={(v: number) => `${v.toFixed(2)}`} style={{ fontSize: 10, fill: C.ink, fontWeight: 600 }} />
+                <LabelList dataKey="vendidas" position="top" formatter={(v: number) => `${v.toFixed(2)}`} style={{ fontSize: 13, fill: C.ink, fontWeight: 600 }} />
               </Bar>
             </RBarChart>
           </ResponsiveContainer>
@@ -273,11 +273,11 @@ function SecaoVendas({ onPdf }: { onPdf: () => void }) {
           <ResponsiveContainer width="100%" height={280}>
             <RBarChart data={segData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number) => [`${v.toFixed(3)} mi`, "Vendidas"]} />
               <Bar dataKey="vendidas" name="Vendidas" fill={SEG_COLORS[seg] ?? C.terra} radius={[3, 3, 0, 0]}>
-                <LabelList dataKey="vendidas" position="top" formatter={(v: number) => `${v.toFixed(2)}`} style={{ fontSize: 10, fill: C.ink, fontWeight: 600 }} />
+                <LabelList dataKey="vendidas" position="top" formatter={(v: number) => `${v.toFixed(2)}`} style={{ fontSize: 13, fill: C.ink, fontWeight: 600 }} />
               </Bar>
             </RBarChart>
           </ResponsiveContainer>
@@ -338,14 +338,14 @@ Em 2025, o índice de exclusão geral foi de <strong>48,4%</strong>. Isso signif
           <ResponsiveContainer width="100%" height={300}>
             <ComposedChart data={ieGeral} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 14 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 14 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number, name: string) => name === "ie" ? [`${v}%`, "IE"] : [`${v.toFixed(2)} mi`, "Excluídas"]} />
-              <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" label={{ value: "50%", fill: C.terra, fontSize: 11 }} />
+              <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" label={{ value: "50%", fill: C.terra, fontSize: 13 }} />
               <Bar yAxisId="right" dataKey="excluidas" name="excluidas" fill={C.grid} radius={[2, 2, 0, 0]} />
               <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={C.terra} strokeWidth={2.5} dot={{ r: 4, fill: C.terra }}>
-                <LabelList dataKey="ie" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 10, fill: C.terra, fontWeight: 700 }} />
+                <LabelList dataKey="ie" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fill: C.terra, fontWeight: 700 }} />
               </Line>
             </ComposedChart>
           </ResponsiveContainer>
@@ -357,14 +357,14 @@ Em 2025, o índice de exclusão geral foi de <strong>48,4%</strong>. Isso signif
           <ResponsiveContainer width="100%" height={280}>
             <ComposedChart data={ieSeg} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="left" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
-              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis yAxisId="left" tick={{ fontSize: 14 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+              <YAxis yAxisId="right" orientation="right" tick={{ fontSize: 14 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number, name: string) => name === "ie" ? [`${v}%`, "IE"] : [`${v.toFixed(3)} mi`, "Excluídas"]} />
               <ReferenceLine yAxisId="left" y={50} stroke={C.terra} strokeDasharray="4 4" />
               <Bar yAxisId="right" dataKey="excluidas" name="excluidas" fill={C.grid} radius={[2, 2, 0, 0]} />
               <Line yAxisId="left" type="monotone" dataKey="ie" name="ie" stroke={SEG_COLORS[seg] ?? C.terra} strokeWidth={2.5} dot={{ r: 4, fill: SEG_COLORS[seg] ?? C.terra }}>
-                <LabelList dataKey="ie" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 10, fill: SEG_COLORS[seg] ?? C.terra, fontWeight: 700 }} />
+                <LabelList dataKey="ie" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fill: SEG_COLORS[seg] ?? C.terra, fontWeight: 700 }} />
               </Line>
             </ComposedChart>
           </ResponsiveContainer>
@@ -420,15 +420,15 @@ function SecaoReclamacoes({ onPdf }: { onPdf: () => void }) {
           <ResponsiveContainer width="100%" height={300}>
             <RBarChart data={bcbData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={fmtN} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }} tickFormatter={fmtN} />
               <Tooltip formatter={(v: number) => [fmtN(v), ""]} />
               <Legend />
               <Bar dataKey="total" name="Total" fill={C.muted} radius={[2, 2, 0, 0]}>
-                <LabelList dataKey="total" position="top" formatter={fmtN} style={{ fontSize: 9, fill: C.muted, fontWeight: 600 }} />
+                <LabelList dataKey="total" position="top" formatter={fmtN} style={{ fontSize: 13, fill: C.muted, fontWeight: 600 }} />
               </Bar>
               <Bar dataKey="procedentes" name="Procedentes" fill={C.terra} radius={[2, 2, 0, 0]}>
-                <LabelList dataKey="procedentes" position="top" formatter={fmtN} style={{ fontSize: 9, fill: C.terra, fontWeight: 700 }} />
+                <LabelList dataKey="procedentes" position="top" formatter={fmtN} style={{ fontSize: 13, fill: C.terra, fontWeight: 700 }} />
               </Bar>
             </RBarChart>
           </ResponsiveContainer>
@@ -439,11 +439,11 @@ function SecaoReclamacoes({ onPdf }: { onPdf: () => void }) {
           <ResponsiveContainer width="100%" height={280}>
             <RLineChart data={govData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={fmtN} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }} tickFormatter={fmtN} />
               <Tooltip formatter={(v: number) => [fmtN(v), "Reclamações"]} />
               <Line type="monotone" dataKey="reclamacoes" name="Reclamações" stroke={C.orange} strokeWidth={2.5} dot={{ r: 4, fill: C.orange }}>
-                <LabelList dataKey="reclamacoes" position="top" formatter={fmtN} style={{ fontSize: 10, fill: C.orange, fontWeight: 700 }} />
+                <LabelList dataKey="reclamacoes" position="top" formatter={fmtN} style={{ fontSize: 13, fill: C.orange, fontWeight: 700 }} />
               </Line>
             </RLineChart>
           </ResponsiveContainer>
@@ -506,12 +506,12 @@ function SecaoSorte({ onPdf }: { onPdf: () => void }) {
           <ResponsiveContainer width="100%" height={300}>
             <RBarChart data={lanceData} margin={{ top: 24, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis tick={{ fontSize: 14 }} tickFormatter={(v) => `${v}%`} domain={[0, 100]} />
               <Tooltip formatter={(v: number) => [`${v}%`, ""]} />
               <Legend />
               <Bar dataKey="lance" name="Lance" fill={C.terra} stackId="a">
-                <LabelList dataKey="lance" position="insideTop" formatter={(v: number) => `${v}%`} style={{ fontSize: 10, fill: "#fff", fontWeight: 700 }} />
+                <LabelList dataKey="lance" position="insideTop" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fill: "#fff", fontWeight: 700 }} />
               </Bar>
               <Bar dataKey="sorteio" name="Sorteio" fill={C.muted} stackId="a" radius={[3, 3, 0, 0]} />
             </RBarChart>
@@ -548,9 +548,9 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
           <ResponsiveContainer width="100%" height={320}>
             <ComposedChart data={macroChartData} margin={{ top: 24, right: 30, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke={C.grid} />
-              <XAxis dataKey="ano" tick={{ fontSize: 12 }} />
-              <YAxis yAxisId="pct" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v}%`} domain={[0, 20]} />
-              <YAxis yAxisId="mi" orientation="right" tick={{ fontSize: 12 }} tickFormatter={(v) => `${v} mi`} />
+              <XAxis dataKey="ano" tick={{ fontSize: 14 }} />
+              <YAxis yAxisId="pct" tick={{ fontSize: 14 }} tickFormatter={(v) => `${v}%`} domain={[0, 20]} />
+              <YAxis yAxisId="mi" orientation="right" tick={{ fontSize: 14 }} tickFormatter={(v) => `${v} mi`} />
               <Tooltip formatter={(v: number, name: string) => {
                 if (name === "vendidas") return [`${v.toFixed(2)} mi`, "Vendidas"];
                 return [`${v}%`, name];
@@ -558,10 +558,10 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
               <Legend />
               <Bar yAxisId="mi" dataKey="vendidas" name="vendidas" fill={C.muted} opacity={0.5} radius={[2, 2, 0, 0]} />
               <Line yAxisId="pct" type="monotone" dataKey="selic" name="Selic" stroke={C.terra} strokeWidth={2} dot={{ r: 3 }}>
-                <LabelList dataKey="selic" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.terra, fontWeight: 700 }} />
+                <LabelList dataKey="selic" position="top" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fill: C.terra, fontWeight: 700 }} />
               </Line>
               <Line yAxisId="pct" type="monotone" dataKey="fin" name="Financiamento imob." stroke={C.ink} strokeWidth={2} dot={{ r: 3 }} strokeDasharray="4 2">
-                <LabelList dataKey="fin" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 9, fill: C.ink, fontWeight: 700 }} />
+                <LabelList dataKey="fin" position="bottom" formatter={(v: number) => `${v}%`} style={{ fontSize: 13, fill: C.ink, fontWeight: 700 }} />
               </Line>
             </ComposedChart>
           </ResponsiveContainer>
@@ -569,8 +569,8 @@ function SecaoMacro({ onPdf }: { onPdf: () => void }) {
         <div className="mt-6 grid grid-cols-2 md:grid-cols-5 gap-x-4 gap-y-3 border-t border-[#d1ccc5] pt-4">
           {macroChartData.map((d) => (
             <div key={d.ano} className="flex flex-col gap-0.5">
-              <span className="text-[10px] font-bold text-[#c2410c] font-mono">{d.ano}</span>
-              <span className="text-[10px] text-[#4b4843] leading-tight font-bold">{d.evento}</span>
+              <span className="text-[12px] font-bold text-[#c2410c] font-mono">{d.ano}</span>
+              <span className="text-[12px] text-[#4b4843] leading-tight font-bold">{d.evento}</span>
             </div>
           ))}
         </div>
@@ -589,7 +589,7 @@ function SecaoFinal({ onPdf }: { onPdf: () => void }) {
       <div className="flex flex-wrap items-center gap-3 mb-4">
         <button
           onClick={() => { setShowBase(!showBase); setShowSources(false); }}
-          className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border rounded-full px-5 py-2.5 transition-all ${
+          className={`inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest border rounded-full px-5 py-2.5 transition-all ${
             showBase ? "bg-[#15140f] text-white border-[#15140f]" : "bg-white text-[#15140f] border-[#d1ccc5] hover:border-[#15140f]"
           }`}
         >
@@ -599,7 +599,7 @@ function SecaoFinal({ onPdf }: { onPdf: () => void }) {
 
         <button
           onClick={() => { setShowSources(!showSources); setShowBase(false); }}
-          className={`inline-flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest border rounded-full px-5 py-2.5 transition-all ${
+          className={`inline-flex items-center gap-2 text-[12px] font-bold uppercase tracking-widest border rounded-full px-5 py-2.5 transition-all ${
             showSources ? "bg-[#15140f] text-white border-[#15140f]" : "bg-white text-[#15140f] border-[#d1ccc5] hover:border-[#15140f]"
           }`}
         >
@@ -616,7 +616,7 @@ function SecaoFinal({ onPdf }: { onPdf: () => void }) {
             <thead>
               <tr className="bg-[#15140f] text-white">
                 {["Ano", "Segmento", "Vendidas", "Ativas", "Excluídas", "IE", "Status"].map((h) => (
-                  <th key={h} className="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-wider whitespace-nowrap">{h}</th>
+                  <th key={h} className="px-4 py-3 text-left text-[12px] font-bold uppercase tracking-wider whitespace-nowrap">{h}</th>
                 ))}
               </tr>
             </thead>
@@ -632,7 +632,7 @@ function SecaoFinal({ onPdf }: { onPdf: () => void }) {
                   <td className="px-4 py-2 font-mono text-right text-[14px] md:text-[15px]">{mi(row.ativas)}</td>
                   <td className="px-4 py-2 font-mono text-right text-[14px] md:text-[15px]">{mi(row.excluidas)}</td>
                   <td className="px-4 py-2 font-mono text-right font-bold text-[#c2410c] text-[14px] md:text-[15px]">{pct(row.ie)}</td>
-                  <td className="px-4 py-2 text-[#4b4843] text-[10px] font-bold">{row.status}</td>
+                  <td className="px-4 py-2 text-[#4b4843] text-[12px] font-bold">{row.status}</td>
                 </tr>
               ))}
             </tbody>
@@ -651,7 +651,7 @@ function SecaoFinal({ onPdf }: { onPdf: () => void }) {
               <div key={s.title} className="bg-white border border-[#d1ccc5] rounded-xl p-4 shadow-sm">
                 <h3 className="text-[14px] md:text-[15px] font-bold text-[#15140f] mb-2 uppercase tracking-tight">{s.title}</h3>
                 <p className="text-[13px] md:text-[14px] text-[#4b4843] leading-relaxed font-bold">{s.body}</p>
-                {"note" in s && s.note && <p className="mt-2 text-[10px] text-[#4b4843] italic font-bold">{s.note}</p>}
+                {"note" in s && s.note && <p className="mt-2 text-[12px] text-[#4b4843] italic font-bold">{s.note}</p>}
               </div>
             ))}
           </div>
@@ -662,7 +662,7 @@ function SecaoFinal({ onPdf }: { onPdf: () => void }) {
             </p>
           </div>
           <div className="bg-white border border-[#d1ccc5] rounded-xl p-4 text-[13px] md:text-[14px] text-[#4b4843] leading-relaxed font-bold">
-            <strong className="text-[#15140f] uppercase text-[10px]">Metodologia:</strong> A base principal é oficial, do Banco Central. Os dados são divulgados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
+            <strong className="text-[#15140f] uppercase text-[12px]">Metodologia:</strong> A base principal é oficial, do Banco Central. Os dados são divulgados a partir do Cosif, Documento 4010, Documento 2080 e Unicad. Este painel usa os Panoramas BCB de 2016 a 2024 e, na seção de reclamações, os dados consolidados a partir do painel público do Consumidor.gov.br. Onde o dado foi derivado por diferença ou cálculo a partir de número arredondado, isso aparece na coluna "status" da tabela-base. Nenhum gráfico de percentual usa escala cortada: o índice de exclusão é sempre exibido de 0% a 100%.
           </div>
         </div>
       )}
@@ -727,10 +727,10 @@ export default function Panorama() {
       <header id="hero" className="cv-panorama-hero bg-[#15140f] text-white pt-10 pb-6 px-6 scroll-mt-20">
         <div className="max-w-5xl mx-auto">
           <div className="mb-3 flex items-center justify-between">
-            <span className="inline-block text-[9px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
+            <span className="inline-block text-[12px] uppercase tracking-widest font-bold text-[#f97316] font-mono">
               Panorama: Dados Oficiais BCB {PANORAMA_EDITORIAL_COVERAGE_LABEL}
             </span>
-            <span className="text-xs font-bold uppercase tracking-wider text-yellow-400">
+            <span className="text-[13px] font-bold uppercase tracking-wider text-yellow-400">
               Dados 2025
             </span>
           </div>
@@ -747,7 +747,7 @@ export default function Panorama() {
             {PANORAMA_EDITORIAL_HERO_STATS.map((c) => (
               <div key={c.label} className="bg-[#1c1b15]/50 px-4 py-3">
                 <b className="block font-mono text-xl font-bold tracking-tight text-white">{c.num}</b>
-                <span className="block text-white/45 text-[10px] font-medium mt-0.5 leading-snug">{c.label}</span>
+                <span className="block text-white/45 text-[12px] font-medium mt-0.5 leading-snug">{c.label}</span>
               </div>
             ))}
           </div>

@@ -84,7 +84,7 @@ export default function Sobre() {
                 </a>
               </div>
               
-              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[10px] text-[var(--ink)]/50 mb-6 uppercase tracking-wider">
+              <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-[12px] text-[var(--ink)]/50 mb-6 uppercase tracking-wider">
                 <span>Consultor de Investimentos Independente</span>
                 <span className="w-1 h-1 rounded-full bg-[var(--ink)]/20" />
                 <span>Registro CVM</span>
@@ -158,7 +158,7 @@ export default function Sobre() {
               ].map((step) => (
                 <div key={step} className="relative z-10 flex flex-col items-center gap-3 px-2">
                   <div className="w-2.5 h-2.5 rounded-full bg-[var(--orange)] shadow-[0_0_0_4px_rgba(255,107,0,0.05)]" />
-                  <span className="text-[10px] md:text-[12px] uppercase tracking-widest font-bold text-[var(--ink)]/80 whitespace-nowrap text-center">
+                  <span className="text-[12px] md:text-[14px] uppercase tracking-widest font-bold text-[var(--ink)]/80 whitespace-nowrap text-center">
                     {step}
                   </span>
                 </div>
@@ -167,7 +167,7 @@ export default function Sobre() {
           </div>
           
           <div className="mt-12 text-center">
-            <p className="text-[10px] md:text-[13px] md:text-[14px] font-serif italic text-[var(--ink)]/40 uppercase tracking-widest">
+            <p className="text-[12px] md:text-[13px] md:text-[14px] font-serif italic text-[var(--ink)]/40 uppercase tracking-widest">
               O produto é consequência da estratégia.
             </p>
           </div>
@@ -207,7 +207,7 @@ export default function Sobre() {
       {/* ── RODAPÉ EDITORIAL ────────────────────────────────────────────────────── */}
       <footer className="py-6 border-t border-[var(--ink)]/5">
         <div className="max-w-5xl mx-auto px-4 text-center">
-          <p className="text-[10px] text-[var(--ink)]/60 italic max-w-md mx-auto leading-relaxed">
+          <p className="text-[12px] text-[var(--ink)]/60 italic max-w-md mx-auto leading-relaxed">
             "O melhor produto financeiro não é aquele que vende mais. <br />
             É aquele que faz mais sentido para você."
           </p>

@@ -42,7 +42,7 @@ const InfoTag: React.FC<{ label: string; value: string }> = ({ label, value }) =
   <div className="group relative inline-flex items-center gap-1">
     <span className="text-sm font-medium text-gray-700">{label}</span>
     <Info className="w-4 h-4 text-gray-400 cursor-help" />
-    <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-xs rounded px-2 py-1 whitespace-nowrap z-10">
+    <div className="absolute bottom-full left-0 mb-2 hidden group-hover:block bg-gray-900 text-white text-[13px] rounded px-2 py-1 whitespace-nowrap z-10">
       {value}
     </div>
   </div>
@@ -370,19 +370,19 @@ export const TechnicalReportPanel: React.FC<TechnicalReportPanelProps> = ({
             <div key={idx} className="p-4 bg-gray-50 rounded-lg">
               <div className="space-y-2">
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase">Fato</p>
+                  <p className="text-[13px] font-semibold text-gray-500 uppercase">Fato</p>
                   <p className="text-sm font-semibold text-gray-900">{evidence.fact}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase">Motivo</p>
+                  <p className="text-[13px] font-semibold text-gray-500 uppercase">Motivo</p>
                   <p className="text-sm text-gray-700">{evidence.reason}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase">Consequência</p>
+                  <p className="text-[13px] font-semibold text-gray-500 uppercase">Consequência</p>
                   <p className="text-sm text-gray-700">{evidence.consequence}</p>
                 </div>
                 <div>
-                  <p className="text-xs font-semibold text-gray-500 uppercase">Origem</p>
+                  <p className="text-[13px] font-semibold text-gray-500 uppercase">Origem</p>
                   <p className="text-sm text-gray-600 italic">{evidence.origin}</p>
                 </div>
               </div>

@@ -141,73 +141,73 @@ export default function SimuladorCustoOportunidade() {
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1.5">
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Carta de Crédito (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Carta de Crédito (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={credit} onChange={(e) => setCredit(e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Valor nominal</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Valor nominal</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Prazo (meses)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Prazo (meses)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={term} onChange={(e) => setTerm(e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">1 a 240 meses</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">1 a 240 meses</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Taxa Adm. (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Taxa Adm. (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={adminRate} onChange={(e) => setAdminRate(e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total sobre a carta</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Total sobre a carta</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Fundo Reserva (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Fundo Reserva (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={reserveRate} onChange={(e) => setReserveRate(e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Total sobre a carta</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Total sobre a carta</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Correção Monetária (%)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Correção Monetária (%)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={appreciation} onChange={(e) => setAppreciation(e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">INCC, IPCA, etc.</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">INCC, IPCA, etc.</p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Capital Inicial (R$)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Capital Inicial (R$)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={initialCapital} onChange={(e) => setInitialCapital(e.target.value)} />
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Para investimento</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Para investimento</p>
           </div>
         </div>
         <div className="flex flex-col h-full lg:col-span-2">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Rentabilidade Esperada (% a.a.)</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Rentabilidade Esperada (% a.a.)</label>
           <div className="mt-auto">
             <input type="number" className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={annualReturn} onChange={(e) => setAnnualReturn(e.target.value)} />
-            <p className="text-[10px] text-foreground/40 mt-0.5 leading-tight truncate">CDB, SELIC, Tesouro, etc. <span className="text-[#FF4E1F] font-bold">— Rendimento bruto</span></p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">CDB, SELIC, Tesouro, etc. <span className="text-[#FF4E1F] font-bold">— Rendimento bruto</span></p>
           </div>
         </div>
         <div className="flex flex-col h-full">
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Modelo de parcela</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Modelo de parcela</label>
           <div className="mt-auto">
             <select className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] focus:outline-none focus:ring-2 focus:ring-[var(--orange)]" value={mode} onChange={(e) => setMode(e.target.value as Mode)}>
               <option value="linear">Linear (padrão)</option>
               <option value="nonlinear">Não linear (faixas)</option>
             </select>
-            <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight truncate">Evolução das parcelas</p>
+            <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight truncate">Evolução das parcelas</p>
           </div>
         </div>
       </div>
 
       {mode === "nonlinear" && (
         <div>
-          <label className="block text-[12px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Faixas não lineares</label>
+          <label className="block text-[14px] md:text-[13px] font-bold text-gray-800 mb-0.5 truncate">Faixas não lineares</label>
           <textarea className="w-full rounded-lg border border-border bg-background px-2.5 py-1.5 text-[13px] md:text-[14px] font-mono focus:outline-none focus:ring-2 focus:ring-[var(--orange)] resize-y" rows={4}
             placeholder={"1-12: 2500\n13-60: 3200"} value={ranges}
             onChange={(e) => setRanges(e.target.value)} />
-          <p className="text-[9px] text-foreground/40 mt-0.5 leading-tight">Uma faixa por linha. Formato: início-fim: valor</p>
+          <p className="text-[12px] text-foreground/40 mt-0.5 leading-tight">Uma faixa por linha. Formato: início-fim: valor</p>
         </div>
       )}
 
@@ -225,29 +225,29 @@ export default function SimuladorCustoOportunidade() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="p-4 bg-white border border-border rounded-xl shadow-sm">
               <div className="flex items-center gap-2 mb-1">
-                <p className="text-[10px] font-bold uppercase text-foreground/40">TOTAL PAGO NO CONSÓRCIO</p>
+                <p className="text-[12px] font-bold uppercase text-foreground/40">TOTAL PAGO NO CONSÓRCIO</p>
               </div>
               <p className="text-xl font-bold">{toBRL(results.totalPagoConsorcio)}</p>
             </div>
             <div className="p-4 bg-white border border-border rounded-xl shadow-sm">
               <div className="flex items-center gap-2 mb-1">
-                <p className="text-[10px] font-bold uppercase text-foreground/40">CARTA DE CRÉDITO FINAL</p>
+                <p className="text-[12px] font-bold uppercase text-foreground/40">CARTA DE CRÉDITO FINAL</p>
               </div>
               <p className="text-xl font-bold">{toBRL(results.cartaFinal)}</p>
             </div>
             <div className="p-4 bg-white border border-border rounded-xl shadow-sm border-l-4 border-l-[#FFC93C]">
               <div className="flex items-center gap-2 mb-1">
-                <p className="text-[10px] font-bold uppercase text-foreground/40">PATRIMÔNIO NO INVESTIMENTO <span className="text-[#FF4E1F]">(Bruto)</span></p>
+                <p className="text-[12px] font-bold uppercase text-foreground/40">PATRIMÔNIO NO INVESTIMENTO <span className="text-[#FF4E1F]">(Bruto)</span></p>
               </div>
               <p className="text-xl font-bold text-[#0A0A08]">{toBRL(results.patrimonioInvestimento)}</p>
-              <p className="text-[10px] text-foreground/40 mt-1">Aportes mensais = Parcelas do consórcio</p>
+              <p className="text-[12px] text-foreground/40 mt-1">Aportes mensais = Parcelas do consórcio</p>
             </div>
             <div className="p-4 bg-white border border-border rounded-xl shadow-sm border-l-4 border-l-[#FF4E1F]">
               <div className="flex items-center gap-2 mb-1">
-                <p className="text-[10px] font-bold uppercase text-[#FF4E1F]">CUSTO DE OPORTUNIDADE</p>
+                <p className="text-[12px] font-bold uppercase text-[#FF4E1F]">CUSTO DE OPORTUNIDADE</p>
               </div>
               <p className="text-2xl font-bold text-[#FF4E1F]">{toBRL(results.custoOportunidade)}</p>
-              <p className="text-[10px] text-[#FF4E1F]/60 mt-1">O que você deixou de ganhar ao não investir</p>
+              <p className="text-[12px] text-[#FF4E1F]/60 mt-1">O que você deixou de ganhar ao não investir</p>
             </div>
           </div>
           <div className="p-5 bg-[#FAF5EA] border border-[#E4DCC9] rounded-2xl">
@@ -268,7 +268,7 @@ export default function SimuladorCustoOportunidade() {
               <div className="flex items-center gap-2">
                 <button
                   onClick={(e) => { e.stopPropagation(); setShowRacional(true); }}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFC93C] text-[#0A0A08] text-[10px] font-bold uppercase rounded-full hover:bg-[#FFD700] transition-colors shadow-sm"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-[#FFC93C] text-[#0A0A08] text-[12px] font-bold uppercase rounded-full hover:bg-[#FFD700] transition-colors shadow-sm"
                 >
                   <HelpCircle className="w-3 h-3" />
                   Racional
@@ -276,7 +276,7 @@ export default function SimuladorCustoOportunidade() {
                 <button
                   onClick={(e) => { e.stopPropagation(); handlePdf(); }}
                   disabled={pdfLoading}
-                  className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-[#FF4E1F] text-[10px] font-bold uppercase rounded-full hover:bg-gray-100 transition-colors shadow-sm border border-border disabled:opacity-50"
+                  className="flex items-center gap-1.5 px-3 py-1.5 bg-white text-[#FF4E1F] text-[12px] font-bold uppercase rounded-full hover:bg-gray-100 transition-colors shadow-sm border border-border disabled:opacity-50"
                 >
                   <Download className={`w-3 h-3 ${pdfLoading ? 'animate-pulse' : ''}`} />
                   {pdfLoading ? "Gerando..." : "PDF"}
@@ -309,13 +309,13 @@ export default function SimuladorCustoOportunidade() {
               </div>
             )}
           </div>
-          <p className="text-[12px] text-center text-foreground/60 font-medium italic mt-6 border-t border-border pt-4">
+          <p className="text-[14px] text-center text-foreground/60 font-medium italic mt-6 border-t border-border pt-4">
             * Este simulador possui caráter exclusivamente educativo e informativo, não constituindo recomendação financeira ou oferta de investimento.
           </p>
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center h-80 rounded-2xl border-2 border-dashed border-border bg-gray-50/50 text-center px-10">
-          <p className="mono text-[10px] uppercase tracking-[0.2em] text-foreground/30 mb-3">Aguardando Parâmetros</p>
+          <p className="mono text-[12px] uppercase tracking-[0.2em] text-foreground/30 mb-3">Aguardando Parâmetros</p>
           <p className="text-foreground/50 text-[14px] md:text-[15px] max-w-[280px]">
             Preencha os dados ao lado para desmascarar o custo real do consórcio vs. investimento.
           </p>
@@ -330,7 +330,7 @@ export default function SimuladorCustoOportunidade() {
         <div className="bg-[#0A0A08] p-6 text-white flex justify-between items-center">
           <div>
             <h3 className="font-display text-lg uppercase tracking-tight">Racional do Cálculo</h3>
-            <p className="text-[10px] text-white/50 uppercase tracking-widest mt-1">Metodologia e Premissas Financeiras</p>
+            <p className="text-[12px] text-white/50 uppercase tracking-widest mt-1">Metodologia e Premissas Financeiras</p>
           </div>
           <button onClick={() => setShowRacional(false)} className="text-white/60 hover:text-white transition-colors">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
