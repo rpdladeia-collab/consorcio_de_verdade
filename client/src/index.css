@@ -1636,3 +1636,148 @@ html, body {
   .cv-tools-all { margin-top: 42px; }
   .cv-tool-category { padding-block: 8px; }
 }
+
+
+/* ========================================================================
+   MOBILE REFINEMENT — ergonomics only, preserve the approved visual language.
+   ======================================================================== */
+@media (max-width: 600px) {
+  html {
+    scroll-padding-top: calc(56px + env(safe-area-inset-top, 0px));
+  }
+
+  .cv-site-header {
+    padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  .cv-header-inner {
+    min-height: 56px;
+  }
+
+  .cv-mobile-trigger {
+    width: 44px;
+    height: 44px;
+    flex: 0 0 44px;
+  }
+
+  .cv-mobile-menu {
+    top: calc(56px + env(safe-area-inset-top, 0px));
+    max-height: calc(100dvh - 56px - env(safe-area-inset-top, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .cv-header-spacer {
+    height: calc(56px + env(safe-area-inset-top, 0px));
+  }
+
+  .cv-home-hero,
+  .cv-hero-content {
+    min-height: 100svh;
+    min-height: 100dvh;
+  }
+
+  .cv-hero-content {
+    justify-content: flex-start;
+    padding-top: calc(72px + env(safe-area-inset-top, 0px));
+    padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cv-hero-meta {
+    display: none;
+  }
+
+  .cv-hero-main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 22px;
+    margin-top: clamp(42px, 7vh, 58px);
+  }
+
+  .cv-hero-title {
+    max-width: 100%;
+    font-size: clamp(2.05rem, 10.2vw, 3.85rem);
+    line-height: .96;
+    letter-spacing: -.04em;
+    overflow-wrap: normal;
+    word-break: normal;
+  }
+
+  .cv-hero-title-line {
+    display: block;
+    white-space: nowrap;
+  }
+
+  .cv-hero-aside {
+    max-width: none;
+  }
+
+  .cv-hero-aside p {
+    max-width: 31ch;
+    font-size: 15px;
+    line-height: 1.55;
+  }
+
+  .cv-hero-bottom {
+    align-items: stretch;
+    gap: 22px;
+    margin-top: clamp(34px, 6vh, 48px);
+  }
+
+  .cv-hero-words {
+    max-width: 100%;
+    font-size: 9px;
+    line-height: 1.45;
+  }
+
+  .cv-hero-actions {
+    width: 100%;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cv-hero-actions .cv-button {
+    width: 100%;
+    min-height: 54px;
+  }
+
+  .cv-hero-footer {
+    margin-top: 26px;
+    padding-top: 14px;
+  }
+
+  /* The two approved panels remain stacked; only the heading gets lighter. */
+  .cv-reality-heading h2 {
+    font-size: clamp(2.8rem, 13.1vw, 4.85rem);
+  }
+
+  /* Inactive questions stay secondary, but remain comfortably readable on black. */
+  .cv-axis-question-preview {
+    color: rgba(242, 239, 233, .72);
+    opacity: 1;
+  }
+
+  .cv-axis-row.is-active .cv-axis-question-preview {
+    color: rgba(242, 239, 233, .88);
+  }
+
+  /* Reduce the Raio-X hero scale without changing its 2 + 1 statistics layout. */
+  .cv-tools-hero-main {
+    padding: 76px 0 60px;
+  }
+
+  .cv-tools-hero-main h1 {
+    font-size: clamp(4.3rem, 22vw, 7rem);
+    line-height: .9;
+  }
+
+  .cv-tools-cta {
+    padding-bottom: calc(92px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .cv-closing-inner {
+    padding-bottom: calc(48px + env(safe-area-inset-bottom, 0px));
+  }
+}

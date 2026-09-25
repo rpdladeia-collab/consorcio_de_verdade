@@ -84,7 +84,7 @@ function HeroSection() {
         <div className="cv-hero-main">
           <div>
             <p className="cv-kicker cv-kicker-light">Consórcio não é para todo mundo</p>
-            <h1 id="hero-title" className="cv-display cv-hero-title">Antes de contratar um consórcio,<br /><em>faça a conta.</em></h1>
+            <h1 id="hero-title" className="cv-display cv-hero-title"><span className="cv-hero-title-line">Antes de contratar</span><span className="cv-hero-title-line">um consórcio,</span><span className="cv-hero-title-line"><em>faça a conta.</em></span></h1>
           </div>
           <div className="cv-hero-aside"><span className="cv-aside-line" /><p>Simule custos, lance, contemplação e correções antes de assinar. A análise responde se o consórcio realmente faz sentido para o seu caso.</p></div>
         </div>
