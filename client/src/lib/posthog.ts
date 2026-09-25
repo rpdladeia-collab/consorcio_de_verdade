@@ -1,12 +1,14 @@
 import posthog from "posthog-js";
+import { POSTHOG_API_HOST, POSTHOG_PROJECT_TOKEN } from "./posthogPublicConfig";
 
-const DEFAULT_POSTHOG_HOST = "https://us.i.posthog.com";
+const DEFAULT_POSTHOG_HOST = POSTHOG_API_HOST;
 
 let isInitialized = false;
 
 export function getPostHogConfig() {
   const token =
     import.meta.env.VITE_POSTHOG_PROJECT_TOKEN ||
+    POSTHOG_PROJECT_TOKEN ||
     (typeof window !== "undefined"
       ? (window as unknown as { __POSTHOG_TOKEN__?: string }).__POSTHOG_TOKEN__
       : undefined);
