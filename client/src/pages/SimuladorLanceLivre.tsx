@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useSimulatorTracker } from "@/hooks/useSimulatorTracker";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -48,6 +49,19 @@ export default function SimuladorLanceLivre() {
     onError: (err) => toast.error(err.message || "Não foi possível calcular."),
   });
   const result = calc.data;
+  const hasCalculated = Boolean(result);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "lance-livre",
+    stage: 1,
+    stageName: "Cálculo de lance livre e abatimento",
+    hasCalculated,
+    extraProps: {
+      credit: n(credit),
+      bidPct: parseFloat(bidPct.replace(",", ".")) || 0,
+      lanceUse,
+    },
+  });
 
   // Auto-calcular com dados de exemplo ao montar
   useEffect(() => {

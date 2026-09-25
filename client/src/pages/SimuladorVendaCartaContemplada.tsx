@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useMemo } from 'react';
+import { useSimulatorTracker } from '@/hooks/useSimulatorTracker';
 import RaioXLayout from '@/components/cdv/RaioXLayout';
 import { ConsultCTA, MethodologyBlock } from '@/components/cdv/SimuladorUI';
 import { Download } from 'lucide-react';
@@ -57,6 +58,17 @@ export default function SimuladorVendaCartaContemplada() {
   const [lanceRealizado, setLanceRealizado] = useState<string>('0');
   const [hasCalculated, setHasCalculated] = useState(false);
   const [pdfLoading, setPdfLoading] = useState(false);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "venda-carta-contemplada",
+    stage: 1,
+    stageName: "Simulação de repasse e TIR",
+    hasCalculated,
+    extraProps: {
+      valorInicial: parseFloatSafe(valorInicial),
+      prazoTotal: parseFloatSafe(prazoTotal),
+    },
+  });
 
   const scenarioResult = useMemo(() => {
     const vi = parseFloatSafe(valorInicial);

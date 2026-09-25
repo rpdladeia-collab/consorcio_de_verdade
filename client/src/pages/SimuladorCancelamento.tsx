@@ -1,5 +1,6 @@
 
 import { useState, useEffect } from "react";
+import { useSimulatorTracker } from "@/hooks/useSimulatorTracker";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { trpc } from "@/lib/trpc";
 import { 
@@ -44,11 +45,24 @@ export default function SimuladorCancelamento() {
   const [form, setForm] = useSessionStorage<FormState>("simulador-cancelamento", DEFAULT);
   const [tableOpen, setTableOpen] = useState(false);
 
+  const mutation = trpc.raiox.cancelamento.useMutation();
+  const result = mutation.data;
+  const hasCalculated = Boolean(result);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "custo-cancelamento",
+    stage: 1,
+    stageName: "Cálculo de penalidade e perda",
+    hasCalculated,
+    extraProps: {
+      credit: parseFloat(form.credit) || 0,
+      canceledMonth: parseInt(form.canceledMonth) || 1,
+    },
+  });
+
   const set = (k: keyof FormState, v: any) => {
     setForm((f) => ({ ...f, [k]: v }));
   };
-
-  const mutation = trpc.raiox.cancelamento.useMutation();
 
   const handleAnalyze = () => {
     mutation.mutate({
@@ -72,8 +86,6 @@ export default function SimuladorCancelamento() {
     const timer = setTimeout(handleAnalyze, 300);
     return () => clearTimeout(timer);
   }, [form]);
-
-  const result = mutation.data;
 
   const formPanel = (
     <div className="space-y-1.5">

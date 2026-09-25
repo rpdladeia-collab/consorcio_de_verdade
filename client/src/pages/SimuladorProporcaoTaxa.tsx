@@ -5,6 +5,7 @@
  */
 
 import { useState, useEffect, useMemo } from "react";
+import { useSimulatorTracker } from "@/hooks/useSimulatorTracker";
 import { useSimuladorStore } from "@/stores/simuladorStore";
 import { ImportToggle } from "@/components/cdv/ImportToggle";
 import {
@@ -46,6 +47,17 @@ export default function SimuladorProporcaoTaxa() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [hasCalculated, setHasCalculated] = useState(false);
   const [showRacional, setShowRacional] = useState(false);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "proporcao-taxa",
+    stage: 1,
+    stageName: "Eficiência e degradação da taxa",
+    hasCalculated,
+    extraProps: {
+      credit: parseFloat(form.credit) || 0,
+      adminPct: parseFloat(form.adminPct) || 0,
+    },
+  });
 
   const { baseParams, hasData } = useSimuladorStore();
   const [importEnabled, setImportEnabled] = useState(hasData);

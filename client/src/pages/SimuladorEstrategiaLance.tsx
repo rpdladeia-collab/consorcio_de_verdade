@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useMemo } from 'react';
+import { useSimulatorTracker } from '@/hooks/useSimulatorTracker';
 import RaioXLayout from '@/components/cdv/RaioXLayout';
 import { ConsultCTA, MethodologyBlock } from '@/components/cdv/SimuladorUI';
 
@@ -19,6 +20,18 @@ export default function SimuladorEstrategiaLance() {
   const [adminRate, setAdminRate] = useState<string>("25");
   const [lanceRate, setLanceRate] = useState<string>("30");
   const [hasCalculated, setHasCalculated] = useState(true);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "estrategia-lance",
+    stage: 1,
+    stageName: "Comparação de bases de lance",
+    hasCalculated,
+    extraProps: {
+      credit: safe(credit),
+      adminRate: safe(adminRate),
+      lanceRate: safe(lanceRate),
+    },
+  });
 
   // Lógica matemática idêntica à função calculate() do script
   const result = useMemo(() => {

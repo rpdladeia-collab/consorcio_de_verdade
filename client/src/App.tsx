@@ -8,6 +8,7 @@ import NotFound from "@/pages/NotFound";
 import { Route, Switch, useLocation } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
+import { posthog } from "./lib/posthog";
 import Home from "./pages/Home";
 import Simuladores from "./pages/Simuladores";
 import CaixaPreta from "./pages/CaixaPreta";
@@ -67,12 +68,20 @@ function AppLayout() {
   const [location] = useLocation();
   const isDark = DARK_ROUTES.some((r) => location === r || location.startsWith(r + "/"));
   
-  // Rastreamento de páginas com Google Analytics
+  // Rastreamento de páginas com Google Analytics e PostHog
   React.useEffect(() => {
     if (typeof window !== 'undefined' && (window as any).gtag) {
       (window as any).gtag('config', 'G-RKXSPKS9M8', {
         page_path: location,
         page_title: document.title,
+      });
+    }
+    // Rastreia pageview formal no PostHog para transições SPA
+    if (typeof window !== 'undefined') {
+      posthog.capture('$pageview', {
+        $current_url: window.location.href,
+        path: location,
+        title: document.title,
       });
     }
   }, [location]);

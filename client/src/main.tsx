@@ -6,7 +6,11 @@ import { createRoot } from "react-dom/client";
 import superjson from "superjson";
 import App from "./App";
 import { getLoginUrl } from "./const";
+import { initPostHogClient } from "./lib/posthog";
 import "./index.css";
+
+// Inicializa o PostHog para Web Analytics, Session Replay e Core Web Vitals
+initPostHogClient();
 
 const queryClient = new QueryClient();
 

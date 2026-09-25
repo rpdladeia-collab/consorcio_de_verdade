@@ -1,5 +1,6 @@
 
 import { useState, useEffect, useMemo } from "react";
+import { useSimulatorTracker } from "@/hooks/useSimulatorTracker";
 import { Download, HelpCircle, ChevronDown } from "lucide-react";
 import RaioXLayout from "@/components/cdv/RaioXLayout";
 import { formatBRL } from "@/components/cdv/SimuladorUI";
@@ -46,6 +47,17 @@ export default function SimuladorCustoOportunidade() {
   const [pdfLoading, setPdfLoading] = useState(false);
   const [showRacional, setShowRacional] = useState(false);
   const [showTabela, setShowTabela] = useState(false);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "auto-pagavel",
+    stage: mode,
+    stageName: mode === "linear" ? "Modelo Linear" : "Modelo com Faixas",
+    hasCalculated,
+    extraProps: {
+      credit: parseFloatSafe(credit),
+      term: parseInt(term) || 1,
+    },
+  });
 
   // 2. Cálculos Memorizados
   const results = useMemo(() => {

@@ -4,6 +4,7 @@
  * Fiel ao HTML: ZonadeContemplação_ConsórciodeVerdade.html
  */
 import { useState, useRef, useEffect } from "react";
+import { useSimulatorTracker } from "@/hooks/useSimulatorTracker";
 import { trpc } from "@/lib/trpc";
 import { toast } from "sonner";
 import { Link } from "wouter";
@@ -223,6 +224,19 @@ export default function SimuladorZonaContemplacao() {
 
   const histResult = calcHist.data;
   const quantResult = calcQuant.data;
+  const hasCalculated = Boolean(histResult || quantResult);
+
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "zona-contemplacao",
+    stage: activeTab,
+    stageName: `Aba ${activeTab}`,
+    hasCalculated,
+    extraProps: {
+      grupoNome,
+      modalidade,
+      meuLance: parseNum(meuLance),
+    },
+  });
 
   // Auto-calcular com dados de exemplo ao montar
   useEffect(() => {

@@ -7,6 +7,7 @@
 
 import { useState, useMemo } from "react";
 import React from "react";
+import { useSimulatorTracker } from "@/hooks/useSimulatorTracker";
 import { useSessionStorage } from "@/hooks/useSessionStorage";
 import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle, ArrowUpRight } from "lucide-react";
 import { toast } from "sonner";
@@ -815,6 +816,17 @@ export default function EstruturaDoPlano() {
     baseDoLance: "carta", parcelasPagas: "0", estrategiaPos: "abater_parcela",
   });
 
+  const { markCompleted } = useSimulatorTracker({
+    simulator: "estrutura-do-plano",
+    stage: activeTab,
+    stageName: `Aba ${activeTab}`,
+    hasCalculated: false,
+    extraProps: {
+      credit: num(form.credit),
+      term: num(form.term),
+    },
+  });
+
   const set = (k: keyof FormState) => (v: string) => setForm((f) => ({ ...f, [k]: v }));
 
   const mutation = trpc.estruturaDoPlano.simulate.useMutation({
@@ -855,6 +867,14 @@ export default function EstruturaDoPlano() {
       baseDoLance: form.baseDoLance,
       parcelasPagas: Math.round(num(form.parcelasPagas)),
       estrategiaPos: form.estrategiaPos,
+    }, {
+      onSuccess: () => {
+        markCompleted({
+          credit,
+          term,
+          has_lance: num(form.lanceProprio) > 0 || num(form.lanceFgts) > 0 || num(form.lanceEmbutido) > 0,
+        });
+      },
     });
   }
 
