@@ -22,6 +22,8 @@ export interface PaymentRange {
   value: number;
 }
 
+export type PaymentAdjustmentMode = 'fixed' | 'balanceRebase';
+
 export interface EstruturaOptions {
   credit: number;
   term: number;
@@ -32,6 +34,7 @@ export interface EstruturaOptions {
   adjustmentPeriod: number; // 12=Anual, 6=Semestral, 0=Sem
   firstAdjustmentMonth: number;
   paymentPolicyMode: 'standard' | 'ranges';
+  paymentAdjustmentMode?: PaymentAdjustmentMode;
   paymentRanges: PaymentRange[];
   savingsRate: number; // taxa mensal poupança (%)
   cdbRate: number; // taxa mensal CDB (%)
@@ -57,6 +60,7 @@ export interface EstruturaRow {
   ta: number;
   fr: number;
   insurance: number;
+  paymentScale: number;
   policyAdjustment: number;
   policyLabel: string;
   payment: number;
@@ -203,6 +207,7 @@ export interface EficienciaTaxaResult {
 export interface EstruturaResult {
   rows: EstruturaRow[];
   yearlyCorrections: YearlyCorrection[];
+  warnings: string[];
   sums: {
     fc: number;
     ta: number;
@@ -224,6 +229,7 @@ export interface EstruturaResult {
   insuranceRate: number;
   adjustmentRate: number;
   adjustmentPeriod: number;
+  paymentAdjustmentMode: PaymentAdjustmentMode;
   costs: CostBlock;
   costRows: CostTableRow[];
   investments: InvestmentComparison;
@@ -288,15 +294,135 @@ function rangeForMonth(c: EstruturaOptions, month: number): PaymentRange | null 
   return (c.paymentRanges || []).find(r => month >= r.start && month <= r.end) || null;
 }
 
+/** Rejeita intervalos malformados; o modo rebase também exige um perfil completo e sem ambiguidades. */
+export function validatePaymentRanges(
+  ranges: PaymentRange[],
+  term: number,
+  adjustmentMode: PaymentAdjustmentMode = 'fixed',
+  adjustmentPeriod = 12,
+  adjustmentRate = 0,
+  firstAdjustmentMonth = 13,
+): string[] {
+  const errors: string[] = [];
+  ranges.forEach((range, index) => {
+    if (!Number.isInteger(range.start) || !Number.isInteger(range.end) ||
+        range.start < 1 || range.end < range.start || range.end > term) {
+      errors.push(`Faixa ${index + 1}: use 1 ≤ início ≤ fim ≤ ${term}.`);
+    }
+    if (!['value', 'percent'].includes(range.type) || !Number.isFinite(range.value) || range.value < 0) {
+      errors.push(`Faixa ${index + 1}: tipo ou valor inválido.`);
+    }
+  });
+  if (adjustmentMode === 'balanceRebase') {
+    if (!ranges.length) errors.push('O recálculo pelo saldo exige faixas monetárias explícitas.');
+    if (ranges.some(range => range.type !== 'value')) errors.push('O recálculo pelo saldo exige valores monetários em todas as faixas.');
+    if (adjustmentPeriod <= 0 || adjustmentRate <= 0 || firstAdjustmentMonth < 2 || firstAdjustmentMonth > term) {
+      errors.push('O recálculo pelo saldo exige uma correção positiva e uma primeira correção entre os meses 2 e o prazo contratado.');
+    }
+    const sorted = [...ranges].sort((a, b) => a.start - b.start || a.end - b.end);
+    let nextMonth = 1;
+    for (const range of sorted) {
+      if (range.start < nextMonth) errors.push('No recálculo pelo saldo, as faixas não podem se sobrepor.');
+      else if (range.start > nextMonth) errors.push(`No recálculo pelo saldo, falta definir a faixa do mês ${nextMonth}.`);
+      nextMonth = Math.max(nextMonth, range.end + 1);
+    }
+    if (nextMonth <= term) errors.push(`No recálculo pelo saldo, falta definir a faixa do mês ${nextMonth}.`);
+  }
+  return errors;
+}
+
+/**
+ * Perfil de amortização de referência, antes das correções, que codifica somente
+ * as proporções da programação informada. O valor fixo representa o total mensal
+ * (seguro incluído); por isso o seguro-base é separado antes de escalar os demais
+ * componentes. Acima da parcela cheia é amortização extraordinária autorizada pelo
+ * modo balanceRebase, limitada apenas ao saldo ainda existente.
+ */
+function buildPaymentProfile(c: EstruturaOptions): number[] {
+  const b = initialBalances(c);
+  const weights: number[] = [];
+  for (let month = 1; month <= c.term; month++) {
+    const remaining = c.term - month + 1;
+    const fullComponents = { fc: b.common / remaining, ta: b.admin / remaining, fr: b.reserve / remaining };
+    const fullBase = fullComponents.fc + fullComponents.ta + fullComponents.fr;
+    const insurance = insuranceFor(c, b);
+    const range = rangeForMonth(c, month);
+    const profileWeight = !range ? fullBase
+      : range.type === 'value' ? Math.max(0, range.value - insurance)
+        : fullBase * range.value / 100;
+    weights.push(profileWeight);
+
+    const balance = b.common + b.admin + b.reserve + b.deferred;
+    const budget = Math.min(Math.max(0, balance), profileWeight);
+    const factor = fullBase > EPS ? budget / fullBase : 0;
+    b.common = Math.max(0, b.common - fullComponents.fc * factor);
+    b.admin = Math.max(0, b.admin - fullComponents.ta * factor);
+    b.reserve = Math.max(0, b.reserve - fullComponents.fr * factor);
+  }
+  return weights;
+}
+
+function suffixProfileWeights(weights: number[]): number[] {
+  const suffix = Array(weights.length + 1).fill(0);
+  for (let i = weights.length - 1; i >= 0; i--) suffix[i] = suffix[i + 1] + weights[i];
+  return suffix;
+}
+
+function paymentPolicyWarnings(c: EstruturaOptions, rows: EstruturaRow[]): string[] {
+  if (c.paymentPolicyMode !== 'ranges') return [];
+  const warnings: string[] = [];
+  if (c.paymentAdjustmentMode === 'balanceRebase') {
+    const rebases = rows.filter(row => row.tags.includes('CORREÇÃO'));
+    if (rebases.length) warnings.push(`Perfil não linear preservado: após cada correção, as parcelas futuras foram recalibradas pelo saldo amortizável restante (fatores: ${rebases.map(row => `${row.month}ª: ×${row.paymentScale.toFixed(6)}`).join('; ')}). O seguro é calculado separadamente e somado à prestação.`);
+    if (rows.at(-1)!.saldoFinal > EPS) warnings.push(`Saldo residual ao fim do prazo: ${rows.at(-1)!.saldoFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}. O motor não cria parcela de acerto nem prorroga o prazo automaticamente.`);
+    return warnings;
+  }
+  const overlaps = rows.filter(row => c.paymentRanges.filter(range => row.month >= range.start && row.month <= range.end).length > 1);
+  if (overlaps.length) warnings.push(`Faixas sobrepostas em ${overlaps.length} mês(es): prevalece a primeira faixa na ordem exibida, conforme o motor atual.`);
+  const uncovered = rows.filter(row => !rangeForMonth(c, row.month));
+  if (uncovered.length) warnings.push(`${uncovered.length} mês(es) sem faixa: aplica-se a parcela cheia do saldo corrigido dividida pelo prazo restante.`);
+  const capped = rows.filter(row => {
+    const range = rangeForMonth(c, row.month);
+    return range && (range.type === 'percent' ? range.value > 100 : range.value > row.payment + EPS);
+  });
+  if (capped.length) warnings.push(`Em ${capped.length} mês(es), a faixa excede a parcela cheia. O motor atual limita o pagamento à parcela cheia, sem antecipar amortização extra.`);
+  const insuranceOnly = rows.filter(row => {
+    const range = rangeForMonth(c, row.month);
+    return range?.type === 'value' && range.value < row.insurance - EPS;
+  });
+  if (insuranceOnly.length) warnings.push(`Em ${insuranceOnly.length} mês(es), o valor informado é menor que o seguro. O seguro é preservado e os componentes não são amortizados.`);
+  if (rows.at(-1)!.saldoFinal > EPS) warnings.push(`Saldo residual ao fim do prazo: ${rows.at(-1)!.saldoFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}. As faixas não quitaram o contrato; o motor não cria parcela de acerto nem prorroga o prazo automaticamente.`);
+  return warnings;
+}
+
 function applyPaymentPolicy(
   c: EstruturaOptions,
   month: number,
   fullComponents: { fc: number; ta: number; fr: number },
   insurance: number,
-  b: any
+  b: any,
+  rebasedComponentBudget?: number,
+  paymentScale = 1,
 ) {
   const fullBase = fullComponents.fc + fullComponents.ta + fullComponents.fr;
   const range = rangeForMonth(c, month);
+  if (rebasedComponentBudget !== undefined) {
+    const balance = b.common + b.admin + b.reserve + b.deferred;
+    const componentBudget = Math.min(Math.max(0, rebasedComponentBudget), balance);
+    const factor = fullBase > EPS ? componentBudget / fullBase : 0;
+    const fc = Math.min(b.common, fullComponents.fc * factor);
+    const ta = Math.min(b.admin, fullComponents.ta * factor);
+    const fr = Math.min(b.reserve, fullComponents.fr * factor);
+    b.common = Math.max(0, b.common - fc);
+    b.admin = Math.max(0, b.admin - ta);
+    b.reserve = Math.max(0, b.reserve - fr);
+    const payment = fc + ta + fr + insurance;
+    const policyAdjustment = payment - (fullBase + insurance);
+    return {
+      fc, ta, fr, insurance, payment, policyAdjustment,
+      policyLabel: `Perfil recalculado: ×${paymentScale.toFixed(6)} com base no saldo remanescente`,
+    };
+  }
   if (!range || fullBase <= EPS) {
     b.common = Math.max(0, b.common - fullComponents.fc);
     b.admin = Math.max(0, b.admin - fullComponents.ta);
@@ -331,8 +457,12 @@ function simulateProposal(c: EstruturaOptions): {
   contract: EstruturaOptions;
 } {
   const b = initialBalances(c);
+  const rebasing = c.paymentAdjustmentMode === 'balanceRebase';
+  const profileWeights = rebasing ? buildPaymentProfile(c) : [];
+  const remainingProfileWeights = rebasing ? suffixProfileWeights(profileWeights) : [];
   const rows: EstruturaRow[] = [];
   let prevPayment = 0;
+  let paymentScale = 1;
 
   for (let month = 1; month <= c.term; month++) {
     const tags: string[] = [];
@@ -342,13 +472,23 @@ function simulateProposal(c: EstruturaOptions): {
     if (adjustmentDue(c, month)) {
       adj = applyAdjustment(c, b);
       tags.push('CORREÇÃO');
+      if (rebasing) {
+        const profileWeight = remainingProfileWeights[month - 1];
+        const outstanding = b.common + b.admin + b.reserve + b.deferred;
+        if (profileWeight <= EPS) throw new Error(`Não há perfil de amortização suficiente após a correção do mês ${month}.`);
+        paymentScale = outstanding / profileWeight;
+      }
     }
 
     const saldoInicial = b.common + b.admin + b.reserve + b.deferred;
     const rem = c.term - month + 1;
     const fullComponents = { fc: b.common / rem, ta: b.admin / rem, fr: b.reserve / rem };
     const insurance = insuranceFor(c, b);
-    const paid = applyPaymentPolicy(c, month, fullComponents, insurance, b);
+    const paid = applyPaymentPolicy(
+      c, month, fullComponents, insurance, b,
+      rebasing ? profileWeights[month - 1] * paymentScale : undefined,
+      paymentScale,
+    );
 
     if (Math.abs(paid.policyAdjustment) > EPS) tags.push('POLÍTICA DE PARCELA');
     const { fc, ta, fr, payment, policyAdjustment, policyLabel } = paid;
@@ -369,6 +509,7 @@ function simulateProposal(c: EstruturaOptions): {
       ta,
       fr,
       insurance,
+      paymentScale,
       policyAdjustment,
       policyLabel,
       payment,
@@ -653,12 +794,21 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
     adjustmentPeriod: Math.round(opts.adjustmentPeriod || 0),
     firstAdjustmentMonth: Math.round(opts.firstAdjustmentMonth || (opts.adjustmentPeriod === 6 ? 7 : 13)),
     paymentPolicyMode: opts.paymentPolicyMode || 'standard',
+    paymentAdjustmentMode: opts.paymentAdjustmentMode || 'fixed',
     paymentRanges: opts.paymentRanges || [],
     savingsRate: Math.max(0, opts.savingsRate ?? 0.515),
     cdbRate: Math.max(0, opts.cdbRate ?? 0.795),
   };
 
+  if (c.paymentAdjustmentMode === 'balanceRebase' && c.paymentPolicyMode !== 'ranges') {
+    throw new Error('O recálculo pelo saldo exige política de parcelas por faixas.');
+  }
+  if (c.paymentPolicyMode === 'ranges') {
+    const errors = validatePaymentRanges(c.paymentRanges, c.term, c.paymentAdjustmentMode, c.adjustmentPeriod, c.adjustmentRate, c.firstAdjustmentMonth);
+    if (errors.length) throw new Error(errors.join(' '));
+  }
   const proposal = simulateProposal(c);
+  const warnings = paymentPolicyWarnings(c, proposal.rows);
   const yearlyCorrections = buildYearlyCorrections(proposal);
   const { block: costs, rows: costRows } = buildCosts(proposal);
   const investments = simulateInvestmentComparison(c, proposal);
@@ -703,11 +853,9 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
   const adminValue = c.credit * c.adminRate / 100;
   // Crédito líquido = crédito inicial - embutido
   const liquidCredit = Math.max(0, c.credit - (opts.lanceEmbutido || 0));
-  // Parcelas pagas em R$ (valor médio de parcela × quantidade)
-  const avgPayment = proposal.rows.length > 0 
-    ? proposal.rows.reduce((sum: number, r: any) => sum + r.payment, 0) / proposal.rows.length 
-    : 0;
-  const paidAmount = (opts.parcelasPagas || 0) * avgPayment;
+  // Usa o histórico mensal projetado, inclusive faixas não lineares e seguro.
+  const paidInstallments = clamp(Math.round(opts.parcelasPagas || 0), 0, proposal.rows.length);
+  const paidAmount = proposal.rows.slice(0, paidInstallments).reduce((sum, row) => sum + row.payment, 0);
   // Dinheiro novo = crédito inicial - embutido - lance próprio - FGTS - parcelas pagas
   const newMoney = Math.max(0, c.credit - (opts.lanceEmbutido || 0) - (opts.lanceProprio || 0) - (opts.lanceFgts || 0) - paidAmount);
   // Taxas em percentual
@@ -724,7 +872,8 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
       opts.lanceProprio || 0,
       opts.lanceFgts || 0,
       opts.lanceEmbutido || 0,
-      c.term
+      c.term,
+      proposal.rows.map(row => row.payment),
     );
     // Tabela de indicadores (7 linhas)
     const table: EficienciaTaxaTableRow[] = [
@@ -770,6 +919,7 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
   return {
     rows: proposal.rows,
     yearlyCorrections,
+    warnings,
     sums: proposal.sums,
     first: proposal.first,
     last: proposal.last,
@@ -781,6 +931,7 @@ export function simulateEstruturaDoPlano(opts: EstruturaOptions): EstruturaResul
     insuranceRate: c.insuranceRate,
     adjustmentRate: c.adjustmentRate,
     adjustmentPeriod: c.adjustmentPeriod,
+    paymentAdjustmentMode: c.paymentAdjustmentMode || 'fixed',
     costs,
     costRows,
     investments,
@@ -891,11 +1042,15 @@ function applyLanceByRule(b: any, amount: number, rule: 'commonOnly' | 'proporti
 
 function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): ContemplationResult {
   const b = initialBalances(c);
+  const rebasing = c.paymentAdjustmentMode === 'balanceRebase';
+  const profileWeights = rebasing ? buildPaymentProfile(c) : [];
+  const remainingProfileWeights = rebasing ? suffixProfileWeights(profileWeights) : [];
   const rows: ContemplationRow[] = [];
   const alerts: string[] = [];
   let prevPayment = 0;
   let targetTermPayment: number | null = null;
   let eventData: ContemplationEvent | null = null;
+  let paymentScale = 1;
 
   const eventMonth = Math.min(c.term, Math.max(1, sc.month));
 
@@ -908,6 +1063,12 @@ function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): 
       adj = applyAdjustment(c, b);
       tags.push('CORREÇÃO');
       if (targetTermPayment != null) targetTermPayment *= adj.factor;
+      if (rebasing) {
+        const profileWeight = remainingProfileWeights[month - 1];
+        const outstanding = b.common + b.admin + b.reserve + b.deferred;
+        if (profileWeight <= EPS) throw new Error(`Não há perfil de amortização suficiente após a correção do mês ${month}.`);
+        paymentScale = outstanding / profileWeight;
+      }
     }
 
     const saldoInicial = b.common + b.admin + b.reserve + b.deferred;
@@ -921,7 +1082,11 @@ function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): 
       insurance = insuranceFor(c, b);
       if (month <= eventMonth || sc.strategy === 'payment') {
         const fullComponents = { fc: b.common / rem, ta: b.admin / rem, fr: b.reserve / rem };
-        const paidPolicy = applyPaymentPolicy(c, month, fullComponents, insurance, b);
+        const paidPolicy = applyPaymentPolicy(
+          c, month, fullComponents, insurance, b,
+          rebasing ? profileWeights[month - 1] * paymentScale : undefined,
+          paymentScale,
+        );
         fc = paidPolicy.fc;
         ta = paidPolicy.ta;
         fr = paidPolicy.fr;
@@ -959,7 +1124,7 @@ function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): 
       tags.push('LANCE APÓS PARCELA');
       creditAvailable = Math.max(0, b.creditCurrent - lanceEmbedded);
       eventData = {
-        base: b.creditCurrent,
+        base: req.base,
         own: lanceOwn,
         embedded: lanceEmbedded,
         fgts: lanceFgts,
@@ -997,6 +1162,7 @@ function simulateContemplation(c: EstruturaOptions, sc: ContemplationScenario): 
   const post = rows.filter((r) => r.month > eventMonth);
   const firstPost = post[0] || rows.find((r) => r.month === eventMonth);
 
+  if (last?.saldoFinal > EPS) alerts.push(`Saldo residual pós-lance ao fim do prazo: ${last.saldoFinal.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}. A projeção não cria acerto nem prorrogação automáticos.`);
   return {
     contract: c,
     scenario: sc,

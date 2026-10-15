@@ -1,7 +1,7 @@
 import { z } from 'zod';
 import { createHash } from 'crypto';
 import { publicProcedure, router } from '../_core/trpc';
-import { simulateEstruturaDoPlano } from '../lib/estruturaDoPlano';
+import { simulateEstruturaDoPlano, validatePaymentRanges } from '../lib/estruturaDoPlano';
 
 export const estruturaDoPlanoRouter = router({
   simulate: publicProcedure
@@ -16,6 +16,7 @@ export const estruturaDoPlanoRouter = router({
         adjustmentPeriod: z.number().int().default(12),
         firstAdjustmentMonth: z.number().int().default(13),
         paymentPolicyMode: z.enum(['standard', 'ranges']).default('standard'),
+        paymentAdjustmentMode: z.enum(['fixed', 'balanceRebase']).default('fixed'),
         paymentRanges: z.array(z.object({
           start: z.number().int().min(1),
           end: z.number().int().min(1),
@@ -31,6 +32,15 @@ export const estruturaDoPlanoRouter = router({
         baseDoLance: z.enum(['carta', 'categoria']).default('carta'),
         parcelasPagas: z.number().int().min(0).default(0),
         estrategiaPos: z.enum(['abater_parcela', 'reduzir_prazo']).default('abater_parcela'),
+      }).superRefine((input, ctx) => {
+        if (input.paymentAdjustmentMode === 'balanceRebase' && input.paymentPolicyMode !== 'ranges') {
+          ctx.addIssue({ code: 'custom', path: ['paymentPolicyMode'], message: 'O recálculo pelo saldo exige política de parcelas por faixas.' });
+          return;
+        }
+        if (input.paymentPolicyMode !== 'ranges' && input.paymentAdjustmentMode !== 'balanceRebase') return;
+        for (const message of validatePaymentRanges(input.paymentRanges, input.term, input.paymentAdjustmentMode, input.adjustmentPeriod, input.adjustmentRate, input.firstAdjustmentMonth)) {
+          ctx.addIssue({ code: 'custom', path: ['paymentRanges'], message });
+        }
       })
     )
     .mutation(({ input }) => {
@@ -44,6 +54,7 @@ export const estruturaDoPlanoRouter = router({
         adjustmentPeriod: input.adjustmentPeriod,
         firstAdjustmentMonth: input.firstAdjustmentMonth,
         paymentPolicyMode: input.paymentPolicyMode,
+        paymentAdjustmentMode: input.paymentAdjustmentMode,
         paymentRanges: input.paymentRanges,
         savingsRate: input.savingsRate,
         cdbRate: input.cdbRate,
@@ -68,6 +79,7 @@ export const estruturaDoPlanoRouter = router({
 
       return {
         result,
+        parameters: input,
         simulationId,
         generatedAt,
       };

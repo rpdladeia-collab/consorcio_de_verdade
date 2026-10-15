@@ -56,7 +56,7 @@ export interface ProporcaoTaxaTableRow {
 
 export interface DegradacaoRow {
   parcela: number;          // Número da parcela (0, 5, 10, ...)
-  desembolsoAcumulado: number; // Lance próprio + FGTS + (parcela × valor parcela)
+  desembolsoAcumulado: number; // Lance próprio + FGTS + pagamentos acumulados do cenário
   dinheiroNovo: number;     // Carta - desembolso - embutido
   taxaEfetiva: number;      // (taxaNominal × carta) / dinheiroNovo
   eficiencia: number;       // (taxaNominal / taxaEfetiva) × 100
@@ -99,8 +99,9 @@ export interface ProporcaoTaxaResult {
 
 /**
  * Calcula a degradação progressiva de eficiência por parcela.
- * Fórmulas exatas conforme especificação:
- *   Dinheiro novo (i) = Carta - Lance próprio - (Parcela × i) - Embutido - FGTS
+ * Com paymentSchedule, usa os pagamentos efetivamente projetados até i; sem ele,
+ * mantém a aproximação legada valorParcela × i para outros consumidores.
+ *   Dinheiro novo (i) = Carta - Lance próprio - pagamento acumulado - Embutido - FGTS
  *   Taxa efetiva (i)  = (Taxa nominal × Carta) / Dinheiro novo (i)
  *   Eficiência (i)    = (Taxa nominal / Taxa efetiva (i)) × 100
  *   Degradação (i)   = Eficiência inicial - Eficiência (i)
@@ -112,9 +113,10 @@ export function calcDegradacaoProgressiva(
   fgts: number,
   embedded: number,
   totalParcelas: number,
+  paymentSchedule?: number[],
 ): DegradacaoResult {
   /**
-   * Especificação exata do anexo:
+   * Especificação legada, mantida para consumidores que não passam paymentSchedule:
    *   Parcela 0: desembolso = R$ 0,00, dinheiro novo = carta cheia, eficiência = 100%
    *   Parcela i: desembolso = lance próprio + FGTS + (valor_parcela × i)
    *              dinheiro novo = carta - lance próprio - (valor_parcela × i) - embutido - FGTS
@@ -139,6 +141,12 @@ export function calcDegradacaoProgressiva(
 
   const rows: DegradacaoRow[] = [];
   const eficienciaInicial = 100; // Parcela 0: desembolso R$0, dinheiro novo = carta, eficiência = 100%
+  const cumulativeScheduledPayments = [0];
+  if (paymentSchedule) {
+    for (const payment of paymentSchedule) {
+      cumulativeScheduledPayments.push(cumulativeScheduledPayments.at(-1)! + Math.max(0, payment));
+    }
+  }
 
   for (const i of pontos) {
     let desembolsoAcumulado: number;
@@ -149,9 +157,12 @@ export function calcDegradacaoProgressiva(
       desembolsoAcumulado = 0;
       dinheiroNovo = credit;
     } else {
-      // Parcela i: desembolso = lance próprio + FGTS + (valor_parcela × i)
-      desembolsoAcumulado = own + fgts + (valorParcela * i);
-      dinheiroNovo = Math.max(0, credit - own - (valorParcela * i) - embedded - fgts);
+      // Parcela i: usa o fluxo real quando recebido; senão, mantém valor_parcela × i.
+      const paidByMonth = paymentSchedule
+        ? cumulativeScheduledPayments[Math.min(i, paymentSchedule.length)]
+        : valorParcela * i;
+      desembolsoAcumulado = own + fgts + paidByMonth;
+      dinheiroNovo = Math.max(0, credit - own - paidByMonth - embedded - fgts);
     }
 
     let taxaEfetiva: number;

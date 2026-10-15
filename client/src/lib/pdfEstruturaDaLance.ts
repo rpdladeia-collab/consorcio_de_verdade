@@ -41,6 +41,12 @@ export interface PdfEstruturaDaLance {
   reserveRate: number;
   adjustmentRate: number;
   adjustmentPeriod: string;
+  insuranceRate: number;
+  firstAdjustmentMonth: number;
+  paymentPolicyMode: 'standard' | 'ranges';
+  paymentAdjustmentMode: 'fixed' | 'balanceRebase';
+  paymentRanges: { start: number; end: number; type: 'value' | 'percent'; value: number }[];
+  warnings: string[];
   paidMonths: number;
   
   // Parâmetros do lance
@@ -189,15 +195,27 @@ export async function generatePdfEstruturaDaLance(data: PdfEstruturaDaLance): Pr
     startY: y,
     head: [["Parâmetro", "Valor"]],
     body: [
-      ["Carta de crédito", brl0(data.credit)],
+      ["Carta de crédito", brl(data.credit)],
       ["Prazo total", `${data.term} meses`],
       ["Taxa de administração", `${data.adminRate.toFixed(2)}%`],
       ["Fundo de reserva", `${data.reserveRate.toFixed(2)}%`],
+      ["Seguro mensal", `${data.insuranceRate.toLocaleString('pt-BR', { maximumFractionDigits: 6 })}%`],
+      ["Primeira correção", `Mês ${data.firstAdjustmentMonth}`],
+      ["Política de parcelas", data.paymentPolicyMode === 'standard' ? 'Linear — parcela cheia' : 'Não linear — faixas personalizadas'],
+      ["Regra após correções", data.paymentAdjustmentMode === 'balanceRebase' ? 'Recálculo pelo saldo remanescente; perfil não linear proporcional preservado; seguro à parte' : 'Faixas fixas; valor em reais limitado à parcela cheia'],
+      ...data.paymentRanges.map(range => [
+        `Faixa ${range.start}–${range.end}`,
+        range.type === 'value'
+          ? data.paymentAdjustmentMode === 'balanceRebase'
+            ? `${brl(range.value)} (prestação total de referência; componentes futuros reescalados pelo saldo; seguro calculado à parte)`
+            : `${brl(range.value)} (total, limitado à cheia; seguro preservado)`
+          : `${range.value.toLocaleString('pt-BR')}% dos componentes + seguro`,
+      ]),
       ["Parcelas pagas até a contemplação", `${data.paidMonths}`],
       ["Base do lance", data.baseDoLance === "categoria" ? "Categoria (carta + taxa adm)" : "Carta de crédito"],
-      ["Lance próprio", brl0(data.lanceProprio)],
-      ["FGTS", brl0(data.lanceFgts)],
-      ["Lance embutido", brl0(data.lanceEmbutido)],
+      ["Lance próprio informado", brl(data.lanceProprio)],
+      ["FGTS informado", brl(data.lanceFgts)],
+      ["Lance embutido informado", brl(data.lanceEmbutido)],
       ["Correção estimada", `${data.adjustmentRate.toFixed(2)}% (${adjLabel})`],
     ],
     styles: { fontSize: 9, cellPadding: 3 },
@@ -210,6 +228,7 @@ export async function generatePdfEstruturaDaLance(data: PdfEstruturaDaLance): Pr
   y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
 
   /* ── KPIs ── */
+  if (y + 25 > doc.internal.pageSize.getHeight() - 20) { doc.addPage(); y = 30; }
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...INK);
@@ -220,9 +239,9 @@ export async function generatePdfEstruturaDaLance(data: PdfEstruturaDaLance): Pr
     startY: y,
     head: [["Indicador", "Valor", "Observação"]],
     body: [
-      ["Carta atualizada", brl0(data.cartaAtualizada), "Valor nominal atualizado"],
-      ["Carta líquida", brl0(data.cartaLiquida), "Carta menos embutido"],
-      ["Lance total", brl0(data.lanceTotal), "Próprio + FGTS + embutido"],
+      ["Carta atualizada", brl(data.cartaAtualizada), "Valor nominal atualizado"],
+      ["Carta líquida", brl(data.cartaLiquida), "Carta menos embutido"],
+      ["Lance total aplicado", brl(data.lanceTotal), "Próprio + FGTS + embutido, limitado ao saldo"],
       ["Força do lance", pct(data.forcaPct), data.baseDoLance === "categoria" ? "Em relação à carta + taxas" : "Em relação à carta"],
       ["Parcela antes", brl(data.parcelaAntes), "Último mês antes da contemplação"],
       ["Parcela pós-lance", brl(data.parcelaPosLance), "1ª parcela após o lance"],
@@ -237,6 +256,7 @@ export async function generatePdfEstruturaDaLance(data: PdfEstruturaDaLance): Pr
   y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
 
   /* ── DIAGNÓSTICO ── */
+  if (y + 45 > doc.internal.pageSize.getHeight() - 20) { doc.addPage(); y = 30; }
   doc.setFontSize(10);
   doc.setFont("helvetica", "bold");
   doc.setTextColor(...INK);
@@ -250,21 +270,32 @@ export async function generatePdfEstruturaDaLance(data: PdfEstruturaDaLance): Pr
   doc.text(diagnosticoLines, 14, y);
   y += diagnosticoLines.length * 4 + 5;
 
-  /* ── TABELA DE EVOLUÇÃO (primeiras 30 linhas) ── */
+  if (data.warnings.length) {
+    autoTable(doc, {
+      startY: y, head: [["Avisos e limites da projeção"]],
+      body: data.warnings.map(warning => [warning]),
+      styles: { fontSize: 8, cellPadding: 3 }, headStyles: { fillColor: INK },
+      margin: { left: 14, right: 14, bottom: 22 },
+    });
+    y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;
+  }
+
+  /* ── TABELA DE EVOLUÇÃO COMPLETA ── */
   if (data.rows && data.rows.length > 0) {
+    if (y + 25 > doc.internal.pageSize.getHeight() - 20) { doc.addPage(); y = 30; }
     doc.setFontSize(10);
     doc.setFont("helvetica", "bold");
     doc.setTextColor(...INK);
-    doc.text("Evolução das parcelas (primeiros 30 meses)", 14, y);
+    doc.text("Evolução das parcelas (cronograma completo)", 14, y);
     y += 5;
 
-    const displayRows = data.rows.slice(0, 30).map((r) => [
+    const displayRows = data.rows.map((r) => [
       String(r.month),
-      brl0(r.credit),
+      brl(r.credit),
       r.event || "—",
-      brl0(r.lance),
+      brl(r.lance),
       brl(r.payment),
-      brl0(r.balance),
+      brl(r.balance),
     ]);
 
     autoTable(doc, {
@@ -282,7 +313,7 @@ export async function generatePdfEstruturaDaLance(data: PdfEstruturaDaLance): Pr
         4: { cellWidth: 25 },
         5: { cellWidth: 25 },
       },
-      margin: { left: 14, right: 14 },
+      margin: { left: 14, right: 14, bottom: 22 },
     });
 
     y = (doc as unknown as { lastAutoTable: { finalY: number } }).lastAutoTable.finalY + 10;

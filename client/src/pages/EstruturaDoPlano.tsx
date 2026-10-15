@@ -13,6 +13,8 @@ import { ChevronDown, Download, Plus, Trash2, Printer, ExternalLink, HelpCircle,
 import { toast } from "sonner";
 import { trpc } from "@/lib/trpc";
 import { generatePdfEstruturaDaLance } from "@/lib/pdfEstruturaDaLance";
+import { parsePaymentRanges, type PaymentRangeDraft } from "@/lib/estruturaDoPlanoForm";
+import { buildLancePresentation, buildPdfEstruturaDaLance } from "@/lib/estruturaDoPlanoLance";
 import {
   KpiCard,
   ConsultCTA,
@@ -35,13 +37,7 @@ import {
 type AdjPeriod = "12" | "6" | "0";
 type PolicyMode = "standard" | "ranges";
 type RangeType = "value" | "percent";
-
-interface PaymentRange {
-  start: number;
-  end: number;
-  type: RangeType;
-  value: number;
-}
+type PaymentAdjustmentMode = "fixed" | "balanceRebase";
 
 interface FormState {
   credit: string;
@@ -53,6 +49,8 @@ interface FormState {
   adjustmentPeriod: AdjPeriod;
   firstAdjustmentMonth: string;
   paymentPolicyMode: PolicyMode;
+  paymentAdjustmentMode?: PaymentAdjustmentMode;
+  paymentRanges?: PaymentRangeDraft[];
   savingsRate: string;
   cdbRate: string;
   // Lance
@@ -132,7 +130,7 @@ function ProposalTable({ rows }: { rows: any[] }) {
           <table className="w-full min-w-[1100px]">
             <thead className="bg-gray-100 sticky top-0 z-10">
               <tr>
-                {["Mês", "Crédito atualizado", "Saldo antes", "Correção", "Fundo comum", "Taxa adm.", "Fundo reserva", "Seguro", "Ajuste política", "Parcela", "Saldo final", "Evento"].map((h) => (
+                {["Mês", "Crédito atualizado", "Saldo antes", "Correção", "Fundo comum", "Taxa adm.", "Fundo reserva", "Seguro", "Ajuste política", "Fator do perfil", "Parcela", "Saldo final", "Evento"].map((h) => (
                   <th key={h} className="px-2 py-3 text-left text-[13px] font-bold uppercase tracking-wider whitespace-nowrap text-gray-700">{h}</th>
                 ))}
               </tr>
@@ -152,6 +150,7 @@ function ProposalTable({ rows }: { rows: any[] }) {
                     <td className="px-2 py-2 font-mono text-gray-700">{formatBRLCents(r.fr)}</td>
                     <td className="px-2 py-2 font-mono text-gray-700">{r.insurance > 0.005 ? formatBRLCents(r.insurance) : "—"}</td>
                     <td className="px-2 py-2 font-mono text-gray-700">{Math.abs(r.policyAdjustment) > 0.005 ? formatBRLCents(r.policyAdjustment) : "—"}</td>
+                    <td className="px-2 py-2 font-mono text-gray-700">{r.paymentScale !== 1 ? `×${Number(r.paymentScale).toFixed(6)}` : "—"}</td>
                     <td className="px-2 py-2 font-mono font-bold text-red-600">{formatBRLCents(r.payment)}</td>
                     <td className="px-2 py-2 font-mono text-gray-700">{formatBRLCents(r.saldoFinal)}</td>
                     <td className="px-2 py-2">
@@ -322,7 +321,7 @@ function CorrectionStepChart({ result }: { result: any }) {
   // Amostrar para no máximo ~120 pontos para performance e clareza visual
   const step = Math.max(1, Math.ceil(rows.length / 120));
   const chartData = rows
-    .filter((r: any, i: number) => i % step === 0 || (r.tags || []).includes("CORREÇÃO") || i === rows.length - 1)
+    .filter((r: any, i: number) => i % step === 0 || (r.tags || []).includes("CORREÇÃO") || r.policyLabel !== rows[i - 1]?.policyLabel || i === rows.length - 1)
     .map((r: any) => {
       const previous = rows[Math.max(0, r.month - 2)] || r;
       return {
@@ -574,11 +573,11 @@ function CorrectionsTab({ result }: { result: any }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-[14px] font-bold text-gray-800 mb-2">Racional</p>
-          <p className="text-[13px] text-gray-700 leading-relaxed">Quando existe correção, a carta é atualizada e o saldo devedor remanescente também é recalculado. A parcela futura nasce desse novo saldo dividido pelo prazo restante.</p>
+          <p className="text-[13px] text-gray-700 leading-relaxed">{result.paymentAdjustmentMode === "balanceRebase" ? "Quando existe correção, a carta e o saldo devedor remanescente são atualizados. O perfil nominal de amortização restante é preservado; seu fator é recalculado pelo saldo após a correção dividido pelos componentes previstos ainda não pagos. O seguro é recalculado separadamente e somado." : "Quando existe correção, a carta é atualizada e o saldo devedor remanescente também é recalculado. A parcela futura nasce desse novo saldo dividido pelo prazo restante."}</p>
         </div>
         <div className="rounded-xl border border-gray-200 bg-white p-4">
           <p className="text-[14px] font-bold text-gray-800 mb-2">Ponto-chave</p>
-          <p className="text-[13px] text-gray-700 leading-relaxed">A correção não é uma parcela extra isolada. Ela aumenta a base que ainda falta pagar e, por isso, altera as parcelas dali para frente.</p>
+          <p className="text-[13px] text-gray-700 leading-relaxed">{result.paymentAdjustmentMode === "balanceRebase" ? "A correção não é uma parcela extra isolada nem um reajuste das parcelas já pagas. Ela incide sobre o saldo remanescente e altera proporcionalmente apenas os componentes amortizáveis futuros; os períodos e suas proporções permanecem." : "A correção não é uma parcela extra isolada. Ela aumenta a base que ainda falta pagar e, por isso, altera as parcelas dali para frente."}</p>
         </div>
       </div>
 
@@ -806,15 +805,18 @@ function InvestmentsTab({ result, inv }: { result: any; inv: any }) {
 export default function EstruturaDoPlano() {
   const [activeTab, setActiveTab] = useState<TabId>("proposta");
   const [expandedLance, setExpandedLance] = useState(false);
-  const [ranges, setRanges] = useState<PaymentRange[]>([]);
+  const [submittedSignature, setSubmittedSignature] = useState("");
   const [form, setForm] = useSessionStorage<FormState>("simulador-estrutura", {
     credit: "500000", term: "180", adminRate: "15", reserveRate: "0",
     insuranceRate: "0", adjustmentRate: "5", adjustmentPeriod: "12",
-    firstAdjustmentMonth: "13", paymentPolicyMode: "standard",
+    firstAdjustmentMonth: "13", paymentPolicyMode: "standard", paymentAdjustmentMode: "fixed",
     savingsRate: "0.515", cdbRate: "0.795",
     lanceProprio: "0", lanceFgts: "0", lanceEmbutido: "0",
     baseDoLance: "carta", parcelasPagas: "0", estrategiaPos: "abater_parcela",
   });
+  const ranges = form.paymentRanges ?? [];
+  const setRanges = (update: (previous: PaymentRangeDraft[]) => PaymentRangeDraft[]) =>
+    setForm(previous => ({ ...previous, paymentRanges: update(previous.paymentRanges ?? []) }));
 
   const { markCompleted } = useSimulatorTracker({
     simulator: "estrutura-do-plano",
@@ -833,17 +835,23 @@ export default function EstruturaDoPlano() {
     onError: (err) => toast.error(err.message || "Erro ao calcular. Tente novamente."),
   });
 
-  function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
+  function getParameters() {
     const credit = num(form.credit);
     const term = Math.round(num(form.term));
-    if (credit <= 0) return toast.error("Informe um valor de carta maior que zero.");
-    if (term < 1 || term > 300) return toast.error("Prazo deve estar entre 1 e 300 meses.");
+    if (credit <= 0) throw new Error("Informe um valor de carta maior que zero.");
+    if (term < 1 || term > 300) throw new Error("Prazo deve estar entre 1 e 300 meses.");
 
     const adjPeriod = parseInt(form.adjustmentPeriod);
     const firstAdj = adjPeriod === 0 ? 13 : parseInt(form.firstAdjustmentMonth) || (adjPeriod === 6 ? 7 : 13);
+    const paymentAdjustmentMode = form.paymentAdjustmentMode ?? "fixed";
+    if (paymentAdjustmentMode === "balanceRebase" && form.paymentPolicyMode !== "ranges") {
+      throw new Error("Selecione a modalidade não linear por faixas antes de recalcular pelo saldo.");
+    }
+    if (paymentAdjustmentMode === "balanceRebase" && (adjPeriod <= 0 || num(form.adjustmentRate) <= 0 || firstAdj < 2 || firstAdj > term)) {
+      throw new Error("O recálculo pelo saldo exige uma correção positiva e uma primeira correção entre os meses 2 e o prazo contratado.");
+    }
 
-    mutation.mutate({
+    return {
       credit,
       term,
       adminRate: num(form.adminRate),
@@ -853,12 +861,8 @@ export default function EstruturaDoPlano() {
       adjustmentPeriod: adjPeriod,
       firstAdjustmentMonth: firstAdj,
       paymentPolicyMode: form.paymentPolicyMode,
-      paymentRanges: form.paymentPolicyMode === "ranges" ? ranges.map(r => ({
-        start: Math.max(1, Math.round(r.start)),
-        end: Math.max(Math.round(r.start), Math.round(r.end)),
-        type: r.type,
-        value: Math.max(0, r.value),
-      })) : [],
+      paymentAdjustmentMode,
+      paymentRanges: form.paymentPolicyMode === "ranges" ? parsePaymentRanges(ranges, term, paymentAdjustmentMode) : [],
       savingsRate: num(form.savingsRate),
       cdbRate: num(form.cdbRate),
       lanceProprio: num(form.lanceProprio),
@@ -867,133 +871,71 @@ export default function EstruturaDoPlano() {
       baseDoLance: form.baseDoLance,
       parcelasPagas: Math.round(num(form.parcelasPagas)),
       estrategiaPos: form.estrategiaPos,
-    }, {
-      onSuccess: () => {
-        markCompleted({
-          credit,
-          term,
-          has_lance: num(form.lanceProprio) > 0 || num(form.lanceFgts) > 0 || num(form.lanceEmbutido) > 0,
-        });
-      },
-    });
+    };
+  }
+
+  function calculate(trackCompletion = true) {
+    try {
+      const parameters = getParameters();
+      const signature = JSON.stringify(form);
+      mutation.mutate(parameters, {
+        onSuccess: () => {
+          setSubmittedSignature(signature);
+          if (trackCompletion) markCompleted({
+            credit: parameters.credit, term: parameters.term,
+            has_lance: parameters.lanceProprio > 0 || parameters.lanceFgts > 0 || parameters.lanceEmbutido > 0,
+          });
+        },
+      });
+    } catch (error) {
+      toast.error((error as Error).message);
+    }
+  }
+
+  function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    calculate();
   }
 
   const data = mutation.data;
   const result = data?.result;
   const hasResult = !!result;
+  const isStale = hasResult && submittedSignature !== JSON.stringify(form);
+  const lanceView = result?.contemplation ? buildLancePresentation(result) : undefined;
 
   // Auto-calcular com dados de exemplo ao montar
   React.useEffect(() => {
-    if (!hasResult && !mutation.isPending) {
-      setTimeout(() => {
-        const credit = num(form.credit);
-        const term = Math.round(num(form.term));
-        const adjPeriod = parseInt(form.adjustmentPeriod);
-        const firstAdj = adjPeriod === 0 ? 13 : parseInt(form.firstAdjustmentMonth) || (adjPeriod === 6 ? 7 : 13);
-
-        mutation.mutate({
-          credit,
-          term,
-          adminRate: num(form.adminRate),
-          reserveRate: num(form.reserveRate),
-          insuranceRate: num(form.insuranceRate),
-          adjustmentRate: num(form.adjustmentRate),
-          adjustmentPeriod: adjPeriod,
-          firstAdjustmentMonth: firstAdj,
-          paymentPolicyMode: form.paymentPolicyMode,
-          paymentRanges: form.paymentPolicyMode === "ranges" ? ranges.map(r => ({
-            start: Math.max(1, Math.round(r.start)),
-            end: Math.max(Math.round(r.start), Math.round(r.end)),
-            type: r.type,
-            value: Math.max(0, r.value),
-          })) : [],
-          savingsRate: num(form.savingsRate),
-          cdbRate: num(form.cdbRate),
-          lanceProprio: num(form.lanceProprio),
-          lanceFgts: num(form.lanceFgts),
-          lanceEmbutido: num(form.lanceEmbutido),
-          baseDoLance: form.baseDoLance,
-          parcelasPagas: Math.round(num(form.parcelasPagas)),
-          estrategiaPos: form.estrategiaPos,
-        });
-      }, 100);
-    }
+    const timer = setTimeout(() => calculate(false), 100);
+    return () => clearTimeout(timer);
   }, []);
 
   function addRange() {
     const term = Math.round(num(form.term)) || 180;
-    setRanges((r) => [...r, { start: 1, end: term, type: "percent" as RangeType, value: 100 }]);
+    setRanges((r) => [...r, { start: "1", end: String(term), type: "percent" as RangeType, value: "100" }]);
   }
 
   function removeRange(idx: number) {
     setRanges((r) => r.filter((_, i) => i !== idx));
   }
 
-  function updateRange(idx: number, field: keyof PaymentRange, value: any) {
+  function updateRange(idx: number, field: keyof PaymentRangeDraft, value: string) {
     setRanges((r) => r.map((range, i) => i === idx ? { ...range, [field]: value } : range));
   }
 
   const handleDownloadPdfLance = async () => {
-    if (!result?.contemplation) {
+    if (isStale || mutation.isPending) {
+      toast.error('Recalcule a proposta antes de gerar o PDF.');
+      return;
+    }
+    if (!result?.contemplation || !data) {
       toast.error('Nenhum resultado de lance para gerar PDF.');
       return;
     }
 
     try {
-      const cartaAtualizada = result.contemplation.rows.find(
-        (r) => r.month === Math.round(num(form.parcelasPagas))
-      )?.credit || result.credit;
-
-      const lancePct = form.baseDoLance === 'categoria'
-        ? (result.contemplation.event.total || 0) / 
-          ((result.credit || 0) + (result.credit || 0) * num(form.adminRate) / 100 + (result.credit || 0) * num(form.reserveRate) / 100 || 1) * 100
-        : (result.contemplation.event.total || 0) / (result.contemplation.event.base || 1) * 100;
-
-      const parcelaAntes = result.contemplation.rows.find(
-        (r) => r.month === result.contemplation!.eventMonth - 1
-      )?.payment || 0;
-
-      const diagnosticoTexto = `Seu lance representa ${lancePct.toFixed(1)}% da carta. Desse total, R$ ${
-        ((result.contemplation.event.own || 0) + (result.contemplation.event.fgts || 0)).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      } saem do seu patrimonio e R$ ${
-        (result.contemplation.event.embedded || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      } serao abatidos diretamente do credito. Apos a contemplacao, sua parcela cai para aproximadamente R$ ${
-        (result.contemplation.firstPostPayment || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-      }. Antes de decidir, compare esse esforco financeiro com outras alternativas disponiveis.`;
-
-      const pdfData = {
-        credit: result.credit,
-        term: result.term,
-        adminRate: num(form.adminRate),
-        reserveRate: num(form.reserveRate),
-        adjustmentRate: num(form.adjustmentRate),
-        adjustmentPeriod: form.adjustmentPeriod,
-        paidMonths: Math.round(num(form.parcelasPagas)),
-        baseDoLance: form.baseDoLance,
-        lanceProprio: num(form.lanceProprio),
-        lanceFgts: num(form.lanceFgts),
-        lanceEmbutido: num(form.lanceEmbutido),
-        cartaAtualizada,
-        cartaLiquida: result.contemplation.event.creditAvailable || 0,
-        lanceTotal: result.contemplation.event.total || 0,
-        forcaPct: lancePct,
-        parcelaAntes,
-        parcelaPosLance: result.contemplation.firstPostPayment || 0,
-        diagnosticoTexto,
-        rows: result.contemplation.rows.map((r) => ({
-          month: r.month,
-          credit: r.credit,
-          event: r.tags?.join(', ') || '',
-          lance: r.totalLance || 0,
-          payment: r.payment,
-          balance: r.saldoFinal,
-          tags: r.tags || [],
-        })),
-        simulationId: data?.simulationId || 'unknown',
-        generatedAt: data?.generatedAt || new Date().toISOString(),
-      };
-
-      await generatePdfEstruturaDaLance(pdfData);
+      await generatePdfEstruturaDaLance(buildPdfEstruturaDaLance(result, {
+        simulationId: data.simulationId, generatedAt: data.generatedAt,
+      }));
       toast.success('PDF gerado com sucesso!');
     } catch (err) {
       console.error(err);
@@ -1063,16 +1005,24 @@ export default function EstruturaDoPlano() {
               <Plus className="w-3 h-3" /> Adicionar faixa
             </button>
           </div>
+          {!ranges.length && <p className="text-[13px] text-amber-800">Nenhuma faixa definida: todos os meses usarão a parcela cheia. Adicione uma faixa para personalizar o pagamento.</p>}
           {ranges.map((r, i) => (
-            <div key={i} className="grid grid-cols-[1fr_1fr_1fr_1fr_auto] gap-1 items-end">
-              <div><label className="text-[12px] text-gray-500">Início</label><input type="number" min={1} value={r.start} onChange={(e) => updateRange(i, "start", parseInt(e.target.value) || 1)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <div><label className="text-[12px] text-gray-500">Fim</label><input type="number" min={1} value={r.end} onChange={(e) => updateRange(i, "end", parseInt(e.target.value) || 1)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <div><label className="text-[12px] text-gray-500">Tipo</label><select value={r.type} onChange={(e) => updateRange(i, "type", e.target.value as RangeType)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]"><option value="value">Valor</option><option value="percent">% cheia</option></select></div>
-              <div><label className="text-[12px] text-gray-500">Valor</label><input type="number" min={0} step="0.01" value={r.value} onChange={(e) => updateRange(i, "value", parseFloat(e.target.value) || 0)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <button type="button" onClick={() => removeRange(i)} className="p-1.5 text-red-500 hover:bg-red-50 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
+            <div key={i} className="grid grid-cols-2 sm:grid-cols-[1fr_1fr_1fr_1.5fr_auto] gap-2 sm:gap-1 items-end">
+              <div><label className="text-[12px] text-gray-500">Início</label><input aria-label={`Faixa ${i + 1} — início`} type="text" inputMode="numeric" value={r.start} onChange={(e) => updateRange(i, "start", e.target.value)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div><label className="text-[12px] text-gray-500">Fim</label><input aria-label={`Faixa ${i + 1} — fim`} type="text" inputMode="numeric" value={r.end} onChange={(e) => updateRange(i, "end", e.target.value)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div><label className="text-[12px] text-gray-500">Tipo</label><select aria-label={`Faixa ${i + 1} — tipo`} value={r.type} onChange={(e) => updateRange(i, "type", e.target.value as RangeType)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]"><option value="value">Valor</option><option value="percent">% cheia</option></select></div>
+              <div><label className="text-[12px] text-gray-500">{r.type === "value" ? "Valor (R$)" : "Valor (%)"}</label><input aria-label={`Faixa ${i + 1} — valor`} type="text" inputMode="decimal" value={r.value} onChange={(e) => updateRange(i, "value", e.target.value)} placeholder={r.type === "value" ? "1.500,00" : "50,5"} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <button type="button" aria-label={`Remover faixa ${i + 1}`} onClick={() => removeRange(i)} className="col-span-2 sm:col-span-1 justify-self-end p-1.5 text-red-500 hover:bg-red-50 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
             </div>
           ))}
-          <p className="text-[13px] text-gray-500 leading-tight">Cada faixa pode ser informada como valor de parcela ou percentual da parcela cheia. O valor informado considera a parcela total do mês. Se houver seguro, ele é preservado e o restante amortiza o saldo proporcionalmente.</p>
+          <p className="text-[13px] text-gray-500 leading-tight">Valor em R$ representa a parcela total do mês; o seguro é preservado. Percentual aplica-se aos componentes da parcela cheia (fundo comum + taxa + reserva), com seguro somado à parte. No modo de valor fixo, o motor limita a faixa à parcela cheia. Lacunas usam saldo corrigido / prazo restante; em sobreposições prevalece a primeira faixa exibida. Valores fixos não são indexados automaticamente, salvo se selecionado o recálculo abaixo.</p>
+          <FieldRow label="Atualização das parcelas após correção" hint="Use apenas quando o contrato recalcular as parcelas futuras a partir do saldo remanescente.">
+            <select aria-label="Atualização das parcelas após correção" value={form.paymentAdjustmentMode ?? "fixed"} onChange={(e) => set("paymentAdjustmentMode")(e.target.value as PaymentAdjustmentMode)} className="w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-[13px]">
+              <option value="fixed">Valor fixo — regra existente, limitado à parcela cheia</option>
+              <option value="balanceRebase">Recalcular saldo — preserva o perfil e quita no prazo</option>
+            </select>
+          </FieldRow>
+          {(form.paymentAdjustmentMode ?? "fixed") === "balanceRebase" && <p className="text-[13px] text-gray-600 leading-tight">Os valores informados são parcelas totais, com seguro incluído. Até a primeira correção, são aplicados como informados. Depois de cada correção, os componentes amortizáveis das faixas futuras são recalibrados uniformemente a partir do saldo restante e do perfil nominal ainda a pagar; o seguro é recalculado separadamente. Exige faixas monetárias contínuas, sem lacunas nem sobreposição, cobrindo o prazo inteiro.</p>}
         </div>
       )}
 
@@ -1147,6 +1097,8 @@ export default function EstruturaDoPlano() {
 
   const resultsPanel = hasResult ? (
     <div className="space-y-4">
+      {isStale && <div role="status" className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-[13px] text-amber-900">Parâmetros alterados. As seis abas mostram a última proposta calculada. Clique em Calcular proposta para atualizar os resultados; o PDF fica indisponível até recalcular.</div>}
+      {!!result.warnings?.length && <div role="status" className="rounded-xl border border-amber-300 bg-amber-50 p-3 text-[13px] text-amber-900"><b>Avisos da política de parcelas</b><ul className="list-disc pl-5 mt-1">{result.warnings.map(warning => <li key={warning}>{warning}</li>)}</ul></div>}
       {/* Navegação por abas — Reposicionada acima e aumentada em 15% */}
       <div className="flex overflow-x-auto no-scrollbar md:flex-wrap gap-2 mb-4 -mx-3 sm:-mx-4 px-3 sm:px-4">
         {tabs.map((t) => (
@@ -1185,12 +1137,13 @@ export default function EstruturaDoPlano() {
 
       {activeTab === "eficiencia" && result.eficienciaTaxa && (
         <div className="space-y-4">
+          <p className="text-[13px] text-gray-600">As parcelas já pagas e a degradação progressiva desta aba usam a soma acumulada do cronograma efetivamente projetado, inclusive faixas, reajustes e seguro. As bases econômicas da taxa (crédito, recursos próprios, FGTS e lance embutido) permanecem exibidas separadamente.</p>
           {/* KPIs de Eficiência */}
           <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
             <KpiCard label="Taxa nominal" value={`${result.eficienciaTaxa.nominal.toFixed(2)}%`} hint="Taxa sobre carta cheia" tone="default" />
-            <KpiCard label="Taxa sobre carta líquida" value={`${result.eficienciaTaxa.onLiquid.toFixed(2)}%`} hint="Desconta embutido" tone="default" />
-            <KpiCard label="Taxa sobre dinheiro novo" value={`${result.eficienciaTaxa.onNew.toFixed(2)}%`} hint="Indicador principal" tone={result.eficienciaTaxa.penalty > 35 ? "negative" : "default"} />
-            <KpiCard label="Penalidade" value={`${result.eficienciaTaxa.penalty.toFixed(1)}%`} hint="Aumento proporcional" tone={result.eficienciaTaxa.penalty > 35 ? "negative" : result.eficienciaTaxa.penalty > 20 ? "orange" : "positive"} />
+            <KpiCard label="Taxa sobre carta líquida" value={result.eficienciaTaxa.onLiquid < 0 ? "Sem base" : `${result.eficienciaTaxa.onLiquid.toFixed(2)}%`} hint="Desconta embutido" tone="default" />
+            <KpiCard label="Taxa sobre dinheiro novo" value={result.eficienciaTaxa.onNew < 0 ? "Sem base" : `${result.eficienciaTaxa.onNew.toFixed(2)}%`} hint="Indicador principal" tone={result.eficienciaTaxa.penalty > 35 ? "negative" : "default"} />
+            <KpiCard label="Penalidade" value={result.eficienciaTaxa.penalty < 0 ? "Sem base" : `${result.eficienciaTaxa.penalty.toFixed(1)}%`} hint="Aumento proporcional" tone={result.eficienciaTaxa.penalty > 35 ? "negative" : result.eficienciaTaxa.penalty > 20 ? "orange" : "positive"} />
             <KpiCard label="Valor da taxa" value={formatBRL(result.eficienciaTaxa.adminValue)} hint="Em reais" tone="negative" />
             <KpiCard label="Dinheiro novo" value={formatBRL(result.eficienciaTaxa.newMoney)} hint="Crédito efetivo" tone="positive" />
           </div>
@@ -1222,21 +1175,19 @@ export default function EstruturaDoPlano() {
         <div className="space-y-3 sm:space-y-6 px-2 sm:px-0">
           {/* KPIs — grid 2×3 (6 quadrantes) */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-3">
-            <KpiCard label="Carta atualizada" value={formatBRL((result.contemplation?.rows.find(r => r.month === Number(form.parcelasPagas))?.credit || result.credit) || 0)}
+            <KpiCard label="Carta atualizada" value={formatBRLCents(lanceView!.cartaAtualizada)}
               hint="Valor nominal atualizado." tone="default" />
-            <KpiCard label="Carta líquida" value={formatBRL(result.contemplation?.event.creditAvailable || 0)}
+            <KpiCard label="Carta líquida" value={formatBRLCents(result.contemplation?.event.creditAvailable || 0)}
               hint="Carta menos embutido." tone="orange" />
-            <KpiCard label="Lance total" value={formatBRL(result.contemplation?.event.total || 0)}
+            <KpiCard label="Lance total" value={formatBRLCents(result.contemplation?.event.total || 0)}
               hint="Próprio + FGTS + embutido." tone="orange" />
             {(() => {
-              const lancePct = form.baseDoLance === 'categoria'
-                ? (result.contemplation?.event.total || 0) / ((result.credit || 0) + (result.credit || 0) * num(form.adminRate) / 100 + (result.credit || 0) * num(form.reserveRate) / 100 || 1) * 100
-                : (result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100;
+              const lancePct = lanceView!.forcaPct;
               const tone = lancePct >= 35 ? "positive" : lancePct >= 20 ? "orange" : "negative";
               return <KpiCard label="Força do lance" value={`${lancePct.toFixed(1)}%`}
-                hint={form.baseDoLance === 'categoria' ? "Em relação à carta + taxas." : "Em relação à carta."} tone={tone} />;
+                hint={lanceView!.scenario.base === 'categoria' ? "Em relação à carta + taxa administrativa." : "Em relação à carta."} tone={tone} />;
             })()}
-            <KpiCard label="Parcela antes" value={formatBRLCents((result.contemplation?.rows.find(r => r.month === result.contemplation!.eventMonth - 1)?.payment || 0))}
+            <KpiCard label="Parcela antes" value={formatBRLCents(lanceView!.parcelaAntes)}
               hint="Último mês antes da contemplação." tone="default" />
             <KpiCard label="Parcela pós-lance" value={formatBRLCents(result.contemplation?.firstPostPayment || 0)}
               hint="1ª parcela após o lance." tone="default" />
@@ -1253,7 +1204,7 @@ export default function EstruturaDoPlano() {
               <div className="flex-1 min-w-0">
                 <h3 className="font-semibold text-[13px] md:text-[14px] sm:text-[14px] md:text-[15px] mb-1">Diagnóstico do lance.</h3>
                 <p className="text-[14px] md:text-[13px] sm:text-[13px] md:text-[14px] leading-relaxed text-foreground/70">
-                  Seu lance representa {((result.contemplation?.event.total || 0) / (result.contemplation?.event.base || 1) * 100).toFixed(1)}% da carta. Desse total, {formatBRL((result.contemplation?.event.own || 0) + (result.contemplation?.event.fgts || 0))} saem do seu patrimônio e {formatBRL(result.contemplation?.event.embedded || 0)} serão abatidos diretamente do crédito. Após a contemplação, sua parcela cai para aproximadamente {formatBRLCents(result.contemplation?.firstPostPayment || 0)}. Antes de decidir, compare esse esforço financeiro com outras alternativas disponíveis.
+                  {lanceView!.diagnosticoTexto}
                 </p>
               </div>
             </div>
@@ -1273,6 +1224,7 @@ export default function EstruturaDoPlano() {
                     Racional
                   </button>
                   <button 
+                    disabled={isStale || mutation.isPending}
                     onClick={(e) => { 
                       e.stopPropagation();
                       handleDownloadPdfLance();
@@ -1302,7 +1254,7 @@ export default function EstruturaDoPlano() {
                       {(result.contemplation?.rows || []).slice(0, expandedLance ? undefined : 10).map((r: any) => (
                         <tr key={r.month} className={`transition-colors ${r.tags?.some((t: string) => ['CORREÇÃO', 'LANCE APÓS PARCELA', 'AUMENTO', 'POLÍTICA DE PARCELA'].includes(t)) ? "bg-yellow-50" : "bg-white"}`}>
                           <td className="px-2 py-1 font-mono text-foreground/70 text-[13px]">{r.month}</td>
-                          <td className="px-2 py-1 font-mono text-[13px] font-semibold">{formatBRL(r.credit)}</td>
+                          <td className="px-2 py-1 font-mono text-[13px] font-semibold">{formatBRLCents(r.credit)}</td>
                           <td className="px-2 py-1 font-medium text-[13px]">
                             {r.tags?.includes('LANCE APÓS PARCELA') ? (
                               <span className="text-[var(--orange)] flex items-center gap-0.5 font-bold">
@@ -1311,11 +1263,11 @@ export default function EstruturaDoPlano() {
                               </span>
                             ) : r.phase}
                           </td>
-                          <td className="px-2 py-1 text-right font-mono text-[13px] text-foreground/80">{r.totalLance > 0 ? formatBRL(r.totalLance) : "—"}</td>
+                          <td className="px-2 py-1 text-right font-mono text-[13px] text-foreground/80">{r.totalLance > 0 ? formatBRLCents(r.totalLance) : "—"}</td>
                           <td className={`px-2 py-1 text-right font-mono font-bold text-[13px] ${r.tags?.includes('LANCE APÓS PARCELA') ? "text-[var(--orange)]" : "text-foreground"}`}>
                             {r.payment > 0 ? formatBRLCents(r.payment) : "—"}
                           </td>
-                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[13px]">{formatBRL(r.saldoFinal)}</td>
+                          <td className="px-2 py-1 text-right font-mono text-foreground/70 text-[13px]">{formatBRLCents(r.saldoFinal)}</td>
                         </tr>
                       ))}
                     </tbody>
@@ -1335,6 +1287,8 @@ export default function EstruturaDoPlano() {
         );
       })() : null}
 
+      {activeTab === "lance" && !result.contemplation && <p className="text-[13px] text-gray-600">Informe um lance e recalcule para consultar a projeção de contemplação e o PDF.</p>}
+      {activeTab === "lance" && !!result.contemplation?.alerts.length && <ul className="list-disc pl-5 text-[13px] text-amber-900">{result.contemplation.alerts.map(alert => <li key={alert}>{alert}</li>)}</ul>}
       {/* CTA + Transparência */}
       <div className="pt-4 space-y-4">
         <ConsultCTA context="esta análise" />
