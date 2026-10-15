@@ -50,6 +50,7 @@ interface FormState {
   firstAdjustmentMonth: string;
   paymentPolicyMode: PolicyMode;
   paymentAdjustmentMode?: PaymentAdjustmentMode;
+  paymentAdjustmentModeExplicit?: boolean;
   paymentRanges?: PaymentRangeDraft[];
   savingsRate: string;
   cdbRate: string;
@@ -809,12 +810,15 @@ export default function EstruturaDoPlano() {
   const [form, setForm] = useSessionStorage<FormState>("simulador-estrutura", {
     credit: "500000", term: "180", adminRate: "15", reserveRate: "0",
     insuranceRate: "0", adjustmentRate: "5", adjustmentPeriod: "12",
-    firstAdjustmentMonth: "13", paymentPolicyMode: "standard", paymentAdjustmentMode: "fixed",
+    firstAdjustmentMonth: "13", paymentPolicyMode: "standard", paymentAdjustmentMode: "fixed", paymentAdjustmentModeExplicit: false,
     savingsRate: "0.515", cdbRate: "0.795",
     lanceProprio: "0", lanceFgts: "0", lanceEmbutido: "0",
     baseDoLance: "carta", parcelasPagas: "0", estrategiaPos: "abater_parcela",
   });
   const ranges = form.paymentRanges ?? [];
+  const effectivePaymentAdjustmentMode: PaymentAdjustmentMode = form.paymentPolicyMode !== "ranges"
+    ? "fixed"
+    : form.paymentAdjustmentModeExplicit ? form.paymentAdjustmentMode ?? "fixed" : "balanceRebase";
   const setRanges = (update: (previous: PaymentRangeDraft[]) => PaymentRangeDraft[]) =>
     setForm(previous => ({ ...previous, paymentRanges: update(previous.paymentRanges ?? []) }));
 
@@ -843,7 +847,7 @@ export default function EstruturaDoPlano() {
 
     const adjPeriod = parseInt(form.adjustmentPeriod);
     const firstAdj = adjPeriod === 0 ? 13 : parseInt(form.firstAdjustmentMonth) || (adjPeriod === 6 ? 7 : 13);
-    const paymentAdjustmentMode = form.paymentAdjustmentMode ?? "fixed";
+    const paymentAdjustmentMode = effectivePaymentAdjustmentMode;
     if (paymentAdjustmentMode === "balanceRebase" && form.paymentPolicyMode !== "ranges") {
       throw new Error("Selecione a modalidade não linear por faixas antes de recalcular pelo saldo.");
     }
@@ -990,7 +994,12 @@ export default function EstruturaDoPlano() {
       </div>
 
       <FieldRow label="Política de parcelas — Linear e não linear" hint="Use padrão para parcela cheia. Use faixas quando houver parcela reduzida, degrau ou valores diferentes por período.">
-        <select value={form.paymentPolicyMode} onChange={(e) => set("paymentPolicyMode")(e.target.value as PolicyMode)}
+        <select value={form.paymentPolicyMode} onChange={(e) => {
+          const nextPolicy = e.target.value as PolicyMode;
+          setForm(previous => nextPolicy === "ranges"
+            ? { ...previous, paymentPolicyMode: nextPolicy, ...(previous.paymentAdjustmentModeExplicit ? {} : { paymentAdjustmentMode: "balanceRebase" as const }) }
+            : { ...previous, paymentPolicyMode: nextPolicy, paymentAdjustmentMode: "fixed", paymentAdjustmentModeExplicit: false });
+        }}
           className="w-full rounded-lg border border-gray-300 bg-white px-2.5 py-2 text-[14px] focus:outline-none focus:ring-2 focus:ring-[#FF4E1F]">
           <option value="standard">Linear — Parcela cheia calculada pelo contrato</option>
           <option value="ranges">Não linear — Parcelas por faixa personalizada</option>
@@ -1007,22 +1016,25 @@ export default function EstruturaDoPlano() {
           </div>
           {!ranges.length && <p className="text-[13px] text-amber-800">Nenhuma faixa definida: todos os meses usarão a parcela cheia. Adicione uma faixa para personalizar o pagamento.</p>}
           {ranges.map((r, i) => (
-            <div key={i} className="grid grid-cols-2 sm:grid-cols-[1fr_1fr_1fr_1.5fr_auto] gap-2 sm:gap-1 items-end">
-              <div><label className="text-[12px] text-gray-500">Início</label><input aria-label={`Faixa ${i + 1} — início`} type="text" inputMode="numeric" value={r.start} onChange={(e) => updateRange(i, "start", e.target.value)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <div><label className="text-[12px] text-gray-500">Fim</label><input aria-label={`Faixa ${i + 1} — fim`} type="text" inputMode="numeric" value={r.end} onChange={(e) => updateRange(i, "end", e.target.value)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
-              <div><label className="text-[12px] text-gray-500">Tipo</label><select aria-label={`Faixa ${i + 1} — tipo`} value={r.type} onChange={(e) => updateRange(i, "type", e.target.value as RangeType)} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]"><option value="value">Valor</option><option value="percent">% cheia</option></select></div>
-              <div><label className="text-[12px] text-gray-500">{r.type === "value" ? "Valor (R$)" : "Valor (%)"}</label><input aria-label={`Faixa ${i + 1} — valor`} type="text" inputMode="decimal" value={r.value} onChange={(e) => updateRange(i, "value", e.target.value)} placeholder={r.type === "value" ? "1.500,00" : "50,5"} className="w-full rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+            <div key={i} className="grid grid-cols-2 gap-2 items-end sm:grid-cols-[minmax(42px,0.7fr)_minmax(42px,0.7fr)_minmax(70px,0.95fr)_minmax(150px,2.2fr)_auto] sm:gap-1">
+              <div className="min-w-0"><label className="text-[12px] text-gray-500">Início</label><input aria-label={`Faixa ${i + 1} — início`} type="text" inputMode="numeric" value={r.start} onChange={(e) => updateRange(i, "start", e.target.value)} className="w-full min-w-0 rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div className="min-w-0"><label className="text-[12px] text-gray-500">Fim</label><input aria-label={`Faixa ${i + 1} — fim`} type="text" inputMode="numeric" value={r.end} onChange={(e) => updateRange(i, "end", e.target.value)} className="w-full min-w-0 rounded border border-gray-300 px-1.5 py-1 text-[13px]" /></div>
+              <div className="min-w-0"><label className="text-[12px] text-gray-500">Tipo</label><select aria-label={`Faixa ${i + 1} — tipo`} value={r.type} onChange={(e) => updateRange(i, "type", e.target.value as RangeType)} className="w-full min-w-0 rounded border border-gray-300 px-1.5 py-1 text-[13px]"><option value="value">Valor</option><option value="percent">% cheia</option></select></div>
+              <div className="col-span-2 min-w-0 sm:col-span-1"><label className="text-[12px] text-gray-500">{r.type === "value" ? "Valor (R$)" : "Valor (%)"}</label><div className="relative min-w-0">
+                {r.type === "value" && !r.value.trim().toUpperCase().startsWith("R$") && <span aria-hidden="true" className="pointer-events-none absolute left-2 top-1/2 -translate-y-1/2 text-[13px] text-gray-500">R$</span>}
+                <input aria-label={`Faixa ${i + 1} — valor`} type="text" inputMode="decimal" value={r.value} onChange={(e) => updateRange(i, "value", e.target.value)} placeholder={r.type === "value" ? "3.240,00" : "50,5"} className={`w-full min-w-0 rounded border border-gray-300 py-1 pr-2 text-[13px] ${r.type === "value" && !r.value.trim().toUpperCase().startsWith("R$") ? "pl-8" : "pl-2"}`} />
+              </div></div>
               <button type="button" aria-label={`Remover faixa ${i + 1}`} onClick={() => removeRange(i)} className="col-span-2 sm:col-span-1 justify-self-end p-1.5 text-red-500 hover:bg-red-50 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
             </div>
           ))}
           <p className="text-[13px] text-gray-500 leading-tight">Valor em R$ representa a parcela total do mês; o seguro é preservado. Percentual aplica-se aos componentes da parcela cheia (fundo comum + taxa + reserva), com seguro somado à parte. No modo de valor fixo, o motor limita a faixa à parcela cheia. Lacunas usam saldo corrigido / prazo restante; em sobreposições prevalece a primeira faixa exibida. Valores fixos não são indexados automaticamente, salvo se selecionado o recálculo abaixo.</p>
           <FieldRow label="Atualização das parcelas após correção" hint="Use apenas quando o contrato recalcular as parcelas futuras a partir do saldo remanescente.">
-            <select aria-label="Atualização das parcelas após correção" value={form.paymentAdjustmentMode ?? "fixed"} onChange={(e) => set("paymentAdjustmentMode")(e.target.value as PaymentAdjustmentMode)} className="w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-[13px]">
+            <select aria-label="Atualização das parcelas após correção" value={effectivePaymentAdjustmentMode} onChange={(e) => setForm(previous => ({ ...previous, paymentAdjustmentMode: e.target.value as PaymentAdjustmentMode, paymentAdjustmentModeExplicit: true }))} className="w-full rounded border border-gray-300 bg-white px-2 py-1.5 text-[13px]">
               <option value="fixed">Valor fixo — regra existente, limitado à parcela cheia</option>
               <option value="balanceRebase">Recalcular saldo — preserva o perfil e quita no prazo</option>
             </select>
           </FieldRow>
-          {(form.paymentAdjustmentMode ?? "fixed") === "balanceRebase" && <p className="text-[13px] text-gray-600 leading-tight">Os valores informados são parcelas totais, com seguro incluído. Até a primeira correção, são aplicados como informados. Depois de cada correção, os componentes amortizáveis das faixas futuras são recalibrados uniformemente a partir do saldo restante e do perfil nominal ainda a pagar; o seguro é recalculado separadamente. Exige faixas monetárias contínuas, sem lacunas nem sobreposição, cobrindo o prazo inteiro.</p>}
+          {effectivePaymentAdjustmentMode === "balanceRebase" && <p className="text-[13px] text-gray-600 leading-tight">Os valores informados são parcelas totais, com seguro incluído. Até a primeira correção, são aplicados como informados. Depois de cada correção, os componentes amortizáveis das faixas futuras são recalibrados uniformemente a partir do saldo restante e do perfil nominal ainda a pagar; o seguro é recalculado separadamente. Exige faixas monetárias contínuas, sem lacunas nem sobreposição, cobrindo o prazo inteiro.</p>}
         </div>
       )}
 

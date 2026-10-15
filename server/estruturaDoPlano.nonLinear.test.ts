@@ -267,4 +267,34 @@ describe("Plano real de 160 meses — saldo corrigido e perfil não linear", () 
     await expect(caller.simulate({ ...realPlanOptions, paymentRanges: [{ start: 1, end: 160, type: "percent", value: 100 }] })).rejects.toThrow();
     await expect(caller.simulate({ ...realPlanOptions, paymentAdjustmentMode: "balanceRebase", paymentPolicyMode: "standard", paymentRanges: [] })).rejects.toThrow();
   });
+
+  it("cenário 142 meses: a primeira faixa de R$ 3.240,00 chega intacta à API e à parcela inicial", async () => {
+    const paymentRanges = parsePaymentRanges([
+      { start: "1", end: "11", type: "value", value: "R$ 3.240,00" },
+      // Faixa restante apenas completa o perfil obrigatório; o prompt não define esse valor.
+      { start: "12", end: "142", type: "value", value: "2.945,15" },
+    ], 142, "balanceRebase");
+    const options = {
+      ...referenceOptions, credit: 320_000, term: 142, adminRate: 24, reserveRate: 0,
+      insuranceRate: 0.038, adjustmentRate: 7, adjustmentPeriod: 12,
+      firstAdjustmentMonth: 13, paymentPolicyMode: "ranges" as const,
+      paymentAdjustmentMode: "balanceRebase" as const, paymentRanges,
+    };
+    const api = await caller.simulate(options);
+
+    expect(api.parameters.paymentAdjustmentMode).toBe("balanceRebase");
+    expect(api.parameters.paymentRanges[0]).toEqual({ start: 1, end: 11, type: "value", value: 3240 });
+    close(api.result.first.payment, 3240);
+    close(api.result.rows[0].payment, 3240);
+    close(api.result.rows[10].payment, 3240);
+    const month13 = api.result.rows[12];
+    expect(month13.tags).toContain("CORREÇÃO");
+    close(month13.saldoInicial, month13.saldoAntes * 1.07);
+    expect(month13.paymentScale).toBeGreaterThan(1);
+    close(api.result.rows[13].paymentScale, month13.paymentScale);
+    const month25 = api.result.rows[24];
+    expect(month25.tags).toContain("CORREÇÃO");
+    close(month25.saldoInicial, month25.saldoAntes * 1.07);
+    expect(month25.paymentScale).toBeGreaterThan(month13.paymentScale);
+  });
 });
